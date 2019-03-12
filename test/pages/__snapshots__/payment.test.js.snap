@@ -1,0 +1,73 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`render() renders correct checkout components 1`] = `
+<Fragment>
+  <div
+    className="c-checkout__addressform"
+  >
+    <div
+      className="o-form__address"
+    >
+      <AddressFormSummary
+        onClick={[Function]}
+      />
+    </div>
+  </div>
+  <ShippingMethodsSummary
+    onClick={[Function]}
+  />
+  <div
+    className="u-hidden"
+  >
+    <PaymentMethodSummary
+      onClick={[Function]}
+      withErrors={false}
+    />
+  </div>
+  <div
+    className=""
+  >
+    <PaymentMethod
+      addressBook={Array []}
+      addressFormDisplayed={[Function]}
+      autoFillAddress={[Function]}
+      cart={
+        Object {
+          "shipping_address": Object {},
+        }
+      }
+      changeBillingAsShipping={[Function]}
+      checkout={
+        Object {
+          "addressBook": Array [],
+        }
+      }
+      countries={
+        Array [
+          Object {
+            "id": 1,
+            "title": "United Kingdom",
+            "value": "GB",
+          },
+          Object {
+            "id": 2,
+            "title": "United States",
+            "value": "US",
+          },
+        ]
+      }
+      formName="paymentMethod"
+      nextSection={[Function]}
+      nextStepAvailable={[Function]}
+      onAddressDeleted={[Function]}
+      onBlur={[Function]}
+      onBookAddressSelected={[Function]}
+      onCardTokenReceived={[Function]}
+      onChange={[Function]}
+      onNewAddress={[Function]}
+      order={Object {}}
+      setCardErrors={[Function]}
+    />
+  </div>
+</Fragment>
+`;

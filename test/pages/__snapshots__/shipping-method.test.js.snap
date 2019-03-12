@@ -1,0 +1,251 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`render shipping methods as expected 1`] = `
+<ShippingMethodPage
+  cart={
+    Object {
+      "line_items": Array [
+        Object {
+          "id": "1",
+        },
+      ],
+      "line_items_count": 1,
+      "shipping_address": Object {
+        "city": "Leeds",
+        "collapsed": false,
+        "completed": false,
+        "country_code": "GB",
+        "email": "test@example.com",
+        "errors": Object {},
+        "first_name": "First Name",
+        "last_name": "Last Name",
+        "line_1": "Test House",
+        "primary_phone": "01234567890",
+        "state": "Yorkshire",
+        "zipcode": "TEST POSTCODE",
+      },
+      "shipping_method": Object {
+        "dummy": true,
+      },
+    }
+  }
+  checkout={
+    Object {
+      "shippingAddress": Object {
+        "collapsed": true,
+        "completed": true,
+      },
+      "shippingMethod": Object {},
+    }
+  }
+  dispatch={[MockFunction]}
+>
+  <div>
+    <div
+      className="c-checkout__addressform"
+    >
+      <div
+        className="o-form__address"
+      >
+        <AddressFormSummary
+          city="Leeds"
+          firstName="First Name"
+          lastName="Last Name"
+          onClick={[Function]}
+        >
+          <address_form_header_AddressFormHeader
+            collapsed={true}
+            onClick={[Function]}
+            title="Shipping Address"
+          >
+            <div
+              className="o-form__header c-address-form__header"
+            >
+              <div
+                className="o-form__header-title c-address-form__header-title"
+              >
+                <h2>
+                  Shipping Address
+                </h2>
+              </div>
+              <Button
+                className="o-button-edit"
+                label="Edit"
+                onClick={[Function]}
+                status="secondary"
+              >
+                <button
+                  className="o-button-edit o-button o-button--secondary"
+                  disabled={false}
+                  onClick={[Function]}
+                  role="button"
+                  tabIndex="0"
+                >
+                  Edit
+                </button>
+              </Button>
+            </div>
+          </address_form_header_AddressFormHeader>
+          <div
+            className="o-form__wrapper--collapsed c-address-form__summary"
+          >
+            <p
+              className="u-bold"
+            >
+              First Name
+               
+              Last Name
+               
+            </p>
+            <span>
+              , 
+              Leeds
+              , 
+            </span>
+          </div>
+        </AddressFormSummary>
+      </div>
+    </div>
+    <p>
+      Loading...
+    </p>
+  </div>
+</ShippingMethodPage>
+`;
+
+exports[`renders correct checkout components 1`] = `
+<div>
+  <div
+    className="c-checkout__addressform"
+  >
+    <div
+      className="o-form__address"
+    >
+      <AddressFormSummary
+        onClick={[Function]}
+      />
+    </div>
+  </div>
+  <p>
+    Loading...
+  </p>
+</div>
+`;
+
+exports[`renders line item quantity as expected 1`] = `
+<ShippingMethodPage
+  cart={
+    Object {
+      "line_items": Array [],
+      "line_items_count": 0,
+      "shipping_address": Object {
+        "city": "Leeds",
+        "collapsed": false,
+        "completed": false,
+        "country_code": "GB",
+        "email": "test@example.com",
+        "errors": Object {},
+        "first_name": "First Name",
+        "last_name": "Last Name",
+        "line_1": "Test House",
+        "primary_phone": "01234567890",
+        "state": "Yorkshire",
+        "zipcode": "TEST POSTCODE",
+      },
+      "shipping_method": Object {
+        "id": 1,
+        "label": "Standard shipping",
+        "meta_attributes": Object {
+          "working_days": Object {
+            "value": 2,
+          },
+        },
+        "sku": "STA_SHIP",
+        "total": 3.75,
+      },
+    }
+  }
+  checkout={
+    Object {
+      "shippingAddress": Object {
+        "collapsed": true,
+        "completed": true,
+      },
+      "shippingMethod": Object {
+        "collapsed": false,
+      },
+    }
+  }
+>
+  <div>
+    <div
+      className="c-checkout__addressform"
+    >
+      <div
+        className="o-form__address"
+      >
+        <AddressFormSummary
+          city="Leeds"
+          firstName="First Name"
+          lastName="Last Name"
+          onClick={[Function]}
+        >
+          <address_form_header_AddressFormHeader
+            collapsed={true}
+            onClick={[Function]}
+            title="Shipping Address"
+          >
+            <div
+              className="o-form__header c-address-form__header"
+            >
+              <div
+                className="o-form__header-title c-address-form__header-title"
+              >
+                <h2>
+                  Shipping Address
+                </h2>
+              </div>
+              <Button
+                className="o-button-edit"
+                label="Edit"
+                onClick={[Function]}
+                status="secondary"
+              >
+                <button
+                  className="o-button-edit o-button o-button--secondary"
+                  disabled={false}
+                  onClick={[Function]}
+                  role="button"
+                  tabIndex="0"
+                >
+                  Edit
+                </button>
+              </Button>
+            </div>
+          </address_form_header_AddressFormHeader>
+          <div
+            className="o-form__wrapper--collapsed c-address-form__summary"
+          >
+            <p
+              className="u-bold"
+            >
+              First Name
+               
+              Last Name
+               
+            </p>
+            <span>
+              , 
+              Leeds
+              , 
+            </span>
+          </div>
+        </AddressFormSummary>
+      </div>
+    </div>
+    <p>
+      Loading...
+    </p>
+  </div>
+</ShippingMethodPage>
+`;
