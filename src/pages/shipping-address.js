@@ -12,7 +12,7 @@ import {
   AddressFormHeader,
   Button,
   CheckoutAddressForm
-} from 'shift-react-components'
+} from '@shiftcommerce/shift-react-components'
 
 // Actions
 import {

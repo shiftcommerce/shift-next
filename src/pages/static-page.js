@@ -9,7 +9,7 @@ import ApiClient from '../lib/api-client'
 import Config from '../lib/config'
 
 // Components
-import { Loading, StaticPageError } from 'shift-react-components'
+import { Loading, StaticPageError } from '@shiftcommerce/shift-react-components'
 
 const pageRequest = (pageId) => {
   return {

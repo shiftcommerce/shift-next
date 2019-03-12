@@ -6,7 +6,7 @@ import Head from 'next/head'
 import equal from 'deep-equal'
 
 // Components
-import { Loading, ProductListing, SearchFilters } from 'shift-react-components'
+import { Loading, ProductListing, SearchFilters } from '@shiftcommerce/shift-react-components'
 
 // Lib
 import buildSearchStateForURL from '../lib/build-search-state-for-url'

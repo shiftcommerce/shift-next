@@ -15,7 +15,7 @@ import {
 import {
   AddressFormSummary,
   ShippingMethods
-} from 'shift-react-components'
+} from '@shiftcommerce/shift-react-components'
 
 export class ShippingMethodPage extends Component {
   static async fetchShippingMethods () {

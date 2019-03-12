@@ -18,10 +18,11 @@ export const postEndpoint = (request) => {
     dispatchInitialAction(dispatch, request)
     return new ApiClient().post(request.endpoint, request.body)
       .then(response => {
-        _determinePostDispatch(dispatch, request, response)
+        return _determinePostDispatch(dispatch, request, response)
       })
       .catch(error => {
         if (request.errorActionType) dispatch(setErroredTo(request.errorActionType, error))
+        return false
       })
   }
 }
@@ -115,7 +116,9 @@ function _determinePostDispatch (dispatch, request, response) {
       const payload = parsedPayload || response.data
       dispatch(sendResponse(request.successActionType, payload))
     }
+    return true
   } else {
     dispatch(setErroredTo(request.errorActionType, response.data))
+    return false
   }
 }

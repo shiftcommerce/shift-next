@@ -4,7 +4,7 @@ import Link from 'next/link'
 import t from 'typy'
 
 // Objects
-import { Button, Image, OrderSummary } from 'shift-react-components'
+import { Button, Image, OrderSummary } from '@shiftcommerce/shift-react-components'
 
 class OrderPage extends Component {
   renderHeader (order) {

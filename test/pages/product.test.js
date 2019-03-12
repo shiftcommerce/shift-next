@@ -9,7 +9,7 @@ import * as ProductActions from '../../src/actions/product-actions'
 import ProductPage from '../../src/pages/product'
 
 // Components
-import { Loading, ProductDisplay } from 'shift-react-components'
+import { Loading, ProductDisplay } from '@shiftcommerce/shift-react-components'
 
 // Fixtures
 import product from '../fixtures/product'

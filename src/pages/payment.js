@@ -15,13 +15,12 @@ import {
   PaymentMethod,
   PaymentMethodSummary,
   ShippingMethodsSummary
-} from 'shift-react-components'
+} from '@shiftcommerce/shift-react-components'
 
 // Actions
 import {
   autoFillBillingAddress,
   inputChange,
-  inputComplete,
   setValidationMessage,
   showField
 } from '../actions/checkout-actions'
@@ -152,7 +151,6 @@ class CheckoutPaymentPage extends Component {
 
   onInputBlur (event, formName, fieldName, fieldValue, rules) {
     this.validateInput(formName, fieldName, fieldValue, rules)
-    this.props.dispatch(inputComplete())
   }
 
   onShowField (formName, fieldName) {

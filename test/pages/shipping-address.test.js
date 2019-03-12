@@ -6,7 +6,7 @@ import Router from 'next/router'
 import ShippingAddressPage from '../../src/pages/shipping-address'
 
 // Components
-import { AddressFormHeader, Button, CheckoutAddressForm } from 'shift-react-components'
+import { AddressFormHeader, Button, CheckoutAddressForm } from '@shiftcommerce/shift-react-components'
 
 // Actions
 import * as AddressBookActions from '../../src/actions/address-book-actions'

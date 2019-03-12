@@ -12,7 +12,7 @@ import { clearErrors } from '../actions/account-actions'
 import { createAccount } from '../actions/register-actions'
 
 // Components
-import { RegisterForm } from 'shift-react-components'
+import { RegisterForm } from '@shiftcommerce/shift-react-components'
 
 class RegisterPage extends Component {
   constructor (props) {

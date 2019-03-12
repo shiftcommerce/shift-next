@@ -9,7 +9,7 @@ import MyAccountPage from '../../src/pages/my-account'
 import { getCustomerOrders } from '../../src/actions/account-actions'
 
 // Components
-import { OrderLineItems, ShippingAddresses } from 'shift-react-components'
+import { OrderLineItems, ShippingAddresses } from '@shiftcommerce/shift-react-components'
 
 // Fixtures
 import orders from '../fixtures/orders'

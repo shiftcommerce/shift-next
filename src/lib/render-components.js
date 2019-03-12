@@ -2,7 +2,7 @@
 import React from 'react'
 
 // Components
-import { TemplateComponentsManifest } from 'shift-react-components'
+import { TemplateComponentsManifest } from '@shiftcommerce/shift-react-components'
 
 export default function renderComponents (componentsData) {
   let components = []

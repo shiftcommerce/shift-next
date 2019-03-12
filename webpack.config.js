@@ -30,7 +30,7 @@ module.exports = {
   externals: {
     react: 'commonjs react',
     'react-dom': 'commonjs react-dom',
-    'shift-react-components': 'commonjs shift-react-components',
+    '@shiftcommerce/shift-react-components': 'commonjs @shiftcommerce/shift-react-components',
     'getConfig': 'commonjs next/config',
     'next/router': 'commonjs next/router',
     'next/link': 'commonjs next/link',

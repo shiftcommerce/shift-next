@@ -7,7 +7,7 @@ import Head from 'next/head'
 import { suffixWithStoreName } from '../lib/suffix-with-store-name'
 
 // Objects
-import { Button, Input } from 'shift-react-components'
+import { Button, Input } from '@shiftcommerce/shift-react-components'
 
 export class ForgottenPassword extends Component {
   renderFormSubmitButton () {

@@ -33,19 +33,24 @@ module.exports = {
   },
 
   loginAccount: async (req, res) => {
-    const response = await SHIFTClient.loginCustomerAccountV1(req.body)
+    try {
+      const response = await SHIFTClient.loginCustomerAccountV1(req.body)
 
-    switch (response.status) {
-      case 404:
-        return res.status(200).send({})
-      case 422:
-        return res.status(response.status).send(response.data.errors)
-      case 201:
+      if (response.status === 201) {
         extractCustomerId(req, response.data.data)
-        if (req.session.customerId) await assignCartToUser(req, res)
-        return res.status(201).send(response.data)
-      default:
-        return res.status(response.status).send(response.data)
+        await assignCartToUser(req, res)
+      }
+
+      return res.status(response.status).send(response.data)
+    } catch (error) {
+      const response = error.response
+      switch (response.status) {
+        case 404:
+        case 422:
+          return res.status(response.status).send(response.data.errors)
+        default:
+          return res.status(response.status).send(response.data)
+      }
     }
   },
 
@@ -59,7 +64,7 @@ module.exports = {
         return res.status(response.status).send(response.data.errors)
       case 201:
         extractCustomerId(req, response.data.data)
-        if (req.session.customerId) await assignCartToUser(req, res)
+        await assignCartToUser(req, res)
         return res.status(201).send(response.data)
       default:
         return res.status(response.status).send(response.data)
@@ -104,6 +109,7 @@ function extractCustomerId (req, data) {
 }
 
 async function assignCartToUser (req, res) {
+  if (!req.session.customerId) return
   const cartId = req.signedCookies.cart
 
   if (cartId) {

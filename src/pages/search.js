@@ -5,7 +5,7 @@ import qs from 'qs'
 import equal from 'deep-equal'
 
 // Components
-import { ProductListing } from 'shift-react-components'
+import { ProductListing } from '@shiftcommerce/shift-react-components'
 
 // Lib
 import { suffixWithStoreName } from '../lib/suffix-with-store-name'

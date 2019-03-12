@@ -7,7 +7,7 @@ import Head from 'next/head'
 import { suffixWithStoreName } from '../lib/suffix-with-store-name'
 
 // Components
-import { Button, Loading, OrderList } from 'shift-react-components'
+import { Button, Loading, OrderList } from '@shiftcommerce/shift-react-components'
 
 // Actions
 import { getCustomerOrders } from '../actions/account-actions'

@@ -15,7 +15,7 @@ import {
   CouponForm,
   MiniPlaceOrder,
   PaymentIcons
-} from 'shift-react-components'
+} from '@shiftcommerce/shift-react-components'
 
 // Actions
 import {

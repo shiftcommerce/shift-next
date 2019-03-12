@@ -28,7 +28,7 @@ import {
   CouponForm,
   LineItems,
   Loading
-} from 'shift-react-components'
+} from '@shiftcommerce/shift-react-components'
 
 const fetchShippingMethodsRequest = () => {
   return {

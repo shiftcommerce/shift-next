@@ -3,7 +3,7 @@ import React from 'react'
 import InitialPropsDelegator from './initial-props-delegator'
 
 // Components
-import { Layout } from 'shift-react-components'
+import { Layout } from '@shiftcommerce/shift-react-components'
 
 // Actions
 import { readCart } from '../actions/cart-actions'
