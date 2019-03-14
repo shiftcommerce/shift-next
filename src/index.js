@@ -1,7 +1,6 @@
 // Next Pages
 import CartPage from './pages/cart'
 import CategoryPage from './pages/category'
-import ForgottenPasswordPage from './pages/forgotten-password'
 import LoginPage from './pages/login'
 import MyAccountPage from './pages/my-account'
 import OfflinePage from './pages/offline'
@@ -14,6 +13,8 @@ import ShippingAddressPage from './pages/shipping-address'
 import ShippingMethodPage from './pages/checkout/shipping-method'
 import SlugPage from './pages/slug'
 import StaticPage from './pages/static-page'
+import ForgottenPasswordPage from './pages/forgotten-password'
+import PasswordResetPage from './pages/password-reset'
 
 // Components
 import withCheckout from './components/with-checkout'
@@ -38,6 +39,15 @@ import Config from './lib/config'
 import { algoliaReduxWrapper, reduxWrapper } from './lib/algolia-redux-wrapper'
 import { getSessionExpiryTime } from './lib/session'
 
+// Shift-api Config
+import { shiftApiConfig } from 'shift-api'
+
+shiftApiConfig.set({
+  apiHost: process.env.API_HOST,
+  apiTenant: process.env.API_TENANT,
+  apiAccessToken: process.env.API_ACCESS_TOKEN
+})
+
 module.exports = {
   shiftRoutes: (server) => {
     server.get('/customerOrders', shiftAccountHandler.getCustomerOrders)
@@ -50,6 +60,8 @@ module.exports = {
     server.get('/getShippingMethods', shiftCartHandler.getShippingMethods)
     server.get('/getSlug', shiftSlugHandler.getSlug)
     server.get('/getStaticPage/:id', shiftStaticPageHandler.getStaticPage)
+    server.get('/forgotPassword', shiftAccountHandler.requestForgotPasswordEmail)
+    server.post('/passwordReset', shiftAccountHandler.resetPassword)
     server.post('/addCartCoupon', shiftCartHandler.addCartCoupon)
     server.post('/addToCart', shiftCartHandler.addToCart)
     server.post('/createAddress', shiftCartHandler.createAddress)
@@ -84,7 +96,6 @@ module.exports = {
 
   CategoryPage: CategoryPage,
   CartPage: CartPage,
-  ForgottenPasswordPage: ForgottenPasswordPage,
   PaymentPage: PaymentPage,
   ProductPage: ProductPage,
   LoginPage: LoginPage,
@@ -97,6 +108,8 @@ module.exports = {
   ShippingMethodPage: ShippingMethodPage,
   SlugPage: SlugPage,
   StaticPage: StaticPage,
+  ForgottenPasswordPage: ForgottenPasswordPage,
+  PasswordResetPage: PasswordResetPage,
 
   withCheckout: withCheckout,
 

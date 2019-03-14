@@ -55,19 +55,24 @@ module.exports = {
   },
 
   registerAccount: async (req, res) => {
-    const response = await SHIFTClient.createCustomerAccountV1(req.body)
+    try {
+      const response = await SHIFTClient.createCustomerAccountV1(req.body)
 
-    switch (response.status) {
-      case 404:
-        return res.status(200).send({})
-      case 422:
-        return res.status(response.status).send(response.data.errors)
-      case 201:
+      if (response.status === 201) {
         extractCustomerId(req, response.data.data)
         await assignCartToUser(req, res)
-        return res.status(201).send(response.data)
-      default:
-        return res.status(response.status).send(response.data)
+      }
+      
+      return res.status(response.status).send(response.data)
+    } catch (error) {
+      const response = error.response
+      switch (response.status) {
+        case 404:
+        case 422:
+          return res.status(response.status).send(response.data.errors)
+        default:
+          return res.status(response.status).send(response.data)
+      }
     }
   },
 
@@ -96,6 +101,54 @@ module.exports = {
         return res.status(response.status).send(response.data.errors)
       default:
         return res.status(response.status).send(response.data)
+    }
+  },
+
+  requestForgotPasswordEmail: async (req, res) => {
+    const customerAccountEmail = req.query.email
+
+    const emailResponse = await SHIFTClient.getCustomerAccountByEmailV1(customerAccountEmail)
+
+    const passwordResetRequest = {
+      data: {
+        type: 'password_recoveries',
+        attributes: {
+          reset_link_with_placeholder: 'https://www.example.com/reset-password?email={{email}}&token={{token}}'
+        }
+      }
+    }
+
+    let response = {}
+    try {
+      response = await SHIFTClient.createPasswordRecoveryV1(emailResponse.data.id, passwordResetRequest)
+      return response
+    } catch (error) {
+      console.log(error.response.data.errors)
+    }
+
+    switch (response.status) {
+      case 404:
+        return res.status(200).send({})
+      case 422:
+        return res.status(response.status).send(response.data.errors)
+      default:
+        return res.status(response.status).send(response.data)
+    }
+  },
+
+  resetPassword: async (req, res) => {
+    console.log(req.body)
+    const request = req.body
+    console.log(req.body.data.attributes.token)
+
+    const getAccount = await SHIFTClient.getCustomerAccountByTokenV1(req.body.data.attributes.token)
+    console.log({ request })
+    try {
+      const response = await SHIFTClient.updateCustomerAccountPasswordV1(getAccount.data.id, request)
+      console.log('bodz', request)
+      return response
+    } catch (error) {
+      console.log(error.response.data.errors)
     }
   }
 }
