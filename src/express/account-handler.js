@@ -1,5 +1,5 @@
 // Shift-api client
-const { SHIFTClient } = require('shift-api')
+const { SHIFTClient } = require('@shiftcommerce/shift-node-api')
 
 // Lib
 const { getSessionExpiryTime } = require('../lib/session')
@@ -62,7 +62,7 @@ module.exports = {
         extractCustomerId(req, response.data.data)
         await assignCartToUser(req, res)
       }
-      
+
       return res.status(response.status).send(response.data)
     } catch (error) {
       const response = error.response

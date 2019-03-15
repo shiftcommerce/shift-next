@@ -40,7 +40,7 @@ import { algoliaReduxWrapper, reduxWrapper } from './lib/algolia-redux-wrapper'
 import { getSessionExpiryTime } from './lib/session'
 
 // Shift-api Config
-import { shiftApiConfig } from 'shift-api'
+import { shiftApiConfig } from '@shiftcommerce/shift-node-api'
 
 shiftApiConfig.set({
   apiHost: process.env.API_HOST,
