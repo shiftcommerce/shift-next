@@ -1,5 +1,5 @@
 // Shift-api client
-const { SHIFTClient } = require('shift-api')
+const { SHIFTClient } = require('@shiftcommerce/shift-node-api')
 
 // Lib
 const { getSessionExpiryTime } = require('../lib/session')
@@ -55,19 +55,24 @@ module.exports = {
   },
 
   registerAccount: async (req, res) => {
-    const response = await SHIFTClient.createCustomerAccountV1(req.body)
+    try {
+      const response = await SHIFTClient.createCustomerAccountV1(req.body)
 
-    switch (response.status) {
-      case 404:
-        return res.status(200).send({})
-      case 422:
-        return res.status(response.status).send(response.data.errors)
-      case 201:
+      if (response.status === 201) {
         extractCustomerId(req, response.data.data)
         await assignCartToUser(req, res)
-        return res.status(201).send(response.data)
-      default:
-        return res.status(response.status).send(response.data)
+      }
+
+      return res.status(response.status).send(response.data)
+    } catch (error) {
+      const response = error.response
+      switch (response.status) {
+        case 404:
+        case 422:
+          return res.status(response.status).send(response.data.errors)
+        default:
+          return res.status(response.status).send(response.data)
+      }
     }
   },
 

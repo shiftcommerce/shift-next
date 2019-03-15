@@ -1,4 +1,4 @@
-const { SHIFTClient } = require('shift-api')
+const { SHIFTClient } = require('@shiftcommerce/shift-node-api')
 const stripe = require('stripe')(process.env.SECRET_STRIPE_API_KEY)
 
 module.exports = {

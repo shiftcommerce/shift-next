@@ -11,6 +11,20 @@ const registerInvalidPayload = require('../fixtures/register-invalid')
 const omsResponse = require('../fixtures/oms-response')
 const omsResponseParsed = require('../fixtures/oms-response-parsed')
 
+// Config
+const { shiftApiConfig } = require('@shiftcommerce/shift-node-api')
+
+beforeAll(() => {
+  shiftApiConfig.set({
+    apiHost: 'http://example.com',
+    apiTenant: 'test_tenant'
+  })
+})
+
+afterAll(() => {
+  shiftApiConfig.reset()
+})
+
 afterEach(() => { nock.cleanAll() })
 
 describe('getAccount()', () => {
@@ -253,13 +267,10 @@ describe('registerAccount()', () => {
 
       expect.assertions(3)
 
-      try {
-        await registerAccount(req, res)
-      } catch (error) {
-        expect(error.response.status).toBe(422)
-        expect(error.response.data.errors[0].title).toBe('is too short (minimum is 8 characters)')
-        expect(error.response.data.errors[0].detail).toBe('password - is too short (minimum is 8 characters)')
-      }
+      const response = await registerAccount(req, res)
+      expect(response[0].status).toBe('422')
+      expect(response[0].title).toBe('is too short (minimum is 8 characters)')
+      expect(response[0].detail).toBe('password - is too short (minimum is 8 characters)')
     })
   })
 })

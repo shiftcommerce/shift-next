@@ -10,6 +10,20 @@ const addressBookResponseParsed = require('../fixtures/addressbook-response-pars
 const createAddressBookEntryRequest = require('../fixtures/create-addressbook-request')
 const createAddressBookResponseParsed = require('../fixtures/create-addressbook-response-parsed')
 
+// Config
+const { shiftApiConfig } = require('@shiftcommerce/shift-node-api')
+
+beforeAll(() => {
+  shiftApiConfig.set({
+    apiHost: 'http://example.com',
+    apiTenant: 'test_tenant'
+  })
+})
+
+afterAll(() => {
+  shiftApiConfig.reset()
+})
+
 afterEach(() => { nock.cleanAll() })
 
 describe('getAddressBook()', () => {

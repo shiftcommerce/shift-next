@@ -1,4 +1,4 @@
-const { SHIFTClient } = require('shift-api')
+const { SHIFTClient } = require('@shiftcommerce/shift-node-api')
 
 module.exports = {
   getAddressBook: async (req, res) => {
