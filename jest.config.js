@@ -120,7 +120,7 @@ module.exports = {
   setupFilesAfterEnv: [
     './test/support/setup-after-env.js',
     './test/support/enzyme-setup.js',
-    '../../node_modules/jest-enzyme/lib/index.js'
+    './node_modules/jest-enzyme/lib/index.js'
   ],
 
   // The path to a module that runs some code to configure or set up the testing framework before each test
