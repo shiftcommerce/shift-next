@@ -7,6 +7,20 @@ const { createOrder } = require('../../src/express/order-handler')
 // Fixtures
 const createOrderResponse = require('../fixtures/create-order-response')
 
+// Config
+const { shiftApiConfig } = require('@shiftcommerce/shift-node-api')
+
+beforeAll(() => {
+  shiftApiConfig.set({
+    apiHost: 'http://example.com',
+    apiTenant: 'test_tenant'
+  })
+})
+
+afterAll(() => {
+  shiftApiConfig.reset()
+})
+
 afterEach(() => { nock.cleanAll() })
 
 describe('createOrder()', () => {
@@ -99,12 +113,11 @@ describe('createOrder()', () => {
           ]
         })
 
-      expect.assertions(3)
+      expect.assertions(2)
 
       try {
         await createOrder(req, res)
       } catch (error) {
-        expect(error.response.status).toBe(422)
         expect(error.response.data.errors[0].status).toBe('422')
         expect(error.response.data.errors[0].detail).toBe('Invalid payload')
       }

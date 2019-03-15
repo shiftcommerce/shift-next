@@ -22,7 +22,12 @@ exports[`Product page loading and error states displays an error message when th
             [Function],
           ],
         ],
-        "results": undefined,
+        "results": Array [
+          Object {
+            "type": "return",
+            "value": undefined,
+          },
+        ],
       }
     }
     product={
@@ -101,7 +106,12 @@ exports[`Product page loading and error states displays relevant message, when p
             [Function],
           ],
         ],
-        "results": undefined,
+        "results": Array [
+          Object {
+            "type": "return",
+            "value": undefined,
+          },
+        ],
       }
     }
     product={Object {}}
@@ -135,7 +145,12 @@ exports[`Product page renders a product once data is present 1`] = `
             [Function],
           ],
         ],
-        "results": undefined,
+        "results": Array [
+          Object {
+            "type": "return",
+            "value": undefined,
+          },
+        ],
       }
     }
     product={
