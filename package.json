@@ -1,6 +1,6 @@
 {
   "name": "@shiftcommerce/shift-next",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "",
   "main": "dist/bundle.js",
   "repository": "https://github.com/shiftcommerce/shift-next.git",
@@ -35,7 +35,7 @@
     "webpack-cli": "^3.2.1"
   },
   "dependencies": {
-    "@shiftcommerce/shift-react-components": "^1.0.0",
+    "@shiftcommerce/shift-react-components": "^0.1.1",
     "axios": "^0.18.0",
     "qs": "^6.6.0",
     "stripe": "^6.25.1"
