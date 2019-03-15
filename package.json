@@ -35,7 +35,7 @@
     "webpack-cli": "^3.2.1"
   },
   "dependencies": {
-    "@shiftcommerce/shift-react-components": "^0.1.1",
+    "@shiftcommerce/shift-react-components": "^0.1.0",
     "axios": "^0.18.0",
     "qs": "^6.6.0",
     "stripe": "^6.25.1"
