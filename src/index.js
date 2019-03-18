@@ -38,6 +38,15 @@ import Config from './lib/config'
 import { algoliaReduxWrapper, reduxWrapper } from './lib/algolia-redux-wrapper'
 import { getSessionExpiryTime } from './lib/session'
 
+// ShiftApi Config
+import { shiftApiConfig } from '@shiftcommerce/shift-node-api'
+
+shiftApiConfig.set({
+  apiHost: process.env.API_HOST,
+  apiTenant: process.env.API_TENANT,
+  apiAccessToken: process.env.API_ACCESS_TOKEN
+})
+
 module.exports = {
   shiftRoutes: (server) => {
     server.get('/customerOrders', shiftAccountHandler.getCustomerOrders)
