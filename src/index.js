@@ -42,9 +42,9 @@ import { getSessionExpiryTime } from './lib/session'
 import { shiftApiConfig } from '@shiftcommerce/shift-node-api'
 
 shiftApiConfig.set({
-  apiHost: Config.get().shiftNodeApi.apiHost,
-  apiTenant: Config.get().shiftNodeApi.apiTenant,
-  apiAccessToken: Config.get().shiftNodeApi.apiAccessToken
+  apiHost: process.env.API_HOST,
+  apiTenant: process.env.API_TENANT,
+  apiAccessToken: process.env.API_ACCESS_TOKEN
 })
 
 module.exports = {
