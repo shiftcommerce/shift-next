@@ -137,7 +137,7 @@ class CheckoutPaymentPage extends Component {
     this.setState({
       reviewStep: false
     })
-    setCurrentStep(3)
+    setCurrentStep(4)
   }
 
   validateInput (formName, fieldName, fieldValue, rules) {

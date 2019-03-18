@@ -5,6 +5,9 @@
   "main": "dist/bundle.js",
   "repository": "https://github.com/shiftcommerce/shift-next.git",
   "scripts": {
+    "start": "NODE_ENV=production ANALYZE_BUNDLE=true ./node_modules/webpack/bin/webpack.js --watch --color -p",
+    "build": "NODE_ENV=production ./node_modules/webpack/bin/webpack.js --bail -p",
+    "build:develop": "NODE_ENV=development ./node_modules/webpack/bin/webpack.js --bail --color -d",
     "test": "jest"
   },
   "author": "Shift Commerce",

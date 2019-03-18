@@ -176,7 +176,7 @@ export class ShippingAddressPage extends Component {
 
   pageTitle = () => 'Shipping Adress'
 
-  currentStep = () => 1
+  currentStep = () => 2
 
   continueButtonProps () {
     return {

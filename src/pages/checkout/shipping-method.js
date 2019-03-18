@@ -92,7 +92,7 @@ export class ShippingMethodPage extends Component {
 
   pageTitle = () => 'Shipping Method'
 
-  currentStep = () => 2
+  currentStep = () => 3
 
   render () {
     const { cart } = this.props
