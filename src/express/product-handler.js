@@ -2,7 +2,7 @@ const { SHIFTClient } = require('@shiftcommerce/shift-node-api')
 
 module.exports = {
   getProductById: async (req, res) => {
-    const response = await SHIFTClient.getProductByIdV1(req.params.id, req.query)
+    const response = await SHIFTClient.getProductV1(req.params.id, req.query)
 
     switch (response.status) {
       case 404:
