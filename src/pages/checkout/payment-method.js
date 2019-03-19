@@ -77,8 +77,10 @@ export class PaymentMethodPage extends Component {
    * @param  {object} actions
    */
   paypalOnApprove(data, actions) {
-    // @TODO - extract shipping address data
-    return actions.order.get()
+    return actions.order.get().then((details) =>
+      // @TODO - extract shipping address data & set data in state
+      alert('Transaction completed by ' + details.payer.name.given_name)
+    )
   }
 
   /**
