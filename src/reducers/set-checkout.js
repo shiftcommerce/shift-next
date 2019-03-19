@@ -46,7 +46,8 @@ const checkoutInitialState = {
     completed: false
   },
   currentStep: 1,
-  addressBook: []
+  addressBook: [],
+  paymentMethod: ''
 }
 
 export default function setCheckout (state = checkoutInitialState, action) {
@@ -171,6 +172,10 @@ export default function setCheckout (state = checkoutInitialState, action) {
 
     case types.BILLING_ADDRESS_CREATED:
       newState.billingAddress.id = action.payload.id
+      return newState
+
+    case types.SET_PAYMENT_METHOD:
+      newState.paymentMethod = action.payload.paymentMethod
       return newState
 
     default:
