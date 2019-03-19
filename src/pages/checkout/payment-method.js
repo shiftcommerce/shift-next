@@ -3,14 +3,11 @@ import React, { Component } from 'react'
 import Router from 'next/router'
 
 // Actions
-import {
-  setPaymentMethod
-} from '../../actions/checkout-actions'
+import { setPaymentMethod, setCheckoutShippingAddress } from '../../actions/checkout-actions'
+import { setCartShippingAddress, createShippingAddress } from '../../actions/cart-actions'
 
 // Components
-import {
-  PaymentMethods
-} from '@shiftcommerce/shift-react-components'
+import { PaymentMethods } from '@shiftcommerce/shift-react-components'
 
 // Lib
 import Config from '../../lib/config'
@@ -90,11 +87,47 @@ export class PaymentMethodPage extends Component {
    * @param  {object} actions
    */
   paypalOnApprove(data, actions) {
-    return actions.order.get().then((details) =>
-      // @TODO - extract shipping address data & set data in state
-      //         ALSO redirect to shipping method page, ie. skip shipping address
-      alert('Transaction completed by ' + details.payer.name.given_name)
-    )
+    return actions.order.get().then((order) => {
+      const shippingAddress = this.parsePayPalShippingAddress(order.payer, order.shipping_detail.address)
+      this.handleShippingAddressCreation(shippingAddress)
+    })
+  }
+
+  /**
+   * Parses the PayPal shipping address into the expected format
+   * @param  {object} paypalPayerDetails
+   * @param  {object} paypalShippingAddress
+   */
+  parsePayPalShippingAddress (paypalPayerDetails, paypalShippingAddress) {
+    return {
+      first_name: paypalPayerDetails.name.given_name,
+      last_name: paypalPayerDetails.name.surname,
+      email: paypalPayerDetails.email_address,
+      line_1: paypalShippingAddress.address_line_1,
+      line_2: paypalShippingAddress.address_line_2,
+      city: paypalShippingAddress.admin_area_2,
+      state: paypalShippingAddress.admin_area_1,
+      zipcode: paypalShippingAddress.postal_code,
+      country_code: paypalShippingAddress.country_code,
+      collapsed: true,
+      completed: true
+    }
+  }
+
+  /**
+   * Handles the creation of new shipping addresses
+   * @param  {object} newShippingAddress
+   */
+  handleShippingAddressCreation(newShippingAddress) {
+    const { dispatch, checkout } = this.props
+    // set new address in state
+    dispatch(setCheckoutShippingAddress(newShippingAddress))
+    // create shipping address
+    return dispatch(createShippingAddress(checkout.shippingAddress)).then(() => {
+      return dispatch(setCartShippingAddress(checkout.shippingAddress.id)).then(() => {
+        Router.push('/checkout/shipping-method')
+      })
+    })
   }
 
   render () {
