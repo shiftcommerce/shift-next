@@ -105,6 +105,10 @@ export default function setCheckout (state = checkoutInitialState, action) {
       }
       return newState
 
+    case types.SET_CHECKOUT_SHIPPING_ADDRESS:
+      Object.assign(newState.shippingAddress, action.address)
+      return newState
+
     case types.SET_ADDRESS_BOOK:
       newState.addressBook = action.payload.data
       return newState

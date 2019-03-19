@@ -60,11 +60,21 @@ export function showField (formName, fieldName) {
   }
 }
 
-function setPaymentMethod (paymentMethod) {
+export function setPaymentMethod (paymentMethod) {
   return {
     type: actionTypes.SET_PAYMENT_METHOD,
     payload: {
       paymentMethod: paymentMethod
+    }
+  }
+}
+
+
+export function setCheckoutShippingAddress (address) {
+  return {
+    type: actionTypes.SET_CHECKOUT_SHIPPING_ADDRESS,
+    payload: {
+      address: address
     }
   }
 }
