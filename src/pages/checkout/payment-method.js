@@ -53,6 +53,16 @@ export class PaymentMethodPage extends Component {
   }
 
   /**
+   * When a payment method is selected, this funtion is called and 
+   * it sets the current payment method in the state
+   * @param  {object} paymentMethod
+   */
+  handleSetPaymentMethod (paymentMethod) {
+    this.props.dispatch(setPaymentMethod(paymentMethod))
+    this.setState({ selectedPaymentMethod: paymentMethod })
+  }
+
+  /**
    * When the buyer clicks the PayPal button, this function is called and
    * it handles the creation of the order 
    * @param  {object} data
@@ -60,6 +70,8 @@ export class PaymentMethodPage extends Component {
    */
   paypalCreateOrder(data, actions) {
     const { cart } = this.props
+    this.handleSetPaymentMethod ('paypal')
+
     return actions.order.create({
       purchase_units: [{
         amount: {
@@ -81,16 +93,6 @@ export class PaymentMethodPage extends Component {
       // @TODO - extract shipping address data & set data in state
       alert('Transaction completed by ' + details.payer.name.given_name)
     )
-  }
-
-  /**
-   * When a payment method is selected, this funtion is called and 
-   * it sets the current payment method in the state
-   * @param  {object} paymentMethod
-   */
-  handleSetPaymentMethod (paymentMethod) {
-    this.props.dispatch(setPaymentMethod(paymentMethod))
-    this.setState({ selectedPaymentMethod: paymentMethod })
   }
 
   render () {
