@@ -38,6 +38,7 @@ export class PaymentMethodPage extends Component {
     return actions.order.create({
       purchase_units: [{
         amount: {
+          currency_code: 'GBP',
           value: cart.total
         }
       }]
