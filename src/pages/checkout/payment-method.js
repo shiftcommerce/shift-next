@@ -2,6 +2,9 @@
 import React, { Component } from 'react'
 import Router from 'next/router'
 
+// Lib
+import Config from '../../lib/config'
+
 // Components
 import {
   PaymentMethods
@@ -51,7 +54,7 @@ export class PaymentMethodPage extends Component {
       <div>
         { this.state.loading ? <p>Loading...</p> : <PaymentMethods
           nextSection={this.nextSection}
-          paypalClientID='sb'
+          paypalClientID={ Config.get().paypalClientID }
           paypalCreateOrder={this.paypalCreateOrder}
           paypalOnApprove={this.paypalOnApprove}
         /> }
