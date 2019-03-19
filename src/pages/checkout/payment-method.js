@@ -27,18 +27,37 @@ export class PaymentMethodPage extends Component {
     this.handleSetPaymentMethod = this.handleSetPaymentMethod.bind(this)
   }
 
+  /**
+   * Returns route for next checkout section  
+   */
   nextSection () {
     Router.push('/checkout/shipping-address')
   }
 
+  /**
+   * Sets the current checkout page title  
+   */
   pageTitle = () => 'Payment Method'
 
+
+  /**
+   * Sets the current checkout page step 
+   */
   currentStep = () => 1
 
+  /**
+   * Sets the current checkout page step 
+   */
   continueButtonProps () {
     return null
   }
 
+  /**
+   * When the buyer clicks the PayPal button, this function is called and
+   * it handles the creation of the order 
+   * @param  {object} data
+   * @param  {object} actions
+   */
   paypalCreateOrder(data, actions) {
     const { cart } = this.props
     return actions.order.create({
@@ -51,11 +70,22 @@ export class PaymentMethodPage extends Component {
     })
   }
 
+  /**
+   * After the cusrtomer approves the transaction on paypal.com, 
+   * this function is called and it retrieves the transaction details
+   * @param  {object} data
+   * @param  {object} actions
+   */
   paypalOnApprove(data, actions) {
     // @TODO - extract shipping address data
     return actions.order.get()
   }
 
+  /**
+   * When a payment method is selected, this funtion is called and 
+   * it sets the current payment method in the state
+   * @param  {object} paymentMethod
+   */
   handleSetPaymentMethod (paymentMethod) {
     this.props.dispatch(setPaymentMethod(paymentMethod))
     this.setState({ selectedPaymentMethod: paymentMethod })
