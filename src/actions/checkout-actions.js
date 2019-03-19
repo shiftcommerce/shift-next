@@ -59,3 +59,12 @@ export function showField (formName, fieldName) {
     }
   }
 }
+
+function setPaymentMethod (paymentMethod) {
+  return {
+    type: actionTypes.SET_PAYMENT_METHOD,
+    payload: {
+      paymentMethod: paymentMethod
+    }
+  }
+}
