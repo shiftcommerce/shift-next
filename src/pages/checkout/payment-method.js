@@ -2,13 +2,18 @@
 import React, { Component } from 'react'
 import Router from 'next/router'
 
-// Lib
-import Config from '../../lib/config'
+// Actions
+import {
+  setPaymentMethod
+} from '../../actions/checkout-actions'
 
 // Components
 import {
   PaymentMethods
 } from '@shiftcommerce/shift-react-components'
+
+// Lib
+import Config from '../../lib/config'
 
 export class PaymentMethodPage extends Component {
   constructor (props) {
@@ -19,6 +24,7 @@ export class PaymentMethodPage extends Component {
     this.nextSection = this.nextSection.bind(this)
     this.paypalCreateOrder = this.paypalCreateOrder.bind(this)
     this.paypalOnApprove = this.paypalOnApprove.bind(this)
+    this.handleSetPaymentMethod = this.handleSetPaymentMethod.bind(this)
   }
 
   nextSection () {
@@ -47,7 +53,12 @@ export class PaymentMethodPage extends Component {
 
   paypalOnApprove(data, actions) {
     // @TODO - extract shipping address data
-    return data
+    return actions.order.get()
+  }
+
+  handleSetPaymentMethod (paymentMethod) {
+    this.props.dispatch(setPaymentMethod(paymentMethod))
+    this.setState({ selectedPaymentMethod: paymentMethod })
   }
 
   render () {
@@ -58,6 +69,7 @@ export class PaymentMethodPage extends Component {
           paypalClientID={ Config.get().paypalClientID }
           paypalCreateOrder={this.paypalCreateOrder}
           paypalOnApprove={this.paypalOnApprove}
+          handleSetPaymentMethod={this.handleSetPaymentMethod}
         /> }
       </div>
     )
