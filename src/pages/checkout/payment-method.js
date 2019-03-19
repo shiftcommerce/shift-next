@@ -70,8 +70,9 @@ export class PaymentMethodPage extends Component {
    */
   paypalCreateOrder(data, actions) {
     const { cart } = this.props
+    // set paypal payment method selection
     this.handleSetPaymentMethod ('paypal')
-
+    // create PayPal order
     return actions.order.create({
       purchase_units: [{
         amount: {
@@ -91,6 +92,7 @@ export class PaymentMethodPage extends Component {
   paypalOnApprove(data, actions) {
     return actions.order.get().then((details) =>
       // @TODO - extract shipping address data & set data in state
+      //         ALSO redirect to shipping method page, ie. skip shipping address
       alert('Transaction completed by ' + details.payer.name.given_name)
     )
   }
