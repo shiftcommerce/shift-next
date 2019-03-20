@@ -110,11 +110,14 @@ export class PaymentMethodPage extends Component {
   handleShippingAddressCreation(newShippingAddress) {
     const { dispatch, checkout } = this.props
     // set new address in state
-    dispatch(setCheckoutShippingAddress(newShippingAddress))
-    // create shipping address
-    return dispatch(createShippingAddress(checkout.shippingAddress)).then(() => {
-      return dispatch(setCartShippingAddress(checkout.shippingAddress.id)).then(() => {
-        Router.push('/checkout/shipping-method')
+    return dispatch(setCheckoutShippingAddress(newShippingAddress)).then(() => {
+      // create shipping address
+      return dispatch(createShippingAddress(checkout.shippingAddress)).then(() => {
+        // set the created shipping address ID in state
+        return dispatch(setCartShippingAddress(checkout.shippingAddress.id)).then(() => {
+          // redirect to shipping method checkout step
+          Router.push('/checkout/shipping-method')
+        })
       })
     })
   }
