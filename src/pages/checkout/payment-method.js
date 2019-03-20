@@ -67,9 +67,6 @@ export class PaymentMethodPage extends Component {
    */
   paypalCreateOrder(data, actions) {
     const { cart } = this.props
-    // set paypal payment method selection
-    this.handleSetPaymentMethod ('paypal')
-    // create PayPal order
     return actions.order.create({
       purchase_units: [{
         amount: {
@@ -88,30 +85,22 @@ export class PaymentMethodPage extends Component {
    */
   paypalOnApprove(data, actions) {
     return actions.order.get().then((order) => {
-      const shippingAddress = this.parsePayPalShippingAddress(order.payer, order.shipping_detail.address)
-      this.handleShippingAddressCreation(shippingAddress)
+      const payer = order.payer
+      const shippingAddress = order.shipping_detail.address
+      this.handleShippingAddressCreation({
+        first_name: payer.name.given_name,
+        last_name: payer.name.surname,
+        email: payer.email_address,
+        line_1: shippingAddress.address_line_1,
+        line_2: shippingAddress.address_line_2,
+        city: shippingAddress.admin_area_2,
+        state: shippingAddress.admin_area_1,
+        zipcode: shippingAddress.postal_code,
+        country_code: shippingAddress.country_code,
+        collapsed: true,
+        completed: true
+      })
     })
-  }
-
-  /**
-   * Parses the PayPal shipping address into the expected format
-   * @param  {object} paypalPayerDetails
-   * @param  {object} paypalShippingAddress
-   */
-  parsePayPalShippingAddress (paypalPayerDetails, paypalShippingAddress) {
-    return {
-      first_name: paypalPayerDetails.name.given_name,
-      last_name: paypalPayerDetails.name.surname,
-      email: paypalPayerDetails.email_address,
-      line_1: paypalShippingAddress.address_line_1,
-      line_2: paypalShippingAddress.address_line_2,
-      city: paypalShippingAddress.admin_area_2,
-      state: paypalShippingAddress.admin_area_1,
-      zipcode: paypalShippingAddress.postal_code,
-      country_code: paypalShippingAddress.country_code,
-      collapsed: true,
-      completed: true
-    }
   }
 
   /**
