@@ -1,0 +1,9 @@
+{
+  "version": "v1",
+  "packages": {
+    "@shiftcommerce/shift-node-api": {
+      "signature": "d4e10e156745b3e19b938ce9a03d8960",
+      "file": true
+    }
+  }
+}
