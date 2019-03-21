@@ -69,6 +69,15 @@ export function setPaymentMethod (paymentMethod) {
   }
 }
 
+export function setPayPalOrderDetails (orderDetails) {
+  return {
+    type: actionTypes.SET_PAYPAL_ORDER_DETAILS,
+    payload: {
+      order_details: orderDetails
+    }
+  }
+}
+
 export function setCheckoutBillingAddress (address) {
   return {
     type: actionTypes.SET_CHECKOUT_BILLING_ADDRESS,

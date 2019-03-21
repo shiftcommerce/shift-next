@@ -47,7 +47,13 @@ const checkoutInitialState = {
   },
   currentStep: 1,
   addressBook: [],
-  paymentMethod: ''
+  paymentMethod: '',
+  paypal: {
+    orderID: '',
+    intent: '',
+    status: '',
+    createdAt: ''
+  }
 }
 
 export default function setCheckout (state = checkoutInitialState, action) {
@@ -106,11 +112,11 @@ export default function setCheckout (state = checkoutInitialState, action) {
       return newState
 
     case types.SET_CHECKOUT_BILLING_ADDRESS:
-      Object.assign(newState.billingAddress, action.address)
+      Object.assign(newState.billingAddress, action.payload.address)
       return newState
 
     case types.SET_CHECKOUT_SHIPPING_ADDRESS:
-      Object.assign(newState.shippingAddress, action.address)
+      Object.assign(newState.shippingAddress, action.payload.address)
       return newState
 
     case types.SET_ADDRESS_BOOK:
@@ -184,6 +190,10 @@ export default function setCheckout (state = checkoutInitialState, action) {
 
     case types.SET_PAYMENT_METHOD:
       newState.paymentMethod = action.payload.paymentMethod
+      return newState
+    
+    case types.SET_PAYPAL_ORDER_DETAILS:
+      Object.assign(newState.paypal, action.payload.order_details)
       return newState
 
     default:
