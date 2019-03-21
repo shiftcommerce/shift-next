@@ -6,7 +6,8 @@ import Router from 'next/router'
 import { 
   setPaymentMethod,
   setCheckoutShippingAddress,
-  setCheckoutBillingAddress
+  setCheckoutBillingAddress,
+  setPayPalOrderDetails
 } from '../../actions/checkout-actions'
 
 import { 
@@ -95,6 +96,7 @@ export class PaymentMethodPage extends Component {
       const payer = order.payer
       const shippingDetails = order.purchase_units[0].shipping
       const splitShippingFullName = shippingDetails.name.full_name.split(' ')
+      this.handlePayPalOrderDetails(order)
       this.handleBillingAddressCreation(
         this.parsePayPalAddress(
           order.payer.given_name,
@@ -173,6 +175,20 @@ export class PaymentMethodPage extends Component {
         })
       })
     })
+  }
+
+  /**
+   * Handles the setting of PayPal order details in checkout state
+   * @param  {object} payPalOrder
+   */
+  handlePayPalOrderDetails (payPalOrder) {
+    const { dispatch } = this.props
+    return dispatch(setPayPalOrderDetails({
+      orderID: payPalOrder.id,
+      intent: payPalOrder.intent,
+      status: payPalOrder.status,
+      createdAt: payPalOrder.create_time
+    }))
   }
 
   render () {
