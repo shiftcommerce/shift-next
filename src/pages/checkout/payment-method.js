@@ -93,24 +93,30 @@ export class PaymentMethodPage extends Component {
    */
   paypalOnApprove(data, actions) {
     return actions.order.get().then((order) => {
-      const payer = order.payer
+      const payerDetails = order.payer.name
+      const payerEmail = order.payer.email_address
+      const payerPhoneNumber = payer.phone.phone_number.national_number
       const shippingDetails = order.purchase_units[0].shipping
-      const splitShippingFullName = shippingDetails.name.full_name.split(' ')
+      const shippingFullName = shippingDetails.name.full_name.split(' ')
+      // handle basic order details - id, intent, status + create_time
       this.handlePayPalOrderDetails(order)
+      // handle parsing + setting of billing address in state + creation
       this.handleBillingAddressCreation(
         this.parsePayPalAddress(
-          order.payer.given_name,
-          order.payer.surname,
-          payer.email_address,
-          payer.phone.phone_number.national_number,
-          payer.address)
+          payerDetails.given_name,
+          payerDetails.surname,
+          payerEmail,
+          payerPhoneNumber,
+          payer.address
+        )
       )
+      // handle parsing + setting of shipping address in state + creation
       this.handleShippingAddressCreation(
         this.parsePayPalAddress(
-          splitShippingFullName.slice(0, -1).join(' '),
-          splitShippingFullName.slice(-1).join(' '),
-          payer.email_address,
-          '',
+          shippingFullName.slice(0, -1).join(' '),
+          shippingFullName.slice(-1).join(' '),
+          payerEmail,
+          payerPhoneNumber,
           shippingDetails.address
         )
       )
@@ -149,12 +155,11 @@ export class PaymentMethodPage extends Component {
   handleBillingAddressCreation (newBillingAddress) {
     const { dispatch, checkout } = this.props
     // set new address in state
-    return dispatch(setCheckoutBillingAddress(newBillingAddress)).then(() => {
-      // create shipping address
-      return dispatch(createBillingAddress(checkout.billingAddress)).then(() => {
-        // set the created shipping address ID in state
-        return dispatch(setCartBillingAddress(checkout.billingAddress.id))
-      })
+    dispatch(setCheckoutBillingAddress(newBillingAddress))
+    // create shipping address
+    return dispatch(createBillingAddress(checkout.billingAddress)).then(() => {
+      // set the created shipping address ID in state
+      return dispatch(setCartBillingAddress(checkout.billingAddress.id))
     })
   }
 
@@ -165,14 +170,13 @@ export class PaymentMethodPage extends Component {
   handleShippingAddressCreation (newShippingAddress) {
     const { dispatch, checkout } = this.props
     // set new address in state
-    return dispatch(setCheckoutShippingAddress(newShippingAddress)).then(() => {
-      // create shipping address
-      return dispatch(createShippingAddress(checkout.shippingAddress)).then(() => {
-        // set the created shipping address ID in state
-        return dispatch(setCartShippingAddress(checkout.shippingAddress.id)).then(() => {
-          // redirect to shipping method checkout step
-          Router.push('/checkout/shipping-method')
-        })
+    dispatch(setCheckoutShippingAddress(newShippingAddress))
+    // create shipping address
+    return dispatch(createShippingAddress(checkout.shippingAddress)).then(() => {
+      // set the created shipping address ID in state
+      return dispatch(setCartShippingAddress(checkout.shippingAddress.id)).then(() => {
+        // redirect to shipping method checkout step
+        Router.push('/checkout/shipping-method')
       })
     })
   }
