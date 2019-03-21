@@ -93,8 +93,8 @@ export class PaymentMethodPage extends Component {
    */
   paypalOnApprove(data, actions) {
     return actions.order.get().then((order) => {
-      const payerDetails = order.payer.name
-      const payerEmail = order.payer.email_address
+      const payer = order.payer
+      const payerEmail = payer.email_address
       const payerPhoneNumber = payer.phone.phone_number.national_number
       const shippingDetails = order.purchase_units[0].shipping
       const shippingFullName = shippingDetails.name.full_name.split(' ')
@@ -103,8 +103,8 @@ export class PaymentMethodPage extends Component {
       // handle parsing + setting of billing address in state + creation
       this.handleBillingAddressCreation(
         this.parsePayPalAddress(
-          payerDetails.given_name,
-          payerDetails.surname,
+          payer.name.given_name,
+          payer.name.surname,
           payerEmail,
           payerPhoneNumber,
           payer.address
@@ -157,7 +157,7 @@ export class PaymentMethodPage extends Component {
     // set new address in state
     dispatch(setCheckoutBillingAddress(newBillingAddress))
     // create shipping address
-    return dispatch(createBillingAddress(checkout.billingAddress)).then(() => {
+    return dispatch(createBillingAddress(newBillingAddress)).then(() => {
       // set the created shipping address ID in state
       return dispatch(setCartBillingAddress(checkout.billingAddress.id))
     })
@@ -168,15 +168,17 @@ export class PaymentMethodPage extends Component {
    * @param  {object} newShippingAddress
    */
   handleShippingAddressCreation (newShippingAddress) {
-    const { dispatch, checkout } = this.props
+    const { dispatch, checkout, setCurrentStep } = this.props
     // set new address in state
     dispatch(setCheckoutShippingAddress(newShippingAddress))
     // create shipping address
-    return dispatch(createShippingAddress(checkout.shippingAddress)).then(() => {
+    return dispatch(createShippingAddress(newShippingAddress)).then(() => {
       // set the created shipping address ID in state
       return dispatch(setCartShippingAddress(checkout.shippingAddress.id)).then(() => {
         // redirect to shipping method checkout step
         Router.push('/checkout/shipping-method')
+        // set state for shipping method
+        setCurrentStep(3)
       })
     })
   }
