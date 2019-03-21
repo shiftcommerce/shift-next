@@ -9,9 +9,6 @@ import { setCartShippingAddress, createShippingAddress } from '../../actions/car
 // Components
 import { PaymentMethods } from '@shiftcommerce/shift-react-components'
 
-// Lib
-import Config from '../../lib/config'
-
 export class PaymentMethodPage extends Component {
   constructor (props) {
     super(props)
@@ -127,7 +124,6 @@ export class PaymentMethodPage extends Component {
       <div>
         { this.state.loading ? <p>Loading...</p> : <PaymentMethods
           nextSection={this.nextSection}
-          paypalClientID={ Config.get().paypalClientID }
           paypalCreateOrder={this.paypalCreateOrder}
           paypalOnApprove={this.paypalOnApprove}
           handleSetPaymentMethod={this.handleSetPaymentMethod}
