@@ -66,6 +66,7 @@ export class PaymentMethodPage extends Component {
     const { cart } = this.props
     return actions.order.create({
       purchase_units: [{
+        // currency is specified in the PayPal SDK script
         amount: {
           value: cart.total
         }

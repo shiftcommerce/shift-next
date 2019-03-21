@@ -69,6 +69,15 @@ export function setPaymentMethod (paymentMethod) {
   }
 }
 
+export function setCheckoutBillingAddress (address) {
+  return {
+    type: actionTypes.SET_CHECKOUT_BILLING_ADDRESS,
+    payload: {
+      address: address
+    }
+  }
+}
+
 export function setCheckoutShippingAddress (address) {
   return {
     type: actionTypes.SET_CHECKOUT_SHIPPING_ADDRESS,
