@@ -31,7 +31,7 @@ jest.mock('next/config', () => () => ({
   publicRuntimeConfig: {}
 }))
 
-test('componentDidMount() redirects to the shipping address page when one is not set when default payment option is used', () => {
+test('componentDidMount() redirects to the shipping address page when one is not set when the default payment option is used', () => {
   // Arrange
   const pushSpy = jest.spyOn(Router, 'push').mockImplementation(() => {})
   const cartState = {}

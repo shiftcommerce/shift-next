@@ -28,10 +28,31 @@ afterAll(() => {
 })
 
 describe('componentDidMount()', () => {
-  test('redirects to the shipping address page when one is not set', () => {
+  test('redirects to the shipping address page when one is not set when the default payment option is used', () => {
+    // Arrange
     const pushSpy = jest.spyOn(Router, 'push').mockImplementation(() => {})
-    shallow(<CheckoutPaymentPage cart={{}} />)
+    const cartState = {}
+    const checkoutState = { paymentMethod: 'default' }
+  
+    // Act
+    shallow(<CheckoutPaymentPage cart={cartState} checkout={checkoutState} />)
+  
+    // Assert
     expect(pushSpy).toHaveBeenCalledWith('/checkout/shipping-address')
+    pushSpy.mockRestore()
+  })
+  
+  test('redirects to the shipping address page when one is not set when third party payment is used', () => {
+    // Arrange
+    const pushSpy = jest.spyOn(Router, 'push').mockImplementation(() => {})
+    const cartState = {}
+    const checkoutState = { paymentMethod: 'paypal' }
+    
+    // Act
+    shallow(<CheckoutPaymentPage cart={cartState} checkout={checkoutState} />)
+  
+    // Assert
+    expect(pushSpy).toHaveBeenCalledWith('/checkout/payment-method')
     pushSpy.mockRestore()
   })
 

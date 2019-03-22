@@ -65,21 +65,26 @@ class CheckoutPaymentPage extends Component {
   }
 
   componentDidMount () {
-    if (!this.props.cart.shipping_address) {
-      return Router.push('/checkout/shipping-address')
+    const { cart, checkout } = this.props
+    if (!cart.shipping_address) {
+      if (checkout.paymentMethod === 'default') {
+        return Router.push('/checkout/shipping-address')
+      } else {
+        return Router.push('/checkout/payment-method')
+      }
     }
-    if (!this.props.cart.shipping_method) {
+    if (!cart.shipping_method) {
       return Router.push('/checkout/shipping-method')
     }
 
     return (this.loggedIn() ? this.props.dispatch(fetchAddressBook()) : Promise.resolve()).then(() => {
-      if (!this.props.cart.billing_address) {
-        return this.onBookAddressSelected(this.props.cart.shipping_address.id).then(() => {
+      if (!cart.billing_address) {
+        return this.onBookAddressSelected(cart.shipping_address.id).then(() => {
           this.setState({
             billingAsShipping: true
           })
         })
-      } else if (this.props.cart.shipping_address.id === this.props.cart.billing_address.id) {
+      } else if (cart.shipping_address.id === cart.billing_address.id) {
         this.setState({
           billingAsShipping: true
         })

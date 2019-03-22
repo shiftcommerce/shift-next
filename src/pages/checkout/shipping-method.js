@@ -53,7 +53,7 @@ export class ShippingMethodPage extends Component {
 
     const shippingMethods = (await this.constructor.fetchShippingMethods()).data.sort((method1, method2) => method1.total - method2.total)
 
-    if (!this.props.cart.shipping_method) {
+    if (!cart.shipping_method) {
       this.props.dispatch(setCartShippingMethod(shippingMethods[0].id))
     }
 
