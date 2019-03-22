@@ -42,12 +42,14 @@ export class ShippingMethodPage extends Component {
   }
 
   async componentDidMount () {
-    const { cart, checkout } = this.props
+    const { cart, checkout, thirdPartyPaymentMethods } = this.props
     if (!cart.shipping_address) {
-      if (checkout.paymentMethod === 'default') {
-        return Router.push('/checkout/shipping-address')
-      } else {
+      if (thirdPartyPaymentMethods.includes(checkout.paymentMethod)) {
+        // If shipping address is not present and customer has used third party payment service
+        // redirect to the payment method page
         return Router.push('/checkout/payment-method')
+      } else {
+        return Router.push('/checkout/shipping-address')
       }
     }
 
@@ -83,7 +85,14 @@ export class ShippingMethodPage extends Component {
   }
 
   nextSection (eventType) {
-    Router.push('/checkout/payment')
+    const { checkout, thirdPartyPaymentMethods} = this.props
+    if (thirdPartyPaymentMethods.includes(checkout.paymentMethod)) {
+      // If customer has used third party payment service, redirect to the order review page
+      Router.push('/checkout/payment', '/checkout/review')
+      setCurrentStep(5)
+    } else {
+      Router.push('/checkout/payment')
+    }
   }
 
   continueButtonProps () {

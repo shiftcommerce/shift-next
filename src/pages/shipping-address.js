@@ -44,6 +44,14 @@ export class ShippingAddressPage extends Component {
   }
 
   componentDidMount () {
+    const { cart, checkout, thirdPartyPaymentMethods } = this.props
+
+    if (cart.shipping_address && (thirdPartyPaymentMethods.includes(checkout.paymentMethod))) {
+      // If shipping address is present and customer has used third party payment service
+      // redirect to the payment method page
+      return Router.push('/checkout/payment-method')
+    }
+
     if (this.loggedIn()) {
       return this.props.dispatch(fetchAddressBook()).then(() => {
         if (!this.props.cart.shipping_address && !this.addressBookEmpty()) {
