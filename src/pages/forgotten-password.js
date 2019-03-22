@@ -25,12 +25,13 @@ export class ForgottenPassword extends Component {
   }
 
   render () {
+    const { account } = this.props
     return (
       <>
         <Head>
           <title>{ suffixWithStoreName('Reset Password') }</title>
         </Head>
-        <ForgotPasswordForm handleSubmit={this.handleSubmit} flashMessage={this.state.flashMessage} />
+        <ForgotPasswordForm handleSubmit={this.handleSubmit} flashMessage={this.state.flashMessage} account={account} />
       </>
     )
   }

@@ -1,12 +1,13 @@
 // Libraries
 import React, { Component } from 'react'
 import Head from 'next/head'
+import Router from 'next/router'
 
 // Lib
 import { suffixWithStoreName } from '../lib/suffix-with-store-name'
 
 // Objects
-import { Button, Input, PasswordResetForm } from '@shiftcommerce/shift-react-components'
+import { Button, PasswordResetForm } from '@shiftcommerce/shift-react-components'
 
 // Actions
 import { passwordReset } from '../actions/account-actions'
@@ -18,35 +19,32 @@ export class PasswordReset extends Component {
     this.handleSubmit = this.handleSubmit.bind(this)
   }
 
-  static async getInitialProps ({ query }) {
+  static async getInitialProps({ query }) {
     return { token: query.token }
   }
 
   handleSubmit (values) {
     this.props.dispatch(passwordReset(this.props.token, values.password))
+      .then(this.redirectAfterSubmit())
   }
 
-  renderSubmitButton () {
-    return (
-      <div className='o-form__input-group'>
-        <Button
-          className='c-password-reset__button o-button-sml'
-          aria-label='Submit'
-          label='submit'
-          status='primary'
-          type='submit'
-        />
-      </div>
-    )
+  redirectAfterSubmit() {
+    if (this.props.account.errors.length === 0) {
+      return Router.push('/account/login')
+    }
+
+    return null
   }
 
   render () {
+    const { account } = this.props
+
     return (
       <>
         <Head>
           <title>{ suffixWithStoreName('Password Reset') }</title>
         </Head>
-        <PasswordResetForm handleSubmit={this.handleSubmit} />
+        <PasswordResetForm handleSubmit={this.handleSubmit} account={account} />
       </>
     )
   }
