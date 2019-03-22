@@ -42,7 +42,8 @@ export function getCustomerOrders () {
 const forgottenPasswordRequest = (email) => {
   return {
     endpoint: '/forgotPassword',
-    query: { email }
+    query: { email },
+    errorActionType: types.ERROR_ACCOUNT
   }
 }
 
@@ -61,7 +62,8 @@ export function passwordReset (token, password) {
           password: password
         }
       }
-    }
+    },
+    errorActionType: types.ERROR_ACCOUNT
   }
 
   return postEndpoint(request)

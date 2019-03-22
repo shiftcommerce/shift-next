@@ -14,7 +14,7 @@ import ShippingMethodPage from './pages/checkout/shipping-method'
 import SlugPage from './pages/slug'
 import StaticPage from './pages/static-page'
 import ForgottenPasswordPage from './pages/forgotten-password'
-import PasswordResetPage from './pages/password-reset'
+import PasswordResetPage from './pages/password_reset'
 
 // Components
 import withCheckout from './components/with-checkout'

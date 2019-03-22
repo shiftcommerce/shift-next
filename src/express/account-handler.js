@@ -118,37 +118,53 @@ module.exports = {
       }
     }
 
-    let response = {}
     try {
-      response = await SHIFTClient.createPasswordRecoveryV1(emailResponse.data.id, passwordResetRequest)
-      return response
+      const response = await SHIFTClient.createPasswordRecoveryV1(emailResponse.data.id, passwordResetRequest)
+      return res.status(response.status).send(response.data)
     } catch (error) {
-      console.log(error.response.data.errors)
-    }
-
-    switch (response.status) {
-      case 404:
-        return res.status(200).send({})
-      case 422:
-        return res.status(response.status).send(response.data.errors)
-      default:
-        return res.status(response.status).send(response.data)
+      const response = error.response
+      switch (response.status) {
+        case 404:
+        case 422:
+          return res.status(response.status).send(response.data.errors)
+        default:
+          return res.status(response.status).send(response.data)
+      }
     }
   },
 
   resetPassword: async (req, res) => {
-    console.log(req.body)
     const request = req.body
-    console.log(req.body.data.attributes.token)
 
-    const getAccount = await SHIFTClient.getCustomerAccountByTokenV1(req.body.data.attributes.token)
-    console.log({ request })
+    let getAccount = {}
+
     try {
-      const response = await SHIFTClient.updateCustomerAccountPasswordV1(getAccount.data.id, request)
-      console.log('bodz', request)
-      return response
+      getAccount = await SHIFTClient.getCustomerAccountByTokenV1(req.body.data.attributes.token)
     } catch (error) {
-      console.log(error.response.data.errors)
+      console.log('ERRRORROROR', error.response.data)
+      const response = error.response
+      switch (response.status) {
+        case 404:
+        case 422:
+          return res.status(response.status).send(response.data.errors)
+        default:
+          return res.status(response.status).send(response.data)
+      }
+    }
+
+    try {
+      await SHIFTClient.updateCustomerAccountPasswordV1(getAccount.data.id, request)
+      return res.redirect('/account/login')
+    } catch (error) {
+      console.log('error', error.response.data.errors)
+      const response = error.response
+      switch (response.status) {
+        case 404:
+        case 422:
+          return res.status(response.status).send(response.data.errors)
+        default:
+          return res.status(response.status).send(response.data)
+      }
     }
   }
 }
