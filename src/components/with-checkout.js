@@ -39,7 +39,8 @@ export function withCheckout (WrappedComponent) {
       this.state = {
         loading: true,
         continueButtonProps: {},
-        currentStep: 1
+        currentStep: 1,
+        thirdPartyPaymentMethods: ['PayPal', 'GPay', 'Apple Pay']
       }
 
       this.setCurrentStep = this.setCurrentStep.bind(this)
@@ -145,6 +146,7 @@ export function withCheckout (WrappedComponent) {
                 <WrappedComponent
                   ref={this.wrappedRef}
                   setCurrentStep={this.setCurrentStep}
+                  thirdPartyPaymentMethods={this.state.thirdPartyPaymentMethods}
                   {...this.props}
                 />
               </div>
