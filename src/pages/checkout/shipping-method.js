@@ -42,8 +42,13 @@ export class ShippingMethodPage extends Component {
   }
 
   async componentDidMount () {
-    if (!this.props.cart.shipping_address) {
-      return Router.push('/checkout/shipping-address')
+    const { cart, checkout } = this.props
+    if (!cart.shipping_address) {
+      if (checkout.paymentMethod === 'default') {
+        return Router.push('/checkout/shipping-address')
+      } else {
+        return Router.push('/checkout/payment-method')
+      }
     }
 
     const shippingMethods = (await this.constructor.fetchShippingMethods()).data.sort((method1, method2) => method1.total - method2.total)
@@ -96,7 +101,8 @@ export class ShippingMethodPage extends Component {
 
   render () {
     const { cart } = this.props
-
+    const { checkout: { shippingAddress } } = this.props
+  
     if (!cart.shipping_address) return null
 
     return (
@@ -110,6 +116,7 @@ export class ShippingMethodPage extends Component {
               lastName={cart.shipping_address.last_name}
               onClick={() => Router.push('/checkout/shipping-address')}
               postcode={cart.shipping_address.postcode}
+              showEditButton={shippingAddress.showEditButton}
             />
           </div>
         </div>

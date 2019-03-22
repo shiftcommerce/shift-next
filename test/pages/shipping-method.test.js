@@ -21,6 +21,7 @@ const shippingAddress = {
   email: 'test@example.com',
   collapsed: false,
   completed: false,
+  showEditButton: true,
   errors: {}
 }
 
@@ -30,10 +31,31 @@ jest.mock('next/config', () => () => ({
   publicRuntimeConfig: {}
 }))
 
-test('componentDidMount() redirects to the shipping address page when one is not set', () => {
+test('componentDidMount() redirects to the shipping address page when one is not set when default payment option is used', () => {
+  // Arrange
   const pushSpy = jest.spyOn(Router, 'push').mockImplementation(() => {})
-  shallow(<ShippingMethodPage cart={{}} />)
+  const cartState = {}
+  const checkoutState = { paymentMethod: 'default' }
+
+  // Act
+  shallow(<ShippingMethodPage cart={cartState} checkout={checkoutState} />)
+
+  // Assert
   expect(pushSpy).toHaveBeenCalledWith('/checkout/shipping-address')
+  pushSpy.mockRestore()
+})
+
+test('componentDidMount() redirects to the shipping address page when one is not set when third party payment is used', () => {
+  // Arrange
+  const pushSpy = jest.spyOn(Router, 'push').mockImplementation(() => {})
+  const cartState = {}
+  const checkoutState = { paymentMethod: 'paypal' }
+  
+  // Act
+  shallow(<ShippingMethodPage cart={cartState} checkout={checkoutState} />)
+
+  // Assert
+  expect(pushSpy).toHaveBeenCalledWith('/checkout/payment-method')
   pushSpy.mockRestore()
 })
 
@@ -69,7 +91,8 @@ test('render shipping methods as expected', async () => {
       collapsed: true,
       completed: true
     },
-    shippingMethod: {}
+    shippingMethod: {},
+    paymentMethod: 'default'
   }
 
   const fetchShippingSpy = jest.spyOn(ShippingMethodPage, 'fetchShippingMethods').mockImplementation(() => Promise.resolve({
@@ -127,7 +150,8 @@ test('renders line item quantity as expected', async () => {
     },
     shippingMethod: {
       collapsed: false
-    }
+    },
+    paymentMethod: 'default'
   }
 
   const fetchShippingSpy = jest.spyOn(ShippingMethodPage, 'fetchShippingMethods').mockImplementation(() => Promise.resolve({ data: [] }))
@@ -161,7 +185,8 @@ test('preselects first shipping method when fetching shipping methods and none i
     },
     shippingMethod: {
       collapsed: false
-    }
+    },
+    paymentMethod: 'default'
   }
 
   const fetchShippingSpy = jest.spyOn(ShippingMethodPage, 'fetchShippingMethods').mockImplementation(() => Promise.resolve({
