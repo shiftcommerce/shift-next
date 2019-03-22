@@ -18,7 +18,7 @@ import {
 } from '../../actions/cart-actions'
 
 // Components
-import { PaymentMethods } from '@shiftcommerce/shift-react-components'
+import { PaymentMethods, Loading } from '@shiftcommerce/shift-react-components'
 
 export class PaymentMethodPage extends Component {
   constructor (props) {
@@ -64,7 +64,6 @@ export class PaymentMethodPage extends Component {
    */
   handleSetPaymentMethod (paymentMethod) {
     this.props.dispatch(setPaymentMethod(paymentMethod))
-    this.setState({ selectedPaymentMethod: paymentMethod })
   }
 
   /**
@@ -92,34 +91,47 @@ export class PaymentMethodPage extends Component {
    * @param  {object} actions
    */
   paypalOnApprove(data, actions) {
-    return actions.order.get().then((order) => {
-      const payer = order.payer
-      const payerEmail = payer.email_address
-      const payerPhoneNumber = payer.phone.phone_number.national_number
-      const shippingDetails = order.purchase_units[0].shipping
-      const shippingFullName = shippingDetails.name.full_name.split(' ')
-      // handle basic order details - id, intent, status + create_time
-      this.handlePayPalOrderDetails(order)
-      // handle parsing + setting of billing address in state + creation
-      this.handleBillingAddressCreation(
-        this.parsePayPalAddress(
-          payer.name.given_name,
-          payer.name.surname,
-          payerEmail,
-          payerPhoneNumber,
-          payer.address
-        )
+    return actions.order.get().then((order) => this.handlePayPalOrderResponse(order))
+  }
+
+  /**
+   * Handles data for the fetched PayPal Order 
+   * @param  {object} order
+   */
+  handlePayPalOrderResponse (order) {
+    const payer = order.payer
+    const payerEmail = payer.email_address
+    const payerPhoneNumber = payer.phone.phone_number.national_number
+    const shippingDetails = order.purchase_units[0].shipping
+    const shippingFullName = shippingDetails.name.full_name.split(' ')
+    // set loading to true as we handle the order information
+    this.setState({ loading: true })
+    // handle basic order details - id, intent, status + create_time
+    this.handlePayPalOrderDetails(order)
+    // handle parsing + setting of billing address in state + creation
+    this.handleBillingAddressCreation(
+      this.parsePayPalAddress(
+        payer.name.given_name,
+        payer.name.surname,
+        payerEmail,
+        payerPhoneNumber,
+        payer.address
       )
-      // handle parsing + setting of shipping address in state + creation
-      this.handleShippingAddressCreation(
-        this.parsePayPalAddress(
-          shippingFullName.slice(0, -1).join(' '),
-          shippingFullName.slice(-1).join(' '),
-          payerEmail,
-          payerPhoneNumber,
-          shippingDetails.address
-        )
+    )
+    // handle parsing + setting of shipping address in state + creation
+    this.handleShippingAddressCreation(
+      this.parsePayPalAddress(
+        shippingFullName.slice(0, -1).join(' '),
+        shippingFullName.slice(-1).join(' '),
+        payerEmail,
+        payerPhoneNumber,
+        shippingDetails.address
       )
+    ).then(() => {
+      // set loading to false
+      this.setState({ loading: false })
+      // redirect to shipping method checkout step
+      this.transitionToShippingMethodSection()
     })
   }
 
@@ -144,7 +156,8 @@ export class PaymentMethodPage extends Component {
       country_code: address.country_code,
       primary_phone: phone_number,
       collapsed: true,
-      completed: true
+      completed: true,
+      showEditButton: false
     }
   }
 
@@ -168,18 +181,13 @@ export class PaymentMethodPage extends Component {
    * @param  {object} newShippingAddress
    */
   handleShippingAddressCreation (newShippingAddress) {
-    const { dispatch, checkout, setCurrentStep } = this.props
+    const { dispatch, checkout } = this.props
     // set new address in state
     dispatch(setCheckoutShippingAddress(newShippingAddress))
     // create shipping address
     return dispatch(createShippingAddress(newShippingAddress)).then(() => {
       // set the created shipping address ID in state
-      return dispatch(setCartShippingAddress(checkout.shippingAddress.id)).then(() => {
-        // redirect to shipping method checkout step
-        Router.push('/checkout/shipping-method')
-        // set state for shipping method
-        setCurrentStep(3)
-      })
+      return dispatch(setCartShippingAddress(checkout.shippingAddress.id))
     })
   }
 
@@ -189,6 +197,7 @@ export class PaymentMethodPage extends Component {
    */
   handlePayPalOrderDetails (payPalOrder) {
     const { dispatch } = this.props
+    // dispatch action to set PayPal order details
     return dispatch(setPayPalOrderDetails({
       orderID: payPalOrder.id,
       intent: payPalOrder.intent,
@@ -197,10 +206,22 @@ export class PaymentMethodPage extends Component {
     }))
   }
 
+  /**
+   * Handles the transition to checkout 3 - shipping method
+   * @param  {object} newShippingAddress
+   */
+  transitionToShippingMethodSection () {
+    const { setCurrentStep } = this.props
+    // redirect to shipping method checkout step
+    Router.push('/checkout/shipping-method')
+    // set state for shipping method
+    setCurrentStep(3)
+  }
+
   render () {
     return (
       <div>
-        { this.state.loading ? <p>Loading...</p> : <PaymentMethods
+        { this.state.loading ? <Loading /> : <PaymentMethods
           nextSection={this.nextSection}
           paypalCreateOrder={this.paypalCreateOrder}
           paypalOnApprove={this.paypalOnApprove}

@@ -26,6 +26,7 @@ const formFields = {
   collapsed: false,
   completed: false,
   selected: false,
+  showEditButton: true,
   errors: {},
   ...addressFormFields
 }
