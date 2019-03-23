@@ -202,6 +202,7 @@ export class PaymentMethodPage extends Component {
       orderID: payPalOrder.id,
       intent: payPalOrder.intent,
       status: payPalOrder.status,
+      purchaseUnitsReferenceID: payPalOrder.purchase_units[0].reference_id,
       createdAt: payPalOrder.create_time
     }))
   }

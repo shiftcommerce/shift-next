@@ -53,6 +53,7 @@ const checkoutInitialState = {
     orderID: '',
     intent: '',
     status: '',
+    purchaseUnitsReferenceID: '',
     createdAt: ''
   }
 }
