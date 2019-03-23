@@ -71,7 +71,7 @@ export class ShippingMethodPage extends Component {
    */
   handleFormSubmit (event) {
     event.preventDefault()
-    this.nextSection('complete')
+    this.nextSection()
   }
 
   /**
@@ -84,11 +84,12 @@ export class ShippingMethodPage extends Component {
     this.setState({ selectedShippingMethod: shippingMethod })
   }
 
-  nextSection (eventType) {
-    const { checkout, thirdPartyPaymentMethods} = this.props
+  nextSection () {
+    const { setCurrentStep,checkout, thirdPartyPaymentMethods} = this.props
+  
     if (thirdPartyPaymentMethods.includes(checkout.paymentMethod)) {
       // If customer has used third party payment service, redirect to the order review page
-      Router.push('/checkout/payment', '/checkout/review')
+      Router.push('/checkout/review')
       setCurrentStep(5)
     } else {
       Router.push('/checkout/payment')
@@ -96,11 +97,14 @@ export class ShippingMethodPage extends Component {
   }
 
   continueButtonProps () {
+    const { checkout, thirdPartyPaymentMethods} = this.props
+    const label = (thirdPartyPaymentMethods.includes(checkout.paymentMethod) ? 'Review Your Order' : 'Continue to Payment')
+  
     return {
-      'aria-label': 'Continue to Payment',
-      label: 'Continue to Payment',
+      'aria-label': label,
+      label: label,
       status: 'positive',
-      onClick: () => { this.nextSection('complete') }
+      onClick: () => { this.nextSection() }
     }
   }
 
@@ -110,7 +114,7 @@ export class ShippingMethodPage extends Component {
 
   render () {
     const { cart } = this.props
-    const { checkout: { shippingAddress } } = this.props
+    const { checkout: { shippingAddress, paymentMethod }, thirdPartyPaymentMethods } = this.props
   
     if (!cart.shipping_address) return null
 
@@ -135,6 +139,7 @@ export class ShippingMethodPage extends Component {
           handleFormSubmit={this.handleFormSubmit}
           handleSetShippingMethod={this.handleSetShippingMethod}
           shippingMethods={this.state.shippingMethods}
+          isThirdPartyPayment={thirdPartyPaymentMethods.includes(paymentMethod)}
         /> }
       </div>
     )
