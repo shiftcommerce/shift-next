@@ -7,12 +7,13 @@ class PayPalClient {
   /**
    * Initializes the class.
    * @constructor
-   * @param {string} clientId - The PayPal client ID.
-   * @param {string} clientSecret - The PayPal client Secrect.
    */
-  constructor (clientId = Config.get().paypalClientID, clientSecret = Config.get().paypalClientSecret) {
+  constructor () {
     this.client = new checkoutNodeJssdk.core.PayPalHttpClient(
-      new checkoutNodeJssdk.core.SandboxEnvironment(clientId, clientSecret)
+      new checkoutNodeJssdk.core.SandboxEnvironment(
+        Config.get().paypalClientID,
+        Config.get().paypalClientSecret
+      )
     )
   }
 
