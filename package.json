@@ -41,6 +41,7 @@
     "webpack-cli": "^3.2.1"
   },
   "dependencies": {
+    "@paypal/checkout-server-sdk": "^1.0.0",
     "@shiftcommerce/shift-node-api": "^0.1.1",
     "@shiftcommerce/shift-react-components": "^0.1.0",
     "axios": "^0.18.0",

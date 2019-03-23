@@ -4,6 +4,12 @@ import checkoutNodeJssdk from '@paypal/checkout-server-sdk'
 import Config from '../lib/config'
 
 class PayPalClient {
+  /**
+   * Initializes the class.
+   * @constructor
+   * @param {string} clientId - The PayPal client ID.
+   * @param {string} clientSecret - The PayPal client Secrect.
+   */
   constructor (clientId = Config.get().paypalClientID, clientSecret = Config.get().paypalClientSecret) {
     this.client = new checkoutNodeJssdk.core.PayPalHttpClient(
       new checkoutNodeJssdk.core.SandboxEnvironment(clientId, clientSecret)
@@ -12,11 +18,11 @@ class PayPalClient {
 
   /**
    * Updates the order total
-   * @param  {integer} payPalOrderID
-   * @param  {string} purchaseUnitsReferenceID
-   * @param  {integer} cartTotal
-   * @param  {integer} cartSubTotal
-   * @param  {integer} shippingTotal
+   * @param {integer} payPalOrderID
+   * @param {string} purchaseUnitsReferenceID
+   * @param {integer} cartTotal
+   * @param {integer} cartSubTotal
+   * @param {integer} shippingTotal
    */
   async updateOrderTotal (payPalOrderID, purchaseUnitsReferenceID, cartTotal, cartSubTotal, shippingTotal) {
     const request = new checkoutNodeJssdk.orders.OrdersPatchRequest(payPalOrderID)
@@ -43,7 +49,7 @@ class PayPalClient {
       {
         'op': 'replace',
         'path': '/intent',
-        'value': 'AUTHORISE'
+        'value': 'AUTHORIZE'
       },
       {
         'op': 'replace',
