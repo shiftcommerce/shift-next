@@ -1,6 +1,3 @@
-// Libs
-import PayPalClient from '../lib/paypal-client'
-
 // Actions
 import * as actionTypes from './action-types'
 
@@ -81,10 +78,24 @@ export function setPayPalOrderDetails (orderDetails) {
   }
 }
 
-export function updatePayPalOrderTotal (payPalOrderDetails, cart) {
-  return () => {
-    return new PayPalClient().patchOrderTotal(payPalOrderDetails, cart)
+export function updatePayPalOrderTotal (payPalOrderID, purchaseUnitsReferenceID, cart) {
+  const request = {
+    endpoint: '/patchPayPalOrder',
+    body: {
+      cart: {
+        sub_total: cart.sub_total,
+        total: cart.total,
+        shipping_total: cart.shipping_total,
+        tax: cart.tax,
+      },
+      payPalOrderID: payPalOrderID,
+      purchaseUnitsReferenceID: purchaseUnitsReferenceID
+    },
+    requestActionType: types.PATCH_PAYPAL_ORDER,
+    successActionType: types.SET_PAYPAL_ORDER_DETAILS,
+    errorActionType: types.SET_PAYMENT_ERROR
   }
+  return postEndpoint(request)
 }
 
 export function authorizePayPalOrder (payPalOrderID) {

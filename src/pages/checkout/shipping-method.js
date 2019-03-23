@@ -92,10 +92,11 @@ export class ShippingMethodPage extends Component {
    */
   handleFormSubmitForPayPalOrder () {
     const { dispatch, cart, checkout: { payPalOrderDetails } } = this.props
+    const payPalOrderID = payPalOrderDetails.orderID
     // update PayPal order total
-    return dispatch(updatePayPalOrderTotal(payPalOrderDetails, cart)).then(() => {
+    return dispatch(updatePayPalOrderTotal(payPalOrderID, payPalOrderDetails.purchaseUnitsReferenceID, cart)).then(() => {
       // authorised PayPal Order
-      return dispatch(authorizePayPalOrder(payPalOrderDetails)).then((authorizedOrderDetails) => {
+      return dispatch(authorizePayPalOrder(payPalOrderID)).then((authorizedOrderDetails) => {
         // handle authorised paypal order details - status, authID and orderID
         dispatch(setPayPalOrderDetails(authorizedOrderDetails))
         // redirect to next step

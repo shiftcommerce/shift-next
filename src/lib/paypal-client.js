@@ -1,7 +1,6 @@
 // Libraries
-// import checkoutNodeJssdk from '@paypal/checkout-server-sdk'
-
-import Config from '../lib/config'
+// const checkoutNodeJssdk = require('@paypal/checkout-server-sdk')
+const Config = require('../lib/config')
 
 class PayPalClient {
   /**
@@ -18,12 +17,12 @@ class PayPalClient {
   }
 
   /**
-   * Performs authorization on the approved order.    * 
-   * @param orderID
+   * Performs authorization on the approved order.
+   * @param payPalOrderID
    */
-  async authorizeOrder(orderID) {
+  async authorizeOrder(payPalOrderID) {
     try {
-      const request = new checkoutNodeJssdk.orders.OrdersAuthorizeRequest(orderID)
+      const request = new checkoutNodeJssdk.orders.OrdersAuthorizeRequest(payPalOrderID)
       request.requestBody({})
       const response = await this.client.execute(request);
       return {
@@ -39,12 +38,13 @@ class PayPalClient {
 
   /**
    * Updates the order total
-   * @param {object} paypalOrderDetails
+   * @param {string} payPalOrderID 
+   * @param {string} purchaseUnitsReferenceID
    * @param {object} cart
    */
-  async patchOrderTotal (paypalOrderDetails, cart) {
-    const request = new checkoutNodeJssdk.orders.OrdersPatchRequest(paypalOrderDetails.orderID)
-    request.requestBody(this.buildPatchOrderPayload(paypalOrderDetails, cart))
+  async patchOrder (payPalOrderID, purchaseUnitsReferenceID, cart) {
+    const request = new checkoutNodeJssdk.orders.OrdersPatchRequest(payPalOrderID)
+    request.requestBody(this.buildPatchOrderPayload(purchaseUnitsReferenceID, cart))
     try {
       const response = await this.client.execute(request)
       return { status: response.status, data: response.data }
@@ -56,10 +56,10 @@ class PayPalClient {
 
   /**
    * Builds the patch order payload
-   * @param {object} paypalOrderDetails
+   * @param {string} purchaseUnitsReferenceID
    * @param {object} cart
    */
-  buildPatchOrderPayload (paypalOrderDetails, cart, currency_code = 'GBP') {
+  buildPatchOrderPayload (purchaseUnitsReferenceID, cart, currency_code = 'GBP') {
     return [
       {
         'op': 'replace',
@@ -68,7 +68,7 @@ class PayPalClient {
       },
       {
         'op': 'replace',
-        'path': `/purchase_units/@reference_id==${paypalOrderDetails.purchaseUnitsReferenceID}/amount`,
+        'path': `/purchase_units/@reference_id==${purchaseUnitsReferenceID}/amount`,
         'value': {
           'currency_code': `${currency_code}`,
           'value': `${cart.total}`,

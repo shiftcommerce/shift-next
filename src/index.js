@@ -28,6 +28,7 @@ import shiftMenuHandler from './express/menu-handler'
 import shiftSlugHandler from './express/slug-handler'
 import shiftStaticPageHandler from './express/staticpage-handler'
 import shiftAddressBookHandler from './express/addressbook-handler'
+import shiftPayPalHandler from './express/paypal-handler'
 
 // Routes
 import shiftAccountRoutes from './routes/account-routes.js'
@@ -71,6 +72,7 @@ module.exports = {
     server.post('/setCartShippingAddress', shiftCartHandler.setCartShippingAddress)
     server.post('/setShippingMethod', shiftCartHandler.setCartShippingMethod)
     server.post('/updateLineItem', shiftCartHandler.updateLineItem)
+    server.post('/patchPayPalOrder', shiftPayPalHandler.patchOrder)
     server.delete('/deleteAddress/:addressId', shiftAddressBookHandler.deleteAddress)
 
     /**
