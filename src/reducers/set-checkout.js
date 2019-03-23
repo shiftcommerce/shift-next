@@ -49,11 +49,12 @@ const checkoutInitialState = {
   currentStep: 1,
   addressBook: [],
   paymentMethod: '',
-  paypalOrderDetails: {
+  payPalOrderDetails: {
     orderID: '',
     intent: '',
     status: '',
     purchaseUnitsReferenceID: '',
+    authorizationID: '',
     createdAt: ''
   }
 }

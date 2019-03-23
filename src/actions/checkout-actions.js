@@ -1,3 +1,6 @@
+// Libs
+import PayPalClient from '../lib/paypal-client'
+
 // Actions
 import * as actionTypes from './action-types'
 
@@ -75,6 +78,18 @@ export function setPayPalOrderDetails (orderDetails) {
     payload: {
       order_details: orderDetails
     }
+  }
+}
+
+export function updatePayPalOrderTotal (payPalOrderDetails, cart) {
+  return () => {
+    return new PayPalClient().patchOrderTotal(payPalOrderDetails, cart)
+  }
+}
+
+export function authorizePayPalOrder (payPalOrderID) {
+  return () => {
+    return new PayPalClient().authorizeOrder(payPalOrderID)
   }
 }
 

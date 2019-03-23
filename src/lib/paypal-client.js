@@ -1,5 +1,5 @@
 // Libraries
-import checkoutNodeJssdk from '@paypal/checkout-server-sdk'
+// import checkoutNodeJssdk from '@paypal/checkout-server-sdk'
 
 import Config from '../lib/config'
 
@@ -18,11 +18,31 @@ class PayPalClient {
   }
 
   /**
+   * Performs authorization on the approved order.    * 
+   * @param orderID
+   */
+  async authorizeOrder(orderID) {
+    try {
+      const request = new checkoutNodeJssdk.orders.OrdersAuthorizeRequest(orderID)
+      request.requestBody({})
+      const response = await this.client.execute(request);
+      return {
+        orderID: response.result.id,
+        status: response.result.status,
+        authorizationID: response.result.purchase_units[0].payments.authorizations[0].id
+      }
+    } catch (error) {
+      console.error('PayPal Client: Error while authorizing order', error)
+      return { error }
+    }
+  }
+
+  /**
    * Updates the order total
    * @param {object} paypalOrderDetails
    * @param {object} cart
    */
-  async updateOrderTotal (paypalOrderDetails, cart) {
+  async patchOrderTotal (paypalOrderDetails, cart) {
     const request = new checkoutNodeJssdk.orders.OrdersPatchRequest(paypalOrderDetails.orderID)
     request.requestBody(this.buildPatchOrderPayload(paypalOrderDetails, cart))
     try {
@@ -30,7 +50,7 @@ class PayPalClient {
       return { status: response.status, data: response.data }
     } catch (error) {
       console.error('PayPal Client: Error while patching order', error)
-      return { status: error.response.status, data: error }
+      return { error }
     }
   }
 

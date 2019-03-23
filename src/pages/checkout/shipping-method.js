@@ -11,6 +11,12 @@ import {
   setCartShippingMethod
 } from '../../actions/cart-actions'
 
+import {
+  setPayPalOrderDetails,
+  updatePayPalOrderTotal,
+  authorizePayPalOrder
+} from '../../actions/checkout-actions'
+
 // Components
 import {
   AddressFormSummary,
@@ -71,7 +77,31 @@ export class ShippingMethodPage extends Component {
    */
   handleFormSubmit (event) {
     event.preventDefault()
-    this.nextSection()
+    const { checkout: { paymentMethod } } = this.props
+    if (paymentMethod === 'PayPal') {
+      // handle form submit for order placed via PayPal
+      this.handleFormSubmitForPayPalOrder()
+    } else {
+      // redirect to next step
+      this.nextSection()
+    }
+  }
+
+  /**
+   * Handles form submit for order placed via PayPal
+   */
+  handleFormSubmitForPayPalOrder () {
+    const { dispatch, cart, checkout: { payPalOrderDetails } } = this.props
+    // update PayPal order total
+    return dispatch(updatePayPalOrderTotal(payPalOrderDetails, cart)).then(() => {
+      // authorised PayPal Order
+      return dispatch(authorizePayPalOrder(payPalOrderDetails)).then((authorizedOrderDetails) => {
+        // handle authorised paypal order details - status, authID and orderID
+        dispatch(setPayPalOrderDetails(authorizedOrderDetails))
+        // redirect to next step
+        this.nextSection()
+      }).catch((error) => dispatch(setPaymentError(error)))
+    }).catch((error) => dispatch(setPaymentError(error)))
   }
 
   /**
