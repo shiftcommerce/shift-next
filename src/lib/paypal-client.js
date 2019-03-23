@@ -19,15 +19,12 @@ class PayPalClient {
 
   /**
    * Updates the order total
-   * @param {integer} payPalOrderID
-   * @param {string} purchaseUnitsReferenceID
-   * @param {integer} cartTotal
-   * @param {integer} cartSubTotal
-   * @param {integer} shippingTotal
+   * @param {object} paypalOrderDetails
+   * @param {object} cart
    */
-  async updateOrderTotal (payPalOrderID, purchaseUnitsReferenceID, cartTotal, cartSubTotal, shippingTotal) {
-    const request = new checkoutNodeJssdk.orders.OrdersPatchRequest(payPalOrderID)
-    request.requestBody(this.buildPatchOrderPayload(purchaseUnitsReferenceID, cartTotal, cartSubTotal, shippingTotal))
+  async updateOrderTotal (paypalOrderDetails, cart) {
+    const request = new checkoutNodeJssdk.orders.OrdersPatchRequest(paypalOrderDetails.orderID)
+    request.requestBody(this.buildPatchOrderPayload(paypalOrderDetails, cart))
     try {
       const response = await this.client.execute(request)
       return { status: response.status, data: response.data }
@@ -39,13 +36,10 @@ class PayPalClient {
 
   /**
    * Builds the patch order payload
-   * @param {string} purchaseUnitsReferenceID
-   * @param {integer} cartTotal
-   * @param {integer} cartSubTotal
-   * @param {integer} shippingTotal
-   * @param {string} currency_code
+   * @param {object} paypalOrderDetails
+   * @param {object} cart
    */
-  buildPatchOrderPayload (purchaseUnitsReferenceID, cartTotal, cartSubTotal, shippingTotal, currency_code = 'GBP') {
+  buildPatchOrderPayload (paypalOrderDetails, cart, currency_code = 'GBP') {
     return [
       {
         'op': 'replace',
@@ -54,18 +48,30 @@ class PayPalClient {
       },
       {
         'op': 'replace',
-        'path': `/purchase_units/@reference_id==${purchaseUnitsReferenceID}/amount`,
+        'path': `/purchase_units/@reference_id==${paypalOrderDetails.purchaseUnitsReferenceID}/amount`,
         'value': {
           'currency_code': `${currency_code}`,
-          'value': `${cartTotal}`,
+          'value': `${cart.total}`,
           'breakdown': {
             'item_total': {
               'currency_code': `${currency_code}`,
-              'value':  `${cartSubTotal}`
+              'value':  `${cart.sub_total}`
+            },
+            'discount_total': {
+              'currency_code': `${currency_code}`,
+              'value':  `${cart.total_discount}`
             },
             'shipping_total': {
               'currency_code': `${currency_code}`,
-              'value':  `${shippingTotal}`
+              'value':  `${cart.shipping_total}`
+            },
+            'shipping_discount_total': {
+              'currency_code': `${currency_code}`,
+              'value':  `${cart.shipping_total_discount}`
+            },
+            'tax_total': {
+              'currency_code': `${currency_code}`,
+              'value':  `${cart.tax}`
             }
           }
         }
