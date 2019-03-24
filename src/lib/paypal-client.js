@@ -7,13 +7,21 @@ class PayPalClient {
    * Initializes the class.
    * @constructor
    */
-  constructor (options = {}) {
-    this.client = new paypal.core.PayPalHttpClient(
-      new paypal.core.SandboxEnvironment(
-        ShiftNextConfig.get().paypalClientID,
-        ShiftNextConfig.get().paypalClientSecret
-      )
-    )
+  constructor () {
+    this.client = new paypal.core.PayPalHttpClient(this.environment())
+  }
+
+  /**
+   * Returns the PayPal environment
+   */
+  environment () {
+    const paypalClientID = ShiftNextConfig.get().paypalClientID
+    const paypalClientSecret = ShiftNextConfig.get().paypalClientSecret
+    if (process.env.NODE_ENV === 'production') {
+      new paypal.core.LiveEnvironment(paypalClientID, paypalClientSecret)
+    } else {
+      new paypal.core.SandboxEnvironment(paypalClientID, paypalClientSecret)
+    }
   }
 
   /**
