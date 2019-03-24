@@ -1,17 +1,17 @@
 // Libraries
-// const checkoutNodeJssdk = require('@paypal/checkout-server-sdk')
-const Config = require('../lib/config')
+import paypal from '@paypal/checkout-server-sdk'
+import ShiftNextConfig from '../lib/config'
 
 class PayPalClient {
   /**
    * Initializes the class.
    * @constructor
    */
-  constructor () {
-    this.client = new checkoutNodeJssdk.core.PayPalHttpClient(
-      new checkoutNodeJssdk.core.SandboxEnvironment(
-        Config.get().paypalClientID,
-        Config.get().paypalClientSecret
+  constructor (options = {}) {
+    this.client = new paypal.core.PayPalHttpClient(
+      new paypal.core.SandboxEnvironment(
+        ShiftNextConfig.get().paypalClientID,
+        ShiftNextConfig.get().paypalClientSecret
       )
     )
   }
@@ -22,7 +22,7 @@ class PayPalClient {
    */
   async authorizeOrder(payPalOrderID) {
     try {
-      const request = new checkoutNodeJssdk.orders.OrdersAuthorizeRequest(payPalOrderID)
+      const request = new paypal.orders.OrdersAuthorizeRequest(payPalOrderID)
       request.requestBody({})
       const response = await this.client.execute(request);
       return {
@@ -43,7 +43,7 @@ class PayPalClient {
    * @param {object} cart
    */
   async patchOrder (payPalOrderID, purchaseUnitsReferenceID, cart) {
-    const request = new checkoutNodeJssdk.orders.OrdersPatchRequest(payPalOrderID)
+    const request = new paypal.orders.OrdersPatchRequest(payPalOrderID)
     request.requestBody(this.buildPatchOrderPayload(purchaseUnitsReferenceID, cart))
     try {
       const response = await this.client.execute(request)

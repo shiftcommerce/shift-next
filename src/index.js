@@ -72,7 +72,6 @@ module.exports = {
     server.post('/setCartShippingAddress', shiftCartHandler.setCartShippingAddress)
     server.post('/setShippingMethod', shiftCartHandler.setCartShippingMethod)
     server.post('/updateLineItem', shiftCartHandler.updateLineItem)
-    server.post('/patchPayPalOrder', shiftPayPalHandler.patchOrder)
     server.delete('/deleteAddress/:addressId', shiftAddressBookHandler.deleteAddress)
 
     /**
@@ -87,6 +86,11 @@ module.exports = {
      * Checkout Routes
      */
     server.get('/checkout/review', shiftCheckoutRoutes.reviewRoute)
+
+    /**
+     * PayPal Routes
+     */
+    server.post('/patchPayPalOrder', shiftPayPalHandler.patchOrder)
 
     /**
      * Order Routes

@@ -1,5 +1,6 @@
 // Actions
 import * as actionTypes from './action-types'
+import { postEndpoint } from './api-actions'
 
 // Store the input change info in the local redux store
 function storeInputChange (formName, fieldName, fieldValue) {
@@ -91,9 +92,9 @@ export function updatePayPalOrderTotal (payPalOrderID, purchaseUnitsReferenceID,
       payPalOrderID: payPalOrderID,
       purchaseUnitsReferenceID: purchaseUnitsReferenceID
     },
-    requestActionType: types.PATCH_PAYPAL_ORDER,
-    successActionType: types.SET_PAYPAL_ORDER_DETAILS,
-    errorActionType: types.SET_PAYMENT_ERROR
+    requestActionType: actionTypes.PATCH_PAYPAL_ORDER,
+    successActionType: actionTypes.SET_PAYPAL_ORDER_DETAILS,
+    errorActionType: actionTypes.SET_PAYMENT_ERROR
   }
   return postEndpoint(request)
 }
