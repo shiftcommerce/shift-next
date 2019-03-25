@@ -1,5 +1,5 @@
 // Libraries
-import paypal from '@paypal/checkout-server-sdk'
+// import paypal from '@paypal/checkout-server-sdk'
 import ShiftNextConfig from '../lib/config'
 
 class PayPalClient {

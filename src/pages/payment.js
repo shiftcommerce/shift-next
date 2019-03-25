@@ -65,14 +65,21 @@ class CheckoutPaymentPage extends Component {
   }
 
   componentDidMount () {
-    const { cart, checkout } = this.props
+    const { cart, checkout, thirdPartyPaymentMethods } = this.props
     if (!cart.shipping_address) {
-      if (checkout.paymentMethod === 'default') {
-        return Router.push('/checkout/shipping-address')
-      } else {
+      if (thirdPartyPaymentMethods.includes(checkout.paymentMethod)) {
+        // If shipping address is not present and customer has used third party payment service
+        // redirect to the payment method page
         return Router.push('/checkout/payment-method')
+      } else {
+        return Router.push('/checkout/shipping-address')
       }
     }
+
+    if (thirdPartyPaymentMethods.includes(checkout.paymentMethod)) {
+      return Router.push('/checkout/review')
+    }
+
     if (!cart.shipping_method) {
       return Router.push('/checkout/shipping-method')
     }
@@ -115,6 +122,12 @@ class CheckoutPaymentPage extends Component {
       return {
         reviewStep: true
       }
+    } else if (!state.reviewStep && Router.asPath === '/checkout/review' ){
+      return {
+        reviewStep: true
+      }
+    } else {
+      console.log(props.propsPath)
     }
     return null
   }
@@ -311,13 +324,15 @@ class CheckoutPaymentPage extends Component {
   })
 
   renderPayment () {
-    const { cart, checkout: { addressBook }, loggedIn, order } = this.props
+    const { cart, checkout: { addressBook, paymentMethod, billingAddress }, loggedIn, order } = this.props
 
     return (
       <>
         <div className={classNames({ 'u-hidden': !this.state.reviewStep })}>
           <PaymentMethodSummary
             billingAddress={cart.billing_address}
+            paymentMethod={paymentMethod}
+            showEditButton={billingAddress.showEditButton}
             onClick={this.showPayment}
             withErrors={!!order.paymentError}
           />
