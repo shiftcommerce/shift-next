@@ -28,19 +28,6 @@ const cart = {
 }
 
 describe('componentDidMount()', () => {
-  test('sets loading to false in state when instantiated', () => {
-    // Arrange
-    const cartState = {}
-    const checkoutState = {}
-
-    // Act
-    const wrapper = shallow(<PaymentMethodPage cart={cartState} checkout={checkoutState} />)
-    wrapper.instance()
-
-    // Assert
-    expect(wrapper.instance().state.loading).toBe(false)
-  })
-
   test('renders correct checkout components', () => {
     // Arrange
     const cartState = cart
@@ -184,7 +171,7 @@ describe('payPalOnApprove()', () => {
 
     // Assert
     expect(actions.order.get).toHaveBeenCalled()
-    expect(handlePayPalOrderResponse).toHaveBeenCalled(payPalOrder)
+    expect(handlePayPalOrderResponse).toHaveBeenCalledWith(payPalOrder)
   })
 })
 
@@ -225,7 +212,6 @@ describe('handlePayPalOrderResponse()', () => {
       showEditButton: false    
     }
     const pushSpy = jest.spyOn(Router, 'push').mockImplementation(() => {})
-    const handlePayPalOrderDetails = jest.fn().mockImplementation(() => {})
     const handleBillingAddressCreation = jest.fn().mockImplementation(() => {})
     const handleShippingAddressCreation = jest.fn().mockImplementation(() => {})
     const dispatch = jest.fn().mockImplementation(() => Promise.resolve())
@@ -235,7 +221,6 @@ describe('handlePayPalOrderResponse()', () => {
     await wrapper.instance().handlePayPalOrderResponse(payPalOrder)
 
     // Assert
-    expect(handlePayPalOrderDetails).toHaveBeenCalledWith(payPalOrder)
     expect(handleBillingAddressCreation).toHaveBeenCalledWith(payPalBillingAddress)
     expect(handleShippingAddressCreation).toHaveBeenCalledWith(payPalShippingAddress)
     expect(pushSpy).toHaveBeenCalledWith('/checkout/shipping-method')
@@ -293,11 +278,6 @@ describe('handleBillingAddressCreation()', () => {
         id: 20
       }
     }
-    const checkout = {
-      billingAddress: {
-        id: 20
-      }
-    }
     const newBillingAddress = {
       first_name: 'test',
       last_name: 'buyer',
@@ -312,6 +292,10 @@ describe('handleBillingAddressCreation()', () => {
       collapsed: true,
       completed: true,
       showEditButton: false
+    }
+
+    const checkout = {
+      billingAddress: Object.assign({id: 20}, newBillingAddress)
     }
 
     // Act
@@ -343,11 +327,6 @@ describe('handleShippingAddressCreation()', () => {
         id: 20
       }
     }
-    const checkout = {
-      shippingAddress: {
-        id: 20
-      }
-    }
     const newShippingAddress = {
       first_name: 'Test',
       last_name: 'Example',
@@ -362,6 +341,10 @@ describe('handleShippingAddressCreation()', () => {
       collapsed: true,
       completed: true,
       showEditButton: false  
+    }
+
+    const checkout = {
+      shippingAddress: Object.assign({id: 20}, newShippingAddress)
     }
 
     // Act
