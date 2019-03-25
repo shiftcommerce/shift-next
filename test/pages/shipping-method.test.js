@@ -35,10 +35,11 @@ test('componentDidMount() redirects to the shipping address page when one is not
   // Arrange
   const pushSpy = jest.spyOn(Router, 'push').mockImplementation(() => {})
   const cartState = {}
-  const checkoutState = { paymentMethod: 'default' }
+  const checkoutState = { paymentMethod: 'Credit/Debit Card' }
+  const thirdPartyPaymentMethodOptions = ['PayPal']
 
   // Act
-  shallow(<ShippingMethodPage cart={cartState} checkout={checkoutState} />)
+  shallow(<ShippingMethodPage cart={cartState} checkout={checkoutState} thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions}/>)
 
   // Assert
   expect(pushSpy).toHaveBeenCalledWith('/checkout/shipping-address')
@@ -49,10 +50,11 @@ test('componentDidMount() redirects to the shipping address page when one is not
   // Arrange
   const pushSpy = jest.spyOn(Router, 'push').mockImplementation(() => {})
   const cartState = {}
-  const checkoutState = { paymentMethod: 'paypal' }
+  const checkoutState = { paymentMethod: 'PayPal' }
+  const thirdPartyPaymentMethodOptions = ['PayPal']
   
   // Act
-  shallow(<ShippingMethodPage cart={cartState} checkout={checkoutState} />)
+  shallow(<ShippingMethodPage cart={cartState} checkout={checkoutState} thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions}/>)
 
   // Assert
   expect(pushSpy).toHaveBeenCalledWith('/checkout/payment-method')
@@ -92,7 +94,7 @@ test('render shipping methods as expected', async () => {
       completed: true
     },
     shippingMethod: {},
-    paymentMethod: 'default'
+    paymentMethod: 'Credit/Debit Card'
   }
 
   const fetchShippingSpy = jest.spyOn(ShippingMethodPage, 'fetchShippingMethods').mockImplementation(() => Promise.resolve({
@@ -109,8 +111,10 @@ test('render shipping methods as expected', async () => {
     }]
   }))
 
+  const thirdPartyPaymentMethodOptions = ['PayPal']
+
   // Act
-  const wrapper = mount(<ShippingMethodPage cart={cart} checkout={checkout} dispatch={jest.fn()} />)
+  const wrapper = mount(<ShippingMethodPage cart={cart} checkout={checkout} thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions} dispatch={jest.fn()} />)
 
   // Assert
   expect(wrapper.find('p').last()).toIncludeText('Loading...')
@@ -151,13 +155,15 @@ test('renders line item quantity as expected', async () => {
     shippingMethod: {
       collapsed: false
     },
-    paymentMethod: 'default'
+    paymentMethod: 'Credit/Debit Card'
   }
 
   const fetchShippingSpy = jest.spyOn(ShippingMethodPage, 'fetchShippingMethods').mockImplementation(() => Promise.resolve({ data: [] }))
 
+  const thirdPartyPaymentMethodOptions = ['PayPal']
+
   // Act
-  const wrapper = mount(<ShippingMethodPage cart={cart} checkout={checkout} />)
+  const wrapper = mount(<ShippingMethodPage cart={cart} checkout={checkout} thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions} />)
 
   // Assert
   expect(wrapper.find('p').last()).toIncludeText('Loading...')
@@ -186,7 +192,7 @@ test('preselects first shipping method when fetching shipping methods and none i
     shippingMethod: {
       collapsed: false
     },
-    paymentMethod: 'default'
+    paymentMethod: 'Credit/Debit Card'
   }
 
   const fetchShippingSpy = jest.spyOn(ShippingMethodPage, 'fetchShippingMethods').mockImplementation(() => Promise.resolve({
@@ -215,8 +221,10 @@ test('preselects first shipping method when fetching shipping methods and none i
 
   const postSpy = jest.spyOn(apiActions, 'postEndpoint').mockImplementation(() => { cart.shipping_method = { id: 1 } })
 
+  const thirdPartyPaymentMethodOptions = ['PayPal']
+
   // Act
-  const wrapper = mount(<ShippingMethodPage cart={cart} checkout={checkout} dispatch={jest.fn()} />)
+  const wrapper = mount(<ShippingMethodPage cart={cart} checkout={checkout} thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions} dispatch={jest.fn()} />)
 
   // Assert
   expect(wrapper.find('p').last()).toIncludeText('Loading...')
@@ -286,8 +294,10 @@ test('selecting a shipping method makes a correct API call', async () => {
 
   const postSpy = jest.spyOn(apiActions, 'postEndpoint').mockImplementation(() => { cart.shipping_method = { id: 1 } })
 
+  const thirdPartyPaymentMethodOptions = ['PayPal']
+
   // Act
-  const wrapper = mount(<ShippingMethodPage cart={cart} checkout={checkout} dispatch={jest.fn()} />)
+  const wrapper = mount(<ShippingMethodPage cart={cart} checkout={checkout} thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions} dispatch={jest.fn()} />)
 
   // Assert
   expect(wrapper.find('p').last()).toIncludeText('Loading...')
@@ -344,9 +354,11 @@ test('fetches shipping methods, sorts them by total and puts them in state', asy
     shipping_method: {}
   }
 
-  const instance = shallow(<ShippingMethodPage cart={cart} />).instance()
+  const instance = shallow(<ShippingMethodPage cart={cart} thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions}/>).instance()
 
   const fetchShippingMethodsSpy = jest.spyOn(instance.constructor, 'fetchShippingMethods').mockImplementation(() => shippingMethods)
+
+  const thirdPartyPaymentMethodOptions = ['PayPal']
 
   await instance.componentDidMount()
 
