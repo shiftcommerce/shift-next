@@ -62,6 +62,7 @@ export function passwordReset (token, password) {
         }
       }
     },
+    successActionType: types.PASSWORD_RESET,
     errorActionType: types.ERROR_ACCOUNT
   }
 

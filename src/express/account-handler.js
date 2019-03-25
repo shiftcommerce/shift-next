@@ -153,7 +153,8 @@ module.exports = {
     }
 
     try {
-      await SHIFTClient.updateCustomerAccountPasswordV1(getAccount.data.id, request)
+      const response = await SHIFTClient.updateCustomerAccountPasswordV1(getAccount.data.id, request)
+      return res.status(response.status).send(response.data)
     } catch (error) {
       console.log('error', error.response.data.errors)
       const response = error.response

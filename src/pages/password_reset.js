@@ -25,15 +25,11 @@ export class PasswordReset extends Component {
 
   handleSubmit (values) {
     this.props.dispatch(passwordReset(this.props.token, values.password))
-      .then(this.redirectAfterSubmit())
-  }
-
-  redirectAfterSubmit() {
-    if (this.props.account.errors.length === 0) {
-      return Router.push('/account/login')
-    }
-
-    return null
+      .then(success => {
+        if (success) {
+          Router.push('/account/login')
+        }
+      })
   }
 
   render () {
