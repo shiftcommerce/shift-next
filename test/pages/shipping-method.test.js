@@ -62,7 +62,8 @@ test('componentDidMount() redirects to the shipping address page when one is not
 })
 
 test('renders correct checkout components', () => {
-  const wrapper = shallow(<ShippingMethodPage cart={{ shipping_address: {} }} />, {
+  const thirdPartyPaymentMethodOptions = ['PayPal']
+  const wrapper = shallow(<ShippingMethodPage cart={{ shipping_address: {} }} thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions} />, {
     disableLifecycleMethods: true
   })
 
