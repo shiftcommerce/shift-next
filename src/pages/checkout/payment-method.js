@@ -27,8 +27,8 @@ export class PaymentMethodPage extends Component {
       loading: false
     }
     this.nextSection = this.nextSection.bind(this)
-    this.paypalCreateOrder = this.paypalCreateOrder.bind(this)
-    this.paypalOnApprove = this.paypalOnApprove.bind(this)
+    this.payPalCreateOrder = this.payPalCreateOrder.bind(this)
+    this.payPalOnApprove = this.payPalOnApprove.bind(this)
     this.handleSetPaymentMethod = this.handleSetPaymentMethod.bind(this)
   }
 
@@ -72,7 +72,7 @@ export class PaymentMethodPage extends Component {
    * @param  {object} data
    * @param  {object} actions
    */
-  paypalCreateOrder(data, actions) {
+  payPalCreateOrder(data, actions) {
     const { cart } = this.props
     return actions.order.create({
       purchase_units: [{
@@ -90,7 +90,7 @@ export class PaymentMethodPage extends Component {
    * @param  {object} data
    * @param  {object} actions
    */
-  paypalOnApprove(data, actions) {
+  payPalOnApprove(data, actions) {
     return actions.order.get().then((order) => this.handlePayPalOrderResponse(order))
   }
 
@@ -99,6 +99,7 @@ export class PaymentMethodPage extends Component {
    * @param  {object} order
    */
   handlePayPalOrderResponse (order) {
+    console.log(JSON.stringify(order))
     const payer = order.payer
     const payerEmail = payer.email_address
     const payerPhoneNumber = payer.phone.phone_number.national_number
@@ -208,7 +209,6 @@ export class PaymentMethodPage extends Component {
 
   /**
    * Handles the transition to checkout 3 - shipping method
-   * @param  {object} newShippingAddress
    */
   transitionToShippingMethodSection () {
     const { setCurrentStep } = this.props
@@ -223,8 +223,8 @@ export class PaymentMethodPage extends Component {
       <div>
         { this.state.loading ? <Loading /> : <PaymentMethods
           nextSection={this.nextSection}
-          paypalCreateOrder={this.paypalCreateOrder}
-          paypalOnApprove={this.paypalOnApprove}
+          paypalCreateOrder={this.payPalCreateOrder}
+          paypalOnApprove={this.payPalOnApprove}
           handleSetPaymentMethod={this.handleSetPaymentMethod}
         /> }
       </div>
