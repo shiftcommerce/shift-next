@@ -3,20 +3,10 @@
 exports[`renders correct checkout components 1`] = `
 <div>
   <PaymentMethods
-    cart={
-      Object {
-        "line_items": Array [
-          Object {
-            "id": "1",
-          },
-        ],
-        "line_items_count": 1,
-        "shipping_address": Object {},
-        "shipping_method": Object {},
-      }
-    }
-    className="u-margin-top-l-des u-margin-top-l-mobtab u-margin-top-l-tab u-margin-top-l-mob"
+    handleSetPaymentMethod={[Function]}
     nextSection={[Function]}
+    paypalCreateOrder={[Function]}
+    paypalOnApprove={[Function]}
   />
 </div>
 `;

@@ -349,12 +349,22 @@ test('fetches shipping methods, sorts them by total and puts them in state', asy
     }]
   }
 
-  const cart = {
+  const cartState = {
     shipping_address: shippingAddress,
     shipping_method: {}
   }
 
-  const instance = shallow(<ShippingMethodPage cart={cart} thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions}/>).instance()
+  const checkoutState  = {
+    shippingAddress: {
+      collapsed: true,
+      completed: true
+    },
+    shippingMethod: {
+      collapsed: false
+    }
+  }
+
+  const instance = shallow(<ShippingMethodPage cart={cartState} checkout={checkoutState} thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions}/>).instance()
 
   const fetchShippingMethodsSpy = jest.spyOn(instance.constructor, 'fetchShippingMethods').mockImplementation(() => shippingMethods)
 
