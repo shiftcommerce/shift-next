@@ -62,11 +62,23 @@ test('componentDidMount() redirects to the shipping address page when one is not
 })
 
 test('renders correct checkout components', () => {
+  // Arrange
   const thirdPartyPaymentMethodOptions = ['PayPal']
-  const wrapper = shallow(<ShippingMethodPage cart={{ shipping_address: {} }} thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions} />, {
+  const checkoutState = {
+    shippingAddress: {
+      collapsed: true,
+      completed: true,
+      showEditButton: true
+    },
+    paymentMethod: 'PayPal'
+  }
+
+  // Act
+  const wrapper = shallow(<ShippingMethodPage cart={{ shipping_address: {} }} checkout={checkoutState} thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions} />, {
     disableLifecycleMethods: true
   })
 
+  // Assert
   expect(wrapper).toMatchSnapshot()
   expect(wrapper.find('AddressFormSummary').length).toEqual(1)
   // ShippingMethods component doesn't render as there aren't any
@@ -92,7 +104,8 @@ test('render shipping methods as expected', async () => {
   const checkout = {
     shippingAddress: {
       collapsed: true,
-      completed: true
+      completed: true,
+      showEditButton: true
     },
     shippingMethod: {},
     paymentMethod: 'Credit/Debit Card'
@@ -151,7 +164,8 @@ test('renders line item quantity as expected', async () => {
   const checkout = {
     shippingAddress: {
       collapsed: true,
-      completed: true
+      completed: true,
+      showEditButton: true
     },
     shippingMethod: {
       collapsed: false
@@ -188,7 +202,8 @@ test('preselects first shipping method when fetching shipping methods and none i
   const checkout = {
     shippingAddress: {
       collapsed: true,
-      completed: true
+      completed: true,
+      showEditButton: true
     },
     shippingMethod: {
       collapsed: false
@@ -262,7 +277,8 @@ test('selecting a shipping method makes a correct API call', async () => {
   const checkout = {
     shippingAddress: {
       collapsed: true,
-      completed: true
+      completed: true,
+      showEditButton: true
     },
     shippingMethod: {
       collapsed: false
@@ -358,7 +374,8 @@ test('fetches shipping methods, sorts them by total and puts them in state', asy
   const checkoutState  = {
     shippingAddress: {
       collapsed: true,
-      completed: true
+      completed: true,
+      showEditButton: true
     },
     shippingMethod: {
       collapsed: false
