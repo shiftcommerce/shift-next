@@ -4,7 +4,7 @@ module.exports = {
   "intent":"AUTHORIZE",
   "status":"APPROVED",
   "payer":{
-    "email_address":"ryan+paypal-buyer@flexcommerce.com",
+    "email_address":"testbuyer@flexcommerce.com",
     "payer_id":"KDW6SJUJWEW3E",
     "address":{
       "address_line_1":"1 Main Terrace",

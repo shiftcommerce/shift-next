@@ -34,7 +34,7 @@ describe('componentDidMount()', () => {
 
     // Act
     const wrapper = shallow(<PaymentMethodPage cart={cartState} checkout={checkoutState} />)
-    wrapper.instance().componentDidMount()
+    wrapper.instance()
 
     // Assert
     expect(wrapper.instance().state.loading).toBe(false)
@@ -126,7 +126,7 @@ describe('handleSetPaymentMethod()', () => {
     const setPaymentMethodSpy = jest.spyOn(CheckoutActions, 'setPaymentMethod').mockImplementation(() => 'setPaymentMethodAction')
 
     // Act
-    const wrapper = shallow(<PaymentMethodPage cart={cartState} checkout={checkoutState} />, { disableLifecycleMethods: true })
+    const wrapper = shallow(<PaymentMethodPage cart={cartState} checkout={checkoutState} dispatch={dispatch} />, { disableLifecycleMethods: true })
     await wrapper.instance().handleSetPaymentMethod()
 
     // Assert
@@ -143,9 +143,7 @@ describe('payPalCreateOrder()', () => {
     const data = {}
     const actions = {
       order: {
-        create: jest.fn(() => {
-          return Promise.resolve()
-        })
+        create: jest.fn(() => Promise.resolve())
       }
     }
     const payPalPayload = {
@@ -173,15 +171,13 @@ describe('payPalOnApprove()', () => {
     const data = {}
     const actions = {
       order: {
-        get: jest.fn(() => {
-          return Promise.resolve(payPalResponse)
-        })
+        get: jest.fn(() => Promise.resolve(payPalResponse))
       }
     }
 
     // Act
     const wrapper = shallow(<PaymentMethodPage cart={cartState} checkout={checkoutState} />, { disableLifecycleMethods: true })
-    await wrapper.instance().payPalCreateOrder(data, actions)
+    await wrapper.instance().payPalOnApprove(data, actions)
 
     // Assert
     expect(actions.order.get).toHaveBeenCalled()
@@ -197,7 +193,7 @@ describe('handlePayPalOrderResponse()', () => {
     const payPalBillingAddress = {
       first_name: 'test',
       last_name: 'buyer',
-      email: email,
+      email: 'testbuyer@flexcommerce.com',
       line_1: '1 Main Terrace',
       line_2: '',
       city: 'Wolverhampton',
@@ -212,7 +208,7 @@ describe('handlePayPalOrderResponse()', () => {
     const payPalShippingAddress = {
       first_name: 'Test',
       last_name: 'Example',
-      email: email,
+      email: 'testbuyer@flexcommerce.com',
       line_1: 'Shift Commerce Ltd, Old School Boar',
       line_2: 'Calverley Street',
       city: 'Leeds',
@@ -251,7 +247,7 @@ describe('parsePayPalAddress()', () => {
     const expectedAdress = {
       first_name: 'test',
       last_name: 'buyer',
-      email: email,
+      email: 'testbuyer@flexcommerce.com',
       line_1: '1 Main Terrace',
       line_2: '',
       city: 'Wolverhampton',
@@ -282,9 +278,9 @@ describe('parsePayPalAddress()', () => {
 describe('handleBillingAddressCreation()', () => {
   test('creates new shipping address and sets them on cart', async () => {
     // Arrange
-    const setCheckoutBillingAddressSpy = jest.spyOn(CartActions, 'setCheckoutBillingAddress').mockImplementation(() => 'setCheckoutBillingAddressAction')
-    const createBillingAddressSpy = jest.spyOn(CartActions, 'createBillingAddress').mockImplementation(() => 'createBillingAddressAction')
-    const setCartBillingAddressSpy = jest.spyOn(CartActions, 'setCartBillingAddress').mockImplementation(() => 'setCartBillingAddressAction')
+    const setCheckoutBillingAddressSpy = jest.spyOn(CheckoutActions, 'setCheckoutBillingAddress').mockImplementation(() => 'setCheckoutBillingAddressAction')
+    const createBillingAddressSpy = jest.spyOn(CheckoutActions, 'createBillingAddress').mockImplementation(() => 'createBillingAddressAction')
+    const setCartBillingAddressSpy = jest.spyOn(CheckoutActions, 'setCartBillingAddress').mockImplementation(() => 'setCartBillingAddressAction')
     const dispatch = jest.fn().mockImplementation(() => Promise.resolve())
     const cart = {
       billingAddress: {
@@ -299,7 +295,7 @@ describe('handleBillingAddressCreation()', () => {
     const newBillingAddress = {
       first_name: 'test',
       last_name: 'buyer',
-      email: email,
+      email: 'testbuyer@flexcommerce.com',
       line_1: '1 Main Terrace',
       line_2: '',
       city: 'Wolverhampton',
@@ -332,9 +328,9 @@ describe('handleBillingAddressCreation()', () => {
 describe('handleShippingAddressCreation()', () => {
   test('creates new shipping address and sets them on cart', async () => {
     // Arrange
-    const setCheckoutShippingAddressSpy = jest.spyOn(CartActions, 'setCheckoutShippingAddress').mockImplementation(() => 'setCheckoutShippingAddressAction')
-    const createShippingAddressSpy = jest.spyOn(CartActions, 'createShippingAddress').mockImplementation(() => 'createShippingAddressAction')
-    const setCartShippingAddressSpy = jest.spyOn(CartActions, 'setCartShippingAddress').mockImplementation(() => 'setCartShippingAddressAction')
+    const setCheckoutShippingAddressSpy = jest.spyOn(CheckoutActions, 'setCheckoutShippingAddress').mockImplementation(() => 'setCheckoutShippingAddressAction')
+    const createShippingAddressSpy = jest.spyOn(CheckoutActions, 'createShippingAddress').mockImplementation(() => 'createShippingAddressAction')
+    const setCartShippingAddressSpy = jest.spyOn(CheckoutActions, 'setCartShippingAddress').mockImplementation(() => 'setCartShippingAddressAction')
     const dispatch = jest.fn().mockImplementation(() => Promise.resolve())
     const cart = {
       shipping_address: {
@@ -349,7 +345,7 @@ describe('handleShippingAddressCreation()', () => {
     const newShippingAddress = {
       first_name: 'Test',
       last_name: 'Example',
-      email: email,
+      email: 'testbuyer@flexcommerce.com',
       line_1: 'Shift Commerce Ltd, Old School Boar',
       line_2: 'Calverley Street',
       city: 'Leeds',
@@ -395,7 +391,7 @@ describe('handlePayPalOrderDetails()', () => {
     }
 
     // Act
-    const wrapper = shallow(<PaymentMethodPage cart={cartState} checkout={checkoutState} />, { disableLifecycleMethods: true })
+    const wrapper = shallow(<PaymentMethodPage cart={cartState} checkout={checkoutState} dispatch={dispatch} />, { disableLifecycleMethods: true })
     await wrapper.instance().handlePayPalOrderDetails(payPalOrder)
 
     // Assert
