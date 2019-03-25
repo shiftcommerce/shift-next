@@ -120,6 +120,7 @@ test('renders common checkout elements', () => {
   expect(wrapper.find('CheckoutSteps').length).toEqual(1)
   expect(wrapper.find('CheckoutCart').length).toEqual(1)
   expect(wrapper.find('CheckoutCartTotal').length).toEqual(1)
+  expect(wrapper.find('CheckoutCartButtons').length).toEqual(1)
   expect(wrapper.find('CouponForm').length).toEqual(1)
   expect(wrapper.find('PaymentIcons').length).toEqual(1)
 })

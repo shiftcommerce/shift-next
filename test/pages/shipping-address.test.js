@@ -37,10 +37,12 @@ describe('componentDidMount()', () => {
         }, {
           id: 2,
           preferred_shipping: true
-        }]
+        }],
+        paymentMethod: 'PayPal'
       }
+      const thirdPartyPaymentMethods = ['PayPal']
 
-      const wrapper = shallow(<ShippingAddressPage cart={{}} dispatch={dispatch} checkout={checkout} />)
+      const wrapper = shallow(<ShippingAddressPage cart={{}} dispatch={dispatch} checkout={checkout} thirdPartyPaymentMethods={thirdPartyPaymentMethods} />)
 
       await wrapper.instance().componentDidMount()
 
