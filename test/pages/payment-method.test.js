@@ -6,6 +6,7 @@ import PaymentMethodPage from '../../src/pages/checkout/payment-method'
 
 // Actions
 import * as CheckoutActions from '../../src/actions/checkout-actions'
+import * as CartActions from '../../src/actions/cart-actions'
 
 // Fixtures
 const payPalResponse = require('../fixtures/paypal-response')
@@ -38,7 +39,6 @@ describe('componentDidMount()', () => {
 
     // Assert
     expect(wrapper.instance().state.loading).toBe(false)
-    expect(wrapper).toIncludeText('Payment Method')
   })
 
   test('renders correct checkout components', () => {
@@ -98,7 +98,7 @@ describe('currentStep()', () => {
     const currentStep = await wrapper.instance().currentStep()
 
     // Assert
-    expect(currentStep).toEqual('Payment Method')
+    expect(currentStep).toEqual(1)
   })
 })
 
@@ -164,23 +164,27 @@ describe('payPalCreateOrder()', () => {
 })
 
 describe('payPalOnApprove()', () => {
-  test('calls the actions for creating the PayPal Order', async () => {
+  test('fetches the created PayPal order', async () => {
     // Arrange    
     const cartState = cart
     const checkoutState = {}
+    const payPalOrder = payPalResponse
     const data = {}
     const actions = {
       order: {
         get: jest.fn(() => Promise.resolve(payPalResponse))
       }
     }
+    const handlePayPalOrderResponse = jest.fn().mockImplementation(() => {})
+    const dispatch = jest.fn().mockImplementation(() => Promise.resolve())
 
     // Act
-    const wrapper = shallow(<PaymentMethodPage cart={cartState} checkout={checkoutState} />, { disableLifecycleMethods: true })
+    const wrapper = shallow(<PaymentMethodPage cart={cartState} checkout={checkoutState} dispatch={dispatch} />, { disableLifecycleMethods: true })
     await wrapper.instance().payPalOnApprove(data, actions)
 
     // Assert
     expect(actions.order.get).toHaveBeenCalled()
+    expect(handlePayPalOrderResponse).toHaveBeenCalled(payPalOrder)
   })
 })
 
@@ -221,12 +225,13 @@ describe('handlePayPalOrderResponse()', () => {
       showEditButton: false    
     }
     const pushSpy = jest.spyOn(Router, 'push').mockImplementation(() => {})
-    const handlePayPalOrderDetails = jest.fn()
-    const handleBillingAddressCreation = jest.fn()
-    const handleShippingAddressCreation = jest.fn()
+    const handlePayPalOrderDetails = jest.fn().mockImplementation(() => {})
+    const handleBillingAddressCreation = jest.fn().mockImplementation(() => {})
+    const handleShippingAddressCreation = jest.fn().mockImplementation(() => {})
+    const dispatch = jest.fn().mockImplementation(() => Promise.resolve())
 
     // Act
-    const wrapper = shallow(<PaymentMethodPage cart={cartState} checkout={checkoutState} />, { disableLifecycleMethods: true })
+    const wrapper = shallow(<PaymentMethodPage cart={cartState} checkout={checkoutState} dispatch={dispatch} />, { disableLifecycleMethods: true })
     await wrapper.instance().handlePayPalOrderResponse(payPalOrder)
 
     // Assert
@@ -249,7 +254,7 @@ describe('parsePayPalAddress()', () => {
       last_name: 'buyer',
       email: 'testbuyer@flexcommerce.com',
       line_1: '1 Main Terrace',
-      line_2: '',
+      line_2: undefined,
       city: 'Wolverhampton',
       state: 'West Midlands',
       zipcode: 'W12 4LQ',
@@ -259,6 +264,7 @@ describe('parsePayPalAddress()', () => {
       completed: true,
       showEditButton: false
     }
+    const setCurrentStep = jest.fn().mockImplementation(() => {})
 
     // Act
     const wrapper = shallow(<PaymentMethodPage cart={cartState} checkout={checkoutState} setCurrentStep={setCurrentStep}/>, { disableLifecycleMethods: true })
@@ -276,11 +282,11 @@ describe('parsePayPalAddress()', () => {
 })
 
 describe('handleBillingAddressCreation()', () => {
-  test('creates new shipping address and sets them on cart', async () => {
+  test('creates new billing address and sets them on cart', async () => {
     // Arrange
     const setCheckoutBillingAddressSpy = jest.spyOn(CheckoutActions, 'setCheckoutBillingAddress').mockImplementation(() => 'setCheckoutBillingAddressAction')
-    const createBillingAddressSpy = jest.spyOn(CheckoutActions, 'createBillingAddress').mockImplementation(() => 'createBillingAddressAction')
-    const setCartBillingAddressSpy = jest.spyOn(CheckoutActions, 'setCartBillingAddress').mockImplementation(() => 'setCartBillingAddressAction')
+    const createBillingAddressSpy = jest.spyOn(CartActions, 'createBillingAddress').mockImplementation(() => 'createBillingAddressAction')
+    const setCartBillingAddressSpy = jest.spyOn(CartActions, 'setCartBillingAddress').mockImplementation(() => 'setCartBillingAddressAction')
     const dispatch = jest.fn().mockImplementation(() => Promise.resolve())
     const cart = {
       billingAddress: {
@@ -329,8 +335,8 @@ describe('handleShippingAddressCreation()', () => {
   test('creates new shipping address and sets them on cart', async () => {
     // Arrange
     const setCheckoutShippingAddressSpy = jest.spyOn(CheckoutActions, 'setCheckoutShippingAddress').mockImplementation(() => 'setCheckoutShippingAddressAction')
-    const createShippingAddressSpy = jest.spyOn(CheckoutActions, 'createShippingAddress').mockImplementation(() => 'createShippingAddressAction')
-    const setCartShippingAddressSpy = jest.spyOn(CheckoutActions, 'setCartShippingAddress').mockImplementation(() => 'setCartShippingAddressAction')
+    const createShippingAddressSpy = jest.spyOn(CartActions, 'createShippingAddress').mockImplementation(() => 'createShippingAddressAction')
+    const setCartShippingAddressSpy = jest.spyOn(CartActions, 'setCartShippingAddress').mockImplementation(() => 'setCartShippingAddressAction')
     const dispatch = jest.fn().mockImplementation(() => Promise.resolve())
     const cart = {
       shipping_address: {
