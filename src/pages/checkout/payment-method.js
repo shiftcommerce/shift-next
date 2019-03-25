@@ -51,7 +51,7 @@ export class PaymentMethodPage extends Component {
   currentStep = () => 1
 
   /**
-   * Sets the current checkout page step 
+   * Returns the props for the continueButton
    */
   continueButtonProps () {
     return null
