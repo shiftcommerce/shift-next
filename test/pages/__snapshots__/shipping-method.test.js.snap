@@ -36,6 +36,7 @@ exports[`render shipping methods as expected 1`] = `
       "shippingAddress": Object {
         "collapsed": true,
         "completed": true,
+        "showEditButton": true,
       },
       "shippingMethod": Object {},
     }
@@ -59,10 +60,12 @@ exports[`render shipping methods as expected 1`] = `
           firstName="First Name"
           lastName="Last Name"
           onClick={[Function]}
+          showEditButton={true}
         >
           <address_form_header_AddressFormHeader
             collapsed={true}
             onClick={[Function]}
+            showEditButton={true}
             title="Shipping Address"
           >
             <div
@@ -75,6 +78,22 @@ exports[`render shipping methods as expected 1`] = `
                   Shipping Address
                 </h2>
               </div>
+              <Button
+                className="o-button-edit"
+                label="Edit"
+                onClick={[Function]}
+                status="secondary"
+              >
+                <button
+                  className="o-button-edit o-button o-button--secondary"
+                  disabled={false}
+                  onClick={[Function]}
+                  role="button"
+                  tabIndex="0"
+                >
+                  Edit
+                </button>
+              </Button>
             </div>
           </address_form_header_AddressFormHeader>
           <div
@@ -114,6 +133,7 @@ exports[`renders correct checkout components 1`] = `
     >
       <AddressFormSummary
         onClick={[Function]}
+        showEditButton={true}
       />
     </div>
   </div>
@@ -163,6 +183,7 @@ exports[`renders line item quantity as expected 1`] = `
       "shippingAddress": Object {
         "collapsed": true,
         "completed": true,
+        "showEditButton": true,
       },
       "shippingMethod": Object {
         "collapsed": false,
@@ -187,10 +208,12 @@ exports[`renders line item quantity as expected 1`] = `
           firstName="First Name"
           lastName="Last Name"
           onClick={[Function]}
+          showEditButton={true}
         >
           <address_form_header_AddressFormHeader
             collapsed={true}
             onClick={[Function]}
+            showEditButton={true}
             title="Shipping Address"
           >
             <div
@@ -203,6 +226,22 @@ exports[`renders line item quantity as expected 1`] = `
                   Shipping Address
                 </h2>
               </div>
+              <Button
+                className="o-button-edit"
+                label="Edit"
+                onClick={[Function]}
+                status="secondary"
+              >
+                <button
+                  className="o-button-edit o-button o-button--secondary"
+                  disabled={false}
+                  onClick={[Function]}
+                  role="button"
+                  tabIndex="0"
+                >
+                  Edit
+                </button>
+              </Button>
             </div>
           </address_form_header_AddressFormHeader>
           <div

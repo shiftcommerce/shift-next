@@ -22,7 +22,8 @@ const cart = {
   ],
   line_items_count: 1,
   shipping_address: {},
-  shipping_method: {}
+  shipping_method: {},
+  total: 10
 }
 
 describe('componentDidMount()', () => {
@@ -135,12 +136,110 @@ describe('handleSetPaymentMethod()', () => {
 })
 
 describe('payPalCreateOrder()', () => {
+  test('calls the actions for creating the PayPal Order', async () => {
+    // Arrange    
+    const cartState = cart
+    const checkoutState = {}
+    const data = {}
+    const actions = {
+      order: {
+        create: jest.fn(() => {
+          return Promise.resolve()
+        })
+      }
+    }
+    const payPalPayload = {
+      purchase_units: [{
+        amount: {
+          value: cartState.total
+        }
+      }]
+    }
+
+    // Act
+    const wrapper = shallow(<PaymentMethodPage cart={cartState} checkout={checkoutState} />, { disableLifecycleMethods: true })
+    await wrapper.instance().payPalCreateOrder(data, actions)
+
+    // Assert
+    expect(actions.order.create).toHaveBeenCalledWith(payPalPayload)
+  })
 })
 
 describe('payPalOnApprove()', () => {
+  test('calls the actions for creating the PayPal Order', async () => {
+    // Arrange    
+    const cartState = cart
+    const checkoutState = {}
+    const data = {}
+    const actions = {
+      order: {
+        get: jest.fn(() => {
+          return Promise.resolve(payPalResponse)
+        })
+      }
+    }
+
+    // Act
+    const wrapper = shallow(<PaymentMethodPage cart={cartState} checkout={checkoutState} />, { disableLifecycleMethods: true })
+    await wrapper.instance().payPalCreateOrder(data, actions)
+
+    // Assert
+    expect(actions.order.get).toHaveBeenCalled()
+  })
 })
 
 describe('handlePayPalOrderResponse()', () => {
+  test('dispatches the actions expected', async () => {
+    // Arrange
+    const cartState = cart
+    const checkoutState = {}
+    const payPalOrder = payPalResponse
+    const payPalBillingAddress = {
+      first_name: 'test',
+      last_name: 'buyer',
+      email: email,
+      line_1: '1 Main Terrace',
+      line_2: '',
+      city: 'Wolverhampton',
+      state: 'West Midlands',
+      zipcode: 'W12 4LQ',
+      country_code: 'GB',
+      primary_phone: '0352878596',
+      collapsed: true,
+      completed: true,
+      showEditButton: false
+    }
+    const payPalShippingAddress = {
+      first_name: 'Test',
+      last_name: 'Example',
+      email: email,
+      line_1: 'Shift Commerce Ltd, Old School Boar',
+      line_2: 'Calverley Street',
+      city: 'Leeds',
+      state: 'N/A',
+      zipcode: 'LS1 3ED',
+      country_code: 'GB',
+      primary_phone: '0352878596',
+      collapsed: true,
+      completed: true,
+      showEditButton: false    
+    }
+    const pushSpy = jest.spyOn(Router, 'push').mockImplementation(() => {})
+    const handlePayPalOrderDetails = jest.fn()
+    const handleBillingAddressCreation = jest.fn()
+    const handleShippingAddressCreation = jest.fn()
+
+    // Act
+    const wrapper = shallow(<PaymentMethodPage cart={cartState} checkout={checkoutState} />, { disableLifecycleMethods: true })
+    await wrapper.instance().handlePayPalOrderResponse(payPalOrder)
+
+    // Assert
+    expect(handlePayPalOrderDetails).toHaveBeenCalledWith(payPalOrder)
+    expect(handleBillingAddressCreation).toHaveBeenCalledWith(payPalBillingAddress)
+    expect(handleShippingAddressCreation).toHaveBeenCalledWith(payPalShippingAddress)
+    expect(pushSpy).toHaveBeenCalledWith('/checkout/shipping-method')
+    pushSpy.mockRestore()
+  })
 })
 
 describe('parsePayPalAddress()', () => {
@@ -181,9 +280,103 @@ describe('parsePayPalAddress()', () => {
 })
 
 describe('handleBillingAddressCreation()', () => {
+  test('creates new shipping address and sets them on cart', async () => {
+    // Arrange
+    const setCheckoutBillingAddressSpy = jest.spyOn(CartActions, 'setCheckoutBillingAddress').mockImplementation(() => 'setCheckoutBillingAddressAction')
+    const createBillingAddressSpy = jest.spyOn(CartActions, 'createBillingAddress').mockImplementation(() => 'createBillingAddressAction')
+    const setCartBillingAddressSpy = jest.spyOn(CartActions, 'setCartBillingAddress').mockImplementation(() => 'setCartBillingAddressAction')
+    const dispatch = jest.fn().mockImplementation(() => Promise.resolve())
+    const cart = {
+      billingAddress: {
+        id: 20
+      }
+    }
+    const checkout = {
+      billingAddress: {
+        id: 20
+      }
+    }
+    const newBillingAddress = {
+      first_name: 'test',
+      last_name: 'buyer',
+      email: email,
+      line_1: '1 Main Terrace',
+      line_2: '',
+      city: 'Wolverhampton',
+      state: 'West Midlands',
+      zipcode: 'W12 4LQ',
+      country_code: 'GB',
+      primary_phone: '0352878596',
+      collapsed: true,
+      completed: true,
+      showEditButton: false
+    }
+
+    // Act
+    const wrapper = shallow(<PaymentMethodPage cart={cart} checkout={checkout} dispatch={dispatch} />, { disableLifecycleMethods: true })
+    await wrapper.instance().handleBillingAddressCreation(newBillingAddress)
+
+    // Assert
+    expect(setCheckoutBillingAddressSpy).toHaveBeenCalledWith(newBillingAddress)
+    expect(createBillingAddressSpy).toHaveBeenCalledWith(checkout.billingAddress)
+    expect(setCartBillingAddressSpy).toHaveBeenCalledWith(20)
+    expect(dispatch).toHaveBeenCalledWith('setCheckoutShippingAddressAction')
+    expect(dispatch).toHaveBeenCalledWith('createShippingAddressAction')
+    expect(dispatch).toHaveBeenCalledWith('setCartShippingAddressAction')
+    setCheckoutBillingAddressSpy.mockRestore()
+    createBillingAddressSpy.mockRestore()
+    setCartBillingAddressSpy.mockRestore()
+  })
 })
 
 describe('handleShippingAddressCreation()', () => {
+  test('creates new shipping address and sets them on cart', async () => {
+    // Arrange
+    const setCheckoutShippingAddressSpy = jest.spyOn(CartActions, 'setCheckoutShippingAddress').mockImplementation(() => 'setCheckoutShippingAddressAction')
+    const createShippingAddressSpy = jest.spyOn(CartActions, 'createShippingAddress').mockImplementation(() => 'createShippingAddressAction')
+    const setCartShippingAddressSpy = jest.spyOn(CartActions, 'setCartShippingAddress').mockImplementation(() => 'setCartShippingAddressAction')
+    const dispatch = jest.fn().mockImplementation(() => Promise.resolve())
+    const cart = {
+      shipping_address: {
+        id: 20
+      }
+    }
+    const checkout = {
+      shippingAddress: {
+        id: 20
+      }
+    }
+    const newShippingAddress = {
+      first_name: 'Test',
+      last_name: 'Example',
+      email: email,
+      line_1: 'Shift Commerce Ltd, Old School Boar',
+      line_2: 'Calverley Street',
+      city: 'Leeds',
+      state: 'N/A',
+      zipcode: 'LS1 3ED',
+      country_code: 'GB',
+      primary_phone: '0352878596',
+      collapsed: true,
+      completed: true,
+      showEditButton: false  
+    }
+
+    // Act
+    const wrapper = shallow(<PaymentMethodPage cart={cart} checkout={checkout} dispatch={dispatch} />, { disableLifecycleMethods: true })
+    await wrapper.instance().handleShippingAddressCreation(newShippingAddress)
+
+    // Assert
+    expect(setCheckoutShippingAddressSpy).toHaveBeenCalledWith(newShippingAddress)
+    expect(createShippingAddressSpy).toHaveBeenCalledWith(checkout.shippingAddress)
+    expect(setCartShippingAddressSpy).toHaveBeenCalledWith(20)
+    expect(dispatch).toHaveBeenCalledWith('setCheckoutShippingAddressAction')
+    expect(dispatch).toHaveBeenCalledWith('createShippingAddressAction')
+    expect(dispatch).toHaveBeenCalledWith('setCartShippingAddressAction')
+    setCheckoutShippingAddressSpy.mockRestore()
+    createShippingAddressSpy.mockRestore()
+    setCartShippingAddressSpy.mockRestore()
+  })
 })
 
 describe('handlePayPalOrderDetails()', () => {
