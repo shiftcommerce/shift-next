@@ -1,3 +1,0 @@
-#!/bin/bash
-
-cd vendor/shift-api && yarn run test
