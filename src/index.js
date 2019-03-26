@@ -1,10 +1,12 @@
 // Next Pages
 import CartPage from './pages/cart'
 import CategoryPage from './pages/category'
+import ForgottenPasswordPage from './pages/forgotten-password'
 import LoginPage from './pages/login'
 import MyAccountPage from './pages/my-account'
 import OfflinePage from './pages/offline'
 import OrderPage from './pages/order'
+import PasswordResetPage from './pages/password_reset'
 import PaymentPage from './pages/payment'
 import ProductPage from './pages/product'
 import RegisterPage from './pages/register'
@@ -13,8 +15,6 @@ import ShippingAddressPage from './pages/shipping-address'
 import ShippingMethodPage from './pages/checkout/shipping-method'
 import SlugPage from './pages/slug'
 import StaticPage from './pages/static-page'
-import ForgottenPasswordPage from './pages/forgotten-password'
-import PasswordResetPage from './pages/password_reset'
 
 // Components
 import withCheckout from './components/with-checkout'
@@ -96,20 +96,20 @@ module.exports = {
 
   CategoryPage: CategoryPage,
   CartPage: CartPage,
-  PaymentPage: PaymentPage,
-  ProductPage: ProductPage,
+  ForgottenPasswordPage: ForgottenPasswordPage,
   LoginPage: LoginPage,
   MyAccountPage: MyAccountPage,
   OfflinePage: OfflinePage,
   OrderPage: OrderPage,
+  PasswordResetPage: PasswordResetPage,
+  PaymentPage: PaymentPage,
+  ProductPage: ProductPage,
   RegisterPage: RegisterPage,
   SearchPage: SearchPage,
   ShippingAddressPage: ShippingAddressPage,
   ShippingMethodPage: ShippingMethodPage,
   SlugPage: SlugPage,
   StaticPage: StaticPage,
-  ForgottenPasswordPage: ForgottenPasswordPage,
-  PasswordResetPage: PasswordResetPage,
 
   withCheckout: withCheckout,
 

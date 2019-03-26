@@ -5,7 +5,7 @@ import Head from 'next/head'
 // Lib
 import { suffixWithStoreName } from '../lib/suffix-with-store-name'
 
-// Objects
+// Component
 import { ForgotPasswordForm } from '@shiftcommerce/shift-react-components'
 
 // Actions
@@ -26,6 +26,7 @@ export class ForgottenPassword extends Component {
 
   render () {
     const { account } = this.props
+
     return (
       <>
         <Head>

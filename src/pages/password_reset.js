@@ -6,8 +6,8 @@ import Router from 'next/router'
 // Lib
 import { suffixWithStoreName } from '../lib/suffix-with-store-name'
 
-// Objects
-import { Button, PasswordResetForm } from '@shiftcommerce/shift-react-components'
+// Component
+import { PasswordResetForm } from '@shiftcommerce/shift-react-components'
 
 // Actions
 import { passwordReset } from '../actions/account-actions'
