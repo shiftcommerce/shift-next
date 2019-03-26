@@ -21,7 +21,7 @@ test('sets loggedIn to true and adds account details to state on SET_ACCOUNT', (
 
   expect(result).toEqual({
     loggedIn: true,
-    errors: {},
+    errors: [],
     firstName: 'John',
     lastName: 'Smith',
     email: 'email@example.com'
@@ -37,7 +37,7 @@ test('sets loggedIn to true on SET_LOGGED_IN', () => {
 
   expect(result).toEqual({
     loggedIn: true,
-    errors: {}
+    errors: []
   })
 })
 

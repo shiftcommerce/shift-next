@@ -40,9 +40,6 @@ test('redirects to myaccount page when user already logged in', async () => {
       return {
         account: {
           loggedIn: true
-        },
-        login: {
-          loggedIn: false
         }
       }
     }

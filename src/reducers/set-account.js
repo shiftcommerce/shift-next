@@ -2,7 +2,7 @@
 import * as types from '../actions/action-types'
 
 export const initialState = {
-  errors: {},
+  errors: [],
   loggedIn: false
 }
 
@@ -26,7 +26,7 @@ export default function setAccount (state = initialState, action) {
       return Object.assign({}, state, { errors: action.payload.error.data })
 
     case types.SET_LOGGED_IN:
-      return Object.assign({}, state, { loggedIn: true, errors: {} })
+      return Object.assign({}, state, { loggedIn: true, errors: [] })
 
     default:
       return state

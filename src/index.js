@@ -6,6 +6,7 @@ import LoginPage from './pages/login'
 import MyAccountPage from './pages/my-account'
 import OfflinePage from './pages/offline'
 import OrderPage from './pages/order'
+import PasswordResetPage from './pages/password_reset'
 import PaymentPage from './pages/payment'
 import ProductPage from './pages/product'
 import RegisterPage from './pages/register'
@@ -38,7 +39,7 @@ import Config from './lib/config'
 import { algoliaReduxWrapper, reduxWrapper } from './lib/algolia-redux-wrapper'
 import { getSessionExpiryTime } from './lib/session'
 
-// ShiftApi Config
+// Shift-api Config
 import { shiftApiConfig } from '@shiftcommerce/shift-node-api'
 
 shiftApiConfig.set({
@@ -59,6 +60,8 @@ module.exports = {
     server.get('/getShippingMethods', shiftCartHandler.getShippingMethods)
     server.get('/getSlug', shiftSlugHandler.getSlug)
     server.get('/getStaticPage/:id', shiftStaticPageHandler.getStaticPage)
+    server.get('/forgotPassword', shiftAccountHandler.requestForgotPasswordEmail)
+    server.post('/passwordReset', shiftAccountHandler.resetPassword)
     server.post('/addCartCoupon', shiftCartHandler.addCartCoupon)
     server.post('/addToCart', shiftCartHandler.addToCart)
     server.post('/createAddress', shiftCartHandler.createAddress)
@@ -94,12 +97,13 @@ module.exports = {
   CategoryPage: CategoryPage,
   CartPage: CartPage,
   ForgottenPasswordPage: ForgottenPasswordPage,
-  PaymentPage: PaymentPage,
-  ProductPage: ProductPage,
   LoginPage: LoginPage,
   MyAccountPage: MyAccountPage,
   OfflinePage: OfflinePage,
   OrderPage: OrderPage,
+  PasswordResetPage: PasswordResetPage,
+  PaymentPage: PaymentPage,
+  ProductPage: ProductPage,
   RegisterPage: RegisterPage,
   SearchPage: SearchPage,
   ShippingAddressPage: ShippingAddressPage,
