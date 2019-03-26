@@ -84,9 +84,10 @@ export function updatePayPalOrderTotal (payPalOrderID, purchaseUnitsReferenceID,
     endpoint: '/patchPayPalOrder',
     body: {
       cart: {
-        sub_total: cart.sub_total,
+        subTotal: cart.sub_total,
         total: cart.total,
-        shipping_total: cart.shipping_total,
+        shippingTotal: cart.shipping_total,
+        shippingDiscount: cart.shipping_total_discount,
         tax: cart.tax,
       },
       payPalOrderID: payPalOrderID,

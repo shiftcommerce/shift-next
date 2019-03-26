@@ -1,5 +1,5 @@
 // Libraries
-// import paypal from '@paypal/checkout-server-sdk'
+import paypal from '@paypal/checkout-server-sdk'
 import ShiftNextConfig from '../lib/config'
 
 class PayPalClient {
@@ -83,19 +83,19 @@ class PayPalClient {
           'breakdown': {
             'item_total': {
               'currency_code': `${currency_code}`,
-              'value':  `${cart.sub_total}`
-            },
-            'shipping': {
-              'currency_code': `${currency_code}`,
-              'value':  `${cart.shipping_total}`
-            },
-            'shipping_discount': {
-              'currency_code': `${currency_code}`,
-              'value':  `${cart.shipping_total_discount}`
+              'value':  `${cart.subTotal}`
             },
             'tax_total': {
               'currency_code': `${currency_code}`,
               'value':  `${cart.tax}`
+            },
+            'shipping': {
+              'currency_code': `${currency_code}`,
+              'value':  `${cart.shippingTotal}`
+            },
+            'shipping_discount': {
+              'currency_code': `${currency_code}`,
+              'value':  `${cart.shippingDiscount}`
             }
           }
         }
