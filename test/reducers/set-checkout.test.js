@@ -259,7 +259,7 @@ test('populates billing address when it is autofilled', () => {
 
 test('sets billing address when a PayPal order is created', () => {
   // Arrange
-  const payload = {
+  const addressPayload = {
     first_name: 'test',
     last_name: 'buyer',
     email: 'testbuyer@flexcommerce.com',
@@ -277,7 +277,7 @@ test('sets billing address when a PayPal order is created', () => {
   const action = {
     type: actionTypes.SET_CHECKOUT_BILLING_ADDRESS,
     payload: {
-      address: payload
+      address: addressPayload
     }
   }
   const currentState = {
@@ -288,12 +288,12 @@ test('sets billing address when a PayPal order is created', () => {
   const updatedState = setCheckout(currentState, action)
 
   // Assert
-  expect(updatedState.billingAddress).toEqual(payload)
+  expect(updatedState.billingAddress).toEqual(addressPayload)
 })
 
 test('sets shipping address when a PayPal order is created', () => {
   // Arrange
-  const payload = {
+  const addressPayload = {
     first_name: 'Test',
     last_name: 'Example',
     email: 'testbuyer@flexcommerce.com',
@@ -311,18 +311,18 @@ test('sets shipping address when a PayPal order is created', () => {
   const action = {
     type: actionTypes.SET_CHECKOUT_SHIPPING_ADDRESS,
     payload: {
-      address: payload
+      address: addressPayload
     }
   }
   const currentState = {
-    billingAddress: {}
+    shippingAddress: {}
   }
 
   // Act 
   const updatedState = setCheckout(currentState, action)
 
   // Assert
-  expect(updatedState.shippingAddress).toEqual(payload)
+  expect(updatedState.shippingAddress).toEqual(addressPayload)
 })
 
 test('sets PayPal Order Details when a PayPal order is created', () => {
