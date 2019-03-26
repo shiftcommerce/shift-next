@@ -659,7 +659,7 @@ describe('nextSection()', () => {
     await wrapper.instance().nextSection()
 
     // Assert
-    expect(saveToAddressBookSpy).toHaveBeenCalledWith(checkout.billingAddress)
+    expect(saveToAddressBookSpy).toHaveBeenCalledWith(checkoutState.billingAddress)
     expect(setCartBillingAddressSpy).toHaveBeenCalledWith(20)
     expect(dispatch).toHaveBeenCalledWith('saveToAddressBookAction')
     expect(dispatch).toHaveBeenCalledWith('setCartBillingAddressAction')
@@ -703,7 +703,7 @@ describe('nextSection()', () => {
     await wrapper.instance().nextSection()
 
     // Assert
-    expect(createBillingAddressSpy).toHaveBeenCalledWith(checkout.billingAddress)
+    expect(createBillingAddressSpy).toHaveBeenCalledWith(checkoutState.billingAddress)
     expect(setCartBillingAddressSpy).toHaveBeenCalledWith(20)
     expect(dispatch).toHaveBeenCalledWith('createBillingAddressAction')
     expect(dispatch).toHaveBeenCalledWith('setCartBillingAddressAction')

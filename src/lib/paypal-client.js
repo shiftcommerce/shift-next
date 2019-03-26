@@ -85,15 +85,11 @@ class PayPalClient {
               'currency_code': `${currency_code}`,
               'value':  `${cart.sub_total}`
             },
-            'discount_total': {
-              'currency_code': `${currency_code}`,
-              'value':  `${cart.total_discount}`
-            },
-            'shipping_total': {
+            'shipping': {
               'currency_code': `${currency_code}`,
               'value':  `${cart.shipping_total}`
             },
-            'shipping_discount_total': {
+            'shipping_discount': {
               'currency_code': `${currency_code}`,
               'value':  `${cart.shipping_total_discount}`
             },

@@ -101,7 +101,8 @@ export class PaymentMethodPage extends Component {
   handlePayPalOrderResponse (order) {
     const payer = order.payer
     const payerEmail = payer.email_address
-    const payerPhoneNumber = payer.phone.phone_number.national_number
+    const payerPhone = payer.phone
+    const payerPhoneNumber = (payerPhone && payerPhone.phone_number ? payerPhone.phone_number.national_number : '')
     const shippingDetails = order.purchase_units[0].shipping
     const shippingFullName = shippingDetails.name.full_name.split(' ')
     // set loading to true as we handle the order information
