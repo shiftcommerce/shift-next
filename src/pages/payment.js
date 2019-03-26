@@ -133,7 +133,7 @@ class CheckoutPaymentPage extends Component {
     this.setState({
       reviewStep: true
     })
-    setCurrentStep(5)
+    setCurrentStep(4)
   }
 
   showPayment () {
@@ -301,12 +301,12 @@ class CheckoutPaymentPage extends Component {
 
   pageTitle = () => `Checkout - ${this.state.reviewStep ? 'Review' : 'Payment'}`
 
-  currentStep = () => this.state.reviewStep ? 5 : 4
+  currentStep = () => this.state.reviewStep ? 4 : 3
 
   stepActions = () => ({
-    4: () => {
+    3: () => {
       this.setState({ reviewStep: false })
-      this.props.setCurrentStep(4)
+      this.props.setCurrentStep(3)
     }
   })
 
