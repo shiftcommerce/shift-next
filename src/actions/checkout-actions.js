@@ -73,7 +73,7 @@ export function setPayPalOrderDetails (orderDetails) {
   return {
     type: actionTypes.SET_PAYPAL_ORDER_DETAILS,
     payload: {
-      order_details: orderDetails
+      orderDetails: orderDetails
     }
   }
 }

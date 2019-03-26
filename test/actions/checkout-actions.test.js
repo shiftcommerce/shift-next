@@ -52,7 +52,7 @@ test('return setPayPalOrderDetails on calling setPaymentMethod()', () => {
     createdAt: '2019-03-25T15:58:41Z'
   }
   const expectedPayload = {
-    paypalOrderDetails: payload
+    orderDetails: payload
   }
 
   // Act
