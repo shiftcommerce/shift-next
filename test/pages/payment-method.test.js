@@ -374,6 +374,7 @@ describe('handlePayPalOrderDetails()', () => {
       orderID: payPalOrder.id,
       intent: payPalOrder.intent,
       status: payPalOrder.status,
+      purchaseUnitsReferenceID: payPalOrder.purchase_units[0].reference_id,
       createdAt: payPalOrder.create_time
     }
     const wrapper = shallow(<PaymentMethodPage cart={cartState} checkout={checkoutState} dispatch={dispatch} />, { disableLifecycleMethods: true })
