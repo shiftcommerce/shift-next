@@ -96,9 +96,11 @@ export class ShippingMethodPage extends Component {
     // update PayPal order total
     return dispatch(updatePayPalOrderTotal(payPalOrderID, payPalOrderDetails.purchaseUnitsReferenceID, cart)).then(() => {
       // authorised PayPal Order
-      return dispatch(authorizePayPalOrder(payPalOrderID)).then((authorizedOrderDetails) => {
-        // handle authorised paypal order details - status, authID and orderID
-        dispatch(setPayPalOrderDetails(authorizedOrderDetails))
+      return dispatch(authorizePayPalOrder(payPalOrderID)).then((authorizedOrder) => {
+        // handle authorised paypal order details
+        dispatch(setPayPalOrderDetails({
+          authorizationID: authorizedOrder.purchase_units[0].payments.authorizations.id
+        }))
         // redirect to next step
         this.nextSection()
       }).catch((error) => dispatch(setPaymentError(error)))
