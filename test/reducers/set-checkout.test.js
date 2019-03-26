@@ -257,6 +257,78 @@ test('populates billing address when it is autofilled', () => {
   })
 })
 
+test('sets billing address when a PayPal order is created', () => {
+  // Arrange
+  const payload = {
+    first_name: 'test',
+    last_name: 'buyer',
+    email: 'testbuyer@flexcommerce.com',
+    line_1: '1 Main Terrace',
+    line_2: undefined,
+    city: 'Wolverhampton',
+    state: 'West Midlands',
+    zipcode: 'W12 4LQ',
+    country_code: 'GB',
+    primary_phone: '0352878596',
+    collapsed: true,
+    completed: true,
+    showEditButton: false
+  }
+  const action = {
+    type: actionTypes.SET_CHECKOUT_BILLING_ADDRESS,
+    payload: {
+      address: payload
+    }
+  }
+  const currentState = {
+    checkout: {
+      billingAddress: {}
+    }
+  }
+
+  // Act 
+  const updatedState = setCheckout(currentState, action)
+
+  // Assert
+  expect(updatedState.checkout.billingAddress).toEqual(payload)
+})
+
+test('sets shipping address when a PayPal order is created', () => {
+  // Arrange
+  const payload = {
+    first_name: 'Test',
+    last_name: 'Example',
+    email: 'testbuyer@flexcommerce.com',
+    line_1: 'Shift Commerce Ltd, Old School Boar',
+    line_2: 'Calverley Street',
+    city: 'Leeds',
+    state: 'N/A',
+    zipcode: 'LS1 3ED',
+    country_code: 'GB',
+    primary_phone: '0352878596',
+    collapsed: true,
+    completed: true,
+    showEditButton: false
+  }
+  const action = {
+    type: actionTypes.SET_CHECKOUT_SHIPPING_ADDRESS,
+    payload: {
+      address: payload
+    }
+  }
+  const currentState = {
+    checkout: {
+      billingAddress: {}
+    }
+  }
+
+  // Act 
+  const updatedState = setCheckout(currentState, action)
+
+  // Assert
+  expect(updatedState.checkout.shippingAddress).toEqual(payload)
+})
+
 test('sets PayPal Order Details when a PayPal order is created', () => {
   // Arrange
   const payload = {
