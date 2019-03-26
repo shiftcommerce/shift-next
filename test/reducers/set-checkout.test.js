@@ -281,16 +281,14 @@ test('sets billing address when a PayPal order is created', () => {
     }
   }
   const currentState = {
-    checkout: {
-      billingAddress: {}
-    }
+    billingAddress: {}
   }
 
   // Act 
   const updatedState = setCheckout(currentState, action)
 
   // Assert
-  expect(updatedState.checkout.billingAddress).toEqual(payload)
+  expect(updatedState.billingAddress).toEqual(payload)
 })
 
 test('sets shipping address when a PayPal order is created', () => {
@@ -317,16 +315,14 @@ test('sets shipping address when a PayPal order is created', () => {
     }
   }
   const currentState = {
-    checkout: {
-      billingAddress: {}
-    }
+    billingAddress: {}
   }
 
   // Act 
   const updatedState = setCheckout(currentState, action)
 
   // Assert
-  expect(updatedState.checkout.shippingAddress).toEqual(payload)
+  expect(updatedState.shippingAddress).toEqual(payload)
 })
 
 test('sets PayPal Order Details when a PayPal order is created', () => {

@@ -115,40 +115,40 @@ export default function setCheckout (state = checkoutInitialState, action) {
       return newState
 
     case types.SET_CHECKOUT_BILLING_ADDRESS:
-      const address = action.payload.address
+      const payPalBillingAddress = action.payload.address
       newState.billingAddress = {
-        first_name: address.first_name,
-        last_name: address.last_name,
-        email: address.email,
-        line_1: address.address_line_1,
-        line_2: address.address_line_2,
-        city: address.admin_area_2,
-        state: address.admin_area_1,
-        zipcode: address.postal_code,
-        country_code: address.country_code,
-        primary_phone: address.phone_number,
-        collapsed: address.collapsed,
-        completed: address.completed,
-        showEditButton: address.showEditButton
+        first_name: payPalBillingAddress.first_name,
+        last_name: payPalBillingAddress.last_name,
+        email: payPalBillingAddress.email,
+        line_1: payPalBillingAddress.address_line_1,
+        line_2: payPalBillingAddress.address_line_2,
+        city: payPalBillingAddress.admin_area_2,
+        state: payPalBillingAddress.admin_area_1,
+        zipcode: payPalBillingAddress.postal_code,
+        country_code: payPalBillingAddress.country_code,
+        primary_phone: payPalBillingAddress.phone_number,
+        collapsed: payPalBillingAddress.collapsed,
+        completed: payPalBillingAddress.completed,
+        showEditButton: payPalBillingAddress.showEditButton
       }
       return newState
 
     case types.SET_CHECKOUT_SHIPPING_ADDRESS:
-      const address = action.payload.address
+      const payPalShippingAddress = action.payload.address
       newState.shippingAddress = {
-        first_name: address.first_name,
-        last_name: address.last_name,
-        email: address.email,
-        line_1: address.address_line_1,
-        line_2: address.address_line_2,
-        city: address.admin_area_2,
-        state: address.admin_area_1,
-        zipcode: address.postal_code,
-        country_code: address.country_code,
-        primary_phone: address.phone_number,
-        collapsed: address.collapsed,
-        completed: address.completed,
-        showEditButton: address.showEditButton
+        first_name: payPalShippingAddress.first_name,
+        last_name: payPalShippingAddress.last_name,
+        email: payPalShippingAddress.email,
+        line_1: payPalShippingAddress.address_line_1,
+        line_2: payPalShippingAddress.address_line_2,
+        city: payPalShippingAddress.admin_area_2,
+        state: payPalShippingAddress.admin_area_1,
+        zipcode: payPalShippingAddress.postal_code,
+        country_code: payPalShippingAddress.country_code,
+        primary_phone: payPalShippingAddress.phone_number,
+        collapsed: payPalShippingAddress.collapsed,
+        completed: payPalShippingAddress.completed,
+        showEditButton: payPalShippingAddress.showEditButton
       }
       return newState
 
