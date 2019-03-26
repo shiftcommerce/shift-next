@@ -497,7 +497,7 @@ describe('nextSection()', () => {
 
     expect(pushSpy).toHaveBeenCalledWith('/checkout/payment', '/checkout/review')
     expect(wrapper.state().reviewStep).toBe(true)
-    expect(setCurrentStep).toHaveBeenCalledWith(5)
+    expect(setCurrentStep).toHaveBeenCalledWith(4)
 
     cookieSpy.mockRestore()
     pushSpy.mockRestore()
@@ -736,14 +736,14 @@ describe('currentStep()', () => {
   test('returns correct step for the payment step', () => {
     const wrapper = shallow(<CheckoutPaymentPage cart={{}} />, { disableLifecycleMethods: true })
 
-    expect(wrapper.instance().currentStep()).toEqual(4)
+    expect(wrapper.instance().currentStep()).toEqual(3)
   })
 
   test('returns correct step for the review step', () => {
     const wrapper = shallow(<CheckoutPaymentPage cart={{}} />, { disableLifecycleMethods: true })
     wrapper.setState({ reviewStep: true })
 
-    expect(wrapper.instance().currentStep()).toEqual(5)
+    expect(wrapper.instance().currentStep()).toEqual(4)
   })
 })
 

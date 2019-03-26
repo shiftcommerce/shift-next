@@ -37,7 +37,7 @@ module.exports = {
       },
       "shipping":{
         "name":{
-        "full_name":"Test  Example"
+        "full_name":"Test Example"
         },
         "address":{
         "address_line_1":"Shift Commerce Ltd, Old School Boar",

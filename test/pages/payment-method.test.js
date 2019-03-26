@@ -208,7 +208,6 @@ describe('handlePayPalOrderResponse()', () => {
     const cartState = cart
     const checkoutState = {}
     const payPalOrder = payPalResponse
-    const pushSpy = jest.spyOn(Router, 'push').mockImplementation(() => {})
     const dispatch = jest.fn().mockImplementation(() => Promise.resolve())
     const wrapper = shallow(<PaymentMethodPage cart={cartState} checkout={checkoutState} dispatch={dispatch} />, { disableLifecycleMethods: true })
     const handleBillingAddressCreationSpy = jest.spyOn(wrapper.instance(), 'handleBillingAddressCreation')
@@ -220,8 +219,6 @@ describe('handlePayPalOrderResponse()', () => {
     // Assert
     expect(handleBillingAddressCreationSpy).toHaveBeenCalledWith(payPalBillingAddress)
     expect(handleShippingAddressCreationSpy).toHaveBeenCalledWith(payPalShippingAddress)
-    expect(pushSpy).toHaveBeenCalledWith('/checkout/shipping-method')
-    pushSpy.mockRestore()
     handleBillingAddressCreationSpy.mockRestore()
     handleShippingAddressCreationSpy.mockRestore()
   })
