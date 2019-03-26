@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`componentDidMount() renders correct checkout components 1`] = `
+exports[`renders correct checkout components 1`] = `
 <div>
   <PaymentMethods
     handleSetPaymentMethod={[Function]}

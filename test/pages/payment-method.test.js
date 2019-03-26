@@ -27,19 +27,17 @@ const cart = {
   total: 10
 }
 
-describe('componentDidMount()', () => {
-  test('renders correct checkout components', () => {
-    // Arrange
-    const cartState = cart
-    const checkoutState = {}
+test('renders correct checkout components', () => {
+  // Arrange
+  const cartState = cart
+  const checkoutState = {}
 
-    // Act
-    const wrapper = shallow(<PaymentMethodPage cart={cartState} checkout={checkoutState} />, { disableLifecycleMethods: true })
-    
-    // Assert
-    expect(wrapper).toMatchSnapshot()
-    expect(wrapper.find('PaymentMethods').length).toEqual(1)
-  })
+  // Act
+  const wrapper = shallow(<PaymentMethodPage cart={cartState} checkout={checkoutState} />, { disableLifecycleMethods: true })
+  
+  // Assert
+  expect(wrapper).toMatchSnapshot()
+  expect(wrapper.find('PaymentMethods').length).toEqual(1)
 })
 
 describe('nextSection()', () => {
