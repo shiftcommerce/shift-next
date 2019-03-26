@@ -115,11 +115,41 @@ export default function setCheckout (state = checkoutInitialState, action) {
       return newState
 
     case types.SET_CHECKOUT_BILLING_ADDRESS:
-      Object.assign(newState.billingAddress, action.payload.address)
+      const payPalBillingAddress = action.payload.address
+      newState.billingAddress = {
+        first_name: payPalBillingAddress.first_name,
+        last_name: payPalBillingAddress.last_name,
+        email: payPalBillingAddress.email,
+        line_1: payPalBillingAddress.line_1,
+        line_2: payPalBillingAddress.line_2,
+        city: payPalBillingAddress.city,
+        state: payPalBillingAddress.state,
+        zipcode: payPalBillingAddress.zipcode,
+        country_code: payPalBillingAddress.country_code,
+        primary_phone: payPalBillingAddress.primary_phone,
+        collapsed: payPalBillingAddress.collapsed,
+        completed: payPalBillingAddress.completed,
+        showEditButton: payPalBillingAddress.showEditButton
+      }
       return newState
 
     case types.SET_CHECKOUT_SHIPPING_ADDRESS:
-      Object.assign(newState.shippingAddress, action.payload.address)
+      const payPalShippingAddress = action.payload.address
+      newState.shippingAddress = {
+        first_name: payPalShippingAddress.first_name,
+        last_name: payPalShippingAddress.last_name,
+        email: payPalShippingAddress.email,
+        line_1: payPalShippingAddress.line_1,
+        line_2: payPalShippingAddress.line_2,
+        city: payPalShippingAddress.city,
+        state: payPalShippingAddress.state,
+        zipcode: payPalShippingAddress.zipcode,
+        country_code: payPalShippingAddress.country_code,
+        primary_phone: payPalShippingAddress.primary_phone,
+        collapsed: payPalShippingAddress.collapsed,
+        completed: payPalShippingAddress.completed,
+        showEditButton: payPalShippingAddress.showEditButton
+      }
       return newState
 
     case types.SET_ADDRESS_BOOK:
@@ -196,7 +226,7 @@ export default function setCheckout (state = checkoutInitialState, action) {
       return newState
     
     case types.SET_PAYPAL_ORDER_DETAILS:
-      newState.paypalOrderDetails = Object.assign(newState.paypalOrderDetails, action.payload.order_details)
+      newState.paypalOrderDetails = Object.assign(newState.paypalOrderDetails, action.payload.orderDetails)
       return newState
 
     default:
