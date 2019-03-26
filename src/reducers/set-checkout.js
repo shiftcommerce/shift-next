@@ -115,11 +115,41 @@ export default function setCheckout (state = checkoutInitialState, action) {
       return newState
 
     case types.SET_CHECKOUT_BILLING_ADDRESS:
-      Object.assign(newState.billingAddress, action.payload.address)
+      const address = action.payload.address
+      newState.billingAddress = {
+        first_name: address.first_name,
+        last_name: address.last_name,
+        email: address.email,
+        line_1: address.address_line_1,
+        line_2: address.address_line_2,
+        city: address.admin_area_2,
+        state: address.admin_area_1,
+        zipcode: address.postal_code,
+        country_code: address.country_code,
+        primary_phone: address.phone_number,
+        collapsed: address.collapsed,
+        completed: address.completed,
+        showEditButton: address.showEditButton
+      }
       return newState
 
     case types.SET_CHECKOUT_SHIPPING_ADDRESS:
-      Object.assign(newState.shippingAddress, action.payload.address)
+      const address = action.payload.address
+      newState.shippingAddress = {
+        first_name: address.first_name,
+        last_name: address.last_name,
+        email: address.email,
+        line_1: address.address_line_1,
+        line_2: address.address_line_2,
+        city: address.admin_area_2,
+        state: address.admin_area_1,
+        zipcode: address.postal_code,
+        country_code: address.country_code,
+        primary_phone: address.phone_number,
+        collapsed: address.collapsed,
+        completed: address.completed,
+        showEditButton: address.showEditButton
+      }
       return newState
 
     case types.SET_ADDRESS_BOOK:
