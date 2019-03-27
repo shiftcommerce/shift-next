@@ -101,9 +101,16 @@ export function updatePayPalOrderTotal (payPalOrderID, purchaseUnitsReferenceID,
 }
 
 export function authorizePayPalOrder (payPalOrderID) {
-  return () => {
-    return new PayPalClient().authorizeOrder(payPalOrderID)
+  const request = {
+    endpoint: '/authorizePayPalOrder',
+    body: {
+      payPalOrderID: payPalOrderID
+    },
+    requestActionType: actionTypes.AUTHORIZE_PAYPAL_ORDER,
+    successActionType: actionTypes.SET_PAYPAL_ORDER_DETAILS,
+    errorActionType: actionTypes.SET_PAYMENT_ERROR
   }
+  return postEndpoint(request)
 }
 
 export function setCheckoutBillingAddress (address) {

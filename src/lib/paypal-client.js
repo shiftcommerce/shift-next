@@ -23,7 +23,7 @@ class PayPalClient {
       new paypal.core.SandboxEnvironment(paypalClientID, paypalClientSecret)
     }
   }
-
+  
   /**
    * Performs authorization on the approved order.
    * @param payPalOrderID

@@ -9,5 +9,11 @@ module.exports = {
       req.body.cart
     )
     return res.status(response.status).send(response.data)
+  },
+  authorizeOrder: async (req, res) => {
+    const response = await new PayPalClient().authorizeOrder(
+      req.body.payPalOrderID
+    )
+    return res.status(response.status).send(response.data)
   }
 }

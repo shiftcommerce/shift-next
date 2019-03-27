@@ -91,6 +91,7 @@ module.exports = {
      * PayPal Routes
      */
     server.post('/patchPayPalOrder', shiftPayPalHandler.patchOrder)
+    server.post('/authorizePayPalOrder', shiftPayPalHandler.authorizeOrder)
 
     /**
      * Order Routes
