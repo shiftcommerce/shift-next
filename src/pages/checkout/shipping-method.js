@@ -12,7 +12,6 @@ import {
 } from '../../actions/cart-actions'
 
 import {
-  setPayPalOrderDetails,
   updatePayPalOrderTotal,
   authorizePayPalOrder,
   setPayPalAuthorizationDetails
@@ -95,15 +94,25 @@ export class ShippingMethodPage extends Component {
     const { dispatch, cart, checkout: { payPalOrderDetails } } = this.props
     const payPalOrderID = payPalOrderDetails.orderID
     // update PayPal order total
-    return dispatch(updatePayPalOrderTotal(payPalOrderID, payPalOrderDetails.purchaseUnitsReferenceID, cart)).then(() => {
-      // authorised PayPal Order
-      return dispatch(authorizePayPalOrder(payPalOrderID)).then((authorizationDetails) => {
-        // handle authorised paypal order authorization details
-        dispatch(setPayPalAuthorizationDetails(authorizationDetails))
-        // redirect to next step
-        this.nextSection()
-      }).catch((error) => dispatch(setPaymentError(error)))
-    }).catch((error) => dispatch(setPaymentError(error)))
+    return dispatch(updatePayPalOrderTotal(payPalOrderID, payPalOrderDetails.purchaseUnitsReferenceID, cart)).then((orderUpdateResponse) => {
+      if (orderUpdateResponse.error) {
+        // set order update error message if present
+        dispatch(setPaymentError(authorizationResponse.error))
+      } else {
+        // authorize PayPal Order
+        return dispatch(authorizePayPalOrder(payPalOrderID)).then((authorizationResponse) => {
+          if (authorizationResponse.error) {
+            // set authorization error message if present
+            dispatch(setPaymentError(authorizationResponse.error))
+          } else {
+            // handle authorized paypal order authorization details
+            dispatch(setPayPalAuthorizationDetails(authorizationResponse.data))
+            // redirect to next step
+            this.nextSection()
+          }
+        })
+      }
+    })
   }
 
   /**

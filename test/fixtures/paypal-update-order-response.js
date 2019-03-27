@@ -1,0 +1,73 @@
+module.exports = {
+	"id":"5C91751271779461V",
+	"intent":"AUTHORIZE",
+	"purchase_units":[
+		{
+			"reference_id":"default",
+			"amount":{
+				"currency_code":"GBP",
+				"value":"18.50",
+				"breakdown":{
+					"item_total":{
+						"currency_code":"GBP",
+						"value":"14.00"
+					},
+					"shipping":{
+						"currency_code":"GBP",
+						"value":"5.00"
+					},
+					"shipping_discount":{
+						"currency_code":"GBP",
+						"value":"1.50"
+					},
+					"tax_total": {
+						"currency_code":"GBP",
+						"value":"1.00"
+					}
+				}
+			},
+			"payee":{
+				"email_address":"mufudzi.masaire+merchant@shiftcommerce.com",
+				"merchant_id":"DZUXDDQ446MWQ"
+			},
+			"shipping":{
+				"name":{
+					"full_name":"Test  Example"
+				},
+				"address":{
+					"address_line_1":"Shift Commerce Ltd, Old School Boar",
+					"address_line_2":"Calverley Street",
+					"admin_area_2":"Leeds",
+					"admin_area_1":"N/A",
+					"postal_code":"LS1 3ED",
+					"country_code":"GB"
+				}
+			}
+		}
+	],
+	"payer":{
+		"name":{
+			"given_name":"test",
+			"surname":"buyer"
+		},
+		"email_address":"ryan+paypal-buyer@flexcommerce.com",
+		"payer_id":"KDW6SJUJWEW3E",
+		"address":{
+			"country_code":"GB"
+		}
+	},
+	"create_time":"2019-03-26T15:49:19Z",
+	"links":[
+		{
+			"href":"https://api.sandbox.paypal.com/v2/checkout/orders/5C91751271779461V",
+			"rel":"self",
+			"method":"GET"
+		},
+		{
+			"href":"https://api.sandbox.paypal.com/v2/checkout/orders/5C91751271779461V/authorize",
+			"rel":"authorize",
+			"method":"POST"
+		}
+	],
+	"status":"APPROVED"
+}
