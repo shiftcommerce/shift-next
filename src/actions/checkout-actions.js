@@ -79,6 +79,17 @@ export function setPayPalOrderDetails (orderDetails) {
   }
 }
 
+export function setPayPalAuthorizationDetails (authorizationDetails) {
+  return {
+    type: actionTypes.SET_PAYPAL_ORDER_DETAILS,
+    payload: {
+      id: authorizationDetails.id,
+      status: authorizationDetails.status,
+      expirationTime: authorizationDetails.expirationTime
+    }
+  }
+}
+
 export function updatePayPalOrderTotal (payPalOrderID, purchaseUnitsReferenceID, cart) {
   const request = {
     endpoint: '/patchPayPalOrder',

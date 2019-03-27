@@ -14,7 +14,8 @@ import {
 import {
   setPayPalOrderDetails,
   updatePayPalOrderTotal,
-  authorizePayPalOrder
+  authorizePayPalOrder,
+  setPayPalAuthorizationDetails
 } from '../../actions/checkout-actions'
 
 // Components
@@ -96,9 +97,9 @@ export class ShippingMethodPage extends Component {
     // update PayPal order total
     return dispatch(updatePayPalOrderTotal(payPalOrderID, payPalOrderDetails.purchaseUnitsReferenceID, cart)).then(() => {
       // authorised PayPal Order
-      return dispatch(authorizePayPalOrder(payPalOrderID)).then((authorizedOrderDetails) => {
-        // handle authorised paypal order details
-        dispatch(setPayPalOrderDetails(authorizedOrderDetails))
+      return dispatch(authorizePayPalOrder(payPalOrderID)).then((authorizationDetails) => {
+        // handle authorised paypal order authorization details
+        dispatch(setPayPalAuthorizationDetails(authorizationDetails))
         // redirect to next step
         this.nextSection()
       }).catch((error) => dispatch(setPaymentError(error)))

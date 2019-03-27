@@ -34,10 +34,12 @@ class PayPalClient {
     try {
       const request = new paypal.orders.OrdersAuthorizeRequest(payPalOrderID)
       request.requestBody({})
-      const response = await this.client.execute(request);
+			const response = await this.client.execute(request)
+			const authorization = response.result.purchase_units[0].payments.authorizations[0]
       return {
-        status: response.result.status,
-        authorizationID: response.result.purchase_units[0].payments.authorizations[0].id
+				id: authorization.id,
+        status: authorization.status,
+        expirationTime: authorization.expiration_time
       }
     } catch (error) {
       console.error(`PayPal Client: Error while authorizing order ${payPalOrderID}`, error)
