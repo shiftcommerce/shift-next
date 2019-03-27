@@ -34,7 +34,6 @@ class PayPalClient {
       request.requestBody({})
       const response = await this.client.execute(request);
       return {
-        orderID: response.result.id,
         status: response.result.status,
         authorizationID: response.result.purchase_units[0].payments.authorizations[0].id
       }
