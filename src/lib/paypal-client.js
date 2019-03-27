@@ -10,6 +10,8 @@ class PayPalClient {
   constructor () {
     this.payPalClientID = ShiftNextConfig.get().payPalClientID
     this.payPalClientSecret = ShiftNextConfig.get().payPalClientSecret
+    // this.payPalClientID = process.env.PAYPAL_CLIENT_ID
+    // this.payPalClientSecret = process.env.PAYPAL_CLIENT_SECRET
     this.client = new paypal.core.PayPalHttpClient(this.environment())
   }
 
@@ -38,14 +40,14 @@ class PayPalClient {
         authorizationID: response.result.purchase_units[0].payments.authorizations[0].id
       }
     } catch (error) {
-      console.error('PayPal Client: Error while authorizing order', error)
+      console.error(`PayPal Client: Error while authorizing order ${payPalOrderID}`, error)
       return { error }
     }
   }
 
   /**
    * Updates the order total
-   * @param {string} payPalOrderID 
+   * @param {string} payPalOrderID
    * @param {string} purchaseUnitsReferenceID
    * @param {object} cart
    */
@@ -56,7 +58,7 @@ class PayPalClient {
       const response = await this.client.execute(request)
       return { status: response.status, data: response.data }
     } catch (error) {
-      console.error('PayPal Client: Error while patching order', error)
+      console.error(`PayPal Client: Error while patching order ${payPalOrderID}`, error)
       return { error }
     }
   }
@@ -82,19 +84,19 @@ class PayPalClient {
           'breakdown': {
             'item_total': {
               'currency_code': `${currency_code}`,
-              'value':  `${cart.subTotal}`
+              'value': `${cart.subTotal}`
             },
             'tax_total': {
               'currency_code': `${currency_code}`,
-              'value':  `${cart.tax}`
+              'value': `${cart.tax}`
             },
             'shipping': {
               'currency_code': `${currency_code}`,
-              'value':  `${cart.shippingTotal}`
+              'value': `${cart.shippingTotal}`
             },
             'shipping_discount': {
               'currency_code': `${currency_code}`,
-              'value':  `${cart.shippingDiscount}`
+              'value': `${cart.shippingDiscount}`
             }
           }
         }

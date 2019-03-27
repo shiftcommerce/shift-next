@@ -1001,9 +1001,9 @@
     axios "^0.18.0"
     qs "^6.6.0"
 
-"@shiftcommerce/shift-react-components@shiftcommerce/shift-react-components#feature/790_checkout_integration":
+"@shiftcommerce/shift-react-components@shiftcommerce/shift-react-components#issue/790_updates":
   version "0.1.0"
-  resolved "https://codeload.github.com/shiftcommerce/shift-react-components/tar.gz/a6b61ff7f6be5ac03d707b35f618e2f0e3afa0dd"
+  resolved "https://codeload.github.com/shiftcommerce/shift-react-components/tar.gz/513e33213c132363bf2dc492196099c55eec9e91"
   dependencies:
     classnames "^2.2.6"
     date-fns "^1.29.0"
@@ -1971,9 +1971,9 @@ bin-links@^1.1.2:
     write-file-atomic "^2.3.0"
 
 binary-extensions@^1.0.0:
-  version "1.13.0"
-  resolved "https://registry.yarnpkg.com/binary-extensions/-/binary-extensions-1.13.0.tgz#9523e001306a32444b907423f1de2164222f6ab1"
-  integrity sha512-EgmjVLMn22z7eGGv3kcnHwSnJXmFHjISTY9E/S5lIcTD3Oxw05QTcBLNkJFzcb3cNueUdF/IN4U+d78V0zO8Hw==
+  version "1.13.1"
+  resolved "https://registry.yarnpkg.com/binary-extensions/-/binary-extensions-1.13.1.tgz#598afe54755b2868a5330d2aff9d4ebb53209b65"
+  integrity sha512-Un7MIEDdUC5gNpcGDV97op1Ywk748MpHcFTHoYs6qnj1Z3j7I53VG3nwZhKzoBZmbdRNnb6WRdFlwl7tSDuZGw==
 
 block-stream@*:
   version "0.0.9"
