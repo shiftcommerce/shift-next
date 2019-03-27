@@ -102,6 +102,70 @@ module.exports = {
       default:
         return res.status(response.status).send(response.data)
     }
+  },
+
+  requestForgotPasswordEmail: async (req, res) => {
+    const customerAccountEmail = req.query.email
+
+    const emailResponse = await SHIFTClient.getCustomerAccountByEmailV1(customerAccountEmail)    
+
+    const passwordResetRequest = {
+      data: {
+        type: 'password_recoveries',
+        attributes: {
+          reset_link_with_placeholder: 'https://www.example.com/reset-password?email={{email}}&token={{token}}'
+        }
+      }
+    }
+
+    try {
+      const response = await SHIFTClient.createPasswordRecoveryV1(emailResponse.data.id, passwordResetRequest)
+      return res.status(response.status).send(response.data)
+    } catch (error) {
+      const response = error.response
+      switch (response.status) {
+        case 404:
+        case 422:
+          return res.status(response.status).send(response.data.errors)
+        default:
+          return res.status(response.status).send(response.data)
+      }
+    }
+  },
+
+  resetPassword: async (req, res) => {
+    const request = req.body
+
+    let getAccount = {}
+
+    try {
+      getAccount = await SHIFTClient.getCustomerAccountByTokenV1(req.body.data.attributes.token)
+    } catch (error) {
+      console.log('error', error.response.data.errors)
+      const response = error.response
+      switch (response.status) {
+        case 404:
+        case 422:
+          return res.status(response.status).send(response.data.errors)
+        default:
+          return res.status(response.status).send(response.data)
+      }
+    }
+
+    try {
+      const response = await SHIFTClient.updateCustomerAccountPasswordV1(getAccount.data.id, request)
+      return res.status(response.status).send(response.data)
+    } catch (error) {
+      console.log('error', error.response.data.errors)
+      const response = error.response
+      switch (response.status) {
+        case 404:
+        case 422:
+          return res.status(response.status).send(response.data.errors)
+        default:
+          return res.status(response.status).send(response.data)
+      }
+    }
   }
 }
 

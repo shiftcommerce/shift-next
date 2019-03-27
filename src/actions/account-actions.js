@@ -2,7 +2,7 @@
 import * as types from '../actions/action-types'
 
 // Actions
-import { readEndpoint } from './api-actions'
+import { readEndpoint, postEndpoint } from './api-actions'
 
 const accountRequest = {
   endpoint: '/getAccount',
@@ -37,4 +37,34 @@ const customerOrdersRequest = {
 
 export function getCustomerOrders () {
   return readEndpoint(customerOrdersRequest)
+}
+
+const forgottenPasswordRequest = (email) => {
+  return {
+    endpoint: '/forgotPassword',
+    query: { email }
+  }
+}
+
+export function requestPasswordResetEmail (email) {
+  return readEndpoint(forgottenPasswordRequest(email))
+}
+
+export function passwordReset (token, password) {
+  const request = {
+    endpoint: '/passwordReset',
+    body: {
+      data: {
+        type: 'password_recoveries',
+        attributes: {
+          token: token,
+          password: password
+        }
+      }
+    },
+    successActionType: types.PASSWORD_RESET,
+    errorActionType: types.ERROR_ACCOUNT
+  }
+
+  return postEndpoint(request)
 }
