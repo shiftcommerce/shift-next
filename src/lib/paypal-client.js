@@ -1,6 +1,6 @@
 // Libraries
-import paypal from '@paypal/checkout-server-sdk'
-import ShiftNextConfig from '../lib/config'
+const paypal = require('@paypal/checkout-server-sdk')
+const ShiftNextConfig = require('../lib/config').default
 
 class PayPalClient {
   /**
@@ -9,18 +9,18 @@ class PayPalClient {
    */
   constructor () {
     this.client = new paypal.core.PayPalHttpClient(this.environment())
+    this.payPalClientID = ShiftNextConfig.get().payPalClientID
+    this.payPalClientSecret = ShiftNextConfig.get().payPalClientSecret
   }
 
   /**
    * Returns the PayPal environment
    */
   environment () {
-    const paypalClientID = ShiftNextConfig.get().paypalClientID
-    const paypalClientSecret = ShiftNextConfig.get().paypalClientSecret
     if (process.env.NODE_ENV === 'production') {
-      new paypal.core.LiveEnvironment(paypalClientID, paypalClientSecret)
+      new paypal.core.LiveEnvironment(this.payPalClientID, this.payPalClientSecret)
     } else {
-      new paypal.core.SandboxEnvironment(paypalClientID, paypalClientSecret)
+      new paypal.core.SandboxEnvironment(this.payPalClientID, this.payPalClientSecret)
     }
   }
   
@@ -104,4 +104,6 @@ class PayPalClient {
   }
 }
 
-export default PayPalClient
+module.exports = { 
+  PayPalClient: new PayPalClient()
+}

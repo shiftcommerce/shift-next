@@ -1,9 +1,9 @@
 // Libs
-import PayPalClient from '../lib/paypal-client'
+const { PayPalClient } = require('../lib/paypal-client')
 
 module.exports = {
   patchOrder: async (req, res) => {
-    const response = await new PayPalClient().patchOrder(
+    const response = await PayPalClient.patchOrder(
       req.body.payPalOrderID,
       req.body.purchaseUnitsReferenceID,
       req.body.cart
@@ -11,7 +11,7 @@ module.exports = {
     return res.status(response.status).send(response.data)
   },
   authorizeOrder: async (req, res) => {
-    const response = await new PayPalClient().authorizeOrder(
+    const response = await PayPalClient.authorizeOrder(
       req.body.payPalOrderID
     )
     return res.status(response.status).send(response.data)
