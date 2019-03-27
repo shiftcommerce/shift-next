@@ -8,9 +8,9 @@ class PayPalClient {
    * @constructor
    */
   constructor () {
-    this.client = new paypal.core.PayPalHttpClient(this.environment())
     this.payPalClientID = ShiftNextConfig.get().payPalClientID
     this.payPalClientSecret = ShiftNextConfig.get().payPalClientSecret
+    this.client = new paypal.core.PayPalHttpClient(this.environment())
   }
 
   /**
@@ -18,9 +18,9 @@ class PayPalClient {
    */
   environment () {
     if (process.env.NODE_ENV === 'production') {
-      new paypal.core.LiveEnvironment(this.payPalClientID, this.payPalClientSecret)
+      return new paypal.core.LiveEnvironment(this.payPalClientID, this.payPalClientSecret)
     } else {
-      new paypal.core.SandboxEnvironment(this.payPalClientID, this.payPalClientSecret)
+      return new paypal.core.SandboxEnvironment(this.payPalClientID, this.payPalClientSecret)
     }
   }
   

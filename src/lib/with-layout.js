@@ -87,7 +87,7 @@ export default function withLayout (Component) {
           skipHeader={skipHeader}
           toggleDropDown={this.toggleDropDown}
           showClass={this.state.toggleShowClass}
-          paypalClientID={ Config.get().paypalClientID }
+          payPalClientID={ Config.get().payPalClientID }
           {...this.props}
         >
           <Component {...otherProps} />
