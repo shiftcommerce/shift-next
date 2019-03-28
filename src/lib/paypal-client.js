@@ -1,5 +1,5 @@
 // Libraries
-// const paypal = require('@paypal/checkout-server-sdk')
+const paypal = require('@paypal/checkout-server-sdk')
 
 class PayPalClient {
   /**
@@ -9,18 +9,22 @@ class PayPalClient {
   constructor () {
     this.payPalClientID = process.env.PAYPAL_CLIENT_ID
     this.payPalClientSecret = process.env.PAYPAL_CLIENT_SECRET
-    // this.client = new paypal.core.PayPalHttpClient(this.environment())
+    this.client = new paypal.core.PayPalHttpClient(this.environment())
   }
 
   /**
    * Returns the PayPal environment
    */
   environment () {
-    if (process.env.NODE_ENV === 'production') {
-      return new paypal.core.LiveEnvironment(this.payPalClientID, this.payPalClientSecret)
-    } else {
-      return new paypal.core.SandboxEnvironment(this.payPalClientID, this.payPalClientSecret)
-    }
+    return new paypal.core.SandboxEnvironment(this.payPalClientID, this.payPalClientSecret)
+    // * Since we are running the apps in production mode in every environment
+    // commenting this logic out for now
+    // 
+    // if (process.env.NODE_ENV === 'production') {
+    //   return new paypal.core.LiveEnvironment(this.payPalClientID, this.payPalClientSecret)
+    // } else {
+    //   return new paypal.core.SandboxEnvironment(this.payPalClientID, this.payPalClientSecret)
+    // }
   }
 
   /**

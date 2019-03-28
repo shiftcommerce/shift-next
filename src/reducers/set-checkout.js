@@ -49,7 +49,7 @@ const checkoutInitialState = {
   currentStep: 1,
   addressBook: [],
   paymentMethod: '',
-  paypalOrderDetails: {
+  payPalOrderDetails: {
     orderID: '',
     intent: '',
     status: '',
@@ -230,11 +230,11 @@ export default function setCheckout (state = checkoutInitialState, action) {
       return newState
     
     case types.SET_PAYPAL_ORDER_DETAILS:
-      newState.paypalOrderDetails = Object.assign(newState.paypalOrderDetails, action.payload.orderDetails)
+      newState.payPalOrderDetails = Object.assign(newState.payPalOrderDetails, action.payload.orderDetails)
       return newState
 
     case types.SET_PAYPAL_AUTHORIZATION_DETAILS:
-      newState.paypalOrderDetails.authorization = {
+      newState.payPalOrderDetails.authorization = {
         id: action.payload.id,
         status: action.payload.status,
         expirationTime: action.payload.expirationTime
