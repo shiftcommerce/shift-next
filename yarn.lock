@@ -892,9 +892,10 @@
     axios "^0.18.0"
     qs "^6.6.0"
 
-"@shiftcommerce/shift-react-components@shiftcommerce/shift-react-components#issue-826-searching-within-categories":
+"@shiftcommerce/shift-react-components@^0.4.0":
   version "0.4.0"
-  resolved "https://codeload.github.com/shiftcommerce/shift-react-components/tar.gz/85f2e922f55ebe276af9ec5ca5e37cf1c257d4ad"
+  resolved "https://registry.yarnpkg.com/@shiftcommerce/shift-react-components/-/shift-react-components-0.4.0.tgz#75534d84f1f09508bb8601ef3e6adca7894c13e7"
+  integrity sha512-+3fkOF7kvMqz5vOis3yMBbAxBremj+4TiH2Dc/t2dI74e4S6VHuQ/EN4uy4IhAJkWRD81ikKfk6GN4tLGuw9/g==
   dependencies:
     classnames "^2.2.6"
     date-fns "^1.29.0"

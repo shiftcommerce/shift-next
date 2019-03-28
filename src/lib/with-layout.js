@@ -83,7 +83,7 @@ export default function withLayout (Component) {
       // If the user removed the category filter from the search box
       // clear any filters redirect to the search page
       const router = this.props.router
-      const query = router.query.query
+      const query = qs.parse(window.location.search.slice(1)).query
       router.push(`/search?${qs.stringify({ query })}`)
     }
 
