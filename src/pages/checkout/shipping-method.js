@@ -1,6 +1,7 @@
 // Libraries
 import React, { Component } from 'react'
 import Router from 'next/router'
+import Cookies from 'js-cookie'
 
 // Libs
 import ApiClient from '../../lib/api-client'
@@ -39,7 +40,8 @@ export class ShippingMethodPage extends Component {
     super(props)
 
     this.state = {
-      loading: true
+      loading: true,
+      paymentMethod: Cookies.get('paymentMethod')
     }
 
     this.handleFormSubmit = this.handleFormSubmit.bind(this)
@@ -48,9 +50,9 @@ export class ShippingMethodPage extends Component {
   }
 
   async componentDidMount () {
-    const { cart, checkout, thirdPartyPaymentMethods } = this.props
+    const { cart, thirdPartyPaymentMethods } = this.props
     if (!cart.shipping_address) {
-      if (thirdPartyPaymentMethods.includes(checkout.paymentMethod)) {
+      if (thirdPartyPaymentMethods.includes(this.state.paymentMethod)) {
         // If shipping address is not present and customer has used third party payment service
         // redirect to the payment method page
         return Router.push('/checkout/payment-method')
@@ -77,8 +79,7 @@ export class ShippingMethodPage extends Component {
    */
   handleFormSubmit (event) {
     event.preventDefault()
-    const { checkout: { paymentMethod } } = this.props
-    if (paymentMethod === 'PayPal') {
+    if (this.state.paymentMethod === 'PayPal') {
       // handle form submit for order placed via PayPal
       this.handleFormSubmitForPayPalOrder()
     } else {
@@ -99,6 +100,8 @@ export class ShippingMethodPage extends Component {
     return dispatch(updatePayPalOrderTotal(payPalOrderID, payPalOrderDetails.purchaseUnitsReferenceID, cart)).then(() => {
       // authorize PayPal Order
       return dispatch(authorizePayPalOrder(payPalOrderID)).then(() => {
+        // set PayPal authorizationID in a cookie
+        Cookies.set('authorizationID', payPalOrderDetails.authorization.id, { signed: true })
         // set loading to false
         this.setState({ loading: false })
         // redirect to next step
@@ -118,9 +121,9 @@ export class ShippingMethodPage extends Component {
   }
 
   nextSection () {
-    const { setCurrentStep,checkout, thirdPartyPaymentMethods} = this.props
+    const { setCurrentStep, thirdPartyPaymentMethods} = this.props
   
-    if (thirdPartyPaymentMethods.includes(checkout.paymentMethod)) {
+    if (thirdPartyPaymentMethods.includes(this.state.paymentMethod)) {
       // If customer has used third party payment service, redirect to the order review page
       Router.push('/checkout/review')
       setCurrentStep(5)
@@ -130,8 +133,8 @@ export class ShippingMethodPage extends Component {
   }
 
   continueButtonProps () {
-    const { checkout, thirdPartyPaymentMethods} = this.props
-    const label = (thirdPartyPaymentMethods.includes(checkout.paymentMethod) ? 'Review Your Order' : 'Continue to Payment')
+    const { thirdPartyPaymentMethods} = this.props
+    const label = (thirdPartyPaymentMethods.includes(this.state.paymentMethod) ? 'Review Your Order' : 'Continue to Payment')
   
     return {
       'aria-label': label,
@@ -147,7 +150,7 @@ export class ShippingMethodPage extends Component {
 
   render () {
     const { cart } = this.props
-    const { checkout: { shippingAddress, paymentMethod }, thirdPartyPaymentMethods } = this.props
+    const { thirdPartyPaymentMethods } = this.props
   
     if (!cart.shipping_address) return null
 
@@ -162,7 +165,7 @@ export class ShippingMethodPage extends Component {
               lastName={cart.shipping_address.last_name}
               onClick={() => Router.push('/checkout/shipping-address')}
               postcode={cart.shipping_address.postcode}
-              showEditButton={shippingAddress.showEditButton}
+              showEditButton={!thirdPartyPaymentMethods.includes(this.state.paymentMethod)}
             />
           </div>
         </div>
@@ -172,7 +175,7 @@ export class ShippingMethodPage extends Component {
           handleFormSubmit={this.handleFormSubmit}
           handleSetShippingMethod={this.handleSetShippingMethod}
           shippingMethods={this.state.shippingMethods}
-          isThirdPartyPayment={thirdPartyPaymentMethods.includes(paymentMethod)}
+          isThirdPartyPayment={thirdPartyPaymentMethods.includes(this.state.paymentMethod)}
         /> }
       </div>
     )

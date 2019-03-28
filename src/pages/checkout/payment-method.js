@@ -1,6 +1,7 @@
 // Libraries
 import React, { Component } from 'react'
 import Router from 'next/router'
+import Cookies from 'js-cookie'
 
 // Actions
 import { 
@@ -63,6 +64,8 @@ export class PaymentMethodPage extends Component {
    * @param  {object} paymentMethod
    */
   handleSetPaymentMethod (paymentMethod) {
+    // set PayPal paymentMethod in a cookie
+    Cookies.set('paymentMethod', paymentMethod, { signed: true })
     this.props.dispatch(setPaymentMethod(paymentMethod))
   }
 

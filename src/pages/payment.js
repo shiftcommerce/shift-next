@@ -42,7 +42,8 @@ class CheckoutPaymentPage extends Component {
 
     this.state = {
       loading: true,
-      reviewStep: false
+      reviewStep: false,
+      paymentMethod: Cookies.get('paymentMethod')
     }
 
     this.nextSection = this.nextSection.bind(this)
@@ -146,7 +147,7 @@ class CheckoutPaymentPage extends Component {
     this.setState({
       reviewStep: true
     })
-    setCurrentStep(4)
+    setCurrentStep(5)
   }
 
   showPayment () {
@@ -314,25 +315,25 @@ class CheckoutPaymentPage extends Component {
 
   pageTitle = () => `Checkout - ${this.state.reviewStep ? 'Review' : 'Payment'}`
 
-  currentStep = () => this.state.reviewStep ? 4 : 3
+  currentStep = () => this.state.reviewStep ? 5 : 4
 
   stepActions = () => ({
-    3: () => {
+    4: () => {
       this.setState({ reviewStep: false })
-      this.props.setCurrentStep(3)
+      this.props.setCurrentStep(4)
     }
   })
 
   renderPayment () {
-    const { cart, checkout: { addressBook, paymentMethod, billingAddress }, loggedIn, order } = this.props
+    const { cart, checkout: { addressBook }, loggedIn, order, thirdPartyPaymentMethods } = this.props
 
     return (
       <>
         <div className={classNames({ 'u-hidden': !this.state.reviewStep })}>
           <PaymentMethodSummary
             billingAddress={cart.billing_address}
-            paymentMethod={paymentMethod}
-            showEditButton={billingAddress.showEditButton}
+            paymentMethod={this.state.paymentMethod}
+            showEditButton={!thirdPartyPaymentMethods.includes(this.state.paymentMethod)}
             onClick={this.showPayment}
             withErrors={!!order.paymentError}
           />
@@ -377,6 +378,8 @@ class CheckoutPaymentPage extends Component {
       <>
         <div className='c-checkout__addressform'>
           <div className='o-form__address'>
+          {Cookies.get('paymentMethod')}
+          {Cookies.get('authorizationID')}
             <AddressFormSummary
               addressLine1={shipping_address.address_line_1}
               city={shipping_address.city}
