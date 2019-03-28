@@ -21,16 +21,11 @@ module.exports = {
     let response
 
     if (cartId) {
-      console.log('cartID', cartId)
       response = await SHIFTClient.addLineItemToCartV1(req, res, cartId)
     } else {
       response = await SHIFTClient.createNewCartWithLineItemV1(req, res)
 
-      console.log({response})
-      console.log('response.data', response.data)
-
       if (response.data.id) {
-        console.log('setting the cookie')
         res.cookie('cart', response.data.id, {
           signed: true,
           expires: getSessionExpiryTime()
@@ -40,10 +35,8 @@ module.exports = {
 
     switch (response.status) {
       case 404:
-      console.log('404')
         return res.status(200).send({})
       case 422:
-      console.log('422')
         return res.status(response.status).send(response.data.errors)
       default:
         return res.status(response.status).send(response.data)

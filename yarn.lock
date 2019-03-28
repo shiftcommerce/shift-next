@@ -885,9 +885,9 @@
     "@types/istanbul-lib-coverage" "^1.1.0"
     "@types/yargs" "^12.0.9"
 
-"@shiftcommerce/shift-node-api@0.2.0":
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/@shiftcommerce/shift-node-api/-/shift-node-api-0.2.0.tgz#3743cbdb6c699f7834fcc9c79ec6b698a1da5870"
+"@shiftcommerce/shift-node-api@0.2.1":
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/@shiftcommerce/shift-node-api/-/shift-node-api-0.2.1.tgz#e888ff4371dc6c1de5278258df61807d63241d9b"
   dependencies:
     axios "^0.18.0"
     qs "^6.6.0"
