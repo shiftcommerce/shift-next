@@ -91,6 +91,9 @@ export function setPayPalAuthorizationDetails (authorizationDetails) {
 }
 
 export function updatePayPalOrderTotal (payPalOrderID, purchaseUnitsReferenceID, cart) {
+  const shippingDiscount = cart.shipping_total_discount
+  console.log(cart)
+  console.log(Math.abs(shippingDiscount))
   const request = {
     endpoint: '/patchPayPalOrder',
     body: {
@@ -98,7 +101,8 @@ export function updatePayPalOrderTotal (payPalOrderID, purchaseUnitsReferenceID,
         subTotal: cart.sub_total,
         total: cart.total,
         shippingTotal: cart.shipping_total,
-        shippingDiscount: cart.shipping_total_discount,
+        // This remove the '-' from the value
+        shippingDiscount: Math.abs(shippingDiscount),
         tax: cart.tax,
       },
       payPalOrderID: payPalOrderID,

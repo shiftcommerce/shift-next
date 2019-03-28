@@ -59,6 +59,10 @@ class PayPalClient {
    */
   async patchOrder (payPalOrderID, purchaseUnitsReferenceID, cart) {
     const request = new paypal.orders.OrdersPatchRequest(payPalOrderID)
+    console.log({payPalOrderID})
+    console.log({purchaseUnitsReferenceID})
+    console.log({cart})
+    console.log("pp payload", JSON.stringify(this.buildPatchOrderPayload(purchaseUnitsReferenceID, cart)))
     request.requestBody(this.buildPatchOrderPayload(purchaseUnitsReferenceID, cart))
     try {
       const response = await this.client.execute(request)
@@ -83,7 +87,7 @@ class PayPalClient {
       },
       {
         'op': 'replace',
-        'path': `/purchase_units/@reference_id==${purchaseUnitsReferenceID}/amount`,
+        'path': `/purchase_units/@reference_id=='${purchaseUnitsReferenceID}'/amount`,
         'value': {
           'currency_code': `${currency_code}`,
           'value': `${cart.total}`,
