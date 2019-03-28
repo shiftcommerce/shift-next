@@ -53,7 +53,6 @@ async function placeOrder (req, res, orderPayload) {
     case 404:
       return res.status(200).send({})
     case 422:
-      console.log('im in 422')
       return res.status(response.status).send(response.data.errors)
     default:
       return res.status(response.status).send(response.data)
