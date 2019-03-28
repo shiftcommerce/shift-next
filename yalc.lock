@@ -1,0 +1,10 @@
+{
+  "version": "v1",
+  "packages": {
+    "@shiftcommerce/shift-react-components": {
+      "signature": "3362f14d59536b855f88913b9280cf38",
+      "file": true,
+      "replaced": "shiftcommerce/shift-react-components#issue-826-searching-within-categories"
+    }
+  }
+}
