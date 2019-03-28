@@ -13,14 +13,14 @@ import {
 
 import {
   updatePayPalOrderTotal,
-  authorizePayPalOrder,
-  setPayPalAuthorizationDetails
+  authorizePayPalOrder
 } from '../../actions/checkout-actions'
 
 // Components
 import {
   AddressFormSummary,
-  ShippingMethods
+  ShippingMethods,
+  Loading
 } from '@shiftcommerce/shift-react-components'
 
 export class ShippingMethodPage extends Component {
@@ -93,25 +93,17 @@ export class ShippingMethodPage extends Component {
   handleFormSubmitForPayPalOrder () {
     const { dispatch, cart, checkout: { payPalOrderDetails } } = this.props
     const payPalOrderID = payPalOrderDetails.orderID
+    // set loading to true as we handle the order information
+    this.setState({ loading: true })
     // update PayPal order total
-    return dispatch(updatePayPalOrderTotal(payPalOrderID, payPalOrderDetails.purchaseUnitsReferenceID, cart)).then((orderUpdateResponse) => {
-      if (orderUpdateResponse.error) {
-        // set order update error message if present
-        dispatch(setPaymentError(authorizationResponse.error))
-      } else {
-        // authorize PayPal Order
-        return dispatch(authorizePayPalOrder(payPalOrderID)).then((authorizationResponse) => {
-          if (authorizationResponse.error) {
-            // set authorization error message if present
-            dispatch(setPaymentError(authorizationResponse.error))
-          } else {
-            // handle authorized paypal order authorization details
-            dispatch(setPayPalAuthorizationDetails(authorizationResponse.data))
-            // redirect to next step
-            this.nextSection()
-          }
-        })
-      }
+    return dispatch(updatePayPalOrderTotal(payPalOrderID, payPalOrderDetails.purchaseUnitsReferenceID, cart)).then(() => {
+      // authorize PayPal Order
+      return dispatch(authorizePayPalOrder(payPalOrderID)).then(() => {
+        // set loading to false
+        this.setState({ loading: false })
+        // redirect to next step
+        this.nextSection()
+      })
     })
   }
 
@@ -174,7 +166,7 @@ export class ShippingMethodPage extends Component {
             />
           </div>
         </div>
-        { this.state.loading ? <p>Loading...</p> : <ShippingMethods
+        { this.state.loading ? <Loading /> : <ShippingMethods
           cartLineItemsCount={cart.line_items_count}
           cartShippingMethod={cart.shipping_method}
           handleFormSubmit={this.handleFormSubmit}

@@ -79,37 +79,24 @@ export function setPayPalOrderDetails (orderDetails) {
   }
 }
 
-export function setPayPalAuthorizationDetails (authorizationDetails) {
-  return {
-    type: actionTypes.SET_PAYPAL_ORDER_DETAILS,
-    payload: {
-      id: authorizationDetails.id,
-      status: authorizationDetails.status,
-      expirationTime: authorizationDetails.expirationTime
-    }
-  }
-}
-
 export function updatePayPalOrderTotal (payPalOrderID, purchaseUnitsReferenceID, cart) {
-  const shippingDiscount = cart.shipping_total_discount
-  console.log(cart)
-  console.log(Math.abs(shippingDiscount))
   const request = {
     endpoint: '/patchPayPalOrder',
     body: {
       cart: {
         subTotal: cart.sub_total,
         total: cart.total,
+        discount: cart.total_discount,
+        tax: cart.tax,
         shippingTotal: cart.shipping_total,
         // This remove the '-' from the value
-        shippingDiscount: Math.abs(shippingDiscount),
-        tax: cart.tax,
+        shippingDiscount: Math.abs(cart.shipping_total_discount),
+        freeShipping: cart.free_shipping
       },
       payPalOrderID: payPalOrderID,
       purchaseUnitsReferenceID: purchaseUnitsReferenceID
     },
     requestActionType: actionTypes.PATCH_PAYPAL_ORDER,
-    successActionType: actionTypes.SET_PAYPAL_ORDER_DETAILS,
     errorActionType: actionTypes.SET_PAYMENT_ERROR
   }
   return postEndpoint(request)
@@ -122,7 +109,7 @@ export function authorizePayPalOrder (payPalOrderID) {
       payPalOrderID: payPalOrderID
     },
     requestActionType: actionTypes.AUTHORIZE_PAYPAL_ORDER,
-    successActionType: actionTypes.SET_PAYPAL_ORDER_DETAILS,
+    successActionType: actionTypes.SET_PAYPAL_AUTHORIZATION_DETAILS,
     errorActionType: actionTypes.SET_PAYMENT_ERROR
   }
   return postEndpoint(request)

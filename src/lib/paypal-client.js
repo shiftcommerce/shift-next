@@ -38,7 +38,7 @@ class PayPalClient {
       const response = await this.client.execute(request)
       const authorization = response.result.purchase_units[0].payments.authorizations[0]
       return {
-        status: response.status,
+        status: response.statusCode,
         data: {
           id: authorization.id,
           status: authorization.status,
@@ -59,14 +59,10 @@ class PayPalClient {
    */
   async patchOrder (payPalOrderID, purchaseUnitsReferenceID, cart) {
     const request = new paypal.orders.OrdersPatchRequest(payPalOrderID)
-    console.log({payPalOrderID})
-    console.log({purchaseUnitsReferenceID})
-    console.log({cart})
-    console.log("pp payload", JSON.stringify(this.buildPatchOrderPayload(purchaseUnitsReferenceID, cart)))
     request.requestBody(this.buildPatchOrderPayload(purchaseUnitsReferenceID, cart))
     try {
       const response = await this.client.execute(request)
-      return { status: response.status, data: response.data }
+      return { status: response.statusCode, data: response.data }
     } catch (error) {
       console.error(`PayPal Client: Error while patching order ${payPalOrderID}`, error)
       return { error }
@@ -82,33 +78,10 @@ class PayPalClient {
     return [
       {
         'op': 'replace',
-        'path': '/intent',
-        'value': 'AUTHORIZE'
-      },
-      {
-        'op': 'replace',
         'path': `/purchase_units/@reference_id=='${purchaseUnitsReferenceID}'/amount`,
         'value': {
           'currency_code': `${currency_code}`,
-          'value': `${cart.total}`,
-          'breakdown': {
-            'item_total': {
-              'currency_code': `${currency_code}`,
-              'value': `${cart.subTotal}`
-            },
-            'tax_total': {
-              'currency_code': `${currency_code}`,
-              'value': `${cart.tax}`
-            },
-            'shipping': {
-              'currency_code': `${currency_code}`,
-              'value': `${cart.shippingTotal}`
-            },
-            'shipping_discount': {
-              'currency_code': `${currency_code}`,
-              'value': `${cart.shippingDiscount}`
-            }
-          }
+          'value': `${cart.total + cart.tax}`
         }
       }
     ]
