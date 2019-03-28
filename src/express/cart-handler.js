@@ -25,7 +25,11 @@ module.exports = {
     } else {
       response = await SHIFTClient.createNewCartWithLineItemV1(req, res)
 
+      console.log({response})
+      console.log('response.data', response.data)
+
       if (response.data.id) {
+        console.log('setting the cookie')
         res.cookie('cart', response.data.id, {
           signed: true,
           expires: getSessionExpiryTime()
