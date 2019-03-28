@@ -1,6 +1,5 @@
 // Libraries
-const paypal = require('@paypal/checkout-server-sdk')
-const ShiftNextConfig = require('../lib/config').default
+// const paypal = require('@paypal/checkout-server-sdk')
 
 class PayPalClient {
   /**
@@ -8,11 +7,9 @@ class PayPalClient {
    * @constructor
    */
   constructor () {
-    this.payPalClientID = ShiftNextConfig.get().payPalClientID
-    this.payPalClientSecret = ShiftNextConfig.get().payPalClientSecret
-    // this.payPalClientID = process.env.PAYPAL_CLIENT_ID
-    // this.payPalClientSecret = process.env.PAYPAL_CLIENT_SECRET
-    this.client = new paypal.core.PayPalHttpClient(this.environment())
+    this.payPalClientID = process.env.PAYPAL_CLIENT_ID
+    this.payPalClientSecret = process.env.PAYPAL_CLIENT_SECRET
+    // this.client = new paypal.core.PayPalHttpClient(this.environment())
   }
 
   /**
@@ -25,7 +22,7 @@ class PayPalClient {
       return new paypal.core.SandboxEnvironment(this.payPalClientID, this.payPalClientSecret)
     }
   }
-  
+
   /**
    * Performs authorization on the approved order.
    * @param payPalOrderID
@@ -34,16 +31,16 @@ class PayPalClient {
     try {
       const request = new paypal.orders.OrdersAuthorizeRequest(payPalOrderID)
       request.requestBody({})
-			const response = await this.client.execute(request)
-			const authorization = response.result.purchase_units[0].payments.authorizations[0]
-			return {
-				status: response.status,
-				data: {
-					id: authorization.id,
-					status: authorization.status,
-					expirationTime: authorization.expiration_time
-				}
-			}
+      const response = await this.client.execute(request)
+      const authorization = response.result.purchase_units[0].payments.authorizations[0]
+      return {
+        status: response.status,
+        data: {
+          id: authorization.id,
+          status: authorization.status,
+          expirationTime: authorization.expiration_time
+        }
+      }
     } catch (error) {
       console.error(`PayPal Client: Error while authorizing order ${payPalOrderID}`, error)
       return { error }
