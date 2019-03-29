@@ -98,15 +98,8 @@ export class ShippingMethodPage extends Component {
     this.setState({ loading: true })
     // update PayPal order total
     return dispatch(updatePayPalOrderTotal(payPalOrderID, payPalOrderDetails.purchaseUnitsReferenceID, cart)).then(() => {
-      // authorize PayPal Order
-      return dispatch(authorizePayPalOrder(payPalOrderID)).then(() => {
-        // set PayPal authorizationID in a cookie
-        Cookies.set('authorizationID', payPalOrderDetails.authorization.id, { signed: true })
-        // set loading to false
-        this.setState({ loading: false })
-        // redirect to next step
-        this.nextSection()
-      })
+      // redirect to next step
+      this.nextSection()
     })
   }
 

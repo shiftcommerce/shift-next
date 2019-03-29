@@ -132,8 +132,6 @@ export class PaymentMethodPage extends Component {
         shippingDetails.address
       )
     ).then(() => {
-      // set loading to false
-      this.setState({ loading: false })
       // redirect to shipping method checkout step
       this.transitionToShippingMethodSection()
     })
@@ -201,6 +199,8 @@ export class PaymentMethodPage extends Component {
    */
   handlePayPalOrderDetails (payPalOrder) {
     const { dispatch } = this.props
+    // set PayPal paymentMethod in a cookie
+    Cookies.set('ppOrderID', payPalOrder.id, { signed: true })
     // dispatch action to set PayPal order details
     return dispatch(setPayPalOrderDetails({
       orderID: payPalOrder.id,

@@ -68,7 +68,7 @@ class CheckoutPaymentPage extends Component {
   componentDidMount () {
     const { cart, checkout, thirdPartyPaymentMethods } = this.props
     if (!cart.shipping_address) {
-      if (thirdPartyPaymentMethods.includes(checkout.paymentMethod)) {
+      if (thirdPartyPaymentMethods.includes(this.state.paymentMethod)) {
         // If shipping address is not present and customer has used third party payment service
         // redirect to the payment method page
         return Router.push('/checkout/payment-method')
@@ -77,7 +77,7 @@ class CheckoutPaymentPage extends Component {
       }
     }
 
-    if (thirdPartyPaymentMethods.includes(checkout.paymentMethod)) {
+    if (thirdPartyPaymentMethods.includes(this.state.paymentMethod)) {
       return Router.push('/checkout/review')
     }
 
@@ -378,7 +378,6 @@ class CheckoutPaymentPage extends Component {
       <>
         <div className='c-checkout__addressform'>
           <div className='o-form__address'>
-          {Cookies.get('paymentMethod')}
           {Cookies.get('authorizationID')}
             <AddressFormSummary
               addressLine1={shipping_address.address_line_1}

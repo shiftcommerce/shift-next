@@ -81,7 +81,7 @@ class PayPalClient {
         'path': `/purchase_units/@reference_id=='${purchaseUnitsReferenceID}'/amount`,
         'value': {
           'currency_code': `${currency_code}`,
-          'value': `${cart.total + cart.tax}`
+          'value': `${cart.total}`
         }
       }
     ]
