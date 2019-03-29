@@ -885,16 +885,18 @@
     "@types/istanbul-lib-coverage" "^1.1.0"
     "@types/yargs" "^12.0.9"
 
-"@shiftcommerce/shift-node-api@0.2.0":
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/@shiftcommerce/shift-node-api/-/shift-node-api-0.2.0.tgz#3743cbdb6c699f7834fcc9c79ec6b698a1da5870"
+"@shiftcommerce/shift-node-api@0.2.1":
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/@shiftcommerce/shift-node-api/-/shift-node-api-0.2.1.tgz#e888ff4371dc6c1de5278258df61807d63241d9b"
+  integrity sha512-cAJOL+Zxi2GDAcxJd8id9lZYCjw83MgulUmIm6qSBvCC9qlnvZXRmE2BWalncHGzYnMD0UAL77u3evNJ0YuqEQ==
   dependencies:
     axios "^0.18.0"
     qs "^6.6.0"
 
-"@shiftcommerce/shift-react-components@0.3.0":
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/@shiftcommerce/shift-react-components/-/shift-react-components-0.3.0.tgz#ded5d681a06a47c0d7346bafa15decb57c9a6d62"
+"@shiftcommerce/shift-react-components@^0.4.0":
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/@shiftcommerce/shift-react-components/-/shift-react-components-0.4.0.tgz#75534d84f1f09508bb8601ef3e6adca7894c13e7"
+  integrity sha512-+3fkOF7kvMqz5vOis3yMBbAxBremj+4TiH2Dc/t2dI74e4S6VHuQ/EN4uy4IhAJkWRD81ikKfk6GN4tLGuw9/g==
   dependencies:
     classnames "^2.2.6"
     date-fns "^1.29.0"
