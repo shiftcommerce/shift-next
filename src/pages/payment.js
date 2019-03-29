@@ -1,7 +1,6 @@
 // Libraries
 import React, { Component } from 'react'
 import Router from 'next/router'
-import classNames from 'classnames'
 import Cookies from 'js-cookie'
 
 // Libs
@@ -22,7 +21,8 @@ import {
   autoFillBillingAddress,
   inputChange,
   setValidationMessage,
-  showField
+  showField,
+  authorizePayPalAndCreateOrder
 } from '../actions/checkout-actions'
 import { setCartBillingAddress, createBillingAddress } from '../actions/cart-actions'
 import {
@@ -43,7 +43,8 @@ class CheckoutPaymentPage extends Component {
     this.state = {
       loading: true,
       reviewStep: false,
-      paymentMethod: Cookies.get('paymentMethod')
+      paymentMethod: Cookies.get('paymentMethod'),
+      payPalOrderID: Cookies.get('ppOrderID')
     }
 
     this.nextSection = this.nextSection.bind(this)
@@ -283,25 +284,20 @@ class CheckoutPaymentPage extends Component {
     const shippingMethodPresent = !!(cart.shipping_method || {}).id
     const billingAddressPresent = !!(cart.billing_address || {}).id
 
-    console.log(!order.card_errors && shippingAddressPresent && shippingMethodPresent && billingAddressPresent)
-
     return !order.card_errors && shippingAddressPresent && shippingMethodPresent && billingAddressPresent
   }
 
   convertToOrder () {
-    const { thirdPartyPaymentMethods } = this.props
-  
+    const { dispatch, thirdPartyPaymentMethods } = this.props
+
     if (thirdPartyPaymentMethods.includes(this.state.paymentMethod)) {
-      return dispatch(setCardToken(token, this.state.paymentMethod)).then(() => {
-        dispatch(requestCardToken(false))
+      // authorise PayPal order and create order in platform
+      return dispatch(authorizePayPalAndCreateOrder(this.state.payPalOrderID, this.state.paymentMethod)).then(() => {
+        // clean up cookie data
+        Cookies.remove('ppOrderID')
+        Cookies.remove('paymentMethod')
+        // redirect to order page
         Router.push('/order')
-      })
-
-
-
-
-      return dispatch(authorizePayPalOrder(payPalOrderID)).then(() => {
-        // Some thing
       })
     } else {
       this.props.dispatch(requestCardToken(true))
@@ -396,7 +392,6 @@ class CheckoutPaymentPage extends Component {
       <>
         <div className='c-checkout__addressform'>
           <div className='o-form__address'>
-          {Cookies.get('authorizationID')}
             <AddressFormSummary
               addressLine1={shipping_address.address_line_1}
               city={shipping_address.city}
@@ -411,7 +406,6 @@ class CheckoutPaymentPage extends Component {
           onClick={() => Router.push('/checkout/shipping-method')}
           shippingMethod={cart.shipping_method}
         />
-        { this.state.reviewStep }
         { this.state.reviewStep ? this.renderPaymentSummary() : this.renderPaymentForm() }
       </>
     )

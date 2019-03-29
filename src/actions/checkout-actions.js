@@ -1,6 +1,7 @@
 // Actions
 import * as actionTypes from './action-types'
 import { postEndpoint } from './api-actions'
+import { createOrder } from './order-actions'
 
 // Store the input change info in the local redux store
 function storeInputChange (formName, fieldName, fieldValue) {
@@ -109,10 +110,20 @@ export function authorizePayPalOrder (payPalOrderID) {
       payPalOrderID: payPalOrderID
     },
     requestActionType: actionTypes.AUTHORIZE_PAYPAL_ORDER,
-    successActionType: actionTypes.SET_PAYPAL_AUTHORIZATION_DETAILS,
+    successActionType: actionTypes.SET_ORDER_PAYPAL_AUTHORIZATION_DETAILS,
     errorActionType: actionTypes.SET_PAYMENT_ERROR
   }
   return postEndpoint(request)
+}
+
+export function authorizePayPalAndCreateOrder (payPalOrderID, paymentMethod) {
+  return (dispatch, getState) => {
+    // authorize the PayPal Order
+    return dispatch(authorizePayPalOrder(payPalOrderID)).then(() => {
+      // create order
+      return dispatch(createOrder(getState().cart, paymentMethod, getState().order))
+    })
+  }
 }
 
 export function setCheckoutBillingAddress (address) {

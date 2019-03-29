@@ -76,10 +76,15 @@ export function convertCheckoutToOrder (cart, paymentMethod, order) {
     type: 'create_order'
   }
 
+  console.log('convertCheckoutToOrder order', order )
+
+  console.log('convertCheckoutToOrder action', order.paymentAuthorization.id )
+
   return {
     data: orderPayload,
     payment_method: paymentMethod,
-    card_token: order.cardToken
+    card_token: order.cardToken,
+    paymentAuthorizationID: order.paymentAuthorization.id
   }
 }
 

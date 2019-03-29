@@ -6,8 +6,13 @@ export const initialState = {
   cardToken: {},
   paymentError: null,
   error: false,
-  card_errors: true,
-  loading: false
+  card_errors: false,
+  loading: false,
+  paymentAuthorization: {
+    id: '',
+    status: '',
+    expiration_time: ''
+  },
 }
 
 export default function setOrder (state = initialState, action) {
@@ -26,6 +31,9 @@ export default function setOrder (state = initialState, action) {
 
     case types.CARD_ERRORS:
       return Object.assign({}, state, { card_errors: action.errors })
+
+    case types.SET_ORDER_PAYPAL_AUTHORIZATION_DETAILS:
+      return Object.assign({}, state, { paymentAuthorization: action.payload })
 
     default:
       return state
