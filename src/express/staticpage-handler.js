@@ -1,10 +1,11 @@
 const { SHIFTClient } = require('@shiftcommerce/shift-node-api')
+const util = require('util')
 
 module.exports = {
   getStaticPage: async (req, res) => {
     const response = await SHIFTClient.getStaticPageV1(req.params.id, req.query)
 
-    console.log('express response, parsed', response)
+    console.log('handler parsed', util.inspect(response, { showHidden: false, depth: null }))
 
     switch (response.status) {
       case 404:
