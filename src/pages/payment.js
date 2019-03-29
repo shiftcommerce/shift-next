@@ -291,6 +291,8 @@ class CheckoutPaymentPage extends Component {
     const { dispatch, thirdPartyPaymentMethods } = this.props
 
     if (thirdPartyPaymentMethods.includes(this.state.paymentMethod)) {
+      // set loading to true as we handle the order authorization and creation process
+      this.setState({ loading: true })
       // authorise PayPal order and create order in platform
       return dispatch(authorizePayPalAndCreateOrder(this.state.payPalOrderID, this.state.paymentMethod)).then(() => {
         // clean up cookie data

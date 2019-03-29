@@ -51,7 +51,7 @@ module.exports = {
         },
         type: 'payment_transactions'
       }]
-      orderPayload.data.attributes.ip_address = cardToken.client_ip
+      orderPayload.data.attributes.ip_address = req.connection.remoteAddress
       placeOrder(req, res, orderPayload)
     } else {
       return placeOrder(req, res, orderPayload)
