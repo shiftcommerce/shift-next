@@ -20,11 +20,7 @@ afterEach(() => { nock.cleanAll() })
 const nockScope = nock('https://api.sandbox.paypal.com/')
 
 const cart = {
-  subTotal: 14.00,
-  total: 18.50,
-  shippingTotal: 5,
-  shippingDiscount: 1.50,
-  tax: 1,
+  total: 18.50
 }
 const payPalOrderID = '5C91751271779461V'
 const purchaseUnitsReferenceID = 'default'
@@ -80,25 +76,7 @@ test('buildPatchOrderPayload returns correct patch payload', async () => {
       'path': `/purchase_units/@reference_id=='default'/amount`,
       'value': {
         'currency_code': 'GBP',
-        'value': 18.50,
-        'breakdown': {
-          'item_total': {
-            'currency_code': 'GBP',
-            'value': 14.00
-          },
-          'tax_total': {
-            'currency_code': 'GBP',
-            'value':  1.00
-          },
-          'shipping': {
-            'currency_code': 'GBP',
-            'value': 5
-          },
-          'shipping_discount': {
-            'currency_code': 'GBP',
-            'value': 1.50
-          }
-        }
+        'value': 18.50
       }
     }
   ]
