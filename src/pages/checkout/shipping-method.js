@@ -118,7 +118,7 @@ export class ShippingMethodPage extends Component {
   
     if (thirdPartyPaymentMethods.includes(this.state.paymentMethod)) {
       // If customer has used third party payment service, redirect to the order review page
-      Router.push('/checkout/review')
+      Router.push('/checkout/payment', '/checkout/review')
       setCurrentStep(5)
     } else {
       Router.push('/checkout/payment')
