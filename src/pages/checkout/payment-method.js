@@ -66,7 +66,7 @@ export class PaymentMethodPage extends Component {
   handleSetPaymentMethod (paymentMethod) {
     // set PayPal paymentMethod in a cookie
     Cookies.set('paymentMethod', paymentMethod, { signed: true })
-    this.props.dispatch(setPaymentMethod(paymentMethod))
+    return this.props.dispatch(setPaymentMethod(paymentMethod))
   }
 
   /**
@@ -121,19 +121,23 @@ export class PaymentMethodPage extends Component {
         payerPhoneNumber,
         payer.address
       )
-    )
-    // handle parsing + setting of shipping address in state + creation
-    this.handleShippingAddressCreation(
-      this.parsePayPalAddress(
-        shippingFullName.slice(0, -1).join(' '),
-        shippingFullName.slice(-1).join(' '),
-        payerEmail,
-        payerPhoneNumber,
-        shippingDetails.address
-      )
     ).then(() => {
-      // redirect to shipping method checkout step
-      this.transitionToShippingMethodSection()
+      // handle parsing + setting of shipping address in state + creation
+      this.handleShippingAddressCreation(
+        this.parsePayPalAddress(
+          shippingFullName.slice(0, -1).join(' '),
+          shippingFullName.slice(-1).join(' '),
+          payerEmail,
+          payerPhoneNumber,
+          shippingDetails.address
+        )
+      ).then(() => {
+        // set the created billing and shipping address IDs on the Cart
+        this.updateCartAddresses().then(() => {
+          // redirect to shipping method checkout step
+          this.transitionToShippingMethodSection()
+        })
+      })
     })
   }
 
@@ -168,14 +172,11 @@ export class PaymentMethodPage extends Component {
    * @param  {object} newBillingAddress
    */
   handleBillingAddressCreation (newBillingAddress) {
-    const { dispatch, checkout } = this.props
+    const { dispatch } = this.props
     // set new address in state
     dispatch(setCheckoutBillingAddress(newBillingAddress))
     // create shipping address
-    return dispatch(createBillingAddress(newBillingAddress)).then(() => {
-      // set the created shipping address ID in state
-      return dispatch(setCartBillingAddress(checkout.billingAddress.id))
-    })
+    return dispatch(createBillingAddress(newBillingAddress))
   }
 
   /**
@@ -183,12 +184,22 @@ export class PaymentMethodPage extends Component {
    * @param  {object} newShippingAddress
    */
   handleShippingAddressCreation (newShippingAddress) {
-    const { dispatch, checkout } = this.props
+    const { dispatch } = this.props
     // set new address in state
     dispatch(setCheckoutShippingAddress(newShippingAddress))
     // create shipping address
-    return dispatch(createShippingAddress(newShippingAddress)).then(() => {
-      // set the created shipping address ID in state
+    return dispatch(createShippingAddress(newShippingAddress))
+  }
+
+  /**
+   * Handles the updating of cart billing and shipping addresses
+   * @param  {object} newShippingAddress
+   */
+  updateCartAddresses () {
+    const { dispatch, checkout } = this.props
+    // set the created shipping address ID on the Cart
+    return dispatch(setCartBillingAddress(checkout.billingAddress.id)).then(() => {
+      // set the created shipping address ID on the Cart
       return dispatch(setCartShippingAddress(checkout.shippingAddress.id))
     })
   }
