@@ -19,7 +19,6 @@ class OrderPage extends Component {
 
   componentWillUnmount() {
     // clean up cookie data
-    Cookies.remove('ppOrderID')
     Cookies.remove('paymentMethod')
   }
 

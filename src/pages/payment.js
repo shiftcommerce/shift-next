@@ -295,6 +295,8 @@ class CheckoutPaymentPage extends Component {
       this.setState({ loading: true })
       // authorise PayPal order and create order in platform
       return dispatch(authorizePayPalAndCreateOrder(this.state.payPalOrderID, this.state.paymentMethod)).then(() => {
+        // clean up cookie data
+        Cookies.remove('ppOrderID')
         // redirect to order page
         Router.push('/order')
       })

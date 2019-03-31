@@ -193,7 +193,6 @@ export class PaymentMethodPage extends Component {
 
   /**
    * Handles the updating of cart billing and shipping addresses
-   * @param  {object} newShippingAddress
    */
   updateCartAddresses () {
     const { dispatch, checkout } = this.props
