@@ -256,3 +256,98 @@ test('populates billing address when it is autofilled', () => {
     errors: {}
   })
 })
+
+test('sets billing address when a PayPal order is created', () => {
+  // Arrange
+  const addressPayload = {
+    first_name: 'test',
+    last_name: 'buyer',
+    email: 'testbuyer@flexcommerce.com',
+    line_1: '1 Main Terrace',
+    line_2: undefined,
+    city: 'Wolverhampton',
+    state: 'West Midlands',
+    zipcode: 'W12 4LQ',
+    country_code: 'GB',
+    primary_phone: '0352878596',
+    collapsed: true,
+    completed: true,
+    showEditButton: false
+  }
+  const action = {
+    type: actionTypes.SET_CHECKOUT_BILLING_ADDRESS,
+    payload: {
+      address: addressPayload
+    }
+  }
+  const currentState = {
+    billingAddress: {}
+  }
+
+  // Act 
+  const updatedState = setCheckout(currentState, action)
+
+  // Assert
+  expect(updatedState.billingAddress).toEqual(addressPayload)
+})
+
+test('sets shipping address when a PayPal order is created', () => {
+  // Arrange
+  const addressPayload = {
+    first_name: 'Test',
+    last_name: 'Example',
+    email: 'testbuyer@flexcommerce.com',
+    line_1: 'Shift Commerce Ltd, Old School Boar',
+    line_2: 'Calverley Street',
+    city: 'Leeds',
+    state: 'N/A',
+    zipcode: 'LS1 3ED',
+    country_code: 'GB',
+    primary_phone: '0352878596',
+    collapsed: true,
+    completed: true,
+    showEditButton: false
+  }
+  const action = {
+    type: actionTypes.SET_CHECKOUT_SHIPPING_ADDRESS,
+    payload: {
+      address: addressPayload
+    }
+  }
+  const currentState = {
+    shippingAddress: {}
+  }
+
+  // Act 
+  const updatedState = setCheckout(currentState, action)
+
+  // Assert
+  expect(updatedState.shippingAddress).toEqual(addressPayload)
+})
+
+test('sets PayPal Order Details when a PayPal order is created', () => {
+  // Arrange
+  const payload = {
+    orderID: '9B29180392286445Y',
+    intent: 'AUTHORIZE',
+    status: 'COMPLETED',
+    purchaseUnitsReferenceID: '2213',
+    authorizationID: '847484949',
+    createdAt: '2019-03-25T15:58:41Z'
+  }
+  const action = {
+    type: actionTypes.SET_PAYPAL_ORDER_DETAILS,
+    payload: {
+      orderDetails: payload
+    }
+  }
+  const currentState = {
+    paypalOrderDetails: {}
+  }
+
+  // Act 
+  const updatedState = setCheckout(currentState, action)
+
+  // Assert
+  expect(updatedState.paypalOrderDetails).toEqual(payload)
+})

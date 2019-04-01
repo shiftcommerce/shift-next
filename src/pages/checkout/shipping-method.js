@@ -42,13 +42,20 @@ export class ShippingMethodPage extends Component {
   }
 
   async componentDidMount () {
-    if (!this.props.cart.shipping_address) {
-      return Router.push('/checkout/shipping-address')
+    const { cart, checkout, thirdPartyPaymentMethods } = this.props
+    if (!cart.shipping_address) {
+      if (thirdPartyPaymentMethods.includes(checkout.paymentMethod)) {
+        // If shipping address is not present and customer has used third party payment service
+        // redirect to the payment method page
+        return Router.push('/checkout/payment-method')
+      } else {
+        return Router.push('/checkout/shipping-address')
+      }
     }
 
     const shippingMethods = (await this.constructor.fetchShippingMethods()).data.sort((method1, method2) => method1.total - method2.total)
 
-    if (!this.props.cart.shipping_method) {
+    if (!cart.shipping_method) {
       this.props.dispatch(setCartShippingMethod(shippingMethods[0].id))
     }
 
@@ -78,7 +85,14 @@ export class ShippingMethodPage extends Component {
   }
 
   nextSection (eventType) {
-    Router.push('/checkout/payment')
+    const { checkout, thirdPartyPaymentMethods} = this.props
+    if (thirdPartyPaymentMethods.includes(checkout.paymentMethod)) {
+      // If customer has used third party payment service, redirect to the order review page
+      Router.push('/checkout/payment', '/checkout/review')
+      setCurrentStep(5)
+    } else {
+      Router.push('/checkout/payment')
+    }
   }
 
   continueButtonProps () {
@@ -92,11 +106,12 @@ export class ShippingMethodPage extends Component {
 
   pageTitle = () => 'Shipping Method'
 
-  currentStep = () => 2
+  currentStep = () => 3
 
   render () {
     const { cart } = this.props
-
+    const { checkout: { shippingAddress } } = this.props
+  
     if (!cart.shipping_address) return null
 
     return (
@@ -110,6 +125,7 @@ export class ShippingMethodPage extends Component {
               lastName={cart.shipping_address.last_name}
               onClick={() => Router.push('/checkout/shipping-address')}
               postcode={cart.shipping_address.postcode}
+              showEditButton={shippingAddress.showEditButton}
             />
           </div>
         </div>

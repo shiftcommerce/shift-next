@@ -10,6 +10,7 @@ import { suffixWithStoreName } from '../lib/suffix-with-store-name'
 // Components
 import {
   CheckoutCart,
+  CheckoutCartButtons,
   CheckoutCartTotal,
   CheckoutSteps,
   CouponForm,
@@ -38,7 +39,8 @@ export function withCheckout (WrappedComponent) {
       this.state = {
         loading: true,
         continueButtonProps: {},
-        currentStep: 1
+        currentStep: 1,
+        thirdPartyPaymentMethods: ['PayPal', 'GPay', 'Apple Pay']
       }
 
       this.setCurrentStep = this.setCurrentStep.bind(this)
@@ -144,6 +146,7 @@ export function withCheckout (WrappedComponent) {
                 <WrappedComponent
                   ref={this.wrappedRef}
                   setCurrentStep={this.setCurrentStep}
+                  thirdPartyPaymentMethods={this.state.thirdPartyPaymentMethods}
                   {...this.props}
                 />
               </div>
@@ -160,7 +163,6 @@ export function withCheckout (WrappedComponent) {
                     handleSubmit={this.handleCouponSubmit}
                   />
                   <CheckoutCartTotal
-                    continueButtonProps={continueButtonProps}
                     discountSummaries={cart.discount_summaries}
                     paymentError={order.paymentError}
                     shippingDiscount={cart.shipping_total_discount}
@@ -168,6 +170,9 @@ export function withCheckout (WrappedComponent) {
                     shippingTotal={cart.shipping_method && cart.shipping_method.total}
                     subTotal={cart.sub_total}
                     total={cart.total}
+                  />
+                  <CheckoutCartButtons
+                    continueButtonProps={continueButtonProps}
                   />
                   <div className='c-checkout__payment'>
                     <PaymentIcons />

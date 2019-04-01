@@ -32,9 +32,10 @@ describe('componentDidMount()', () => {
     // Arrange
     const pushSpy = jest.spyOn(Router, 'push').mockImplementation(() => {})
     const cartState = {}
+    const checkoutState = { paymentMethod: 'default' }
   
     // Act
-    shallow(<CheckoutPaymentPage cart={cartState} />)
+    shallow(<CheckoutPaymentPage cart={cartState} checkout={checkoutState} />)
   
     // Assert
     expect(pushSpy).toHaveBeenCalledWith('/checkout/shipping-address')
@@ -45,12 +46,13 @@ describe('componentDidMount()', () => {
     // Arrange
     const pushSpy = jest.spyOn(Router, 'push').mockImplementation(() => {})
     const cartState = {}
+    const checkoutState = { paymentMethod: 'paypal' }
     
     // Act
-    shallow(<CheckoutPaymentPage cart={cartState} />)
+    shallow(<CheckoutPaymentPage cart={cartState} checkout={checkoutState} />)
   
     // Assert
-    expect(pushSpy).toHaveBeenCalledWith('/checkout/shipping-address')
+    expect(pushSpy).toHaveBeenCalledWith('/checkout/payment-method')
     pushSpy.mockRestore()
   })
 
