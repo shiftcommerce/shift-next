@@ -7,6 +7,8 @@ import Config from '../../src/lib/config'
 import payPalAuthorizationResponse from '../fixtures/paypal-order-authorization-response'
 import payPalUpdateOrderResponse from '../fixtures/paypal-update-order-response'
 
+jest.doMock('@paypal/checkout-server-sdk')
+
 beforeEach(() => {
   Config.set({
     payPalClientID: 'test',
