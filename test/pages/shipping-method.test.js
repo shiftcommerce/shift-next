@@ -131,7 +131,7 @@ test('render shipping methods as expected', async () => {
   const wrapper = mount(<ShippingMethodPage cart={cart} checkout={checkout} thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions} dispatch={jest.fn()} />)
 
   // Assert
-  expect(wrapper.find('p').last()).toIncludeText('Loading...')
+  expect(wrapper.find('Loading')).toBeTruthy()
   expect(wrapper).toMatchSnapshot()
 
   await wrapper.instance().componentDidMount()
@@ -181,8 +181,7 @@ test('renders line item quantity as expected', async () => {
   const wrapper = mount(<ShippingMethodPage cart={cart} checkout={checkout} thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions} />)
 
   // Assert
-  expect(wrapper.find('p').last()).toIncludeText('Loading...')
-
+  expect(wrapper.find('Loading')).toBeTruthy()
   await wrapper.instance().componentDidMount()
 
   expect(wrapper).toMatchSnapshot()
@@ -243,7 +242,7 @@ test('preselects first shipping method when fetching shipping methods and none i
   const wrapper = mount(<ShippingMethodPage cart={cart} checkout={checkout} thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions} dispatch={jest.fn()} />)
 
   // Assert
-  expect(wrapper.find('p').last()).toIncludeText('Loading...')
+  expect(wrapper.find('Loading')).toBeTruthy()
 
   await wrapper.instance().componentDidMount()
 
@@ -317,7 +316,7 @@ test('selecting a shipping method makes a correct API call', async () => {
   const wrapper = mount(<ShippingMethodPage cart={cart} checkout={checkout} thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions} dispatch={jest.fn()} />)
 
   // Assert
-  expect(wrapper.find('p').last()).toIncludeText('Loading...')
+  expect(wrapper.find('Loading')).toBeTruthy()
 
   await wrapper.instance().componentDidMount()
   wrapper.update()

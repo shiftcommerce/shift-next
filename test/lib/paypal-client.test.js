@@ -16,7 +16,7 @@ beforeEach(() => {
 
 nock.disableNetConnect()
 
-afterEach(() => { nock.cleanAll() })
+afterEach(() => { nock.cleanAll()})
 
 const nockScope = nock('https://api.sandbox.paypal.com/')
 

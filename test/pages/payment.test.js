@@ -980,7 +980,7 @@ describe('render()', () => {
     const wrapper = shallow(<CheckoutPaymentPage cart={{}} checkout={checkoutState} thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions}/>, { disableLifecycleMethods: true })
 
     // Assert
-    expect(wrapper.find('Loading').length).toEqual(1)
+    expect(wrapper.find('Loading')).toBeTruthy()
     expect(wrapper.find('AddressFormSummary').length).toEqual(0)
     expect(wrapper.find('ShippingMethodsSummary').length).toEqual(0)
     expect(wrapper.find('PaymentMethod').length).toEqual(0)
