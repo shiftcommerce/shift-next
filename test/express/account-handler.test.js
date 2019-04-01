@@ -265,8 +265,6 @@ describe('registerAccount()', () => {
         }))
       }
 
-      expect.assertions(3)
-
       const response = await registerAccount(req, res)
       expect(response[0].status).toBe('422')
       expect(response[0].title).toBe('is too short (minimum is 8 characters)')

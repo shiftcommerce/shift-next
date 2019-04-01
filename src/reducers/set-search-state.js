@@ -2,24 +2,20 @@
 import * as types from '../actions/action-types'
 
 export const initialState = {
-  loading: true,
-  error: false,
-  query: null
+  filterCategory: null
 }
 
 export default function setSearchState (state = initialState, action) {
   switch (action.type) {
-    case types.SET_SEARCH_STATE:
-      let newState = Object.assign(state, action.searchState)
-      Object.keys(newState).map((key) => {
-        if (!action.searchState[key]) {
-          delete newState[key]
-        }
+    case types.SET_FILTER_CATEGORY:
+      return Object.assign({}, state, {
+        filterCategory: action.categoryName
       })
-      return newState
 
-    case types.SET_SEARCH_QUERY:
-      return Object.assign({}, state, { query: action.query })
+    case types.CLEAR_SEARCH_FILTER:
+      return Object.assign({}, state, {
+        filterCategory: null
+      })
 
     default:
       return state

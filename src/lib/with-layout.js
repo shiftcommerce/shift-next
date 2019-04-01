@@ -2,6 +2,7 @@
 import React from 'react'
 import InitialPropsDelegator from './initial-props-delegator'
 import Config from './config'
+import qs from 'qs'
 
 // Components
 import { Layout } from '@shiftcommerce/shift-react-components'
@@ -47,6 +48,7 @@ export default function withLayout (Component) {
 
       this.handleScroll = this.handleScroll.bind(this)
       this.toggleDropDown = this.toggleDropDown.bind(this)
+      this.onCategoryFilterCleared = this.onCategoryFilterCleared.bind(this)
     }
 
     componentDidMount () {
@@ -78,17 +80,30 @@ export default function withLayout (Component) {
       this.setState({ toggleShowClass: !toggleShow })
     }
 
+    onCategoryFilterCleared () {
+      // If the user removed the category filter from the search box
+      // clear any filters redirect to the search page
+      const router = this.props.router
+      const query = qs.parse(window.location.search.slice(1)).query
+      router.push(`/search?${qs.stringify({ query })}`)
+    }
+
     render () {
-      const { router, ...otherProps } = this.props
+      const { cart, router, query, search, menu, loggedIn, ...otherProps } = this.props
       const skipHeader = !router.pathname.includes('/checkout')
       return (
         <Layout
+          cart={cart}
+          menu={menu}
+          onCategoryFilterCleared={this.onCategoryFilterCleared}
+          query={query}
+          search={search}
           shrunk={this.state.shrunk}
           skipHeader={skipHeader}
           toggleDropDown={this.toggleDropDown}
           showClass={this.state.toggleShowClass}
           payPalClientID={ Config.get().payPalClientID }
-          {...this.props}
+          loggedIn={loggedIn}
         >
           <Component {...otherProps} />
         </Layout>
@@ -96,8 +111,8 @@ export default function withLayout (Component) {
     }
   }
 
-  function mapStateToProps ({ cart, account: { loggedIn }, menu }) {
-    return { cart, loggedIn, menu }
+  function mapStateToProps ({ cart, account: { loggedIn }, menu, search }) {
+    return { cart, loggedIn, menu, search }
   }
 
   return connect(mapStateToProps)(withRouter(LayoutWrapper))

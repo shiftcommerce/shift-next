@@ -116,7 +116,7 @@ export class PaymentMethodPage extends Component {
         payer.name.surname,
         payerEmail,
         payerPhoneNumber,
-        shippingDetails.address
+        payer.address
       )
     ).then(() => {
       // handle parsing + setting of shipping address in state + creation
