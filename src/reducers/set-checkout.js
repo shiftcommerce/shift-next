@@ -225,7 +225,14 @@ export default function setCheckout (state = checkoutInitialState, action) {
       return newState
     
     case types.SET_PAYPAL_ORDER_DETAILS:
-      newState.payPalOrderDetails = action.payload.orderDetails
+      const orderDetails = action.payload.orderDetails
+      newState.payPalOrderDetails = {
+        orderID: orderDetails.orderID,
+        intent: orderDetails.intent,
+        status: orderDetails.status,
+        purchaseUnitsReferenceID: orderDetails.purchaseUnitsReferenceID,
+        createdAt: orderDetails.createdAt
+      }
       return newState
 
     default:
