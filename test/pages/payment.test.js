@@ -32,7 +32,9 @@ test('sets paymentMethod in state when instantiated', () => {
   const cookieSpy = jest.spyOn(Cookies, 'get').mockImplementation(() => 'PayPal')
   const pushSpy = jest.spyOn(Router, 'push').mockImplementation(() => {})
   const cartState = {
-    shipping_address: { id: 99 }
+    shipping_address: { id: 99 },
+    billing_address: { id: 99 },
+    shipping_method: { id: 99 }
   }
   const checkoutState = {}
   const thirdPartyPaymentMethodOptions = ['PayPal']
@@ -40,7 +42,8 @@ test('sets paymentMethod in state when instantiated', () => {
 
   // Act
   const wrapper = shallow(
-    <CheckoutPaymentPage cart={cartState} checkout={checkoutState} setCurrentStep={setCurrentStep} thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions}/>
+    <CheckoutPaymentPage cart={cartState} checkout={checkoutState} setCurrentStep={setCurrentStep} thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions}/>,
+    { disableLifecycleMethods: true }
   )
 
   // Assert
@@ -57,7 +60,10 @@ describe('componentDidMount()', () => {
     const cartState = {}
     const checkoutState = {}
     const thirdPartyPaymentMethodOptions = ['PayPal']
-    const wrapper = shallow(<CheckoutPaymentPage cart={cartState} checkout={checkoutState} thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions}/>)
+    const wrapper = shallow(
+      <CheckoutPaymentPage cart={cartState} checkout={checkoutState} thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions}/>,
+      { disableLifecycleMethods: true }
+    )
   
     // Act
     wrapper.instance().componentDidMount()
@@ -75,7 +81,10 @@ describe('componentDidMount()', () => {
     const cartState = {}
     const checkoutState = {}
     const thirdPartyPaymentMethodOptions = ['PayPal']
-    const wrapper = shallow(<CheckoutPaymentPage cart={cartState} checkout={checkoutState} thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions}/>)
+    const wrapper = shallow(
+      <CheckoutPaymentPage cart={cartState} checkout={checkoutState} thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions}/>,
+      { disableLifecycleMethods: true }
+    )
 
     // Act  
     wrapper.instance().componentDidMount()
@@ -122,7 +131,10 @@ describe('componentDidMount()', () => {
     const checkoutState = {}
     const pushSpy = jest.spyOn(Router, 'push').mockImplementation(() => {})
     const thirdPartyPaymentMethodOptions = ['PayPal']
-    const wrapper = shallow(<CheckoutPaymentPage cart={cartState} checkout={checkoutState} thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions} />)
+    const wrapper = shallow(
+      <CheckoutPaymentPage cart={cartState} checkout={checkoutState} thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions} />,
+      { disableLifecycleMethods: true }
+    )
   
     // Act
     wrapper.instance().componentDidMount()

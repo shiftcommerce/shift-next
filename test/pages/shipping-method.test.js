@@ -1,6 +1,7 @@
 // Libraries
 import Router from 'next/router'
 import nock from 'nock'
+import Cookies from 'js-cookie'
 import { Provider } from 'react-redux'
 import { createMockStore } from 'redux-test-utils'
 
@@ -33,7 +34,30 @@ jest.mock('next/config', () => () => ({
   publicRuntimeConfig: {}
 }))
 
-test('componentDidMount() redirects to the shipping address page when one is not set when the default payment option is used', () => {
+test('sets paymentMethod in state when instantiated', () => {
+  // Arrange
+  const cookieSpy = jest.spyOn(Cookies, 'get').mockImplementation(() => 'PayPal')
+  const pushSpy = jest.spyOn(Router, 'push').mockImplementation(() => {})
+  const cartState = {
+    shipping_address: { id: 99 }
+  }
+  const checkoutState = {}
+  const thirdPartyPaymentMethodOptions = ['PayPal']
+  const setCurrentStep = jest.fn()
+
+  // Act
+  const wrapper = shallow(
+    <ShippingMethodPage cart={cartState} checkout={checkoutState} setCurrentStep={setCurrentStep} thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions}/>,
+    { disableLifecycleMethods: true }
+  )
+
+  // Assert
+  expect(wrapper.instance().state.paymentMethod).toBe('PayPal')
+  cookieSpy.mockRestore()
+  pushSpy.mockRestore()
+})
+
+test('componentDidMount() redirects to the shipping address page when one is not set when the default card payment option is used', () => {
   // Arrange
   const pushSpy = jest.spyOn(Router, 'push').mockImplementation(() => {})
   const cartState = {}
@@ -50,23 +74,20 @@ test('componentDidMount() redirects to the shipping address page when one is not
 
 test('componentDidMount() redirects to the shipping address page when one is not set when third party payment is used', () => {
   // Arrange
+  const cookieSpy = jest.spyOn(Cookies, 'get').mockImplementation(() => 'PayPal')
   const pushSpy = jest.spyOn(Router, 'push').mockImplementation(() => {})
   const cartState = {}
   const checkoutState = {}
   const thirdPartyPaymentMethodOptions = ['PayPal']
-  const initialState = {
-    paymentMethod: 'PayPal'
-  }
 
   // Act
   shallow(
-    <Provider store={createMockStore(initialState)}>
-      <ShippingMethodPage cart={cartState} checkout={checkoutState} thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions}/>
-    </Provider>
+    <ShippingMethodPage cart={cartState} checkout={checkoutState} thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions}/>
   )
 
   // Assert
   expect(pushSpy).toHaveBeenCalledWith('/checkout/payment-method')
+  cookieSpy.mockRestore()
   pushSpy.mockRestore()
 })
 
@@ -97,6 +118,8 @@ test('renders correct checkout components', () => {
 
 test('render shipping methods as expected', async () => {
   // Arrange
+  const cookieSpy = jest.spyOn(Cookies, 'get').mockImplementation(() => 'PayPal')
+
   const cart = {
     line_items: [
       {
@@ -149,6 +172,7 @@ test('render shipping methods as expected', async () => {
   expect(wrapper).toIncludeText('Standard shipping')
 
   fetchShippingSpy.mockRestore()
+  cookieSpy.mockRestore()
 })
 
 test('renders line item quantity as expected', async () => {

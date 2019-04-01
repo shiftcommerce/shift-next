@@ -1,5 +1,6 @@
 // Libraries
 import Router from 'next/router'
+import Cookies from 'js-cookie'
 
 // Pages
 import PaymentMethodPage from '../../src/pages/checkout/payment-method'
@@ -135,20 +136,22 @@ describe('continueButtonProps()', () => {
 })
 
 describe('handleSetPaymentMethod()', () => {
-  test('dispatches setPaymentMethod action', async () => {
+  test('set the PaymentMethod in a cookie', async () => {
     // Arrange
+    const cookieSpy = jest.spyOn(Cookies, 'set').mockImplementation(() => true)
     const cartState = cart
     const checkoutState = {}
-    const dispatch = jest.fn().mockImplementation(() => Promise.resolve())
-    const setPaymentMethodSpy = jest.spyOn(CheckoutActions, 'setPaymentMethod').mockImplementation(() => 'setPaymentMethodAction')
-    const wrapper = shallow(<PaymentMethodPage cart={cartState} checkout={checkoutState} dispatch={dispatch} />, { disableLifecycleMethods: true })
+    const wrapper = shallow(
+      <PaymentMethodPage cart={cartState} checkout={checkoutState} />,
+      { disableLifecycleMethods: true }
+    )
 
     // Act
     await wrapper.instance().handleSetPaymentMethod()
 
     // Assert
-    expect(setPaymentMethodSpy).toHaveBeenCalled()
-    expect(dispatch).toHaveBeenCalledWith('setPaymentMethodAction')
+    expect(cookieSpy).toHaveBeenCalledTimes(1)
+    cookieSpy.mockRestore()
   })
 })
 
@@ -369,28 +372,24 @@ describe('updateCartAddresses()', () => {
 })
 
 describe('handlePayPalOrderDetails()', () => {
-  test('dispatches setPaymentMethod action', async () => {
+  test('sets the PayPal Order details in a cookie', async () => {
     // Arrange
+    const cookieSpy = jest.spyOn(Cookies, 'set').mockImplementation(() => true)
     const cartState = cart
     const checkoutState = {}
     const payPalOrder = payPalResponse
-    const dispatch = jest.fn().mockImplementation(() => Promise.resolve())
-    const setPayPalOrderDetailsSpy = jest.spyOn(CheckoutActions, 'setPayPalOrderDetails').mockImplementation(() => 'setPayPalOrderDetailsAction')
-    const expectedOrderDetailsPayload = {
-      orderID: payPalOrder.id,
-      intent: payPalOrder.intent,
-      status: payPalOrder.status,
-      purchaseUnitsReferenceID: payPalOrder.purchase_units[0].reference_id,
-      createdAt: payPalOrder.create_time
-    }
-    const wrapper = shallow(<PaymentMethodPage cart={cartState} checkout={checkoutState} dispatch={dispatch} />, { disableLifecycleMethods: true })
+
+    const wrapper = shallow(
+      <PaymentMethodPage cart={cartState} checkout={checkoutState} />,
+      { disableLifecycleMethods: true }
+    )
 
     // Act
     await wrapper.instance().handlePayPalOrderDetails(payPalOrder)
 
     // Assert
-    expect(setPayPalOrderDetailsSpy).toHaveBeenCalledWith(expectedOrderDetailsPayload)
-    expect(dispatch).toHaveBeenCalledWith('setPayPalOrderDetailsAction')
+    expect(cookieSpy).toHaveBeenCalledTimes(2)
+    cookieSpy.mockRestore()
   })
 })
 

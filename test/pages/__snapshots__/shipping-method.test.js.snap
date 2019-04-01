@@ -13,7 +13,7 @@ exports[`render shipping methods as expected 1`] = `
         firstName="First Name"
         lastName="Last Name"
         onClick={[Function]}
-        showEditButton={true}
+        showEditButton={false}
       />
     </div>
   </div>
@@ -52,7 +52,7 @@ exports[`renders line item quantity as expected 1`] = `
         firstName="First Name"
         lastName="Last Name"
         onClick={[Function]}
-        showEditButton={true}
+        showEditButton={false}
       />
     </div>
   </div>
@@ -73,7 +73,7 @@ exports[`renders line item quantity as expected 1`] = `
     }
     handleFormSubmit={[Function]}
     handleSetShippingMethod={[Function]}
-    isThirdPartyPayment={false}
+    isThirdPartyPayment={true}
     shippingMethods={Array []}
   />
 </div>

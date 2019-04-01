@@ -62,24 +62,6 @@ export function showField (formName, fieldName) {
   }
 }
 
-export function setPaymentMethod (paymentMethod) {
-  return {
-    type: actionTypes.SET_PAYMENT_METHOD,
-    payload: {
-      paymentMethod: paymentMethod
-    }
-  }
-}
-
-export function setPayPalOrderDetails (orderDetails) {
-  return {
-    type: actionTypes.SET_PAYPAL_ORDER_DETAILS,
-    payload: {
-      orderDetails: orderDetails
-    }
-  }
-}
-
 export function updatePayPalOrderTotal (payPalOrderID, purchaseUnitsReferenceID, cart) {
   const request = {
     endpoint: '/patchPayPalOrder',

@@ -28,40 +28,6 @@ test('return SET_CHECKOUT_INPUT_VALUE on calling inputChange()', () => {
   expect(dispatch).toHaveBeenCalledWith({ payload: expectedPayload, type: actionTypes.SET_CHECKOUT_INPUT_VALUE })
 })
 
-test('return SET_PAYMENT_METHOD on calling setPaymentMethod()', () => {
-  // Arrange
-  const expectedPayload = {
-    paymentMethod: 'PayPal'
-  }
-
-  // Act
-  const result = checkoutActions.setPaymentMethod('PayPal')
-
-  // Assert
-  expect(result).toEqual({payload: expectedPayload, type: actionTypes.SET_PAYMENT_METHOD})
-})
-
-test('return setPayPalOrderDetails on calling setPaymentMethod()', () => {
-  // Arrange
-  const payload = {
-    orderID: '9B29180392286445Y',
-    intent: 'AUTHORIZE',
-    status: 'COMPLETED',
-    purchaseUnitsReferenceID: '2213',
-    authorizationID: '847484949',
-    createdAt: '2019-03-25T15:58:41Z'
-  }
-  const expectedPayload = {
-    orderDetails: payload
-  }
-
-  // Act
-  const result = checkoutActions.setPayPalOrderDetails(payload)
-
-  // Assert
-  expect(result).toEqual({payload: expectedPayload, type: actionTypes.SET_PAYPAL_ORDER_DETAILS})
-})
-
 test('return SET_CHECKOUT_BILLING_ADDRESS on calling setCheckoutBillingAddress()', () => {
   // Arrange
   const payload = {

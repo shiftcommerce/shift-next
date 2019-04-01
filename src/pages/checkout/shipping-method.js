@@ -13,8 +13,7 @@ import {
 } from '../../actions/cart-actions'
 
 import {
-  updatePayPalOrderTotal,
-  authorizePayPalOrder
+  updatePayPalOrderTotal
 } from '../../actions/checkout-actions'
 
 // Components
@@ -41,7 +40,9 @@ export class ShippingMethodPage extends Component {
 
     this.state = {
       loading: true,
-      paymentMethod: Cookies.get('paymentMethod')
+      payPalOrderID: Cookies.get('ppOrderID'),
+      paymentMethod: Cookies.get('paymentMethod'),
+      purchaseUnitsReferenceID: Cookies.get('purchaseUnitsReferenceID')
     }
 
     this.handleFormSubmit = this.handleFormSubmit.bind(this)
@@ -92,12 +93,11 @@ export class ShippingMethodPage extends Component {
    * Handles form submit for order placed via PayPal
    */
   handleFormSubmitForPayPalOrder () {
-    const { dispatch, cart, checkout: { payPalOrderDetails } } = this.props
-    const payPalOrderID = payPalOrderDetails.orderID
+    const { dispatch, cart } = this.props
     // set loading to true as we handle the order information
     this.setState({ loading: true })
     // update PayPal order total
-    return dispatch(updatePayPalOrderTotal(payPalOrderID, payPalOrderDetails.purchaseUnitsReferenceID, cart)).then(() => {
+    return dispatch(updatePayPalOrderTotal(this.state.payPalOrderID, this.state.purchaseUnitsReferenceID, cart)).then(() => {
       // redirect to next step
       this.nextSection()
     })

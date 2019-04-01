@@ -5,10 +5,8 @@ import Cookies from 'js-cookie'
 
 // Actions
 import { 
-  setPaymentMethod,
   setCheckoutShippingAddress,
-  setCheckoutBillingAddress,
-  setPayPalOrderDetails
+  setCheckoutBillingAddress
 } from '../../actions/checkout-actions'
 
 import { 
@@ -66,7 +64,6 @@ export class PaymentMethodPage extends Component {
   handleSetPaymentMethod (paymentMethod) {
     // set PayPal paymentMethod in a cookie
     Cookies.set('paymentMethod', paymentMethod, { signed: true })
-    return this.props.dispatch(setPaymentMethod(paymentMethod))
   }
 
   /**
@@ -208,17 +205,10 @@ export class PaymentMethodPage extends Component {
    * @param  {object} payPalOrder
    */
   handlePayPalOrderDetails (payPalOrder) {
-    const { dispatch } = this.props
-    // set PayPal paymentMethod in a cookie
+    // set PayPal order ID in a cookie
     Cookies.set('ppOrderID', payPalOrder.id, { signed: true })
-    // dispatch action to set PayPal order details
-    return dispatch(setPayPalOrderDetails({
-      orderID: payPalOrder.id,
-      intent: payPalOrder.intent,
-      status: payPalOrder.status,
-      purchaseUnitsReferenceID: payPalOrder.purchase_units[0].reference_id,
-      createdAt: payPalOrder.create_time
-    }))
+    // set purchaseUnitsReferenceID in a cookie
+    Cookies.set('purchaseUnitsReferenceID', payPalOrder.purchase_units[0].reference_id, { signed: true })
   }
 
   /**
