@@ -1,6 +1,8 @@
 // Libraries
 import Cookies from 'js-cookie'
 import Router from 'next/router'
+import { Provider } from 'react-redux'
+import { createMockStore } from 'redux-test-utils'
 
 // Pages
 import CheckoutPaymentPage from '../../src/pages/payment'
@@ -32,11 +34,18 @@ describe('componentDidMount()', () => {
     // Arrange
     const pushSpy = jest.spyOn(Router, 'push').mockImplementation(() => {})
     const cartState = {}
-    const checkoutState = { paymentMethod: 'Credit/Debit Card' }
+    const checkoutState = {}
     const thirdPartyPaymentMethodOptions = ['PayPal']
+    const initialState = {
+      paymentMethod: 'Credit/Debit Card'
+    }
   
     // Act
-    shallow(<CheckoutPaymentPage cart={cartState} checkout={checkoutState} thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions}/>)
+    shallow(
+      <Provider store={createMockStore(initialState)}>
+        <CheckoutPaymentPage cart={cartState} checkout={checkoutState} thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions}/>
+      </Provider>
+    )
   
     // Assert
     expect(pushSpy).toHaveBeenCalledWith('/checkout/shipping-address')
@@ -47,11 +56,18 @@ describe('componentDidMount()', () => {
     // Arrange
     const pushSpy = jest.spyOn(Router, 'push').mockImplementation(() => {})
     const cartState = {}
-    const checkoutState = { paymentMethod: 'PayPal' }
+    const checkoutState = {}
     const thirdPartyPaymentMethodOptions = ['PayPal']
-    
+    const initialState = {
+      paymentMethod: 'Credit/Debit Card'
+    }
+  
     // Act
-    shallow(<CheckoutPaymentPage cart={cartState} checkout={checkoutState} thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions}/>)
+    shallow(
+      <Provider store={createMockStore(initialState)}>
+        <CheckoutPaymentPage cart={cartState} checkout={checkoutState} thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions}/>
+      </Provider>
+    )
   
     // Assert
     expect(pushSpy).toHaveBeenCalledWith('/checkout/payment-method')
@@ -60,12 +76,20 @@ describe('componentDidMount()', () => {
 
   test('redirects to the shipping method page when one is not set', () => {
     // Arrange
-    const checkoutState = { paymentMethod: 'Credit/Debit Card' }
+    const cartState = { shipping_address: {} }
+    const checkoutState = {}
     const pushSpy = jest.spyOn(Router, 'push').mockImplementation(() => {})
     const thirdPartyPaymentMethodOptions = ['PayPal']
+    const initialState = {
+      paymentMethod: 'Credit/Debit Card'
+    }
 
     // Act
-    shallow(<CheckoutPaymentPage cart={{ shipping_address: {} }} checkout={checkoutState} thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions} />)
+    shallow(
+      <Provider store={createMockStore(initialState)}>
+        <CheckoutPaymentPage cart={cartState} checkout={checkoutState} thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions} />
+      </Provider>
+    )
 
     // Assert
     expect(pushSpy).toHaveBeenCalledWith('/checkout/shipping-method')
@@ -620,7 +644,7 @@ describe('nextSection()', () => {
     // Assert
     expect(pushSpy).toHaveBeenCalledWith('/checkout/payment', '/checkout/review')
     expect(wrapper.state().reviewStep).toBe(true)
-    expect(setCurrentStep).toHaveBeenCalledWith(4)
+    expect(setCurrentStep).toHaveBeenCalledWith(5)
     cookieSpy.mockRestore()
     pushSpy.mockRestore()
   })
@@ -929,7 +953,7 @@ describe('currentStep()', () => {
     const currentStep = wrapper.instance().currentStep()
 
     // Assert
-    expect(currentStep).toEqual(3)
+    expect(currentStep).toEqual(4)
   })
 
   test('returns correct step for the review step', () => {
@@ -942,7 +966,7 @@ describe('currentStep()', () => {
     wrapper.setState({ reviewStep: true })
 
     // Assert
-    expect(wrapper.instance().currentStep()).toEqual(4)
+    expect(wrapper.instance().currentStep()).toEqual(5)
   })
 })
 
@@ -983,7 +1007,7 @@ describe('render()', () => {
     expect(wrapper.find('AddressFormSummary').length).toEqual(1)
     expect(wrapper.find('ShippingMethodsSummary').length).toEqual(1)
     expect(wrapper.find('PaymentMethod').length).toEqual(1)
-    expect(wrapper.find('PaymentMethodSummary').length).toEqual(1)
+    expect(wrapper.find('PaymentMethodSummary').length).toEqual(0)
   })
 
   test('displays payment method selection when at payment step', () => {
@@ -1002,8 +1026,8 @@ describe('render()', () => {
     wrapper.setState({ loading: false })
 
     // Assert
-    expect(wrapper.find('PaymentMethod').parent().props().className).toEqual('')
-    expect(wrapper.find('PaymentMethodSummary').parent().props().className).toEqual('u-hidden')
+    expect(wrapper.find('PaymentMethod').length).toEqual(1)
+    expect(wrapper.find('PaymentMethodSummary').length).toEqual(0)
   })
 
   test('displays payment method summary when at payment step', () => {
@@ -1025,7 +1049,7 @@ describe('render()', () => {
     })
 
     // Assert
-    expect(wrapper.find('PaymentMethod').parent().props().className).toEqual('u-hidden')
-    expect(wrapper.find('PaymentMethodSummary').parent().props().className).toEqual('')
+    expect(wrapper.find('PaymentMethod').length).toEqual(0)
+    expect(wrapper.find('PaymentMethodSummary').length).toEqual(1)
   })
 })

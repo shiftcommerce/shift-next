@@ -1,4 +1,3 @@
-
 // Libraries
 import nock from 'nock'
 import PayPalClient from '../../src//lib/paypal-client'
@@ -14,6 +13,8 @@ beforeEach(() => {
     payPalClientSecret: 'secret'
   })
 })
+
+nock.disableNetConnect()
 
 afterEach(() => { nock.cleanAll() })
 
