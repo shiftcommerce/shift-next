@@ -108,7 +108,6 @@ export class PaymentMethodPage extends Component {
     const payerPhoneNumber = (payerPhone && payerPhone.phone_number ? payerPhone.phone_number.national_number : '')
     const shippingDetails = order.purchase_units[0].shipping
     const shippingFullName = shippingDetails.name.full_name.split(' ')
-    console.log("order", order)
     // set loading to true as we handle the order information
     this.setState({ loading: true })
     // handle basic order details - id, intent, status + create_time
@@ -120,7 +119,7 @@ export class PaymentMethodPage extends Component {
         payer.name.surname,
         payerEmail,
         payerPhoneNumber,
-        shippingDetails.address // payer.address
+        payer.address
       )
     ).then(() => {
       // handle parsing + setting of shipping address in state + creation

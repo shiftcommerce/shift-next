@@ -39,13 +39,14 @@ describe('componentDidMount()', () => {
     const initialState = {
       paymentMethod: 'Credit/Debit Card'
     }
-  
-    // Act
-    shallow(
+    const wrapper = shallow(
       <Provider store={createMockStore(initialState)}>
         <CheckoutPaymentPage cart={cartState} checkout={checkoutState} thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions}/>
       </Provider>
     )
+  
+    // Act
+    await wrapper.instance().componentDidMount()
   
     // Assert
     expect(pushSpy).toHaveBeenCalledWith('/checkout/shipping-address')
@@ -61,13 +62,14 @@ describe('componentDidMount()', () => {
     const initialState = {
       paymentMethod: 'Credit/Debit Card'
     }
-  
-    // Act
-    shallow(
+    const wrapper = shallow(
       <Provider store={createMockStore(initialState)}>
         <CheckoutPaymentPage cart={cartState} checkout={checkoutState} thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions}/>
       </Provider>
     )
+  
+    // Act
+    await wrapper.instance().componentDidMount()
   
     // Assert
     expect(pushSpy).toHaveBeenCalledWith('/checkout/payment-method')
@@ -83,14 +85,15 @@ describe('componentDidMount()', () => {
     const initialState = {
       paymentMethod: 'Credit/Debit Card'
     }
-
-    // Act
-    shallow(
+    const wrapper = shallow(
       <Provider store={createMockStore(initialState)}>
         <CheckoutPaymentPage cart={cartState} checkout={checkoutState} thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions} />
       </Provider>
     )
 
+    // Act
+    await wrapper.instance().componentDidMount()
+  
     // Assert
     expect(pushSpy).toHaveBeenCalledWith('/checkout/shipping-method')
     pushSpy.mockRestore()
