@@ -137,9 +137,7 @@ exports[`renders correct checkout components 1`] = `
       />
     </div>
   </div>
-  <p>
-    Loading...
-  </p>
+  <Loading />
 </div>
 `;
 
