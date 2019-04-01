@@ -78,13 +78,12 @@ class CheckoutPaymentPage extends Component {
       }
     }
 
-    // If shipping address is not present and customer has used third
-    // party payment service redirect to the payment method page
-    if (thirdPartyPaymentMethods.includes(this.state.paymentMethod)) this.showReview()
-
     if (!cart.shipping_method) {
       return Router.push('/checkout/shipping-method')
     }
+
+    // If customer has used third party payment service only show review page
+    if (thirdPartyPaymentMethods.includes(this.state.paymentMethod)) this.showReview()
 
     return (this.loggedIn() ? this.props.dispatch(fetchAddressBook()) : Promise.resolve()).then(() => {
       if (!cart.billing_address) {

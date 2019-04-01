@@ -342,12 +342,12 @@ test('sets PayPal Order Details when a PayPal order is created', () => {
     }
   }
   const currentState = {
-    paypalOrderDetails: {}
+    payPalOrderDetails: {}
   }
 
   // Act 
   const updatedState = setCheckout(currentState, action)
 
   // Assert
-  expect(updatedState.paypalOrderDetails).toEqual(payload)
+  expect(updatedState.payPalOrderDetails).toEqual(payload)
 })
