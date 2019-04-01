@@ -10,7 +10,8 @@ import payPalUpdateOrderResponse from '../fixtures/paypal-update-order-response'
 beforeEach(() => {
   Config.set({
     payPalClientID: 'test',
-    payPalClientSecret: 'secret'
+    payPalClientSecret: 'secret',
+    enablePayPalLiveEnvironment: false
   })
 })
 

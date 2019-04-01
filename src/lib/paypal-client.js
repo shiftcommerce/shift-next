@@ -16,15 +16,11 @@ class PayPalClient {
    * Returns the PayPal environment
    */
   environment () {
-    return new paypal.core.SandboxEnvironment(this.payPalClientID, this.payPalClientSecret)
-    // * Since we are running the apps in production mode in every environment
-    // commenting this logic out for now
-    // 
-    // if (process.env.NODE_ENV === 'production') {
-    //   return new paypal.core.LiveEnvironment(this.payPalClientID, this.payPalClientSecret)
-    // } else {
-    //   return new paypal.core.SandboxEnvironment(this.payPalClientID, this.payPalClientSecret)
-    // }
+    if (process.env.NODE_ENV === 'production' && process.env.ENABLE_PAYPAL_LIVE_ENVIRONMENT === 'true') {
+      return new paypal.core.LiveEnvironment(this.payPalClientID, this.payPalClientSecret)
+    } else {
+      return new paypal.core.SandboxEnvironment(this.payPalClientID, this.payPalClientSecret)
+    }
   }
 
   /**
