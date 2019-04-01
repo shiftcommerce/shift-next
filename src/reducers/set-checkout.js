@@ -225,7 +225,7 @@ export default function setCheckout (state = checkoutInitialState, action) {
       return newState
     
     case types.SET_PAYPAL_ORDER_DETAILS:
-      newState.payPalOrderDetails = Object.assign(newState.payPalOrderDetails, action.payload.orderDetails)
+      newState.payPalOrderDetails = action.payload.orderDetails
       return newState
 
     default:

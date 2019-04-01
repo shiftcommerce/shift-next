@@ -60,7 +60,7 @@ describe('componentDidMount()', () => {
     const checkoutState = {}
     const thirdPartyPaymentMethodOptions = ['PayPal']
     const initialState = {
-      paymentMethod: 'Credit/Debit Card'
+      paymentMethod: 'PayPal'
     }
     const wrapper = shallow(
       <Provider store={createMockStore(initialState)}>
