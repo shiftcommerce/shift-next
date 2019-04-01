@@ -10,16 +10,20 @@ import payPalUpdateOrderResponse from '../fixtures/paypal-update-order-response'
 jest.doMock('@paypal/checkout-server-sdk')
 
 beforeEach(() => {
-  Config.set({
-    payPalClientID: 'test',
-    payPalClientSecret: 'secret',
-    enablePayPalLiveEnvironment: false
-  })
+  process.env.PAYPAL_CLIENT_ID = 'test'
+  process.env.PAYPAL_CLIENT_SECRET = 'secret'
+  process.env.ENABLE_PAYPAL_LIVE_ENVIRONMENT = false
 })
 
 nock.disableNetConnect()
 
-afterEach(() => { nock.cleanAll()})
+afterEach(() => {
+  delete process.env.PAYPAL_CLIENT_ID
+  delete process.env.PAYPAL_CLIENT_SECRET
+  delete process.env.ENABLE_PAYPAL_LIVE_ENVIRONMENT
+  jest.resetAllMocks()
+  nock.cleanAll()
+})
 
 const nockScope = nock('https://api.sandbox.paypal.com/')
 
