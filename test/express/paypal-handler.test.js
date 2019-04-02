@@ -5,10 +5,10 @@ const nock = require('nock')
 const { patchOrder, authorizeOrder } = require('../../src/express/paypal-handler')
 
 // Fixtures
-const PayPalOauthResponse = require('../fixtures/paypal-oauth-response')
-const PayPalInvalidOrderUpdateResponse = require('../fixtures/paypal-invalid-order-update-response')
-const AuthorizeOrderResponse = require('../fixtures/paypal-order-authorization-response')
-const PayPalInvalidOrderAuthorizationResponse = require('../fixtures/paypal-invalid-order-authorization-response')
+const payPalOauthResponse = require('../fixtures/paypal-oauth-response')
+const payPalInvalidOrderUpdateResponse = require('../fixtures/paypal-invalid-order-update-response')
+const payPalAuthorizeOrderResponse = require('../fixtures/paypal-order-authorization-response')
+const payPalInvalidOrderAuthorizationResponse = require('../fixtures/paypal-invalid-order-authorization-response')
 
 beforeEach(() => {
   process.env.PAYPAL_CLIENT_ID = 'test'
@@ -49,10 +49,10 @@ describe('patchOrder()', () => {
       }))
     }
 
-    // Mock out a successful post request
+    // Mock out requests
     nockScope
       .post('/v1/oauth2/token')
-      .reply(200, PayPalOauthResponse)
+      .reply(200, payPalOauthResponse)
 
     nockScope
       .intercept(`/v2/checkout/orders/${payPalOrderID}?`, 'PATCH')
@@ -85,20 +85,20 @@ describe('patchOrder()', () => {
       }))
     }
 
-    // Mock out a successful post request
+    // Mock out requests
     nockScope
       .post('/v1/oauth2/token')
-      .reply(200, PayPalOauthResponse)
+      .reply(200, payPalOauthResponse)
 
     nockScope
       .intercept(`/v2/checkout/orders/${payPalOrderID}?`, 'PATCH')
-      .reply(400, PayPalInvalidOrderUpdateResponse)
+      .reply(400, payPalInvalidOrderUpdateResponse)
     
     // Act
     const error_response = await patchOrder(req, res)
   
     // Assert
-    expect(JSON.parse(error_response)).toEqual(PayPalInvalidOrderUpdateResponse)
+    expect(JSON.parse(error_response)).toEqual(payPalInvalidOrderUpdateResponse)
   })
 })
 
@@ -117,16 +117,16 @@ describe('authorizeOrder()', () => {
       }))
     }
 
-    const expectedAuthorizationDetails = AuthorizeOrderResponse.purchase_units[0].payments.authorizations[0]
+    const expectedAuthorizationDetails = payPalAuthorizeOrderResponse.purchase_units[0].payments.authorizations[0]
 
-    // Mock out a successful post request
+    // Mock out requests
     nockScope
       .post('/v1/oauth2/token')
-      .reply(200, PayPalOauthResponse)
+      .reply(200, payPalOauthResponse)
 
     nockScope
       .post(`/v2/checkout/orders/${payPalOrderID}/authorize?`, {})
-      .reply(201, AuthorizeOrderResponse)
+      .reply(201, payPalAuthorizeOrderResponse)
 
     // Act
     const response = await authorizeOrder(req, res)
@@ -153,19 +153,19 @@ describe('authorizeOrder()', () => {
       }))
     }
 
-    // Mock out a successful post request
+    // Mock out requests
     nockScope
       .post('/v1/oauth2/token')
-      .reply(200, PayPalOauthResponse)
+      .reply(200, payPalOauthResponse)
 
     nockScope
       .post(`/v2/checkout/orders/${payPalOrderID}/authorize?`, {})
-      .reply(422, PayPalInvalidOrderAuthorizationResponse)
+      .reply(422, payPalInvalidOrderAuthorizationResponse)
 
     // Act
     const error_response = await authorizeOrder(req, res)
   
     // Assert
-    expect(JSON.parse(error_response)).toEqual(PayPalInvalidOrderAuthorizationResponse)
+    expect(JSON.parse(error_response)).toEqual(payPalInvalidOrderAuthorizationResponse)
   })
 })
