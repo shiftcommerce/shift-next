@@ -1,7 +1,7 @@
 // Lib
 import React from 'react'
 import InitialPropsDelegator from './initial-props-delegator'
-import qs from 'qs'
+import Config from './config'
 
 // Components
 import { Layout } from '@shiftcommerce/shift-react-components'
@@ -90,7 +90,6 @@ export default function withLayout (Component) {
     render () {
       const { cart, router, query, search, menu, loggedIn, ...otherProps } = this.props
       const skipHeader = !router.pathname.includes('/checkout')
-
       return (
         <Layout
           cart={cart}
@@ -102,7 +101,8 @@ export default function withLayout (Component) {
           skipHeader={skipHeader}
           toggleDropDown={this.toggleDropDown}
           showClass={this.state.toggleShowClass}
-          loggedIn={loggedIn}
+          paypalClientID={ Config.get().paypalClientID }
+          {...this.props}
         >
           <Component {...otherProps} />
         </Layout>

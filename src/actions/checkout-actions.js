@@ -59,3 +59,39 @@ export function showField (formName, fieldName) {
     }
   }
 }
+
+export function setPaymentMethod (paymentMethod) {
+  return {
+    type: actionTypes.SET_PAYMENT_METHOD,
+    payload: {
+      paymentMethod: paymentMethod
+    }
+  }
+}
+
+export function setPayPalOrderDetails (orderDetails) {
+  return {
+    type: actionTypes.SET_PAYPAL_ORDER_DETAILS,
+    payload: {
+      orderDetails: orderDetails
+    }
+  }
+}
+
+export function setCheckoutBillingAddress (address) {
+  return {
+    type: actionTypes.SET_CHECKOUT_BILLING_ADDRESS,
+    payload: {
+      address: address
+    }
+  }
+}
+
+export function setCheckoutShippingAddress (address) {
+  return {
+    type: actionTypes.SET_CHECKOUT_SHIPPING_ADDRESS,
+    payload: {
+      address: address
+    }
+  }
+}

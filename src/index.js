@@ -7,6 +7,7 @@ import MyAccountPage from './pages/my-account'
 import OfflinePage from './pages/offline'
 import OrderPage from './pages/order'
 import PasswordResetPage from './pages/password_reset'
+import PaymentMethodPage from './pages/checkout/payment-method'
 import PaymentPage from './pages/payment'
 import ProductPage from './pages/product'
 import RegisterPage from './pages/register'
@@ -104,6 +105,7 @@ module.exports = {
   PasswordResetPage: PasswordResetPage,
   PaymentPage: PaymentPage,
   ProductPage: ProductPage,
+  PaymentMethodPage: PaymentMethodPage,
   RegisterPage: RegisterPage,
   SearchPage: SearchPage,
   ShippingAddressPage: ShippingAddressPage,

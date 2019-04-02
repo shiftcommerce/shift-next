@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correct checkout components 1`] = `
+<div>
+  <PaymentMethods
+    handleSetPaymentMethod={[Function]}
+    nextSection={[Function]}
+    paypalCreateOrder={[Function]}
+    paypalOnApprove={[Function]}
+  />
+</div>
+`;
