@@ -5,9 +5,10 @@ const nock = require('nock')
 const { patchOrder, authorizeOrder } = require('../../src/express/paypal-handler')
 
 // Fixtures
-const PatchOrderResponse = require('../fixtures/paypal-update-order-response')
 const PayPalOauthResponse = require('../fixtures/paypal-oauth-response')
+const PayPalInvalidOrderUpdateResponse = require('../fixtures/paypal-invalid-order-update-response')
 const AuthorizeOrderResponse = require('../fixtures/paypal-order-authorization-response')
+const PayPalInvalidOrderAuthorizationResponse = require('../fixtures/paypal-invalid-order-authorization-response')
 
 beforeEach(() => {
   process.env.PAYPAL_CLIENT_ID = 'test'
@@ -28,7 +29,7 @@ afterEach(() => {
 const nockScope = nock('https://api.sandbox.paypal.com')
 
 describe('patchOrder()', () => {
-  test('returns correct response when order is updated', async () => {
+  test('returns correct response when order is successfully updated', async () => {
     // Arrange
     const payPalOrderID = '5C91751271779461V'
     const purchaseUnitsReferenceID = 'default'
@@ -47,16 +48,6 @@ describe('patchOrder()', () => {
         send: jest.fn(y => y)
       }))
     }
-    const bodyPayload = [
-      {
-        'op': 'replace',
-        'path': `/purchase_units/@reference_id=='${purchaseUnitsReferenceID}'/amount`,
-        'value': {
-          'currency_code': 'GBP',
-          'value': 20
-        }
-      }
-    ]
 
     // Mock out a successful post request
     nockScope
@@ -65,13 +56,49 @@ describe('patchOrder()', () => {
 
     nockScope
       .intercept(`/v2/checkout/orders/${payPalOrderID}?`, 'PATCH')
-      .reply(204, PatchOrderResponse)
+      .reply(204, {})
     
     // Act
     const response = await patchOrder(req, res)
 
     // Assert
-    expect(response).toEqual(PatchOrderResponse)
+    expect(response).toEqual({})
+  })
+
+  test('returns error response when order is updated with an invalid total', async () => {
+    // Arrange
+    const payPalOrderID = '5C91751271779461V'
+    const purchaseUnitsReferenceID = 'default'
+    const cartWithInvalidTotal = {
+      total: ''
+    }
+    const req = { 
+      body: {
+        cart: cartWithInvalidTotal,
+        payPalOrderID: payPalOrderID,
+        purchaseUnitsReferenceID: purchaseUnitsReferenceID
+      }
+    }
+    const res = {
+      status: jest.fn(x => ({
+        send: jest.fn(y => y)
+      }))
+    }
+
+    // Mock out a successful post request
+    nockScope
+      .post('/v1/oauth2/token')
+      .reply(200, PayPalOauthResponse)
+
+    nockScope
+      .intercept(`/v2/checkout/orders/${payPalOrderID}?`, 'PATCH')
+      .reply(400, PayPalInvalidOrderUpdateResponse)
+    
+    // Act
+    const error_response = await patchOrder(req, res)
+  
+    // Assert
+    expect(JSON.parse(error_response)).toEqual(PayPalInvalidOrderUpdateResponse)
   })
 })
 
@@ -99,7 +126,7 @@ describe('authorizeOrder()', () => {
 
     nockScope
       .post(`/v2/checkout/orders/${payPalOrderID}/authorize?`, {})
-      .reply(200, AuthorizeOrderResponse)
+      .reply(201, AuthorizeOrderResponse)
 
     // Act
     const response = await authorizeOrder(req, res)
@@ -110,5 +137,35 @@ describe('authorizeOrder()', () => {
       status: expectedAuthorizationDetails.status,
       expirationTime: expectedAuthorizationDetails.expiration_time
     })
+  })
+
+  test('returns error response when order is authorized with an invalid order ID', async () => {
+    // Arrange
+    const payPalOrderID = 'INVALID'
+    const req = { 
+      body: {
+        payPalOrderID: payPalOrderID
+      }
+    }
+    const res = {
+      status: jest.fn(x => ({
+        send: jest.fn(y => y)
+      }))
+    }
+
+    // Mock out a successful post request
+    nockScope
+      .post('/v1/oauth2/token')
+      .reply(200, PayPalOauthResponse)
+
+    nockScope
+      .post(`/v2/checkout/orders/${payPalOrderID}/authorize?`, {})
+      .reply(422, PayPalInvalidOrderAuthorizationResponse)
+
+    // Act
+    const error_response = await authorizeOrder(req, res)
+  
+    // Assert
+    expect(JSON.parse(error_response)).toEqual(PayPalInvalidOrderAuthorizationResponse)
   })
 })

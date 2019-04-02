@@ -24,6 +24,24 @@ class PayPalClient {
   }
 
   /**
+   * Updates the order total
+   * @param {string} payPalOrderID
+   * @param {string} purchaseUnitsReferenceID
+   * @param {object} cart
+   */
+  async patchOrder (payPalOrderID, purchaseUnitsReferenceID, cart) {
+    const request = new paypal.orders.OrdersPatchRequest(payPalOrderID)
+    request.requestBody(this.buildPatchOrderPayload(purchaseUnitsReferenceID, cart))
+    try {
+      const response = await this.client.execute(request)
+      return { status: response.statusCode, data: {} }
+    } catch (error) {
+      console.error(`PayPal Client: Error while patching order ${payPalOrderID}`, error.message)
+      return { status: error.statusCode, data: error.message }
+    }
+  }
+
+  /**
    * Performs authorization on the approved order.
    * @param payPalOrderID
    */
@@ -42,26 +60,8 @@ class PayPalClient {
         }
       }
     } catch (error) {
-      console.error(`PayPal Client: Error while authorizing order ${payPalOrderID}`, error)
-      return { status: error.statusCode, data: error }
-    }
-  }
-
-  /**
-   * Updates the order total
-   * @param {string} payPalOrderID
-   * @param {string} purchaseUnitsReferenceID
-   * @param {object} cart
-   */
-  async patchOrder (payPalOrderID, purchaseUnitsReferenceID, cart) {
-    const request = new paypal.orders.OrdersPatchRequest(payPalOrderID)
-    request.requestBody(this.buildPatchOrderPayload(purchaseUnitsReferenceID, cart))
-    try {
-      const response = await this.client.execute(request)
-      return { status: response.statusCode, data: response.result }
-    } catch (error) {
-      console.error(`PayPal Client: Error while patching order ${payPalOrderID}`, error)
-      return { status: error.statusCode, data: error }
+      console.error(`PayPal Client: Error while authorizing order ${payPalOrderID}`, error.message)
+      return { status: error.statusCode, data: error.message }
     }
   }
 
