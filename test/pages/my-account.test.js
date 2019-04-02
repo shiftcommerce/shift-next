@@ -1,6 +1,5 @@
 // Libraries
-import { Provider } from 'react-redux'
-import { createMockStore } from 'redux-test-utils'
+import Router from 'next/router'
 
 // Pages
 import MyAccountPage from '../../src/pages/my-account'
@@ -8,62 +7,68 @@ import MyAccountPage from '../../src/pages/my-account'
 // Actions
 import { getCustomerOrders } from '../../src/actions/account-actions'
 
-// Components
-import { OrderLineItems, ShippingAddresses } from '@shiftcommerce/shift-react-components'
-
-// Fixtures
-import orders from '../fixtures/orders'
-
 jest.mock('next/config', () => () => ({
   publicRuntimeConfig: {}
 }))
 
-describe('My Account page', () => {
-  test('renders a default message if the customer has no orders', () => {
-    // Act
-    const wrapper = mount(
-      <Provider store={createMockStore()}>
-        <MyAccountPage orders={{ data: [], loading: false }} dispatch={jest.fn()} />
-      </Provider>
-    )
+// Mock out Router usage in getDerivedStateFromProps
+const originalRouter = Router.router
 
-    // Assert
-    expect(wrapper).toIncludeText('No previous orders found.')
-  })
+beforeAll(() => {
+  Router.router = {
+    asPath: 'example.com'
+  }
+})
 
-  test('renders a customers previous orders', () => {
-    // Act
-    const wrapper = mount(
-      <Provider store={createMockStore()}>
-        <MyAccountPage orders={orders} dispatch={jest.fn()} />
-      </Provider>
-    )
+afterAll(() => {
+  Router.router = originalRouter
+})
 
-    // Assert
-    expect(wrapper).toIncludeText(`Order Number: ${orders.data[0].reference}`)
-    expect(wrapper).toIncludeText(`Order Number: ${orders.data[1].reference}`)
+describe('componentDidMount', () => {
+  test('redirects to the first default child when no menu is given', () => {
+    const replaceSpy = jest.spyOn(Router, 'replace').mockImplementation(() => {})
 
-    expect(wrapper).toContainReact(<OrderLineItems items={orders.data[0].line_items} />)
-    expect(wrapper).toContainReact(<OrderLineItems items={orders.data[1].line_items} />)
-
-    expect(wrapper).toContainReact(<ShippingAddresses addresses={orders.data[0].shipping_addresses} />)
-    expect(wrapper).toContainReact(<ShippingAddresses addresses={orders.data[1].shipping_addresses} />)
-  })
-
-  test('calls getCustomerOrders on componentDidMount', () => {
-    const dispatch = jest.fn()
-    const expectedFunction = getCustomerOrders().toString()
-
-    const wrapper = shallow(<MyAccountPage dispatch={dispatch} orders={{ loading: true }} />, { disableLifecycleMethods: true })
+    const wrapper = shallow(<MyAccountPage />, { disableLifecycleMethods: true })
 
     wrapper.instance().componentDidMount()
 
-    expect(dispatch).toHaveBeenCalled()
+    expect(replaceSpy).toHaveBeenCalledWith('example.com?menu=Details')
+    expect(wrapper.state().currentMenu).toEqual('Details')
 
-    // Verify it dispatch method called a function
-    expect(dispatch.mock.calls[0][0]).toEqual(expect.any(Function))
+    replaceSpy.mockRestore()
+  })
 
-    // Verify if the dispatch function has dispatched getCustomerOrders action.
-    expect(dispatch.mock.calls[0][0].toString()).toMatch(expectedFunction)
+  test('redirects to the first default child when an invalid menu is given', () => {
+    Router.router = {
+      asPath: 'example.com?menu=invalid'
+    }
+
+    const replaceSpy = jest.spyOn(Router, 'replace').mockImplementation(() => {})
+
+    const wrapper = shallow(<MyAccountPage />, { disableLifecycleMethods: true })
+
+    wrapper.instance().componentDidMount()
+
+    expect(replaceSpy).toHaveBeenCalledWith('example.com?menu=Details')
+    expect(wrapper.state().currentMenu).toEqual('Details')
+
+    replaceSpy.mockRestore()
+  })
+
+  test("sets the state and doesn't redirect when a valid menu is given", () => {
+    Router.router = {
+      asPath: 'example.com?menu=Password'
+    }
+
+    const replaceSpy = jest.spyOn(Router, 'replace').mockImplementation(() => {})
+
+    const wrapper = shallow(<MyAccountPage />, { disableLifecycleMethods: true })
+
+    wrapper.instance().componentDidMount()
+
+    expect(replaceSpy).not.toHaveBeenCalled()
+    expect(wrapper.state().currentMenu).toEqual('Password')
+
+    replaceSpy.mockRestore()
   })
 })
