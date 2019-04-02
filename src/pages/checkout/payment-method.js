@@ -63,7 +63,7 @@ export class PaymentMethodPage extends Component {
    */
   handleSetPaymentMethod (paymentMethod) {
     // set PayPal paymentMethod in a cookie
-    Cookies.set('paymentMethod', paymentMethod, { signed: true })
+    Cookies.set('paymentMethod', paymentMethod, { secure: true })
   }
 
   /**
@@ -206,9 +206,9 @@ export class PaymentMethodPage extends Component {
    */
   handlePayPalOrderDetails (payPalOrder) {
     // set PayPal order ID in a cookie
-    Cookies.set('ppOrderID', payPalOrder.id, { signed: true })
+    Cookies.set('ppOrderID', payPalOrder.id, { secure: true })
     // set purchaseUnitsReferenceID in a cookie
-    Cookies.set('purchaseUnitsReferenceID', payPalOrder.purchase_units[0].reference_id, { signed: true })
+    Cookies.set('purchaseUnitsReferenceID', payPalOrder.purchase_units[0].reference_id, { secure: true })
   }
 
   /**

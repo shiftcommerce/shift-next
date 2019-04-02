@@ -93,13 +93,14 @@ export class ShippingMethodPage extends Component {
    * Handles form submit for order placed via PayPal
    */
   handleFormSubmitForPayPalOrder () {
-    const { dispatch, cart } = this.props
     // set loading to true as we handle the order information
     this.setState({ loading: true })
     // update PayPal order total
-    return dispatch(updatePayPalOrderTotal(this.state.payPalOrderID, this.state.purchaseUnitsReferenceID, cart)).then(() => {
-      // redirect to next step
-      this.nextSection()
+    return this.props.dispatch(updatePayPalOrderTotal(this.state.payPalOrderID, this.state.purchaseUnitsReferenceID, this.props.cart)).then(() => {
+      if (!this.props.order.paymentResponseErrors.error.data) {
+        // redirect to next step
+        this.nextSection()
+      }
     })
   }
 

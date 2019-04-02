@@ -80,7 +80,7 @@ export function updatePayPalOrderTotal (payPalOrderID, purchaseUnitsReferenceID,
       purchaseUnitsReferenceID: purchaseUnitsReferenceID
     },
     requestActionType: actionTypes.PATCH_PAYPAL_ORDER,
-    errorActionType: actionTypes.SET_PAYMENT_ERROR
+    errorActionType: actionTypes.SET_PAYMENT_RESPONSE_ERRORS
   }
   return postEndpoint(request)
 }
@@ -93,7 +93,7 @@ export function authorizePayPalOrder (payPalOrderID) {
     },
     requestActionType: actionTypes.AUTHORIZE_PAYPAL_ORDER,
     successActionType: actionTypes.SET_ORDER_PAYPAL_AUTHORIZATION_DETAILS,
-    errorActionType: actionTypes.SET_PAYMENT_ERROR
+    errorActionType: actionTypes.SET_PAYMENT_RESPONSE_ERRORS
   }
   return postEndpoint(request)
 }
@@ -102,8 +102,11 @@ export function authorizePayPalAndCreateOrder (payPalOrderID, paymentMethod) {
   return (dispatch, getState) => {
     // authorize the PayPal Order
     return dispatch(authorizePayPalOrder(payPalOrderID)).then(() => {
-      // create order
-      return dispatch(createOrder(getState().cart, paymentMethod, getState().order))
+      const order = getState().order
+      if (!order.paymentResponseErrors.error.data) {
+        // create order
+        return dispatch(createOrder(getState().cart, paymentMethod, order))
+      }
     })
   }
 }

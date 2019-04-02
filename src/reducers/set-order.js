@@ -13,6 +13,7 @@ export const initialState = {
     status: '',
     expiration_time: ''
   },
+  paymentResponseErrors: {}
 }
 
 export default function setOrder (state = initialState, action) {
@@ -35,6 +36,9 @@ export default function setOrder (state = initialState, action) {
     case types.SET_ORDER_PAYPAL_AUTHORIZATION_DETAILS:
       return Object.assign({}, state, { paymentAuthorization: action.payload })
 
+    case types.SET_PAYMENT_RESPONSE_ERRORS:
+      return Object.assign({}, state, { paymentResponseErrors: action.payload })
+    
     default:
       return state
   }

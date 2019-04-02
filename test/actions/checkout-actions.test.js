@@ -108,7 +108,7 @@ test('updatePayPalOrderTotal triggers a correct patchPayPalOrder request', () =>
   const requestObject = postSpy.mock.calls[0][0]
   expect(requestObject.endpoint).toEqual('/patchPayPalOrder')
   expect(requestObject.requestActionType).toEqual(actionTypes.PATCH_PAYPAL_ORDER)
-  expect(requestObject.errorActionType).toEqual(actionTypes.SET_PAYMENT_ERROR)
+  expect(requestObject.errorActionType).toEqual(actionTypes.SET_PAYMENT_RESPONSE_ERRORS)
   postSpy.mockRestore()
 })
 
@@ -125,6 +125,6 @@ test('authorizePayPalOrder triggers a correct authorizePayPalOrder request', () 
   expect(requestObject.endpoint).toEqual('/authorizePayPalOrder')
   expect(requestObject.requestActionType).toEqual(actionTypes.AUTHORIZE_PAYPAL_ORDER)
   expect(requestObject.successActionType).toEqual(actionTypes.SET_ORDER_PAYPAL_AUTHORIZATION_DETAILS)
-  expect(requestObject.errorActionType).toEqual(actionTypes.SET_PAYMENT_ERROR)
+  expect(requestObject.errorActionType).toEqual(actionTypes.SET_PAYMENT_RESPONSE_ERRORS)
   postSpy.mockRestore()
 })
