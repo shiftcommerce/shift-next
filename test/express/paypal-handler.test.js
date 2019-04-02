@@ -65,7 +65,7 @@ describe('patchOrder()', () => {
     expect(response).toEqual({})
   })
 
-  test('returns error response when order is updated with an invalid total', async () => {
+  test('returns an error response when order is updated with an invalid total', async () => {
     // Arrange
     const payPalOrderID = '5C91751271779461V'
     const purchaseUnitsReferenceID = 'default'
@@ -139,7 +139,7 @@ describe('authorizeOrder()', () => {
     })
   })
 
-  test('returns error response when order is authorized with an invalid order ID', async () => {
+  test('returns an error response when order is authorized with an invalid order ID', async () => {
     // Arrange
     const payPalOrderID = 'INVALID'
     const req = { 

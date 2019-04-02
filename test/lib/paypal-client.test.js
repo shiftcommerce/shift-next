@@ -75,6 +75,31 @@ describe('patchOrder()', () => {
     expect(response.status).toBe(204)
     expect(response.data).toEqual({})
   })
+
+  test('returns an error response when order is updated with an invalid total', async () => {
+    // Arrange
+    const payPalOrderID = '5C91751271779461V'
+    const purchaseUnitsReferenceID = 'default'
+    const cartWithInvalidTotal = {
+      total: ''
+    }
+
+    // Mock out requests
+    nockScope
+      .post('/v1/oauth2/token')
+      .reply(200, payPalOauthResponse)
+
+    nockScope
+      .intercept(`/v2/checkout/orders/${payPalOrderID}?`, 'PATCH')
+      .reply(400, payPalInvalidOrderUpdateResponse)
+    
+    // Act
+    const error_response= await PayPalClient.patchOrder(payPalOrderID, purchaseUnitsReferenceID, cartWithInvalidTotal)
+  
+    // Assert
+    expect(error_response.status).toBe(400)
+    expect(JSON.parse(error_response.data)).toEqual(payPalInvalidOrderUpdateResponse)
+  })
 })
 
 describe('authorizeOrder()', () => {
@@ -101,5 +126,26 @@ describe('authorizeOrder()', () => {
     // Assert
     expect(response.status).toBe(201)
     expect(response.data).toEqual(expectedPayload)
+  })
+
+  test('returns an error response when order is authorized with an invalid order ID', async () => {
+    // Arrange
+    const payPalOrderID = 'INVALID'
+
+    // Mock out requests
+    nockScope
+      .post('/v1/oauth2/token')
+      .reply(200, payPalOauthResponse)
+
+    nockScope
+      .post(`/v2/checkout/orders/${payPalOrderID}/authorize?`, {})
+      .reply(422, payPalInvalidOrderAuthorizationResponse)
+
+    // Act
+    const error_response = await PayPalClient.authorizeOrder(payPalOrderID)
+  
+    // Assert
+    expect(error_response.status).toBe(422)
+    expect(JSON.parse(error_response.data)).toEqual(payPalInvalidOrderAuthorizationResponse)
   })
 })
