@@ -1,7 +1,6 @@
 // Libraries
 import nock from 'nock'
-import PayPalClient from '../../src//lib/paypal-client'
-import Config from '../../src/lib/config'
+import PayPalClient from '../../src/lib/paypal-client'
 
 // Fixtures
 import payPalAuthorizationResponse from '../fixtures/paypal-order-authorization-response'
@@ -41,7 +40,7 @@ test('authorizeOrder returns correct response status and data when successful', 
     expirationTime: '2019-04-24T20:47:07Z'
   }
 
-  // Mock out a successful get request
+  // Mock out a successful post request
   nockScope
     .post(`/v2/checkout/orders/${payPalOrderID}/authorize`, {})
     .reply(200, payPalAuthorizationResponse)
@@ -58,7 +57,7 @@ test('patchOrder returns correct response status and data when successful', asyn
   // Arrange
   const bodyPayload = PayPalClient.buildPatchOrderPayload(purchaseUnitsReferenceID, cart) 
 
-  // Mock out a successful get request
+  // Mock out a successful post request
   nockScope
     .post(`/v2/checkout/orders/${payPalOrderID}`, bodyPayload)
     .reply(200, payPalUpdateOrderResponse)
