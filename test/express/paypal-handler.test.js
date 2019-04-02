@@ -1,14 +1,13 @@
 // Libraries
 const nock = require('nock')
 
-// Account handler
+// PayPal handler
 const { patchOrder, authorizeOrder } = require('../../src/express/paypal-handler')
 
 // Fixtures
-const PatchOrderResponse = require('../fixtures/paypal-create-order-response')
+const PatchOrderResponse = require('../fixtures/paypal-update-order-response')
+const PayPalOauthResponse = require('../fixtures/paypal-oauth-response')
 const AuthorizeOrderResponse = require('../fixtures/paypal-order-authorization-response')
-
-jest.doMock('@paypal/checkout-server-sdk')
 
 beforeEach(() => {
   process.env.PAYPAL_CLIENT_ID = 'test'
@@ -26,25 +25,21 @@ afterEach(() => {
   nock.cleanAll()
 })
 
-const nockScope = nock('https://api.sandbox.paypal.com/')
+const nockScope = nock('https://api.sandbox.paypal.com')
 
 describe('patchOrder()', () => {
   test('returns correct response when order is updated', async () => {
     // Arrange
-    const payPalOrderID = '95689969696'
+    const payPalOrderID = '5C91751271779461V'
+    const purchaseUnitsReferenceID = 'default'
+    const cart = {
+      total: 20
+    }
     const req = { 
       body: {
-        cart: {
-          sub_total: 18,
-          total: 20,
-          total_discount: 0,
-          tax: 1,
-          shipping_total: 1,
-          shipping_total_discount: 0,
-          free_shipping: false
-        },
+        cart: cart,
         payPalOrderID: payPalOrderID,
-        purchaseUnitsReferenceID: 'default'
+        purchaseUnitsReferenceID: purchaseUnitsReferenceID
       }
     }
     const res = {
@@ -52,31 +47,38 @@ describe('patchOrder()', () => {
         send: jest.fn(y => y)
       }))
     }
+    const bodyPayload = [
+      {
+        'op': 'replace',
+        'path': `/purchase_units/@reference_id=='${purchaseUnitsReferenceID}'/amount`,
+        'value': {
+          'currency_code': 'GBP',
+          'value': 20
+        }
+      }
+    ]
 
     // Mock out a successful post request
     nockScope
-      .post(`/v2/checkout/orders/${payPalOrderID}`, bodyPayload)
-      .reply(201, PatchOrderResponse)
+      .post('/v1/oauth2/token')
+      .reply(200, PayPalOauthResponse)
+
+    nockScope
+      .intercept(`/v2/checkout/orders/${payPalOrderID}?`, 'PATCH')
+      .reply(204, PatchOrderResponse)
     
     // Act
     const response = await patchOrder(req, res)
 
     // Assert
-    expect(response).toEqual({
-      status: 201,
-      data: {
-        id: PatchOrderResponse.id,
-        status: PatchOrderResponse.status,
-        expirationTime: PatchOrderResponse.expiration_time
-      }
-    })
+    expect(response).toEqual(PatchOrderResponse)
   })
 })
 
 describe('authorizeOrder()', () => {
   test('returns correct response when order is authorized', async () => {
     // Arrange
-    const payPalOrderID = '95689969696'
+    const payPalOrderID = '5C91751271779461V'
     const req = { 
       body: {
         payPalOrderID: payPalOrderID
@@ -87,9 +89,16 @@ describe('authorizeOrder()', () => {
         send: jest.fn(y => y)
       }))
     }
+
+    const expectedAuthorizationDetails = AuthorizeOrderResponse.purchase_units[0].payments.authorizations[0]
+
     // Mock out a successful post request
     nockScope
-      .post(`/v2/checkout/orders/${payPalOrderID}/authorize`, {})
+      .post('/v1/oauth2/token')
+      .reply(200, PayPalOauthResponse)
+
+    nockScope
+      .post(`/v2/checkout/orders/${payPalOrderID}/authorize?`, {})
       .reply(200, AuthorizeOrderResponse)
 
     // Act
@@ -97,8 +106,9 @@ describe('authorizeOrder()', () => {
 
     // Assert
     expect(response).toEqual({
-      status: 200,
-      data: AuthorizeOrderResponse
+      id: expectedAuthorizationDetails.id,
+      status: expectedAuthorizationDetails.status,
+      expirationTime: expectedAuthorizationDetails.expiration_time
     })
   })
 })

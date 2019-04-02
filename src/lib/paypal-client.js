@@ -43,7 +43,7 @@ class PayPalClient {
       }
     } catch (error) {
       console.error(`PayPal Client: Error while authorizing order ${payPalOrderID}`, error)
-      return { error }
+      return { status: error.statusCode, data: error }
     }
   }
 
@@ -58,10 +58,10 @@ class PayPalClient {
     request.requestBody(this.buildPatchOrderPayload(purchaseUnitsReferenceID, cart))
     try {
       const response = await this.client.execute(request)
-      return { status: response.statusCode, data: response.data }
+      return { status: response.statusCode, data: response.result }
     } catch (error) {
       console.error(`PayPal Client: Error while patching order ${payPalOrderID}`, error)
-      return { error }
+      return { status: error.statusCode, data: error }
     }
   }
 
