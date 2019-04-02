@@ -52,20 +52,5 @@
     "redux-devtools-extension": "^2.13.8",
     "redux-thunk": "^2.3.0",
     "stripe": "^6.25.1"
-  },
-  "jest": {
-    "moduleFileExtensions": [
-      "js",
-      "jsx"
-    ],
-    "moduleDirectories": [
-      "node_modules",
-      "bower_components",
-      "shared"
-    ],
-    "moduleNameMapper": {
-      "^js(.*)$": "<rootDir>/app/javascript/$1",
-      "^vendor(.*)$": "<rootDir>/vendor/$1"
-    }
   }
 }
