@@ -68,22 +68,6 @@ exports[`render shipping methods as expected 1`] = `
                   Shipping Address
                 </h2>
               </div>
-              <Button
-                className="o-button-edit"
-                label="Edit"
-                onClick={[Function]}
-                status="secondary"
-              >
-                <button
-                  className="o-button-edit o-button o-button--secondary"
-                  disabled={false}
-                  onClick={[Function]}
-                  role="button"
-                  tabIndex="0"
-                >
-                  Edit
-                </button>
-              </Button>
             </div>
           </address_form_header_AddressFormHeader>
           <div
@@ -205,22 +189,6 @@ exports[`renders line item quantity as expected 1`] = `
                   Shipping Address
                 </h2>
               </div>
-              <Button
-                className="o-button-edit"
-                label="Edit"
-                onClick={[Function]}
-                status="secondary"
-              >
-                <button
-                  className="o-button-edit o-button o-button--secondary"
-                  disabled={false}
-                  onClick={[Function]}
-                  role="button"
-                  tabIndex="0"
-                >
-                  Edit
-                </button>
-              </Button>
             </div>
           </address_form_header_AddressFormHeader>
           <div

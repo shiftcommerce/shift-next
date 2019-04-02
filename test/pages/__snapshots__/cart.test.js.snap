@@ -1156,11 +1156,11 @@ exports[`dispatch updateQuantity action on changing line item quantity 1`] = `
                   </link_Link>
                   <link_Link
                     className="o-button--sml c-cart-summary-buttons__cta c-cart-summary-buttons__cta--proceed"
-                    href="/checkout/shipping-address"
+                    href="/checkout/payment-method"
                   >
                     <a
                       className="o-button--sml c-cart-summary-buttons__cta c-cart-summary-buttons__cta--proceed"
-                      href="/checkout/shipping-address"
+                      href="/checkout/payment-method"
                     >
                       Checkout
                     </a>
