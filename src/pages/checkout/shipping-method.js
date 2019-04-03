@@ -60,7 +60,7 @@ export class ShippingMethodPage extends Component {
       } else {
         return Router.push('/checkout/shipping-address')
       }
-    }
+    } 
 
     if (!cart.billing_address && thirdPartyPaymentMethods.includes(this.state.paymentMethod)) {
       // If billing address is not present and customer has used third party payment service

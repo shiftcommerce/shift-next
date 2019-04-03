@@ -59,7 +59,7 @@ test('componentDidMount() redirects to the shipping address page when one is not
   // Arrange
   const pushSpy = jest.spyOn(Router, 'push').mockImplementation(() => {})
   const cartState = {}
-  const checkoutState = { paymentMethod: 'Credit/Debit Card' }
+  const checkoutState = {}
   const thirdPartyPaymentMethodOptions = ['PayPal']
 
   // Act
@@ -75,8 +75,7 @@ test('componentDidMount() redirects to the payment method page when shipping add
   const cookieSpy = jest.spyOn(Cookies, 'get').mockImplementation(() => 'PayPal')
   const pushSpy = jest.spyOn(Router, 'push').mockImplementation(() => {})
   const cartState = {
-    shipping_address: { id: 99 },
-    billing_address: {}
+    shipping_address: { id: 99 }
   }
   const checkoutState = {}
   const thirdPartyPaymentMethodOptions = ['PayPal']
@@ -138,7 +137,7 @@ test('renders correct checkout components', () => {
 
 test('render shipping methods as expected', async () => {
   // Arrange
-  const cookieSpy = jest.spyOn(Cookies, 'get').mockImplementation(() => 'PayPal')
+  const cookieSpy = jest.spyOn(Cookies, 'get').mockImplementation(() => 'Credit/Debit Card')
 
   const cart = {
     line_items: [
@@ -159,8 +158,7 @@ test('render shipping methods as expected', async () => {
       completed: true,
       showEditButton: true
     },
-    shippingMethod: {},
-    paymentMethod: 'Credit/Debit Card'
+    shippingMethod: {}
   }
 
   const fetchShippingSpy = jest.spyOn(ShippingMethodPage, 'fetchShippingMethods').mockImplementation(() => Promise.resolve({
@@ -197,6 +195,7 @@ test('render shipping methods as expected', async () => {
 
 test('renders line item quantity as expected', async () => {
   // Arrange
+  const cookieSpy = jest.spyOn(Cookies, 'get').mockImplementation(() => 'Credit/Debit Card')
   const cart = {
     line_items: [],
     line_items_count: 0,
@@ -222,8 +221,7 @@ test('renders line item quantity as expected', async () => {
     },
     shippingMethod: {
       collapsed: false
-    },
-    paymentMethod: 'Credit/Debit Card'
+    }
   }
 
   const fetchShippingSpy = jest.spyOn(ShippingMethodPage, 'fetchShippingMethods').mockImplementation(() => Promise.resolve({ data: [] }))
@@ -245,6 +243,7 @@ test('renders line item quantity as expected', async () => {
 
 test('preselects first shipping method when fetching shipping methods and none is set', async () => {
   // Arrange
+  const cookieSpy = jest.spyOn(Cookies, 'get').mockImplementation(() => 'Credit/Debit Card')
   const cart = {
     line_items: [],
     line_items_count: 0,
@@ -259,10 +258,8 @@ test('preselects first shipping method when fetching shipping methods and none i
     },
     shippingMethod: {
       collapsed: false
-    },
-    paymentMethod: 'Credit/Debit Card'
+    }
   }
-
   const fetchShippingSpy = jest.spyOn(ShippingMethodPage, 'fetchShippingMethods').mockImplementation(() => Promise.resolve({
     data: [{
       id: 1,
@@ -305,10 +302,12 @@ test('preselects first shipping method when fetching shipping methods and none i
 
   postSpy.mockRestore()
   fetchShippingSpy.mockRestore()
+  cookieSpy.mockRestore()
 })
 
 test('selecting a shipping method makes a correct API call', async () => {
   // Arrange
+  const cookieSpy = jest.spyOn(Cookies, 'get').mockImplementation(() => 'Credit/Debit Card')
   const cart = {
     line_items: [],
     line_items_count: 1,
@@ -382,6 +381,7 @@ test('selecting a shipping method makes a correct API call', async () => {
 
   fetchShippingSpy.mockRestore()
   postSpy.mockRestore()
+  cookieSpy.mockRestore()
 })
 
 test('fetchShippingMethods() returns shipping methods from the API', async () => {
@@ -422,6 +422,7 @@ test('fetches shipping methods, sorts them by total and puts them in state', asy
 
   const cartState = {
     shipping_address: shippingAddress,
+    billing_address: { id: 2 },
     shipping_method: {}
   }
 
