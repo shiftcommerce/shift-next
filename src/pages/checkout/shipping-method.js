@@ -62,6 +62,12 @@ export class ShippingMethodPage extends Component {
       }
     }
 
+    if (!cart.billing_address && thirdPartyPaymentMethods.includes(this.state.paymentMethod)) {
+      // If billing address is not present and customer has used third party payment service
+      // redirect to the payment method page
+      return Router.push('/checkout/payment-method')
+    }
+
     const shippingMethods = (await this.constructor.fetchShippingMethods()).data.sort((method1, method2) => method1.total - method2.total)
 
     if (!cart.shipping_method) {

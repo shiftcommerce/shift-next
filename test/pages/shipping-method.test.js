@@ -70,7 +70,29 @@ test('componentDidMount() redirects to the shipping address page when one is not
   pushSpy.mockRestore()
 })
 
-test('componentDidMount() redirects to the shipping address page when one is not set when third party payment is used', () => {
+test('componentDidMount() redirects to the payment method page when shipping address is not set when third party payment is used', () => {
+  // Arrange
+  const cookieSpy = jest.spyOn(Cookies, 'get').mockImplementation(() => 'PayPal')
+  const pushSpy = jest.spyOn(Router, 'push').mockImplementation(() => {})
+  const cartState = {
+    shipping_address: { id: 99 },
+    billing_address: {}
+  }
+  const checkoutState = {}
+  const thirdPartyPaymentMethodOptions = ['PayPal']
+
+  // Act
+  shallow(
+    <ShippingMethodPage cart={cartState} checkout={checkoutState} thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions}/>
+  )
+
+  // Assert
+  expect(pushSpy).toHaveBeenCalledWith('/checkout/payment-method')
+  cookieSpy.mockRestore()
+  pushSpy.mockRestore()
+})
+
+test('componentDidMount() redirects to the payment method page when billing address is not set when third party payment is used', () => {
   // Arrange
   const cookieSpy = jest.spyOn(Cookies, 'get').mockImplementation(() => 'PayPal')
   const pushSpy = jest.spyOn(Router, 'push').mockImplementation(() => {})
