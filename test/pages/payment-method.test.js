@@ -10,7 +10,7 @@ import * as CheckoutActions from '../../src/actions/checkout-actions'
 import * as CartActions from '../../src/actions/cart-actions'
 
 // Fixtures
-const payPalResponse = require('../fixtures/paypal-create-order-response')
+const payPalResponse = require('../fixtures/paypal-order-response')
 
 jest.mock('next/config', () => () => ({
   publicRuntimeConfig: {}
