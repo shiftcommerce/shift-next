@@ -121,7 +121,7 @@ export class ShippingMethodPage extends Component {
   }
 
   nextSection () {
-    const { setCurrentStep, thirdPartyPaymentMethods} = this.props
+    const { setCurrentStep, thirdPartyPaymentMethods } = this.props
   
     if (thirdPartyPaymentMethods.includes(this.state.paymentMethod)) {
       // If customer has used third party payment service, redirect to the order review page
@@ -133,7 +133,7 @@ export class ShippingMethodPage extends Component {
   }
 
   continueButtonProps () {
-    const { thirdPartyPaymentMethods} = this.props
+    const { thirdPartyPaymentMethods } = this.props
     const label = (thirdPartyPaymentMethods.includes(this.state.paymentMethod) ? 'Review Your Order' : 'Continue to Payment')
   
     return {
@@ -149,8 +149,7 @@ export class ShippingMethodPage extends Component {
   currentStep = () => 3
 
   render () {
-    const { cart } = this.props
-    const { thirdPartyPaymentMethods } = this.props
+    const { cart, thirdPartyPaymentMethods } = this.props
   
     if (!cart.shipping_address) return null
 

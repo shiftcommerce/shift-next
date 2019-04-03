@@ -99,7 +99,7 @@ export class PaymentMethodPage extends Component {
    * @param  {object} order
    */
   handlePayPalOrderResponse (order) {
-    const payer = order.payer
+    const { payer } = order
     const payerEmail = payer.email_address
     const payerPhone = payer.phone
     const payerPhoneNumber = (payerPhone && payerPhone.phone_number ? payerPhone.phone_number.national_number : '')

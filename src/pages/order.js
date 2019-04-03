@@ -70,7 +70,7 @@ class OrderPage extends Component {
   }
 
   renderPaymentMethodInformation (order) {
-    if (this.state.paymentMethod === "PayPal") {
+    if (this.state.paymentMethod === 'PayPal') {
       return <Image src='/static/payments/pay-pal.svg' className='c-order__detail-payment-method-card-image' />
     } else {
       return this.renderCardInformation (order)

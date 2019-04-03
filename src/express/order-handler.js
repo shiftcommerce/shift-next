@@ -7,7 +7,7 @@ module.exports = {
     const orderPayload = { data: body.data }
     const cardToken = body.card_token
     const paymentMethod = body.payment_method
-    const paymentAuthorizationID = body.paymentAuthorizationID
+    const paymentAuthorizationID = body.payment_authorization_id
 
     if (paymentMethod === 'card') {
       stripe.charges.create({
