@@ -15,7 +15,7 @@ export default function setCart (state = initialState, action) {
     case types.SET_ORDER:
       return {}
 
-    case types.DISPLAY_MINIBAG:
+    case types.TOGGLE_MINIBAG:
       return Object.assign({}, state, { miniBagDisplayed: !state.miniBagDisplayed })
 
     default:

@@ -145,8 +145,8 @@ export function createBillingAddress (address) {
   return postEndpoint(createBillingAddressRequest(address))
 }
 
-export function displayMiniBag () {
+export function toggleMiniBag () {
   return {
-    type: actionTypes.DISPLAY_MINIBAG
+    type: actionTypes.TOGGLE_MINIBAG
   }
 }
