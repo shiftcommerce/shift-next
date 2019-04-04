@@ -324,30 +324,3 @@ test('sets shipping address when a PayPal order is created', () => {
   // Assert
   expect(updatedState.shippingAddress).toEqual(addressPayload)
 })
-
-test('sets PayPal Order Details when a PayPal order is created', () => {
-  // Arrange
-  const payload = {
-    orderID: '9B29180392286445Y',
-    intent: 'AUTHORIZE',
-    status: 'COMPLETED',
-    purchaseUnitsReferenceID: '2213',
-    authorizationID: '847484949',
-    createdAt: '2019-03-25T15:58:41Z'
-  }
-  const action = {
-    type: actionTypes.SET_PAYPAL_ORDER_DETAILS,
-    payload: {
-      orderDetails: payload
-    }
-  }
-  const currentState = {
-    paypalOrderDetails: {}
-  }
-
-  // Act 
-  const updatedState = setCheckout(currentState, action)
-
-  // Assert
-  expect(updatedState.paypalOrderDetails).toEqual(payload)
-})

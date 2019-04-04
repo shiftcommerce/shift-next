@@ -36,6 +36,7 @@ module.exports = {
     'next/link': 'commonjs next/link',
     'react-instantsearch/server': 'react-instantsearch/server',
     'react-instantsearch/dom': 'react-instantsearch/dom',
-    'stripe': 'commonjs stripe'
+    'stripe': 'commonjs stripe',
+    '@paypal/checkout-server-sdk': 'commonjs @paypal/checkout-server-sdk'
   }
 }
