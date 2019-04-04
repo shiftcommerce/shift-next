@@ -43,7 +43,6 @@ export class PaymentMethodPage extends Component {
    */
   pageTitle = () => 'Payment Method'
 
-
   /**
    * Sets the current checkout page step 
    */

@@ -14,6 +14,7 @@ class PayPalClient {
 
   /**
    * Returns the PayPal environment
+   * @return {object} - initialized PayPal environment
    */
   environment () {
     if (process.env.NODE_ENV === 'production' && process.env.ENABLE_PAYPAL_LIVE_ENVIRONMENT === 'true') {
@@ -43,7 +44,8 @@ class PayPalClient {
 
   /**
    * Performs authorization on the approved order.
-   * @param payPalOrderID
+   * @param {string} payPalOrderID
+   * @return {object} - order authorization response
    */
   async authorizeOrder(payPalOrderID) {
     try {
@@ -69,6 +71,7 @@ class PayPalClient {
    * Builds the patch order payload
    * @param {string} purchaseUnitsReferenceID
    * @param {object} cart
+   * @return {object} - patch order payload
    */
   buildPatchOrderPayload (purchaseUnitsReferenceID, cart, currency_code = 'GBP') {
     return [

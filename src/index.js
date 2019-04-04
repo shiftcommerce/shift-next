@@ -113,7 +113,6 @@ module.exports = {
   PaymentPage: PaymentPage,
   PaymentMethodPage: PaymentMethodPage,
   ProductPage: ProductPage,
-  PaymentMethodPage: PaymentMethodPage,
   RegisterPage: RegisterPage,
   SearchPage: SearchPage,
   ShippingAddressPage: ShippingAddressPage,
