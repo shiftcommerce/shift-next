@@ -48,7 +48,7 @@ class ProductPage extends Component {
       .then(success => {
         if (success) {
           this.props.dispatch(displayMiniBag())
-            .then(setTimeout(() => this.props.dispatch(displayMiniBag()), 6000))
+            .then(setTimeout(() => this.props.dispatch(displayMiniBag()), 4000))
         }
       })
   }
