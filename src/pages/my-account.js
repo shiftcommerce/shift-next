@@ -18,7 +18,7 @@ import {
 } from '@shiftcommerce/shift-react-components'
 
 // Actions
-import { getCustomerOrders } from '../actions/account-actions'
+import { getCustomerOrders, updateCustomerAccount } from '../actions/account-actions'
 
 class MyAccountPage extends Component {
   constructor (props) {
@@ -30,9 +30,17 @@ class MyAccountPage extends Component {
   }
 
   defaultMenus () {
+    const { account: { email, firstName, lastName }, orders } = this.props
+
     return [{
       label: 'Details',
-      component: AccountDetails
+      component: AccountDetails,
+      props: {
+        email,
+        handleSubmit: this.handleUpdateDetailsSubmit.bind(this),
+        firstName,
+        lastName
+      }
     }, {
       label: 'Addresses',
       component: AccountAddresses
@@ -44,7 +52,7 @@ class MyAccountPage extends Component {
       component: AccountOrders,
       props: {
         fetchOrders: this.fetchOrders.bind(this),
-        orders: this.props.orders
+        orders
       }
     }]
   }
@@ -83,6 +91,19 @@ class MyAccountPage extends Component {
       })
       Router.push(`${Router.asPath.split('?')[0]}?menu=${menu.label.toLowerCase()}`)
     }
+  }
+
+  handleUpdateDetailsSubmit ({ email, firstName, lastName }, { setStatus, setSubmitting }) {
+    this.props.dispatch(updateCustomerAccount(email, firstName, lastName)).then(success => {
+      // Display a relevant flash message
+      setStatus(success ? 'success' : 'error')
+      setTimeout(() => {
+        // Clear flash message after 5 seconds
+        setStatus(undefined)
+        // Re-enable the submit button
+        setSubmitting(false)
+      }, 5000)
+    })
   }
 
   render () {
