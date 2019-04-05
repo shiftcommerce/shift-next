@@ -106,7 +106,7 @@ export class PaymentMethodPage extends Component {
     const shippingFullName = shippingDetails.name.full_name.split(' ')
     // set loading to true as we handle the order information
     this.setState({ loading: true })
-    // handle basic order details - id, intent, status + create_time
+    // handle basic order details - PayPal order ID + purchase units reference id
     this.handlePayPalOrderDetails(order)
     // handle parsing + setting of billing address in state + creation
     this.handleBillingAddressCreation(

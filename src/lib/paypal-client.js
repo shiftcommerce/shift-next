@@ -1,6 +1,15 @@
 // Libraries
 const paypal = require('@paypal/checkout-server-sdk')
 
+/**
+ *  PayPalClient service
+ * 
+ * Responsibility: Facilitating the Order total update process as well as the order
+ *                  authorisation process.
+ * 
+ * Documentation: https://github.com/shiftcommerce/shift-next/wiki/PayPal-Integration
+ * 
+ */
 class PayPalClient {
   /**
    * Initializes the class.
