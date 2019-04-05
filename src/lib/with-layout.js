@@ -7,7 +7,7 @@ import qs from 'qs'
 import { Layout } from '@shiftcommerce/shift-react-components'
 
 // Actions
-import { readCart } from '../actions/cart-actions'
+import { readCart, deleteLineItem } from '../actions/cart-actions'
 
 import { connect } from 'react-redux'
 import { withRouter } from 'next/router'
@@ -42,12 +42,15 @@ export default function withLayout (Component) {
 
       this.state = {
         shrunk: false,
-        toggleShowClass: false
+        toggleShowClass: false,
+        minibagDisplayed: false
       }
 
       this.handleScroll = this.handleScroll.bind(this)
       this.toggleDropDown = this.toggleDropDown.bind(this)
       this.onCategoryFilterCleared = this.onCategoryFilterCleared.bind(this)
+      this.deleteItem = this.deleteItem.bind(this)
+      this.toggleMiniBag = this.toggleMiniBag.bind(this)
     }
 
     componentDidMount () {
@@ -75,8 +78,15 @@ export default function withLayout (Component) {
     }
 
     toggleDropDown () {
-      const toggleShow = this.state.toggleShowClass
-      this.setState({ toggleShowClass: !toggleShow })
+      this.setState({ toggleShowClass: !this.state.toggleShowClass })
+    }
+
+    toggleMiniBag() {
+      this.setState({ minibagDisplayed: !this.state.minibagDisplayed })
+    }
+
+    deleteItem(event) {
+      this.props.dispatch(deleteLineItem(event.target.dataset.id))
     }
 
     onCategoryFilterCleared () {
@@ -103,6 +113,9 @@ export default function withLayout (Component) {
           toggleDropDown={this.toggleDropDown}
           showClass={this.state.toggleShowClass}
           loggedIn={loggedIn}
+          deleteItem={this.deleteItem}
+          toggleMiniBag={this.toggleMiniBag}
+          minibagDisplayed={cart.minibagDisplayed || this.state.minibagDisplayed}
         >
           <Component {...otherProps} />
         </Layout>

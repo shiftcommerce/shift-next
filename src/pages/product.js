@@ -10,7 +10,7 @@ import { suffixWithStoreName } from '../lib/suffix-with-store-name'
 import { Loading, ProductDisplay } from '@shiftcommerce/shift-react-components'
 
 // Actions
-import { addToCart } from '../actions/cart-actions'
+import { addToCart, toggleMiniBag } from '../actions/cart-actions'
 import { readProduct } from '../actions/product-actions'
 
 class ProductPage extends Component {
@@ -45,6 +45,12 @@ class ProductPage extends Component {
   addToBag () {
     const { variantId, quantity } = this.state
     this.props.dispatch(addToCart(variantId, parseInt(quantity)))
+      .then(success => {
+        if (success) {
+          this.props.dispatch(toggleMiniBag())
+            .then(setTimeout(() => this.props.dispatch(toggleMiniBag()), 4000))
+        }
+      })
   }
 
   changeVariant (e) {
