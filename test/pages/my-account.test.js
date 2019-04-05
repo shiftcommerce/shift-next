@@ -4,9 +4,6 @@ import Router from 'next/router'
 // Pages
 import MyAccountPage from '../../src/pages/my-account'
 
-// Actions
-import { getCustomerOrders } from '../../src/actions/account-actions'
-
 jest.mock('next/config', () => () => ({
   publicRuntimeConfig: {}
 }))
@@ -28,7 +25,7 @@ describe('componentDidMount', () => {
   test('redirects to the first default child when no menu is given', () => {
     const replaceSpy = jest.spyOn(Router, 'replace').mockImplementation(() => {})
 
-    const wrapper = shallow(<MyAccountPage />, { disableLifecycleMethods: true })
+    const wrapper = shallow(<MyAccountPage account={{}} />, { disableLifecycleMethods: true })
 
     wrapper.instance().componentDidMount()
 
@@ -45,7 +42,7 @@ describe('componentDidMount', () => {
 
     const replaceSpy = jest.spyOn(Router, 'replace').mockImplementation(() => {})
 
-    const wrapper = shallow(<MyAccountPage />, { disableLifecycleMethods: true })
+    const wrapper = shallow(<MyAccountPage account={{}} />, { disableLifecycleMethods: true })
 
     wrapper.instance().componentDidMount()
 
@@ -62,7 +59,7 @@ describe('componentDidMount', () => {
 
     const replaceSpy = jest.spyOn(Router, 'replace').mockImplementation(() => {})
 
-    const wrapper = shallow(<MyAccountPage />, { disableLifecycleMethods: true })
+    const wrapper = shallow(<MyAccountPage account={{}} />, { disableLifecycleMethods: true })
 
     wrapper.instance().componentDidMount()
 
@@ -70,5 +67,31 @@ describe('componentDidMount', () => {
     expect(wrapper.state().currentMenu).toEqual('Password')
 
     replaceSpy.mockRestore()
+  })
+})
+
+describe('handleUpdateDetailsSubmit()', () => {
+  test('sets form status to success when updating customer account succeeds', async () => {
+    const setStatus = jest.fn()
+    const setSubmitting = jest.fn()
+    const dispatch = jest.fn().mockImplementation(() => Promise.resolve(true))
+
+    const wrapper = shallow(<MyAccountPage dispatch={dispatch} account={{}} />, { disableLifecycleMethods: true })
+
+    await wrapper.instance().handleUpdateDetailsSubmit({}, { setStatus, setSubmitting })
+
+    expect(setStatus).toHaveBeenCalledWith('success')
+  })
+
+  test('sets form status to error when updating customer account fails', async () => {
+    const setStatus = jest.fn()
+    const setSubmitting = jest.fn()
+    const dispatch = jest.fn().mockImplementation(() => Promise.resolve(false))
+
+    const wrapper = shallow(<MyAccountPage dispatch={dispatch} account={{}} />, { disableLifecycleMethods: true })
+
+    await wrapper.instance().handleUpdateDetailsSubmit({}, { setStatus, setSubmitting })
+
+    expect(setStatus).toHaveBeenCalledWith('error')
   })
 })

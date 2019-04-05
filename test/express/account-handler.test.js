@@ -1,8 +1,14 @@
 // Libraries
 const nock = require('nock')
+const { SHIFTClient } = require('@shiftcommerce/shift-node-api')
 
 // Account handler
-const { getAccount, loginAccount, registerAccount, getCustomerOrders } = require('../../src/express/account-handler')
+const { getAccount,
+  loginAccount,
+  registerAccount,
+  getCustomerOrders,
+  updateCustomerAccount
+} = require('../../src/express/account-handler')
 
 // Fixtures
 const loginAccountPayload = require('../fixtures/login-account')
@@ -303,5 +309,127 @@ describe('getCustomerOrders()', () => {
     // Assert
     expect(res.status).toHaveBeenCalledWith(200)
     expect(response.data).toEqual(omsResponseParsed)
+  })
+})
+
+describe('updateCustomerAccount()', () => {
+  test('returns an unauthorized response when customerId is not in the session', async () => {
+    const req = { session: {} }
+
+    const res = {
+      status: jest.fn(x => ({
+        send: jest.fn(y => y)
+      }))
+    }
+
+    const response = await updateCustomerAccount(req, res)
+    expect(response).toEqual({})
+    expect(res.status).toHaveBeenCalledWith(401)
+  })
+
+  test('returns the updated account data when successful', async () => {
+    const updateSpy = jest.spyOn(SHIFTClient, 'updateCustomerAccountV1').mockImplementation(() => ({
+      status: 200,
+      data: 'updated account data'
+    }))
+
+    const req = {
+      session: {
+        customerId: 10
+      },
+      body: {
+        firstName: 'First name',
+        lastName: 'Last name',
+        email: 'email@example.com'
+      }
+    }
+
+    const res = {
+      status: jest.fn(x => ({
+        send: jest.fn(y => y)
+      }))
+    }
+
+    const expectedPayload = {
+      data: {
+        type: 'customer_accounts',
+        attributes: {
+          meta_attributes: {
+            first_name: {
+              value: 'First name',
+              data_type: 'string'
+            },
+            last_name: {
+              value: 'Last name',
+              data_type: 'string'
+            }
+          },
+          email: 'email@example.com'
+        }
+      }
+    }
+
+    const response = await updateCustomerAccount(req, res)
+    expect(updateSpy).toHaveBeenCalledWith(expectedPayload, 10)
+    expect(response).toEqual('updated account data')
+    expect(res.status).toHaveBeenCalledWith(200)
+
+    updateSpy.mockRestore()
+  })
+
+  test('returns errors when request fails', async () => {
+    function RequestException (obj) {
+      this.response = obj.response
+    }
+
+    const updateSpy = jest.spyOn(SHIFTClient, 'updateCustomerAccountV1').mockImplementation(() => {
+      throw new RequestException({
+        response: {
+          status: 404,
+          data: {
+            errors: 'request errors'
+          }
+        }
+      })
+    })
+
+    const req = {
+      session: {
+        customerId: 10
+      },
+      body: 'update body'
+    }
+
+    const res = {
+      status: jest.fn(x => ({
+        send: jest.fn(y => y)
+      }))
+    }
+
+    const expectedPayload = {
+      data: {
+        type: 'customer_accounts',
+        attributes: {
+          meta_attributes: {
+            first_name: {
+              value: undefined,
+              data_type: 'string'
+            },
+            last_name: {
+              value: undefined,
+              data_type: 'string'
+            }
+          },
+          email: undefined
+        }
+      }
+    }
+
+    const response = await updateCustomerAccount(req, res)
+    expect(updateSpy).toHaveBeenCalledWith(expectedPayload, 10)
+    expect(response).toEqual('request errors')
+    expect(res.status).toHaveBeenCalledWith(404)
+
+    updateSpy.mockRestore()
   })
 })
