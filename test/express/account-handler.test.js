@@ -327,7 +327,7 @@ describe('updateCustomerAccount()', () => {
     expect(res.status).toHaveBeenCalledWith(401)
   })
 
-  test('returns the updated account data when succesful', async () => {
+  test('returns the updated account data when successful', async () => {
     const updateSpy = jest.spyOn(SHIFTClient, 'updateCustomerAccountV1').mockImplementation(() => ({
       status: 200,
       data: 'updated account data'
