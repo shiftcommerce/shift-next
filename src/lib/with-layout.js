@@ -78,16 +78,14 @@ export default function withLayout (Component) {
     }
 
     toggleDropDown () {
-      const toggleShow = this.state.toggleShowClass
-      this.setState({ toggleShowClass: !toggleShow })
+      this.setState({ toggleShowClass: !this.state.toggleShowClass })
     }
 
     toggleMiniBag() {
-      const toggleShow = this.state.minibagDisplayed
-      this.setState({ minibagDisplayed: !toggleShow })
+      this.setState({ minibagDisplayed: !this.state.minibagDisplayed })
     }
 
-    deleteItem() {
+    deleteItem(event) {
       this.props.dispatch(deleteLineItem(event.target.dataset.id))
     }
 
@@ -117,7 +115,7 @@ export default function withLayout (Component) {
           loggedIn={loggedIn}
           deleteItem={this.deleteItem}
           toggleMiniBag={this.toggleMiniBag}
-          minibagDisplayed={this.state.minibagDisplayed}
+          minibagDisplayed={cart.minibagDisplayed || this.state.minibagDisplayed}
         >
           <Component {...otherProps} />
         </Layout>
