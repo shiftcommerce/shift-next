@@ -1,6 +1,5 @@
 // Lib
 import React from 'react'
-import Modal from 'react-modal'
 import InitialPropsDelegator from './initial-props-delegator'
 import qs from 'qs'
 
