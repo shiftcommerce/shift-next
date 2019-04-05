@@ -73,6 +73,7 @@ module.exports = {
     server.post('/setCartShippingAddress', shiftCartHandler.setCartShippingAddress)
     server.post('/setShippingMethod', shiftCartHandler.setCartShippingMethod)
     server.post('/updateLineItem', shiftCartHandler.updateLineItem)
+    server.post('/updateCustomerAccount', shiftAccountHandler.updateCustomerAccount)
     server.delete('/deleteAddress/:addressId', shiftAddressBookHandler.deleteAddress)
 
     /**

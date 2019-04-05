@@ -107,7 +107,7 @@ module.exports = {
   requestForgotPasswordEmail: async (req, res) => {
     const customerAccountEmail = req.query.email
 
-    const emailResponse = await SHIFTClient.getCustomerAccountByEmailV1(customerAccountEmail)    
+    const emailResponse = await SHIFTClient.getCustomerAccountByEmailV1(customerAccountEmail)
 
     const passwordResetRequest = {
       data: {
@@ -157,6 +157,49 @@ module.exports = {
       return res.status(response.status).send(response.data)
     } catch (error) {
       console.log('error', error.response.data.errors)
+      const response = error.response
+      switch (response.status) {
+        case 404:
+        case 422:
+          return res.status(response.status).send(response.data.errors)
+        default:
+          return res.status(response.status).send(response.data)
+      }
+    }
+  },
+
+  updateCustomerAccount: async (req, res) => {
+    const { customerId } = req.session
+
+    if (!customerId) {
+      return res.status(401).send({})
+    }
+
+    const { firstName, lastName, email } = req.body
+    const body = {
+      data: {
+        type: 'customer_accounts',
+        attributes: {
+          meta_attributes: {
+            first_name: {
+              value: firstName,
+              data_type: 'string'
+            },
+            last_name: {
+              value: lastName,
+              data_type: 'string'
+            }
+          },
+          email
+        }
+      }
+    }
+
+    try {
+      const response = await SHIFTClient.updateCustomerAccountV1(body, customerId)
+
+      return res.status(response.status).send(response.data)
+    } catch (error) {
       const response = error.response
       switch (response.status) {
         case 404:
