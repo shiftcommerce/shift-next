@@ -19,7 +19,7 @@ import {
 
 // Actions
 import { getCustomerOrders, updateCustomerAccount } from '../actions/account-actions'
-import { fetchAddressBook, saveToAddressBook } from '../actions/address-book-actions'
+import { deleteAddressBookEntry, fetchAddressBook, saveToAddressBook } from '../actions/address-book-actions'
 
 class MyAccountPage extends Component {
   constructor (props) {
@@ -52,7 +52,8 @@ class MyAccountPage extends Component {
         currentAddress: currentAddressId && addressBook.find(a => a.id === currentAddressId),
         onBookAddressSelected: this.onBookAddressSelected.bind(this),
         onNewAddress: this.onNewAddress.bind(this),
-        onAddressCreated: this.onAddressCreated.bind(this)
+        onAddressCreated: this.onAddressCreated.bind(this),
+        onAddressDeleted: this.onAddressDeleted.bind(this)
       }
     }, {
       label: 'Password',
@@ -136,6 +137,10 @@ class MyAccountPage extends Component {
 
   onAddressUpdated () {
 
+  }
+
+  onAddressDeleted (address) {
+    this.props.dispatch(deleteAddressBookEntry(address))
   }
 
   fetchOrders () {
