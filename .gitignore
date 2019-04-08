@@ -9,4 +9,4 @@ yarn-error.log
 # Ignore Mac files
 **.DS_Store
 
-.yalc
+yalc.lock
