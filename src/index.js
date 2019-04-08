@@ -19,6 +19,9 @@ import StaticPage from './pages/static-page'
 // Components
 import withCheckout from './components/with-checkout'
 
+// Objects
+import NextHead from './objects/next-head'
+
 // Express handlers
 import shiftAccountHandler from './express/account-handler'
 import shiftCartHandler from './express/cart-handler'
@@ -42,11 +45,19 @@ import { getSessionExpiryTime } from './lib/session'
 // Shift-api Config
 import { shiftApiConfig } from '@shiftcommerce/shift-node-api'
 
+// Shift-react-components Config
+import { ShiftComponentsConfig } from '@shiftcommerce/shift-react-components'
+
 shiftApiConfig.set({
   apiHost: process.env.API_HOST,
   apiTenant: process.env.API_TENANT,
   apiAccessToken: process.env.API_ACCESS_TOKEN
 })
+
+ShiftComponentsConfig.set({
+  Head: NextHead
+})
+
 
 module.exports = {
   shiftRoutes: (server) => {
