@@ -135,7 +135,7 @@ export function withCheckout (WrappedComponent) {
             currentStep={currentStep}
             stepActions={stepActions}
           />
-          { currentStep === 4 && <MiniPlaceOrder
+          { currentStep === 5 && <MiniPlaceOrder
             convertToOrder={this.wrappedRef.current.convertToOrder}
             total={cart.total}
             isValidOrder={this.wrappedRef.current.isValidOrder(cart, order)}

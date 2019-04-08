@@ -137,7 +137,7 @@ test('renders MiniPlaceOrder for the last checkout step', () => {
     convertOrder: () => {},
     isValidOrder: () => {}
   }
-  wrapper.setState({ loading: false, currentStep: 4 })
+  wrapper.setState({ loading: false, currentStep: 5 })
 
   expect(wrapper.find('MiniPlaceOrder').length).toEqual(1)
 })
