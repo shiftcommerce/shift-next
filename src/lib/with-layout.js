@@ -1,7 +1,10 @@
 // Lib
 import React from 'react'
-import InitialPropsDelegator from './initial-props-delegator'
 import qs from 'qs'
+
+// Config
+import Config from './config'
+import InitialPropsDelegator from './initial-props-delegator'
 
 // Components
 import { Layout } from '@shiftcommerce/shift-react-components'
@@ -100,9 +103,10 @@ export default function withLayout (Component) {
     render () {
       const { cart, router, query, search, menu, loggedIn, ...otherProps } = this.props
       const skipHeader = !router.pathname.includes('/checkout')
+      const AppLayout = Config.get().Layout || Layout
 
       return (
-        <Layout
+        <AppLayout
           cart={cart}
           menu={menu}
           onCategoryFilterCleared={this.onCategoryFilterCleared}
@@ -118,7 +122,7 @@ export default function withLayout (Component) {
           minibagDisplayed={cart.minibagDisplayed || this.state.minibagDisplayed}
         >
           <Component {...otherProps} />
-        </Layout>
+        </AppLayout>
       )
     }
   }
