@@ -1,0 +1,10 @@
+{
+  "version": "v1",
+  "packages": {
+    "@shiftcommerce/shift-react-components": {
+      "signature": "01116f6265d118087fda96d0e4f69f82",
+      "file": true,
+      "replaced": "^0.7.0"
+    }
+  }
+}
