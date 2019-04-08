@@ -10,6 +10,7 @@ exports[`render() renders correct checkout components 1`] = `
     >
       <AddressFormSummary
         onClick={[Function]}
+        showEditButton={true}
       />
     </div>
   </div>

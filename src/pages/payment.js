@@ -382,7 +382,7 @@ class CheckoutPaymentPage extends Component {
   }
 
   render () {
-    const { cart, cart: { shipping_address } } = this.props
+    const { cart, cart: { shipping_address }, thirdPartyPaymentMethods } = this.props
 
     if (this.state.loading) {
       return <Loading />
@@ -399,6 +399,7 @@ class CheckoutPaymentPage extends Component {
               lastName={shipping_address.last_name}
               onClick={() => Router.push('/checkout/shipping-address')}
               postcode={shipping_address.postcode}
+              showEditButton={!thirdPartyPaymentMethods.includes(this.state.paymentMethod)}
             />
           </div>
         </div>
