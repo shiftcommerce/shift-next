@@ -111,7 +111,7 @@ class MyAccountPage extends Component {
       country_code: form.countryCode,
       zipcode: form.postcode,
       preferred_billing: form.preferredBilling,
-      preferrered_shipping: form.preferredShipping,
+      preferred_shipping: form.preferredShipping,
       label: form.label,
       companyName: form.company,
       primary_phone: form.phone,

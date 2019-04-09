@@ -2,7 +2,7 @@
   "version": "v1",
   "packages": {
     "@shiftcommerce/shift-react-components": {
-      "signature": "28113157c5dd42ca44c8bb0a35b9d022",
+      "signature": "6d378cbaa1f7798a73b79c8861c961f6",
       "file": true,
       "replaced": "^0.7.0"
     },
