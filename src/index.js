@@ -42,20 +42,11 @@ import { getSessionExpiryTime } from './lib/session'
 // Shift-api Config
 import { shiftApiConfig } from '@shiftcommerce/shift-node-api'
 
-// Shift-react-components Config
-import { Config as ShiftComponentsConfig } from '@shiftcommerce/shift-react-components'
-
-
 shiftApiConfig.set({
   apiHost: process.env.API_HOST,
   apiTenant: process.env.API_TENANT,
   apiAccessToken: process.env.API_ACCESS_TOKEN
 })
-
-ShiftComponentsConfig.set({
-  Head: Config.get().Head
-})
-
 
 module.exports = {
   shiftRoutes: (server) => {
