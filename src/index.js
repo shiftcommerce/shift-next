@@ -66,6 +66,7 @@ module.exports = {
     server.post('/addToCart', shiftCartHandler.addToCart)
     server.post('/createAddress', shiftCartHandler.createAddress)
     server.post('/createAddressBookEntry', shiftAddressBookHandler.createAddressBookEntry)
+    server.post('/updateAddress/:addressId', shiftAccountHandler.updateAddress)
     server.post('/deleteLineItem/:lineItemId', shiftCartHandler.deleteLineItem)
     server.post('/login', shiftAccountHandler.loginAccount)
     server.post('/register', shiftAccountHandler.registerAccount)

@@ -209,6 +209,22 @@ module.exports = {
           return res.status(response.status).send(response.data)
       }
     }
+  },
+
+  updateAddress: async (req, res) => {
+    try {
+      const response = await SHIFTClient.updateAddressV1(req.body, req.params.addressId)
+      return res.status(response.status).send(response.data)
+    } catch (error) {
+      const response = error.response
+      switch (response.status) {
+        case 404:
+        case 422:
+          return res.status(response.status).send(response.data.errors)
+        default:
+          return res.status(response.status).send(response.data)
+      }
+    }
   }
 }
 

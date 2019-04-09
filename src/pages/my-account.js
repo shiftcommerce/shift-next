@@ -19,7 +19,7 @@ import {
 
 // Actions
 import { getCustomerOrders, updateCustomerAccount } from '../actions/account-actions'
-import { deleteAddressBookEntry, fetchAddressBook, saveToAddressBook } from '../actions/address-book-actions'
+import { deleteAddressBookEntry, fetchAddressBook, saveToAddressBook, updateAddress } from '../actions/address-book-actions'
 
 class MyAccountPage extends Component {
   constructor (props) {
@@ -53,7 +53,8 @@ class MyAccountPage extends Component {
         onBookAddressSelected: this.onBookAddressSelected.bind(this),
         onNewAddress: this.onNewAddress.bind(this),
         onAddressCreated: this.onAddressCreated.bind(this),
-        onAddressDeleted: this.onAddressDeleted.bind(this)
+        onAddressDeleted: this.onAddressDeleted.bind(this),
+        onAddressUpdated: this.onAddressUpdated.bind(this)
       }
     }, {
       label: 'Password',
@@ -99,8 +100,8 @@ class MyAccountPage extends Component {
     })
   }
 
-  onAddressCreated (form, { setStatus, setSubmitting }) {
-    const newAddress = {
+  parseFormAddress (form) {
+    return {
       first_name: form.firstName,
       last_name: form.lastName,
       line_1: form.addressLine1,
@@ -116,8 +117,10 @@ class MyAccountPage extends Component {
       primary_phone: form.phone,
       email: form.email
     }
+  }
 
-    this.props.dispatch(saveToAddressBook(newAddress)).then(success => {
+  onAddressCreated (form, { setStatus, setSubmitting }) {
+    return this.props.dispatch(saveToAddressBook(this.parseFormAddress(form))).then(success => {
       if (success) {
         this.props.dispatch(fetchAddressBook())
         this.setState({
@@ -127,16 +130,31 @@ class MyAccountPage extends Component {
       window.scrollTo(0, 0)
       setStatus(success ? 'success-created' : 'error')
       setTimeout(() => {
-        // Clear flash message after 5 seconds
-        setStatus(undefined)
+        // Clear flash message after 3 seconds
+        setStatus(null)
         // Re-enable the submit button
         setSubmitting(false)
-      }, 5000)
+      }, 3000)
     })
   }
 
-  onAddressUpdated () {
-
+  onAddressUpdated (form, { setStatus, setSubmitting }) {
+    return this.props.dispatch(updateAddress(this.state.currentAddressId, this.parseFormAddress(form))).then(success => {
+      if (success) {
+        this.props.dispatch(fetchAddressBook()).then(() => {
+          setStatus('success-updated')
+        })
+      } else {
+        setStatus('error')
+      }
+      window.scrollTo(0, 0)
+      setTimeout(() => {
+        // Clear flash message after 3 seconds
+        setStatus(null)
+        // Re-enable the submit button
+        setSubmitting(false)
+      }, 3000)
+    })
   }
 
   onAddressDeleted (address) {
@@ -169,11 +187,11 @@ class MyAccountPage extends Component {
       // Display a relevant flash message
       setStatus(success ? 'success' : 'error')
       setTimeout(() => {
-        // Clear flash message after 5 seconds
-        setStatus(undefined)
+        // Clear flash message after 3 seconds
+        setStatus(null)
         // Re-enable the submit button
         setSubmitting(false)
-      }, 5000)
+      }, 3000)
     })
   }
 

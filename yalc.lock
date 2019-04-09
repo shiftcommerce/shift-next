@@ -2,9 +2,14 @@
   "version": "v1",
   "packages": {
     "@shiftcommerce/shift-react-components": {
-      "signature": "eedc27ecc2f281f9bb2d074584173d0c",
+      "signature": "28113157c5dd42ca44c8bb0a35b9d022",
       "file": true,
       "replaced": "^0.7.0"
+    },
+    "@shiftcommerce/shift-node-api": {
+      "signature": "f882618e020f34be3810280c42ef0ad7",
+      "file": true,
+      "replaced": "0.3.1"
     }
   }
 }
