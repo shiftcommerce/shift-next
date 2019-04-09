@@ -21,6 +21,9 @@ import {
 import { getCustomerOrders, updateCustomerAccount } from '../actions/account-actions'
 import { deleteAddressBookEntry, fetchAddressBook, saveToAddressBook, updateAddress } from '../actions/address-book-actions'
 
+// Json
+import countries from '../static/countries.json'
+
 class MyAccountPage extends Component {
   constructor (props) {
     super(props)
@@ -49,6 +52,7 @@ class MyAccountPage extends Component {
       props: {
         addingNewAddress,
         addressBook,
+        countries,
         currentAddress: currentAddressId && addressBook.find(a => a.id === currentAddressId),
         onBookAddressSelected: this.onBookAddressSelected.bind(this),
         onNewAddress: this.onNewAddress.bind(this),
@@ -110,8 +114,8 @@ class MyAccountPage extends Component {
       state: form.county,
       country_code: form.countryCode,
       zipcode: form.postcode,
-      preferred_billing: form.preferredBilling,
-      preferred_shipping: form.preferredShipping,
+      preferred_billing: form.preferredBilling || false,
+      preferred_shipping: form.preferredShipping || false,
       label: form.label,
       companyName: form.company,
       primary_phone: form.phone,
