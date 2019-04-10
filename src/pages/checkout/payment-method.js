@@ -233,14 +233,14 @@ export class PaymentMethodPage extends Component {
 
   render () {
     return (
-      <div>
+      <>
         { this.state.loading ? <Loading /> : <PaymentMethods
           nextSection={this.nextSection}
           paypalCreateOrder={this.payPalCreateOrder}
           paypalOnApprove={this.payPalOnApprove}
           handleSetPaymentMethod={this.handleSetPaymentMethod}
         /> }
-      </div>
+      </>
     )
   }
 }
