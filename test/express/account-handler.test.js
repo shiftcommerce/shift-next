@@ -7,7 +7,8 @@ const { getAccount,
   loginAccount,
   registerAccount,
   getCustomerOrders,
-  updateCustomerAccount
+  updateCustomerAccount,
+  updateAddress
 } = require('../../src/express/account-handler')
 
 // Fixtures
@@ -427,6 +428,96 @@ describe('updateCustomerAccount()', () => {
 
     const response = await updateCustomerAccount(req, res)
     expect(updateSpy).toHaveBeenCalledWith(expectedPayload, 10)
+    expect(response).toEqual('request errors')
+    expect(res.status).toHaveBeenCalledWith(404)
+
+    updateSpy.mockRestore()
+  })
+})
+
+describe('updateAddress()', () => {
+  test('returns an unauthorized response when customerId is not in the session', async () => {
+    const req = { session: {} }
+
+    const res = {
+      status: jest.fn(x => ({
+        send: jest.fn(y => y)
+      }))
+    }
+
+    const response = await updateAddress(req, res)
+    expect(response).toEqual({})
+    expect(res.status).toHaveBeenCalledWith(401)
+  })
+
+  test('returns the updated address data when successful', async () => {
+    const updateSpy = jest.spyOn(SHIFTClient, 'updateCustomerAddressV1').mockImplementation(() => ({
+      status: 200,
+      data: 'updated address data'
+    }))
+
+    const req = {
+      session: {
+        customerId: 10
+      },
+      params: {
+        addressId: 20
+      },
+      body: {
+        first_name: 'First name'
+      }
+    }
+
+    const res = {
+      status: jest.fn(x => ({
+        send: jest.fn(y => y)
+      }))
+    }
+
+    const response = await updateAddress(req, res)
+    expect(updateSpy).toHaveBeenCalledWith({ first_name: 'First name' }, 20, 10)
+    expect(response).toEqual('updated address data')
+    expect(res.status).toHaveBeenCalledWith(200)
+
+    updateSpy.mockRestore()
+  })
+
+  test('returns errors when request fails', async () => {
+    function RequestException (obj) {
+      this.response = obj.response
+    }
+
+    const updateSpy = jest.spyOn(SHIFTClient, 'updateCustomerAddressV1').mockImplementation(() => {
+      throw new RequestException({
+        response: {
+          status: 404,
+          data: {
+            errors: 'request errors'
+          }
+        }
+      })
+    })
+
+    const req = {
+      session: {
+        customerId: 10
+      },
+      params: {
+        addressId: 20
+      },
+      body: {
+        first_name: 'First name'
+      }
+    }
+
+    const res = {
+      status: jest.fn(x => ({
+        send: jest.fn(y => y)
+      }))
+    }
+
+    const response = await updateAddress(req, res)
+    expect(updateSpy).toHaveBeenCalledWith({ first_name: 'First name' }, 20, 10)
     expect(response).toEqual('request errors')
     expect(res.status).toHaveBeenCalledWith(404)
 
