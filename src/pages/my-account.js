@@ -18,6 +18,10 @@ import {
 
 // Actions
 import { getCustomerOrders, updateCustomerAccount } from '../actions/account-actions'
+import { deleteAddressBookEntry, fetchAddressBook, saveToAddressBook, updateAddress } from '../actions/address-book-actions'
+
+// Json
+import countries from '../static/countries.json'
 
 import Config from '../lib/config'
 
@@ -32,7 +36,8 @@ class MyAccountPage extends Component {
   }
 
   defaultMenus () {
-    const { account: { email, firstName, lastName }, orders } = this.props
+    const { account: { email, firstName, lastName }, addressBook, orders } = this.props
+    const { addingNewAddress, currentAddressId } = this.state
 
     return [{
       label: 'Details',
@@ -45,7 +50,18 @@ class MyAccountPage extends Component {
       }
     }, {
       label: 'Addresses',
-      component: AccountAddresses
+      component: AccountAddresses,
+      props: {
+        addingNewAddress,
+        addressBook,
+        countries,
+        currentAddress: currentAddressId && addressBook.find(a => a.id === currentAddressId),
+        onBookAddressSelected: this.onBookAddressSelected.bind(this),
+        onNewAddress: this.onNewAddress.bind(this),
+        onAddressCreated: this.onAddressCreated.bind(this),
+        onAddressDeleted: this.onAddressDeleted.bind(this),
+        onAddressUpdated: this.onAddressUpdated.bind(this)
+      }
     }, {
       label: 'Password',
       component: AccountPassword
@@ -72,6 +88,83 @@ class MyAccountPage extends Component {
     if (!validMenu) {
       Router.replace(`${path}?menu=${menus[0].label}`)
     }
+
+    this.props.dispatch(fetchAddressBook())
+  }
+
+  onBookAddressSelected (id) {
+    this.setState({
+      addingNewAddress: false,
+      currentAddressId: id
+    })
+  }
+
+  onNewAddress () {
+    this.setState({
+      addingNewAddress: true,
+      currentAddressId: null
+    })
+  }
+
+  parseFormAddress (form) {
+    return {
+      first_name: form.firstName,
+      last_name: form.lastName,
+      line_1: form.addressLine1,
+      line_2: form.addressLine2,
+      city: form.city,
+      state: form.county,
+      country_code: form.countryCode,
+      zipcode: form.postcode,
+      preferred_billing: form.preferredBilling || false,
+      preferred_shipping: form.preferredShipping || false,
+      label: form.label,
+      companyName: form.company,
+      primary_phone: form.phone,
+      email: form.email
+    }
+  }
+
+  onAddressCreated (form, { setStatus, setSubmitting }) {
+    return this.props.dispatch(saveToAddressBook(this.parseFormAddress(form))).then(success => {
+      if (success) {
+        this.props.dispatch(fetchAddressBook())
+        this.setState({
+          addingNewAddress: false
+        })
+      }
+      window.scrollTo(0, 0)
+      setStatus(success ? 'success-created' : 'error')
+      setTimeout(() => {
+        // Clear flash message after 3 seconds
+        setStatus(null)
+        // Re-enable the submit button
+        setSubmitting(false)
+      }, 3000)
+    })
+  }
+
+  onAddressUpdated (form, { setStatus, setSubmitting }) {
+    return this.props.dispatch(updateAddress(this.state.currentAddressId, this.parseFormAddress(form))).then(success => {
+      if (success) {
+        this.props.dispatch(fetchAddressBook()).then(() => {
+          setStatus('success-updated')
+        })
+      } else {
+        setStatus('error')
+      }
+      window.scrollTo(0, 0)
+      setTimeout(() => {
+        // Clear flash message after 3 seconds
+        setStatus(null)
+        // Re-enable the submit button
+        setSubmitting(false)
+      }, 3000)
+    })
+  }
+
+  onAddressDeleted (address) {
+    this.props.dispatch(deleteAddressBookEntry(address))
   }
 
   fetchOrders () {
@@ -100,11 +193,11 @@ class MyAccountPage extends Component {
       // Display a relevant flash message
       setStatus(success ? 'success' : 'error')
       setTimeout(() => {
-        // Clear flash message after 5 seconds
-        setStatus(undefined)
+        // Clear flash message after 3 seconds
+        setStatus(null)
         // Re-enable the submit button
         setSubmitting(false)
-      }, 5000)
+      }, 3000)
     })
   }
 
