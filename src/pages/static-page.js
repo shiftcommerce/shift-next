@@ -1,6 +1,5 @@
 // Libraries
 import React, { Component } from 'react'
-import Head from 'next/head'
 
 // Lib
 import renderComponents from '../lib/render-components'
@@ -47,6 +46,8 @@ class StaticPage extends Component {
     this.state = {
       loading: true
     }
+
+    this.Head = Config.get().Head
   }
 
   static getDerivedStateFromProps (newProps, prevState) {
@@ -73,19 +74,13 @@ class StaticPage extends Component {
   }
 
   renderPageTitle (title) {
-    if (title === 'Homepage') {
-      return (
-        <Head>
-          <title>{ Config.get().storeName }</title>
-        </Head>
-      )
-    } else {
-      return (
-        <Head>
-          <title>{ suffixWithStoreName(title) }</title>
-        </Head>
-      )
-    }
+    const homepage = title === 'Homepage'
+
+    return (
+      <this.Head>
+        { homepage ? <title>{Config.get().storeName}</title> : <title>{suffixWithStoreName(title)}</title> }
+      </this.Head>
+    )
   }
 
   render () {

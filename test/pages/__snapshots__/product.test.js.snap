@@ -306,9 +306,9 @@ Assam in north-eastern India grows exceptional tea in the lush soil of the Brahm
       }
     }
   >
-    <SideEffect(Head)>
-      <Head />
-    </SideEffect(Head)>
+    <head>
+      <head />
+    </head>
     <ProductDisplay
       addToBag={[Function]}
       changeVariant={[Function]}

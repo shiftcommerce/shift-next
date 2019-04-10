@@ -1,6 +1,5 @@
 // Libraries
 import React, { Component } from 'react'
-import Head from 'next/head'
 import qs from 'qs'
 import equal from 'deep-equal'
 
@@ -10,6 +9,8 @@ import { ProductListing } from '@shiftcommerce/shift-react-components'
 // Lib
 import { suffixWithStoreName } from '../lib/suffix-with-store-name'
 import buildSearchStateForURL from '../lib/build-search-state-for-url'
+
+// Config
 import Config from '../lib/config'
 
 class SearchPage extends Component {
@@ -24,12 +25,18 @@ class SearchPage extends Component {
     }
   }
 
+  constructor(props) {
+    super(props) 
+
+    this.Head = Config.get().Head
+  }
+
   render () {
     return (
       <>
-        <Head>
+        <this.Head>
           <title>{ suffixWithStoreName('Search') }</title>
-        </Head>
+        </this.Head>
         <ProductListing indexName={Config.get().algoliaIndexName} />
       </>
     )

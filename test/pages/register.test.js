@@ -19,7 +19,7 @@ test('redirects to myaccount page when account is created', () => {
   const mockedRouter = { push: jest.fn() }
   Router.router = mockedRouter
 
-  const wrapper = mount(
+  const wrapper = shallow(
     <RegisterPage
       loggedIn={ false }
       registration={{ errors: [] }}
