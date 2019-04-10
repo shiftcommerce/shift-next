@@ -307,23 +307,7 @@ Assam in north-eastern India grows exceptional tea in the lush soil of the Brahm
     }
   >
     <head>
-      <head>
-        <meta
-          content="width=device-width, initial-scale=1, maximum-scale=1.0"
-          name="viewport"
-        />
-        <link
-          href="../../static/favicon.png"
-          key="favicon"
-          rel="icon"
-          sizes="32x32"
-          type="image/png"
-        />
-        <script
-          key="stripe"
-          src="https://js.stripe.com/v3/"
-        />
-      </head>
+      <head />
     </head>
     <ProductDisplay
       addToBag={[Function]}
