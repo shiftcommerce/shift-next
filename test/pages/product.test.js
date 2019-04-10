@@ -11,6 +11,9 @@ import ProductPage from '../../src/pages/product'
 // Components
 import { Loading, ProductDisplay } from '@shiftcommerce/shift-react-components'
 
+// Config
+import Config from '../../src/lib/config'
+
 // Fixtures
 import product from '../fixtures/product'
 
@@ -83,6 +86,18 @@ describe('Product page', () => {
     // Arrange
     const dispatch = jest.fn()
 
+    const head = () => {
+      return (
+        <head>
+        </head>
+      )
+    }
+
+    Config.set({
+      Head: head
+    })
+
+
     // Act
     const wrapper = mount(
       <Provider store={createMockStore()}>
@@ -93,8 +108,8 @@ describe('Product page', () => {
     // Assert
     expect(wrapper).toMatchSnapshot()
 
-    expect(wrapper).toIncludeText(product.title)
-    expect(wrapper).toIncludeText(product.min_current_price)
+    expect(wrapper.find('.c-product-display__info-title')).toIncludeText(product.title)
+    expect(wrapper.find('.c-product-price')).toIncludeText(product.min_current_price)
 
     expect(wrapper.find(ProductDisplay)).toExist()
   })

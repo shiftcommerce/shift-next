@@ -1,6 +1,5 @@
 // Libraries
 import React, { Component } from 'react'
-import Head from 'next/head'
 import Router from 'next/router'
 
 // Lib
@@ -12,10 +11,14 @@ import { PasswordResetForm } from '@shiftcommerce/shift-react-components'
 // Actions
 import { passwordReset } from '../actions/account-actions'
 
+// Config
+import Config from '../lib/config'
+
 export class PasswordReset extends Component {
   constructor (props) {
     super(props)
 
+    this.Head = Config.get().Head
     this.handleSubmit = this.handleSubmit.bind(this)
   }
 
@@ -37,9 +40,9 @@ export class PasswordReset extends Component {
 
     return (
       <>
-        <Head>
+        <this.Head>
           <title>{ suffixWithStoreName('Password Reset') }</title>
-        </Head>
+        </this.Head>
         <PasswordResetForm handleSubmit={this.handleSubmit} account={account} />
       </>
     )
