@@ -168,8 +168,7 @@ export class PaymentMethodPage extends Component {
       country_code: address.country_code,
       primary_phone: phone_number,
       collapsed: true,
-      completed: true,
-      showEditButton: false
+      completed: true
     }
   }
 

@@ -21,7 +21,6 @@ exports[`render shipping methods as expected 1`] = `
         "last_name": "Last Name",
         "line_1": "Test House",
         "primary_phone": "01234567890",
-        "showEditButton": true,
         "state": "Yorkshire",
         "zipcode": "TEST POSTCODE",
       },
@@ -35,7 +34,6 @@ exports[`render shipping methods as expected 1`] = `
       "shippingAddress": Object {
         "collapsed": true,
         "completed": true,
-        "showEditButton": true,
       },
       "shippingMethod": Object {},
     }
@@ -47,107 +45,151 @@ exports[`render shipping methods as expected 1`] = `
     ]
   }
 >
-  <div>
-    <div
-      className="c-checkout__addressform"
+  <PaymentMethodsSummary
+    onClick={[Function]}
+    paymentMethod="Credit/Debit Card"
+    title="Payment Method"
+  >
+    <payment_method_header_PaymentMethodHeader
+      collapsed={true}
+      onClick={[Function]}
+      title="Payment Method"
     >
       <div
-        className="o-form__address"
+        className="o-form__header  c-payment-method__header"
       >
-        <AddressFormSummary
-          city="Leeds"
-          firstName="First Name"
-          lastName="Last Name"
+        <h2>
+          Payment Method
+        </h2>
+        <Button
+          aria-label="Edit your payment method"
+          className="o-button-edit"
+          label="Edit"
           onClick={[Function]}
-          showEditButton={true}
+          status="secondary"
         >
-          <address_form_header_AddressFormHeader
-            collapsed={true}
+          <button
+            aria-label="Edit your payment method"
+            className="o-button-edit o-button o-button--secondary"
+            disabled={false}
             onClick={[Function]}
-            showEditButton={true}
-            title="Shipping Address"
+            role="button"
+            tabIndex="0"
+          >
+            Edit
+          </button>
+        </Button>
+      </div>
+    </payment_method_header_PaymentMethodHeader>
+    <div
+      className="c-payment-methods__summary"
+    >
+      <p>
+        Credit/Debit Card
+      </p>
+    </div>
+  </PaymentMethodsSummary>
+  <div
+    className="c-checkout__addressform"
+  >
+    <div
+      className="o-form__address"
+    >
+      <AddressFormSummary
+        city="Leeds"
+        firstName="First Name"
+        lastName="Last Name"
+        onClick={[Function]}
+      >
+        <address_form_header_AddressFormHeader
+          collapsed={true}
+          onClick={[Function]}
+          title="Shipping Address"
+        >
+          <div
+            className="o-form__header c-address-form__header"
           >
             <div
-              className="o-form__header c-address-form__header"
+              className="o-form__header-title c-address-form__header-title"
             >
-              <div
-                className="o-form__header-title c-address-form__header-title"
-              >
-                <h2>
-                  Shipping Address
-                </h2>
-              </div>
-              <Button
-                className="o-button-edit"
-                label="Edit"
-                onClick={[Function]}
-                status="secondary"
-              >
-                <button
-                  className="o-button-edit o-button o-button--secondary"
-                  disabled={false}
-                  onClick={[Function]}
-                  role="button"
-                  tabIndex="0"
-                >
-                  Edit
-                </button>
-              </Button>
+              <h2>
+                Shipping Address
+              </h2>
             </div>
-          </address_form_header_AddressFormHeader>
-          <div
-            className="o-form__wrapper--collapsed c-address-form__summary"
-          >
-            <p
-              className="u-bold"
+            <Button
+              className="o-button-edit"
+              label="Edit"
+              onClick={[Function]}
+              status="secondary"
             >
-              First Name
-               
-              Last Name
-               
-            </p>
-            <span>
-              , 
-              Leeds
-              , 
-            </span>
+              <button
+                className="o-button-edit o-button o-button--secondary"
+                disabled={false}
+                onClick={[Function]}
+                role="button"
+                tabIndex="0"
+              >
+                Edit
+              </button>
+            </Button>
           </div>
-        </AddressFormSummary>
-      </div>
-    </div>
-    <Loading>
-      <Loading
-        className="o-loading"
-        color="#f5c6cb"
-        delay={250}
-        height={50}
-        type="spin"
-        width={50}
-      >
+        </address_form_header_AddressFormHeader>
         <div
-          className="o-loading"
-          dangerouslySetInnerHTML={
-            Object {
-              "__html": "<svg class=\\"icon-blank\\" xmlns=\\"http://www.w3.org/2000/svg\\" viewBox=\\"0 0 32 32\\"></svg>
-",
-            }
-          }
-          style={
-            Object {
-              "fill": "#f5c6cb",
-              "height": 50,
-              "width": 50,
-            }
-          }
-        />
-      </Loading>
-    </Loading>
+          className="o-form__wrapper--collapsed c-address-form__summary"
+        >
+          <p
+            className="u-bold"
+          >
+            First Name
+             
+            Last Name
+             
+          </p>
+          <span>
+            , 
+            Leeds
+            , 
+          </span>
+        </div>
+      </AddressFormSummary>
+    </div>
   </div>
+  <Loading>
+    <Loading
+      className="o-loading"
+      color="#f5c6cb"
+      delay={250}
+      height={50}
+      type="spin"
+      width={50}
+    >
+      <div
+        className="o-loading"
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "<svg class=\\"icon-blank\\" xmlns=\\"http://www.w3.org/2000/svg\\" viewBox=\\"0 0 32 32\\"></svg>
+",
+          }
+        }
+        style={
+          Object {
+            "fill": "#f5c6cb",
+            "height": 50,
+            "width": 50,
+          }
+        }
+      />
+    </Loading>
+  </Loading>
 </ShippingMethodPage>
 `;
 
 exports[`renders correct checkout components 1`] = `
-<div>
+<Fragment>
+  <PaymentMethodsSummary
+    onClick={[Function]}
+    title="Payment Method"
+  />
   <div
     className="c-checkout__addressform"
   >
@@ -156,12 +198,11 @@ exports[`renders correct checkout components 1`] = `
     >
       <AddressFormSummary
         onClick={[Function]}
-        showEditButton={true}
       />
     </div>
   </div>
   <Loading />
-</div>
+</Fragment>
 `;
 
 exports[`renders line item quantity as expected 1`] = `
@@ -181,7 +222,6 @@ exports[`renders line item quantity as expected 1`] = `
         "last_name": "Last Name",
         "line_1": "Test House",
         "primary_phone": "01234567890",
-        "showEditButton": true,
         "state": "Yorkshire",
         "zipcode": "TEST POSTCODE",
       },
@@ -203,7 +243,6 @@ exports[`renders line item quantity as expected 1`] = `
       "shippingAddress": Object {
         "collapsed": true,
         "completed": true,
-        "showEditButton": true,
       },
       "shippingMethod": Object {
         "collapsed": false,
@@ -216,101 +255,141 @@ exports[`renders line item quantity as expected 1`] = `
     ]
   }
 >
-  <div>
-    <div
-      className="c-checkout__addressform"
+  <PaymentMethodsSummary
+    onClick={[Function]}
+    paymentMethod="Credit/Debit Card"
+    title="Payment Method"
+  >
+    <payment_method_header_PaymentMethodHeader
+      collapsed={true}
+      onClick={[Function]}
+      title="Payment Method"
     >
       <div
-        className="o-form__address"
+        className="o-form__header  c-payment-method__header"
       >
-        <AddressFormSummary
-          city="Leeds"
-          firstName="First Name"
-          lastName="Last Name"
+        <h2>
+          Payment Method
+        </h2>
+        <Button
+          aria-label="Edit your payment method"
+          className="o-button-edit"
+          label="Edit"
           onClick={[Function]}
-          showEditButton={true}
+          status="secondary"
         >
-          <address_form_header_AddressFormHeader
-            collapsed={true}
+          <button
+            aria-label="Edit your payment method"
+            className="o-button-edit o-button o-button--secondary"
+            disabled={false}
             onClick={[Function]}
-            showEditButton={true}
-            title="Shipping Address"
+            role="button"
+            tabIndex="0"
+          >
+            Edit
+          </button>
+        </Button>
+      </div>
+    </payment_method_header_PaymentMethodHeader>
+    <div
+      className="c-payment-methods__summary"
+    >
+      <p>
+        Credit/Debit Card
+      </p>
+    </div>
+  </PaymentMethodsSummary>
+  <div
+    className="c-checkout__addressform"
+  >
+    <div
+      className="o-form__address"
+    >
+      <AddressFormSummary
+        city="Leeds"
+        firstName="First Name"
+        lastName="Last Name"
+        onClick={[Function]}
+      >
+        <address_form_header_AddressFormHeader
+          collapsed={true}
+          onClick={[Function]}
+          title="Shipping Address"
+        >
+          <div
+            className="o-form__header c-address-form__header"
           >
             <div
-              className="o-form__header c-address-form__header"
+              className="o-form__header-title c-address-form__header-title"
             >
-              <div
-                className="o-form__header-title c-address-form__header-title"
-              >
-                <h2>
-                  Shipping Address
-                </h2>
-              </div>
-              <Button
-                className="o-button-edit"
-                label="Edit"
-                onClick={[Function]}
-                status="secondary"
-              >
-                <button
-                  className="o-button-edit o-button o-button--secondary"
-                  disabled={false}
-                  onClick={[Function]}
-                  role="button"
-                  tabIndex="0"
-                >
-                  Edit
-                </button>
-              </Button>
+              <h2>
+                Shipping Address
+              </h2>
             </div>
-          </address_form_header_AddressFormHeader>
-          <div
-            className="o-form__wrapper--collapsed c-address-form__summary"
-          >
-            <p
-              className="u-bold"
+            <Button
+              className="o-button-edit"
+              label="Edit"
+              onClick={[Function]}
+              status="secondary"
             >
-              First Name
-               
-              Last Name
-               
-            </p>
-            <span>
-              , 
-              Leeds
-              , 
-            </span>
+              <button
+                className="o-button-edit o-button o-button--secondary"
+                disabled={false}
+                onClick={[Function]}
+                role="button"
+                tabIndex="0"
+              >
+                Edit
+              </button>
+            </Button>
           </div>
-        </AddressFormSummary>
-      </div>
-    </div>
-    <Loading>
-      <Loading
-        className="o-loading"
-        color="#f5c6cb"
-        delay={250}
-        height={50}
-        type="spin"
-        width={50}
-      >
+        </address_form_header_AddressFormHeader>
         <div
-          className="o-loading"
-          dangerouslySetInnerHTML={
-            Object {
-              "__html": "<svg class=\\"icon-blank\\" xmlns=\\"http://www.w3.org/2000/svg\\" viewBox=\\"0 0 32 32\\"></svg>
-",
-            }
-          }
-          style={
-            Object {
-              "fill": "#f5c6cb",
-              "height": 50,
-              "width": 50,
-            }
-          }
-        />
-      </Loading>
-    </Loading>
+          className="o-form__wrapper--collapsed c-address-form__summary"
+        >
+          <p
+            className="u-bold"
+          >
+            First Name
+             
+            Last Name
+             
+          </p>
+          <span>
+            , 
+            Leeds
+            , 
+          </span>
+        </div>
+      </AddressFormSummary>
+    </div>
   </div>
+  <Loading>
+    <Loading
+      className="o-loading"
+      color="#f5c6cb"
+      delay={250}
+      height={50}
+      type="spin"
+      width={50}
+    >
+      <div
+        className="o-loading"
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "<svg class=\\"icon-blank\\" xmlns=\\"http://www.w3.org/2000/svg\\" viewBox=\\"0 0 32 32\\"></svg>
+",
+          }
+        }
+        style={
+          Object {
+            "fill": "#f5c6cb",
+            "height": 50,
+            "width": 50,
+          }
+        }
+      />
+    </Loading>
+  </Loading>
 </ShippingMethodPage>
 `;

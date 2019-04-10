@@ -43,8 +43,7 @@ test('return SET_CHECKOUT_BILLING_ADDRESS on calling setCheckoutBillingAddress()
     country_code: 'GB',
     primary_phone: '0352878596',
     collapsed: true,
-    completed: true,
-    showEditButton: false
+    completed: true
   }
   const expectedPayload = {
     address: payload
@@ -71,8 +70,7 @@ test('return SET_CHECKOUT_SHIPPING_ADDRESS on calling setCheckoutShippingAddress
     country_code: 'GB',
     primary_phone: '0352878596',
     collapsed: true,
-    completed: true,
-    showEditButton: false
+    completed: true
   }
   const expectedPayload = {
     address: payload

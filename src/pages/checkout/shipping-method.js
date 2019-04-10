@@ -19,8 +19,9 @@ import {
 // Components
 import {
   AddressFormSummary,
-  ShippingMethods,
-  Loading
+  Loading,
+  PaymentMethodsSummary,
+  ShippingMethods
 } from '@shiftcommerce/shift-react-components'
 
 export class ShippingMethodPage extends Component {
@@ -154,7 +155,12 @@ export class ShippingMethodPage extends Component {
     if (!cart.shipping_address) return null
 
     return (
-      <div>
+      <>
+        <PaymentMethodsSummary
+          onClick={() => Router.push('/checkout/payment-method')}
+          paymentMethod={this.state.paymentMethod}
+          title={'Payment Method'}
+        />
         <div className='c-checkout__addressform'>
           <div className='o-form__address'>
             <AddressFormSummary
@@ -164,7 +170,6 @@ export class ShippingMethodPage extends Component {
               lastName={cart.shipping_address.last_name}
               onClick={() => Router.push('/checkout/shipping-address')}
               postcode={cart.shipping_address.postcode}
-              showEditButton={!thirdPartyPaymentMethods.includes(this.state.paymentMethod)}
             />
           </div>
         </div>
@@ -176,7 +181,7 @@ export class ShippingMethodPage extends Component {
           shippingMethods={this.state.shippingMethods}
           isThirdPartyPayment={thirdPartyPaymentMethods.includes(this.state.paymentMethod)}
         /> }
-      </div>
+      </>
     )
   }
 }
