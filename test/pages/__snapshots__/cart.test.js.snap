@@ -122,9 +122,9 @@ exports[`dispatch updateQuantity action on changing line item quantity 1`] = `
   }
   dispatch={[MockFunction]}
 >
-  <SideEffect(Head)>
-    <Head />
-  </SideEffect(Head)>
+  <head>
+    <head />
+  </head>
   <CartTable>
     <section
       className="c-cart-table"

@@ -2,10 +2,12 @@
 import React, { Component, createRef } from 'react'
 import { connect } from 'react-redux'
 import Router from 'next/router'
-import Head from 'next/head'
 
 // Libs
 import { suffixWithStoreName } from '../lib/suffix-with-store-name'
+
+// Config
+import Config from '../lib/config'
 
 // Components
 import {
@@ -41,6 +43,7 @@ export function withCheckout (WrappedComponent) {
         currentStep: 1
       }
 
+      this.Head = Config.get().Head
       this.setCurrentStep = this.setCurrentStep.bind(this)
       this.updateQuantity = this.updateQuantity.bind(this)
       this.deleteItem = this.deleteItem.bind(this)
@@ -126,9 +129,9 @@ export function withCheckout (WrappedComponent) {
 
       return (
         <>
-          <Head>
+          <this.Head>
             <title>{ suffixWithStoreName(`Checkout - ${this.state.pageTitle}`) }</title>
-          </Head>
+          </this.Head>
           <CheckoutSteps
             currentStep={currentStep}
             stepActions={stepActions}

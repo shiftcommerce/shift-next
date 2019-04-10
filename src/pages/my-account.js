@@ -1,6 +1,5 @@
 // Libraries
 import React, { Component } from 'react'
-import Head from 'next/head'
 import Router from 'next/router'
 import qs from 'qs'
 
@@ -20,12 +19,15 @@ import {
 // Actions
 import { getCustomerOrders, updateCustomerAccount } from '../actions/account-actions'
 
+import Config from '../lib/config'
+
 class MyAccountPage extends Component {
   constructor (props) {
     super(props)
 
     this.state = {}
 
+    this.Head = Config.get().Head
     this.handleClickedMenu = this.handleClickedMenu.bind(this)
   }
 
@@ -78,9 +80,9 @@ class MyAccountPage extends Component {
 
   renderPageTitle () {
     return (
-      <Head>
+      <this.Head>
         <title>{ suffixWithStoreName('My Account') }</title>
-      </Head>
+      </this.Head>
     )
   }
 

@@ -1,7 +1,6 @@
 // Libraries
 import React, { Component } from 'react'
 import Router from 'next/router'
-import Head from 'next/head'
 
 // Libs
 import { setCookie } from '../lib/set-cookie'
@@ -14,10 +13,14 @@ import { createAccount } from '../actions/register-actions'
 // Components
 import { RegisterForm } from '@shiftcommerce/shift-react-components'
 
+// Config
+import Config from '../lib/config'
+
 class RegisterPage extends Component {
   constructor (props) {
     super(props)
 
+    this.Head = Config.get().Head
     this.handleSubmit = this.handleSubmit.bind(this)
   }
 
@@ -51,9 +54,9 @@ class RegisterPage extends Component {
   render () {
     return (
       <>
-        <Head>
+        <this.Head>
           <title>{ suffixWithStoreName('Create Account') }</title>
-        </Head>
+        </this.Head>
         <div className='c-register'>
           <div className='c-register__text'>
             <h1 className='c-register__text-title'>Create your account</h1>
