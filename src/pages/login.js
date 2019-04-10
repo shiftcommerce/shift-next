@@ -1,6 +1,5 @@
 // Libraries
 import React, { Component } from 'react'
-import Head from 'next/head'
 import Link from 'next/link'
 import Router from 'next/router'
 
@@ -15,10 +14,14 @@ import { clearErrors, fetchAccountDetails } from '../actions/account-actions'
 // Components
 import { LoginForm } from '@shiftcommerce/shift-react-components'
 
+// Config
+import Config from '../lib/config'
+
 class LoginPage extends Component {
   constructor () {
     super()
 
+    this.Head = Config.get().Head
     this.handleSubmit = this.handleSubmit.bind(this)
   }
 
@@ -50,9 +53,9 @@ class LoginPage extends Component {
   render () {
     return (
       <>
-        <Head>
+        <this.Head>
           <title>{ suffixWithStoreName('Login') }</title>
-        </Head>
+        </this.Head>
         <div className='c-login'>
           <h1 className='c-login__title'>Login</h1>
           <p className='c-login__caption'>Please enter your details below.</p>

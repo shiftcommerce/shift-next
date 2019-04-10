@@ -7,6 +7,9 @@ import { updateLineItemQuantity } from '../../src/actions/cart-actions'
 // Fixtures
 import cart from '../fixtures/cart'
 
+// Config
+import Config from '../../src/lib/config'
+
 jest.mock('next/config', () => () => ({
   publicRuntimeConfig: {}
 }))
@@ -29,10 +32,20 @@ afterAll(() => {
 
 test('dispatch updateQuantity action on changing line item quantity', () => {
   // Arrange
-
   const expectedFunction = updateLineItemQuantity().toString()
   const updateQuantitySpy = jest.spyOn(CartPage.prototype, 'updateQuantity')
   const dispatch = jest.fn().mockImplementation((updateSpy) => 'first call')
+
+  const head = () => {
+    return (
+      <head>
+      </head>
+    )
+  }
+
+  Config.set({
+    Head: head
+  })
 
   // Act
   const wrapper = mount(

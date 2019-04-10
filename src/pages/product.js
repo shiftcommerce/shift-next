@@ -1,6 +1,5 @@
 // Libraries
-import React, { Component } from 'react'
-import Head from 'next/head'
+import React, { Component, Fragment } from 'react'
 
 // Lib
 import renderComponents from '../lib/render-components'
@@ -10,8 +9,11 @@ import { suffixWithStoreName } from '../lib/suffix-with-store-name'
 import { Loading, ProductDisplay } from '@shiftcommerce/shift-react-components'
 
 // Actions
-import { addToCart } from '../actions/cart-actions'
+import { addToCart, toggleMiniBag } from '../actions/cart-actions'
 import { readProduct } from '../actions/product-actions'
+
+// Config
+import Config from '../lib/config'
 
 class ProductPage extends Component {
   constructor (props) {
@@ -22,6 +24,7 @@ class ProductPage extends Component {
       quantity: 1
     }
 
+    this.Head = Config.get().Head
     this.changeVariant = this.changeVariant.bind(this)
     this.addToBag = this.addToBag.bind(this)
   }
@@ -45,6 +48,12 @@ class ProductPage extends Component {
   addToBag () {
     const { variantId, quantity } = this.state
     this.props.dispatch(addToCart(variantId, parseInt(quantity)))
+      .then(success => {
+        if (success) {
+          this.props.dispatch(toggleMiniBag())
+            .then(setTimeout(() => this.props.dispatch(toggleMiniBag()), 4000))
+        }
+      })
   }
 
   changeVariant (e) {
@@ -53,8 +62,34 @@ class ProductPage extends Component {
     })
   }
 
+  /**
+   * Render the product page when loaded. This method is seperate to the main
+   * render method so it can be overridden, without overriding the loading and
+   * error parts of the render method
+   * @return {String} - HTML markup for the component
+   */
+  renderLoaded () {
+    const { product, product: { template } } = this.props
+
+    const templateSection = template && template.sections && template.sections.slice(-1).pop()
+    const components = templateSection && templateSection.components
+    const selectedVariant = product.variants.find(variant => variant.id === this.state.variantId)
+
+    return (
+      <Fragment>
+        <ProductDisplay
+          product={product}
+          changeVariant={this.changeVariant}
+          addToBag={this.addToBag}
+          selectedVariant={selectedVariant}
+        />
+        { components && renderComponents(components) }
+      </Fragment>
+    )
+  }
+
   render () {
-    const { product, product: { loading, error, template, title } } = this.props
+    const { product, product: { loading, error, title } } = this.props
 
     if (loading) {
       return (
@@ -65,23 +100,13 @@ class ProductPage extends Component {
         <h1>Unable to load product.</h1>
       )
     } else {
-      const templateSection = template && template.sections && template.sections.slice(-1).pop()
-      const components = templateSection && templateSection.components
-      const selectedVariant = product.variants.find(variant => variant.id === this.state.variantId)
-
       return (
-        <>
-          <Head>
+        <Fragment>
+          <this.Head>
             <title>{ suffixWithStoreName(title) }</title>
-          </Head>
-          <ProductDisplay
-            product={product}
-            changeVariant={this.changeVariant}
-            addToBag={this.addToBag}
-            selectedVariant={selectedVariant}
-          />
-          { components && renderComponents(components) }
-        </>
+          </this.Head>
+          { this.renderLoaded() }
+        </Fragment>
       )
     }
   }

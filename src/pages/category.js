@@ -2,7 +2,6 @@
 import React, { Component } from 'react'
 import Router from 'next/router'
 import qs from 'qs'
-import Head from 'next/head'
 import equal from 'deep-equal'
 
 // Components
@@ -12,10 +11,12 @@ import { Loading, ProductListing, SearchFilters } from '@shiftcommerce/shift-rea
 import buildSearchStateForURL from '../lib/build-search-state-for-url'
 import { suffixWithStoreName } from '../lib/suffix-with-store-name'
 import ApiClient from '../lib/api-client'
-import Config from '../lib/config'
 
 // Actions
 import { clearSearchFilter, setSearchFilter } from '../actions/search-actions'
+
+// Config
+import Config from '../lib/config'
 
 const categoryRequest = (categoryId) => {
   return {
@@ -99,6 +100,8 @@ class CategoryPage extends Component {
   constructor (props) {
     super(props)
     this.state = {}
+
+    this.Head = Config.get().Head
   }
 
   async componentDidMount () {
@@ -143,9 +146,9 @@ class CategoryPage extends Component {
 
       return (
         <>
-          <Head>
+          <this.Head>
             <title>{ suffixWithStoreName(title) }</title>
-          </Head>
+          </this.Head>
           <ProductListing title={title} indexName={Config.get().algoliaIndexName} facets={facets} />
         </>
       )

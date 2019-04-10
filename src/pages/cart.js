@@ -1,6 +1,5 @@
 // Libraries
 import React, { Component } from 'react'
-import Head from 'next/head'
 
 // Lib
 import { suffixWithStoreName } from '../lib/suffix-with-store-name'
@@ -30,6 +29,9 @@ import {
   Loading
 } from '@shiftcommerce/shift-react-components'
 
+// Config
+import Config from '../lib/config'
+
 const fetchShippingMethodsRequest = () => {
   return {
     endpoint: '/getShippingMethods'
@@ -45,6 +47,7 @@ class CartPage extends Component {
       loading: !props.cart.shipping_method
     }
 
+    this.Head = Config.get().Head
     this.fetchShippingMethods = this.fetchShippingMethods.bind(this)
     this.updateQuantity = this.updateQuantity.bind(this)
     this.deleteItem = this.deleteItem.bind(this)
@@ -138,9 +141,9 @@ class CartPage extends Component {
     } else {
       return (
         <>
-          <Head>
+          <this.Head>
             <title>{ suffixWithStoreName('Your Shopping Cart') }</title>
-          </Head>
+          </this.Head>
           <CartTable>
             <CartTableHeader
               cart={cart}

@@ -1,7 +1,11 @@
 // actionTypes
 import * as types from '../actions/action-types'
 
-export default function setCart (state, action) {
+const initialState = {
+  miniBagDisplayed: false
+}
+
+export default function setCart (state = initialState, action) {
   let newState = Object.assign({}, state)
 
   switch (action.type) {
@@ -10,6 +14,9 @@ export default function setCart (state, action) {
 
     case types.SET_ORDER:
       return {}
+
+    case types.TOGGLE_MINIBAG:
+      return Object.assign({}, state, { miniBagDisplayed: !state.miniBagDisplayed })
 
     default:
       return newState

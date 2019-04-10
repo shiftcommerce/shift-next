@@ -893,10 +893,9 @@
     axios "^0.18.0"
     qs "^6.6.0"
 
-"@shiftcommerce/shift-react-components@^0.9.0":
-  version "0.9.0"
-  resolved "https://registry.yarnpkg.com/@shiftcommerce/shift-react-components/-/shift-react-components-0.9.0.tgz#3ac2ef29e91e15c96215ca18210e190a6542f430"
-  integrity sha512-1rRi2YIfSP04tTn5ccjmZ4tlLpZD3OTCDtNaczD3w2FIIkZkrTe7Ewga5JEqTTdxqaI52xG/r47P8v0Y1Z5njA==
+"@shiftcommerce/shift-react-components@^0.9.1":
+  version "0.9.1"
+  resolved "https://registry.yarnpkg.com/@shiftcommerce/shift-react-components/-/shift-react-components-0.9.1.tgz#e21628af1ccc5fe71ffd937971eb92d9f14f3565"
   dependencies:
     classnames "^2.2.6"
     date-fns "^1.29.0"
