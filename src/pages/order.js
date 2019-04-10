@@ -2,11 +2,26 @@
 import React, { Component } from 'react'
 import Link from 'next/link'
 import t from 'typy'
+import Cookies from 'js-cookie'
 
 // Objects
 import { Button, Image, OrderSummary } from '@shiftcommerce/shift-react-components'
 
 class OrderPage extends Component {
+
+  constructor (props) {
+    super(props)
+
+    this.state = {
+      paymentMethod: Cookies.get('paymentMethod')
+    }
+  }
+
+  componentWillUnmount() {
+    // clean up cookie data
+    Cookies.remove('paymentMethod')
+  }
+
   renderHeader (order) {
     const customerName = t(order, 'shipping_address.attributes.first_name').safeObject
 
@@ -54,6 +69,31 @@ class OrderPage extends Component {
     )
   }
 
+  renderPaymentMethodInformation (order) {
+    if (this.state.paymentMethod === 'PayPal') {
+      return <Image src='/static/payments/pay-pal.svg' className='c-order__detail-payment-method-card-image' />
+    } else {
+      return this.renderCardInformation (order)
+    }
+  }
+
+  renderCardInformation (order) {
+    const cardDetails = t(order, 'cardToken.card').safeObject
+    const displayMonth = { 1: '01', 2: '02', 3: '02', 4: '04', 5: '05', 6: '06', 7: '07', 8: '08', 9: '09', 10: '10', 11: '11', 12: '12' }
+
+    if (cardDetails) {
+      return (
+        <>
+          { this.renderCardImage(cardDetails) }
+          <div className='c-order__detail-payment-method-card-details'>
+            <span className='u-bold'>**** **** **** { cardDetails.last4 }</span>
+            <span className='u-bold'>Exp: { displayMonth[cardDetails.exp_month] }/{ cardDetails.exp_year }</span>
+          </div>
+        </>
+      )
+    }
+  }
+
   renderCardImage (cardDetails) {
     if (cardDetails.brand === 'Visa') {
       return (
@@ -64,18 +104,12 @@ class OrderPage extends Component {
 
   renderPaymentMethod (order) {
     const billingAddress = t(order, 'billing_address.attributes').safeObject
-    const cardDetails = t(order, 'cardToken.card').safeObject
-    const displayMonth = { 1: '01', 2: '02', 3: '02', 4: '04', 5: '05', 6: '06', 7: '07', 8: '08', 9: '09', 10: '10', 11: '11', 12: '12' }
-
+  
     return (
       <div className='c-order__detail-payment-method'>
         <h2>Payment Method</h2>
         <div className='c-order__detail-payment-method-card'>
-          { this.renderCardImage(cardDetails) }
-          <div className='c-order__detail-payment-method-card-details'>
-            <span className='u-bold'>**** **** **** { cardDetails.last4 }</span>
-            <span className='u-bold'>Exp: { displayMonth[cardDetails.exp_month] }/{ cardDetails.exp_year }</span>
-          </div>
+          { this.renderPaymentMethodInformation(order) }
         </div>
         <p className='u-bold'>Billing Address:</p>
         <p>{ billingAddress.first_name } { billingAddress.last_name }</p>

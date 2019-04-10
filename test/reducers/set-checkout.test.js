@@ -136,11 +136,12 @@ test('sets shipping address id when a shipping address is created', () => {
   }
 
   const currentState = {
-    shippingAddress: {}
+    shippingAddress: { }
   }
 
   const updatedState = setCheckout(currentState, action)
 
+  console.log({updatedState})
   expect(updatedState.shippingAddress.id).toEqual(10)
 })
 
@@ -255,4 +256,72 @@ test('populates billing address when it is autofilled', () => {
     collapsed: true,
     errors: {}
   })
+})
+
+test('sets billing address when a PayPal order is created', () => {
+  // Arrange
+  const addressPayload = {
+    first_name: 'test',
+    last_name: 'buyer',
+    email: 'testbuyer@flexcommerce.com',
+    line_1: '1 Main Terrace',
+    line_2: undefined,
+    city: 'Wolverhampton',
+    state: 'West Midlands',
+    zipcode: 'W12 4LQ',
+    country_code: 'GB',
+    primary_phone: '0352878596',
+    collapsed: true,
+    completed: true,
+    showEditButton: false
+  }
+  const action = {
+    type: actionTypes.SET_CHECKOUT_BILLING_ADDRESS,
+    payload: {
+      address: addressPayload
+    }
+  }
+  const currentState = {
+    billingAddress: {}
+  }
+
+  // Act 
+  const updatedState = setCheckout(currentState, action)
+
+  // Assert
+  expect(updatedState.billingAddress).toEqual(addressPayload)
+})
+
+test('sets shipping address when a PayPal order is created', () => {
+  // Arrange
+  const addressPayload = {
+    first_name: 'Test',
+    last_name: 'Example',
+    email: 'testbuyer@flexcommerce.com',
+    line_1: 'Shift Commerce Ltd, Old School Boar',
+    line_2: 'Calverley Street',
+    city: 'Leeds',
+    state: 'N/A',
+    zipcode: 'LS1 3ED',
+    country_code: 'GB',
+    primary_phone: '0352878596',
+    collapsed: true,
+    completed: true,
+    showEditButton: false
+  }
+  const action = {
+    type: actionTypes.SET_CHECKOUT_SHIPPING_ADDRESS,
+    payload: {
+      address: addressPayload
+    }
+  }
+  const currentState = {
+    shippingAddress: {}
+  }
+
+  // Act 
+  const updatedState = setCheckout(currentState, action)
+
+  // Assert
+  expect(updatedState.shippingAddress).toEqual(addressPayload)
 })

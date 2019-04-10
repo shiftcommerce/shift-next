@@ -26,6 +26,7 @@ const formFields = {
   collapsed: false,
   completed: false,
   selected: false,
+  showEditButton: true,
   errors: {},
   ...addressFormFields
 }
@@ -101,6 +102,44 @@ export default function setCheckout (state = checkoutInitialState, action) {
         preferred_billing: chosenAddress.setAsPreferredBilling,
         preferred_shipping: chosenAddress.setAsPreferredShipping,
         errors: {}
+      }
+      return newState
+
+    case types.SET_CHECKOUT_BILLING_ADDRESS:
+      const payPalBillingAddress = action.payload.address
+      newState.billingAddress = {
+        first_name: payPalBillingAddress.first_name,
+        last_name: payPalBillingAddress.last_name,
+        email: payPalBillingAddress.email,
+        line_1: payPalBillingAddress.line_1,
+        line_2: payPalBillingAddress.line_2,
+        city: payPalBillingAddress.city,
+        state: payPalBillingAddress.state,
+        zipcode: payPalBillingAddress.zipcode,
+        country_code: payPalBillingAddress.country_code,
+        primary_phone: payPalBillingAddress.primary_phone,
+        collapsed: payPalBillingAddress.collapsed,
+        completed: payPalBillingAddress.completed,
+        showEditButton: payPalBillingAddress.showEditButton
+      }
+      return newState
+
+    case types.SET_CHECKOUT_SHIPPING_ADDRESS:
+      const payPalShippingAddress = action.payload.address
+      newState.shippingAddress = {
+        first_name: payPalShippingAddress.first_name,
+        last_name: payPalShippingAddress.last_name,
+        email: payPalShippingAddress.email,
+        line_1: payPalShippingAddress.line_1,
+        line_2: payPalShippingAddress.line_2,
+        city: payPalShippingAddress.city,
+        state: payPalShippingAddress.state,
+        zipcode: payPalShippingAddress.zipcode,
+        country_code: payPalShippingAddress.country_code,
+        primary_phone: payPalShippingAddress.primary_phone,
+        collapsed: payPalShippingAddress.collapsed,
+        completed: payPalShippingAddress.completed,
+        showEditButton: payPalShippingAddress.showEditButton
       }
       return newState
 

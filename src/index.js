@@ -7,6 +7,7 @@ import MyAccountPage from './pages/my-account'
 import OfflinePage from './pages/offline'
 import OrderPage from './pages/order'
 import PasswordResetPage from './pages/password_reset'
+import PaymentMethodPage from './pages/checkout/payment-method'
 import PaymentPage from './pages/payment'
 import ProductPage from './pages/product'
 import RegisterPage from './pages/register'
@@ -28,6 +29,7 @@ import shiftMenuHandler from './express/menu-handler'
 import shiftSlugHandler from './express/slug-handler'
 import shiftStaticPageHandler from './express/staticpage-handler'
 import shiftAddressBookHandler from './express/addressbook-handler'
+import shiftPayPalHandler from './express/paypal-handler'
 
 // Routes
 import shiftAccountRoutes from './routes/account-routes.js'
@@ -91,6 +93,12 @@ module.exports = {
     server.get('/checkout/review', shiftCheckoutRoutes.reviewRoute)
 
     /**
+     * PayPal Routes
+     */
+    server.post('/patchPayPalOrder', shiftPayPalHandler.patchOrder)
+    server.post('/authorizePayPalOrder', shiftPayPalHandler.authorizeOrder)
+
+    /**
      * Order Routes
      */
     server.get('/order', shiftOrderRoutes.indexRoute)
@@ -105,6 +113,7 @@ module.exports = {
   OrderPage: OrderPage,
   PasswordResetPage: PasswordResetPage,
   PaymentPage: PaymentPage,
+  PaymentMethodPage: PaymentMethodPage,
   ProductPage: ProductPage,
   RegisterPage: RegisterPage,
   SearchPage: SearchPage,

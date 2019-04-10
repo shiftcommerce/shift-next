@@ -79,7 +79,8 @@ export function convertCheckoutToOrder (cart, paymentMethod, order) {
   return {
     data: orderPayload,
     payment_method: paymentMethod,
-    card_token: order.cardToken
+    card_token: order.cardToken,
+    payment_authorization_id: order.paymentAuthorization.id
   }
 }
 

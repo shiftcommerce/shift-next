@@ -1,7 +1,6 @@
 // Libraries
 import React, { Component } from 'react'
 import Router from 'next/router'
-import classNames from 'classnames'
 import Cookies from 'js-cookie'
 
 // Libs
@@ -22,7 +21,8 @@ import {
   autoFillBillingAddress,
   inputChange,
   setValidationMessage,
-  showField
+  showField,
+  authorizePayPalAndCreateOrder
 } from '../actions/checkout-actions'
 import { setCartBillingAddress, createBillingAddress } from '../actions/cart-actions'
 import {
@@ -42,7 +42,9 @@ class CheckoutPaymentPage extends Component {
 
     this.state = {
       loading: true,
-      reviewStep: false
+      reviewStep: false,
+      paymentMethod: Cookies.get('paymentMethod'),
+      payPalOrderID: Cookies.get('ppOrderID')
     }
 
     this.nextSection = this.nextSection.bind(this)
@@ -65,21 +67,32 @@ class CheckoutPaymentPage extends Component {
   }
 
   componentDidMount () {
-    if (!this.props.cart.shipping_address) {
-      return Router.push('/checkout/shipping-address')
+    const { cart, thirdPartyPaymentMethods } = this.props
+    if (!cart.shipping_address) {
+      if (thirdPartyPaymentMethods.includes(this.state.paymentMethod)) {
+        // If shipping address is not present and customer has used third
+        // party payment service redirect to the payment method page
+        return Router.push('/checkout/payment-method')
+      } else {
+        return Router.push('/checkout/shipping-address')
+      }
     }
-    if (!this.props.cart.shipping_method) {
+
+    if (!cart.shipping_method) {
       return Router.push('/checkout/shipping-method')
     }
 
+    // If customer has used third party payment service only show review page
+    if (thirdPartyPaymentMethods.includes(this.state.paymentMethod)) this.showReview()
+
     return (this.loggedIn() ? this.props.dispatch(fetchAddressBook()) : Promise.resolve()).then(() => {
-      if (!this.props.cart.billing_address) {
-        return this.onBookAddressSelected(this.props.cart.shipping_address.id).then(() => {
+      if (!cart.billing_address) {
+        return this.onBookAddressSelected(cart.shipping_address.id).then(() => {
           this.setState({
             billingAsShipping: true
           })
         })
-      } else if (this.props.cart.shipping_address.id === this.props.cart.billing_address.id) {
+      } else if (cart.shipping_address.id === cart.billing_address.id) {
         this.setState({
           billingAsShipping: true
         })
@@ -110,6 +123,10 @@ class CheckoutPaymentPage extends Component {
       return {
         reviewStep: true
       }
+    } else if (!state.reviewStep && Router.asPath === '/checkout/review' && props.propsPath === '/checkout/shipping-method' && props.thirdPartyPaymentMethods.includes(state.paymentMethod)){
+      return {
+        reviewStep: true
+      }
     }
     return null
   }
@@ -128,7 +145,7 @@ class CheckoutPaymentPage extends Component {
     this.setState({
       reviewStep: true
     })
-    setCurrentStep(4)
+    setCurrentStep(5)
   }
 
   showPayment () {
@@ -137,7 +154,7 @@ class CheckoutPaymentPage extends Component {
     this.setState({
       reviewStep: false
     })
-    setCurrentStep(3)
+    setCurrentStep(4)
   }
 
   validateInput (formName, fieldName, fieldValue, rules) {
@@ -265,11 +282,26 @@ class CheckoutPaymentPage extends Component {
     const shippingAddressPresent = !!(cart.shipping_address || {}).id
     const shippingMethodPresent = !!(cart.shipping_method || {}).id
     const billingAddressPresent = !!(cart.billing_address || {}).id
+
     return !order.card_errors && shippingAddressPresent && shippingMethodPresent && billingAddressPresent
   }
 
   convertToOrder () {
-    this.props.dispatch(requestCardToken(true))
+    const { dispatch, thirdPartyPaymentMethods } = this.props
+
+    if (thirdPartyPaymentMethods.includes(this.state.paymentMethod)) {
+      // set loading to true as we handle the order authorization and creation process
+      this.setState({ loading: true })
+      // authorise PayPal order and create order in platform
+      return dispatch(authorizePayPalAndCreateOrder(this.state.payPalOrderID, this.state.paymentMethod)).then(() => {
+        // clean up cookie data
+        Cookies.remove('ppOrderID')
+        // redirect to order page
+        Router.push('/order')
+      })
+    } else {
+      this.props.dispatch(requestCardToken(true))
+    }
   }
 
   continueButtonProps () {
@@ -296,58 +328,61 @@ class CheckoutPaymentPage extends Component {
 
   pageTitle = () => `Checkout - ${this.state.reviewStep ? 'Review' : 'Payment'}`
 
-  currentStep = () => this.state.reviewStep ? 4 : 3
+  currentStep = () => this.state.reviewStep ? 5 : 4
 
   stepActions = () => ({
-    3: () => {
+    4: () => {
       this.setState({ reviewStep: false })
-      this.props.setCurrentStep(3)
+      this.props.setCurrentStep(4)
     }
   })
 
-  renderPayment () {
-    const { cart, checkout: { addressBook }, loggedIn, order } = this.props
+  renderPaymentSummary () {
+    const { cart, order, thirdPartyPaymentMethods } = this.props
 
     return (
-      <>
-        <div className={classNames({ 'u-hidden': !this.state.reviewStep })}>
-          <PaymentMethodSummary
-            billingAddress={cart.billing_address}
-            onClick={this.showPayment}
-            withErrors={!!order.paymentError}
-          />
-        </div>
-        <div className={classNames({ 'u-hidden': this.state.reviewStep })}>
-          <PaymentMethod
-            addingNewAddress={this.state.addingNewAddress}
-            addressBook={addressBook}
-            addressFormDisplayed={this.addressFormDisplayed}
-            autoFillAddress={this.autoFillAddress}
-            billingAsShipping={this.state.billingAsShipping}
-            cart={this.props.cart}
-            changeBillingAsShipping={this.changeBillingAsShipping}
-            countries={countries}
-            currentAddress={this.addressForForm()}
-            formName='paymentMethod'
-            loggedIn={loggedIn}
-            nextStepAvailable={this.nextStepAvailable}
-            nextSection={this.nextSection}
-            onAddressDeleted={this.onAddressDeleted}
-            onChange={this.onInputChange}
-            onBlur={this.onInputBlur}
-            onCardTokenReceived={this.onCardTokenReceived}
-            onNewAddress={this.onNewAddress}
-            onBookAddressSelected={this.onBookAddressSelected}
-            setCardErrors={this.setCardErrors}
-            {...this.props}
-          />
-        </div>
-      </>
+      <PaymentMethodSummary
+        billingAddress={cart.billing_address}
+        paymentMethod={this.state.paymentMethod}
+        showEditButton={!thirdPartyPaymentMethods.includes(this.state.paymentMethod)}
+        onClick={this.showPayment}
+        withErrors={!!order.paymentError}
+      />
+    )
+  }
+
+  renderPaymentForm () {
+    const { checkout: { addressBook }, loggedIn } = this.props
+
+    return (
+      <PaymentMethod
+        addingNewAddress={this.state.addingNewAddress}
+        addressBook={addressBook}
+        addressFormDisplayed={this.addressFormDisplayed}
+        autoFillAddress={this.autoFillAddress}
+        billingAsShipping={this.state.billingAsShipping}
+        cart={this.props.cart}
+        changeBillingAsShipping={this.changeBillingAsShipping}
+        countries={countries}
+        currentAddress={this.addressForForm()}
+        formName='paymentMethod'
+        loggedIn={loggedIn}
+        nextStepAvailable={this.nextStepAvailable}
+        nextSection={this.nextSection}
+        onAddressDeleted={this.onAddressDeleted}
+        onChange={this.onInputChange}
+        onBlur={this.onInputBlur}
+        onCardTokenReceived={this.onCardTokenReceived}
+        onNewAddress={this.onNewAddress}
+        onBookAddressSelected={this.onBookAddressSelected}
+        setCardErrors={this.setCardErrors}
+        {...this.props}
+      />
     )
   }
 
   render () {
-    const { cart, cart: { shipping_address } } = this.props
+    const { cart, cart: { shipping_address }, thirdPartyPaymentMethods } = this.props
 
     if (this.state.loading) {
       return <Loading />
@@ -364,6 +399,7 @@ class CheckoutPaymentPage extends Component {
               lastName={shipping_address.last_name}
               onClick={() => Router.push('/checkout/shipping-address')}
               postcode={shipping_address.postcode}
+              showEditButton={!thirdPartyPaymentMethods.includes(this.state.paymentMethod)}
             />
           </div>
         </div>
@@ -371,7 +407,7 @@ class CheckoutPaymentPage extends Component {
           onClick={() => Router.push('/checkout/shipping-method')}
           shippingMethod={cart.shipping_method}
         />
-        { this.renderPayment() }
+        { this.state.reviewStep ? this.renderPaymentSummary() : this.renderPaymentForm() }
       </>
     )
   }

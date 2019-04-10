@@ -21,6 +21,7 @@ exports[`render shipping methods as expected 1`] = `
         "last_name": "Last Name",
         "line_1": "Test House",
         "primary_phone": "01234567890",
+        "showEditButton": true,
         "state": "Yorkshire",
         "zipcode": "TEST POSTCODE",
       },
@@ -34,11 +35,17 @@ exports[`render shipping methods as expected 1`] = `
       "shippingAddress": Object {
         "collapsed": true,
         "completed": true,
+        "showEditButton": true,
       },
       "shippingMethod": Object {},
     }
   }
   dispatch={[MockFunction]}
+  thirdPartyPaymentMethods={
+    Array [
+      "PayPal",
+    ]
+  }
 >
   <div>
     <div
@@ -52,10 +59,12 @@ exports[`render shipping methods as expected 1`] = `
           firstName="First Name"
           lastName="Last Name"
           onClick={[Function]}
+          showEditButton={true}
         >
           <address_form_header_AddressFormHeader
             collapsed={true}
             onClick={[Function]}
+            showEditButton={true}
             title="Shipping Address"
           >
             <div
@@ -68,6 +77,22 @@ exports[`render shipping methods as expected 1`] = `
                   Shipping Address
                 </h2>
               </div>
+              <Button
+                className="o-button-edit"
+                label="Edit"
+                onClick={[Function]}
+                status="secondary"
+              >
+                <button
+                  className="o-button-edit o-button o-button--secondary"
+                  disabled={false}
+                  onClick={[Function]}
+                  role="button"
+                  tabIndex="0"
+                >
+                  Edit
+                </button>
+              </Button>
             </div>
           </address_form_header_AddressFormHeader>
           <div
@@ -90,9 +115,33 @@ exports[`render shipping methods as expected 1`] = `
         </AddressFormSummary>
       </div>
     </div>
-    <p>
-      Loading...
-    </p>
+    <Loading>
+      <Loading
+        className="o-loading"
+        color="#f5c6cb"
+        delay={250}
+        height={50}
+        type="spin"
+        width={50}
+      >
+        <div
+          className="o-loading"
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "<svg class=\\"icon-blank\\" xmlns=\\"http://www.w3.org/2000/svg\\" viewBox=\\"0 0 32 32\\"></svg>
+",
+            }
+          }
+          style={
+            Object {
+              "fill": "#f5c6cb",
+              "height": 50,
+              "width": 50,
+            }
+          }
+        />
+      </Loading>
+    </Loading>
   </div>
 </ShippingMethodPage>
 `;
@@ -107,12 +156,11 @@ exports[`renders correct checkout components 1`] = `
     >
       <AddressFormSummary
         onClick={[Function]}
+        showEditButton={true}
       />
     </div>
   </div>
-  <p>
-    Loading...
-  </p>
+  <Loading />
 </div>
 `;
 
@@ -133,6 +181,7 @@ exports[`renders line item quantity as expected 1`] = `
         "last_name": "Last Name",
         "line_1": "Test House",
         "primary_phone": "01234567890",
+        "showEditButton": true,
         "state": "Yorkshire",
         "zipcode": "TEST POSTCODE",
       },
@@ -154,11 +203,17 @@ exports[`renders line item quantity as expected 1`] = `
       "shippingAddress": Object {
         "collapsed": true,
         "completed": true,
+        "showEditButton": true,
       },
       "shippingMethod": Object {
         "collapsed": false,
       },
     }
+  }
+  thirdPartyPaymentMethods={
+    Array [
+      "PayPal",
+    ]
   }
 >
   <div>
@@ -173,10 +228,12 @@ exports[`renders line item quantity as expected 1`] = `
           firstName="First Name"
           lastName="Last Name"
           onClick={[Function]}
+          showEditButton={true}
         >
           <address_form_header_AddressFormHeader
             collapsed={true}
             onClick={[Function]}
+            showEditButton={true}
             title="Shipping Address"
           >
             <div
@@ -189,6 +246,22 @@ exports[`renders line item quantity as expected 1`] = `
                   Shipping Address
                 </h2>
               </div>
+              <Button
+                className="o-button-edit"
+                label="Edit"
+                onClick={[Function]}
+                status="secondary"
+              >
+                <button
+                  className="o-button-edit o-button o-button--secondary"
+                  disabled={false}
+                  onClick={[Function]}
+                  role="button"
+                  tabIndex="0"
+                >
+                  Edit
+                </button>
+              </Button>
             </div>
           </address_form_header_AddressFormHeader>
           <div
@@ -211,9 +284,33 @@ exports[`renders line item quantity as expected 1`] = `
         </AddressFormSummary>
       </div>
     </div>
-    <p>
-      Loading...
-    </p>
+    <Loading>
+      <Loading
+        className="o-loading"
+        color="#f5c6cb"
+        delay={250}
+        height={50}
+        type="spin"
+        width={50}
+      >
+        <div
+          className="o-loading"
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "<svg class=\\"icon-blank\\" xmlns=\\"http://www.w3.org/2000/svg\\" viewBox=\\"0 0 32 32\\"></svg>
+",
+            }
+          }
+          style={
+            Object {
+              "fill": "#f5c6cb",
+              "height": 50,
+              "width": 50,
+            }
+          }
+        />
+      </Loading>
+    </Loading>
   </div>
 </ShippingMethodPage>
 `;

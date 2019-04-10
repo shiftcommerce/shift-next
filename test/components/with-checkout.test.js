@@ -24,6 +24,7 @@ describe('componentDidMount()', () => {
     expect(readCartSpy).toHaveBeenCalled()
     expect(dispatch).toHaveBeenCalledWith('readCartAction')
     expect(wrapper.state().loading).toBe(false)
+    expect(wrapper.state().thirdPartyPaymentMethods).toEqual(['PayPal', 'GPay', 'Apple Pay'])
 
     readCartSpy.mockRestore()
   })
@@ -136,7 +137,7 @@ test('renders MiniPlaceOrder for the last checkout step', () => {
     convertOrder: () => {},
     isValidOrder: () => {}
   }
-  wrapper.setState({ loading: false, currentStep: 4 })
+  wrapper.setState({ loading: false, currentStep: 5 })
 
   expect(wrapper.find('MiniPlaceOrder').length).toEqual(1)
 })

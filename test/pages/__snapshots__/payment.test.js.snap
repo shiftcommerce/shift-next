@@ -10,64 +10,59 @@ exports[`render() renders correct checkout components 1`] = `
     >
       <AddressFormSummary
         onClick={[Function]}
+        showEditButton={true}
       />
     </div>
   </div>
   <ShippingMethodsSummary
     onClick={[Function]}
   />
-  <div
-    className="u-hidden"
-  >
-    <PaymentMethodSummary
-      onClick={[Function]}
-      withErrors={false}
-    />
-  </div>
-  <div
-    className=""
-  >
-    <PaymentMethod
-      addressBook={Array []}
-      addressFormDisplayed={[Function]}
-      autoFillAddress={[Function]}
-      cart={
+  <PaymentMethod
+    addressBook={Array []}
+    addressFormDisplayed={[Function]}
+    autoFillAddress={[Function]}
+    cart={
+      Object {
+        "shipping_address": Object {},
+      }
+    }
+    changeBillingAsShipping={[Function]}
+    checkout={
+      Object {
+        "addressBook": Array [],
+        "paymentMethod": "Credit/Debit Card",
+      }
+    }
+    countries={
+      Array [
         Object {
-          "shipping_address": Object {},
-        }
-      }
-      changeBillingAsShipping={[Function]}
-      checkout={
+          "id": 1,
+          "title": "United Kingdom",
+          "value": "GB",
+        },
         Object {
-          "addressBook": Array [],
-        }
-      }
-      countries={
-        Array [
-          Object {
-            "id": 1,
-            "title": "United Kingdom",
-            "value": "GB",
-          },
-          Object {
-            "id": 2,
-            "title": "United States",
-            "value": "US",
-          },
-        ]
-      }
-      formName="paymentMethod"
-      nextSection={[Function]}
-      nextStepAvailable={[Function]}
-      onAddressDeleted={[Function]}
-      onBlur={[Function]}
-      onBookAddressSelected={[Function]}
-      onCardTokenReceived={[Function]}
-      onChange={[Function]}
-      onNewAddress={[Function]}
-      order={Object {}}
-      setCardErrors={[Function]}
-    />
-  </div>
+          "id": 2,
+          "title": "United States",
+          "value": "US",
+        },
+      ]
+    }
+    formName="paymentMethod"
+    nextSection={[Function]}
+    nextStepAvailable={[Function]}
+    onAddressDeleted={[Function]}
+    onBlur={[Function]}
+    onBookAddressSelected={[Function]}
+    onCardTokenReceived={[Function]}
+    onChange={[Function]}
+    onNewAddress={[Function]}
+    order={Object {}}
+    setCardErrors={[Function]}
+    thirdPartyPaymentMethods={
+      Array [
+        "PayPal",
+      ]
+    }
+  />
 </Fragment>
 `;

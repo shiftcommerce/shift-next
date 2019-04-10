@@ -12,6 +12,7 @@ import Config from '../lib/config'
 // Components
 import {
   CheckoutCart,
+  CheckoutCartButtons,
   CheckoutCartTotal,
   CheckoutSteps,
   CouponForm,
@@ -40,7 +41,8 @@ export function withCheckout (WrappedComponent) {
       this.state = {
         loading: true,
         continueButtonProps: {},
-        currentStep: 1
+        currentStep: 1,
+        thirdPartyPaymentMethods: ['PayPal', 'GPay', 'Apple Pay']
       }
 
       this.Head = Config.get().Head
@@ -136,7 +138,7 @@ export function withCheckout (WrappedComponent) {
             currentStep={currentStep}
             stepActions={stepActions}
           />
-          { currentStep === 4 && <MiniPlaceOrder
+          { currentStep === 5 && <MiniPlaceOrder
             convertToOrder={this.wrappedRef.current.convertToOrder}
             total={cart.total}
             isValidOrder={this.wrappedRef.current.isValidOrder(cart, order)}
@@ -147,6 +149,8 @@ export function withCheckout (WrappedComponent) {
                 <WrappedComponent
                   ref={this.wrappedRef}
                   setCurrentStep={this.setCurrentStep}
+                  thirdPartyPaymentMethods={this.state.thirdPartyPaymentMethods}
+                  loading={this.state.loading}
                   {...this.props}
                 />
               </div>
@@ -163,7 +167,6 @@ export function withCheckout (WrappedComponent) {
                     handleSubmit={this.handleCouponSubmit}
                   />
                   <CheckoutCartTotal
-                    continueButtonProps={continueButtonProps}
                     discountSummaries={cart.discount_summaries}
                     paymentError={order.paymentError}
                     shippingDiscount={cart.shipping_total_discount}
@@ -171,6 +174,9 @@ export function withCheckout (WrappedComponent) {
                     shippingTotal={cart.shipping_method && cart.shipping_method.total}
                     subTotal={cart.sub_total}
                     total={cart.total}
+                  />
+                  <CheckoutCartButtons
+                    continueButtonProps={continueButtonProps}
                   />
                   <div className='c-checkout__payment'>
                     <PaymentIcons />

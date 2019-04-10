@@ -31,7 +31,8 @@ export class ShippingAddressPage extends Component {
     super(props)
 
     this.state = {
-      loading: true
+      loading: true,
+      paymentMethod: Cookies.get('paymentMethod')
     }
 
     this.autoFillAddress = this.autoFillAddress.bind(this)
@@ -44,6 +45,14 @@ export class ShippingAddressPage extends Component {
   }
 
   componentDidMount () {
+    const { cart, thirdPartyPaymentMethods } = this.props
+
+    if (cart.shipping_address && (thirdPartyPaymentMethods.includes(this.state.paymentMethod))) {
+      // If shipping address is present and customer has used third party payment service
+      // redirect to the payment method page
+      return Router.push('/checkout/payment-method')
+    }
+
     if (this.loggedIn()) {
       return this.props.dispatch(fetchAddressBook()).then(() => {
         if (!this.props.cart.shipping_address && !this.addressBookEmpty()) {
@@ -176,7 +185,7 @@ export class ShippingAddressPage extends Component {
 
   pageTitle = () => 'Shipping Adress'
 
-  currentStep = () => 1
+  currentStep = () => 2
 
   continueButtonProps () {
     return {
