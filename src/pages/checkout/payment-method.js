@@ -25,6 +25,7 @@ export class PaymentMethodPage extends Component {
     this.state = {
       loading: true
     }
+
     this.nextSection = this.nextSection.bind(this)
     this.payPalCreateOrder = this.payPalCreateOrder.bind(this)
     this.payPalOnApprove = this.payPalOnApprove.bind(this)
@@ -32,7 +33,9 @@ export class PaymentMethodPage extends Component {
   }
 
   componentDidMount () {
-    // deplay page load in order for PayPal SDK to load 
+    // TODO: - interim solution for displaying page 
+    // in order for PayPal SDK to load 
+    // Remove timeout once SSR has been fixed
     setTimeout(() => this.setState({
       loading: false
     }), 1000)
@@ -229,6 +232,8 @@ export class PaymentMethodPage extends Component {
   }
 
   render () {
+
+    console.log('payment method render')
     return (
       <div>
         { this.state.loading ? <Loading /> : <PaymentMethods

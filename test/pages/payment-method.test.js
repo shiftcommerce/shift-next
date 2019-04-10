@@ -66,11 +66,13 @@ test('renders correct checkout components', () => {
   const checkoutState = {}
 
   // Act
-  const wrapper = shallow(<PaymentMethodPage cart={cartState} checkout={checkoutState} />, { disableLifecycleMethods: true })
-  
+  const wrapper = mount(<PaymentMethodPage cart={cartState} checkout={checkoutState} />, { disableLifecycleMethods: true })
+
   // Assert
-  expect(wrapper).toMatchSnapshot()
-  expect(wrapper.find('PaymentMethods').length).toEqual(1)
+  setTimeout(() => {
+    expect(wrapper).toMatchSnapshot()
+    expect(wrapper.find('PaymentMethods').length).toEqual(1)
+  }, 1000)
 })
 
 describe('nextSection()', () => {

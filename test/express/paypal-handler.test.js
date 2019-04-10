@@ -28,6 +28,9 @@ afterEach(() => {
 
 const nockScope = nock('https://api.sandbox.paypal.com')
 
+// silence console logs
+console.log = () => {}
+
 describe('patchOrder()', () => {
   test('returns correct response when order is successfully updated', async () => {
     // Arrange

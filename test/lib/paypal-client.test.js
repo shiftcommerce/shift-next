@@ -26,6 +26,9 @@ afterEach(() => {
 
 const nockScope = nock('https://api.sandbox.paypal.com/')
 
+// silence console logs
+console.log = () => {}
+
 test('buildPatchOrderPayload returns correct patch payload', async () => {
   // Arrange
   const purchaseUnitsReferenceID = 'default'

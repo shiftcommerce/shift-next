@@ -136,11 +136,12 @@ test('sets shipping address id when a shipping address is created', () => {
   }
 
   const currentState = {
-    shippingAddress: {}
+    shippingAddress: { }
   }
 
   const updatedState = setCheckout(currentState, action)
 
+  console.log({updatedState})
   expect(updatedState.shippingAddress.id).toEqual(10)
 })
 
