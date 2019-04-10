@@ -150,6 +150,7 @@ export function withCheckout (WrappedComponent) {
                   ref={this.wrappedRef}
                   setCurrentStep={this.setCurrentStep}
                   thirdPartyPaymentMethods={this.state.thirdPartyPaymentMethods}
+                  loading={this.state.loading}
                   {...this.props}
                 />
               </div>

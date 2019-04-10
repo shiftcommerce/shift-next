@@ -23,12 +23,19 @@ export class PaymentMethodPage extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      loading: false
+      loading: true
     }
     this.nextSection = this.nextSection.bind(this)
     this.payPalCreateOrder = this.payPalCreateOrder.bind(this)
     this.payPalOnApprove = this.payPalOnApprove.bind(this)
     this.handleSetPaymentMethod = this.handleSetPaymentMethod.bind(this)
+  }
+
+  componentDidMount () {
+    // deplay page load in order for PayPal SDK to load 
+    setTimeout(() => this.setState({
+      loading: false
+    }), 1000)
   }
 
   /**
