@@ -116,7 +116,6 @@ export default function withLayout (Component) {
           skipHeader={skipHeader}
           toggleDropDown={this.toggleDropDown}
           showClass={this.state.toggleShowClass}
-          payPalClientID={ Config.get().payPalClientID }
           loggedIn={loggedIn}
           deleteItem={this.deleteItem}
           toggleMiniBag={this.toggleMiniBag}

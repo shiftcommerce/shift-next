@@ -6,8 +6,8 @@ import Cookies from 'js-cookie'
 import PaymentMethodPage from '../../src/pages/checkout/payment-method'
 
 // Actions
-import * as CheckoutActions from '../../src/actions/checkout-actions'
 import * as CartActions from '../../src/actions/cart-actions'
+import * as CheckoutActions from '../../src/actions/checkout-actions'
 
 // Fixtures
 const payPalResponse = require('../fixtures/paypal-order-response')

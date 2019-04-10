@@ -1,7 +1,6 @@
-import * as checkoutActions from '../../src/actions/checkout-actions'
-import * as OrderActions from '../../src/actions/order-actions'
 import * as actionTypes from '../../src/actions/action-types'
 import * as apiActions from '../../src/actions/api-actions'
+import * as checkoutActions from '../../src/actions/checkout-actions'
 
 test('return SET_CHECKOUT_INPUT_VALUE on calling inputChange()', () => {
   // Arrange

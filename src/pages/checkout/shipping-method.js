@@ -150,7 +150,7 @@ export class ShippingMethodPage extends Component {
 
   render () {
     const { cart, thirdPartyPaymentMethods } = this.props
-  
+
     if (!cart.shipping_address) return null
 
     return (

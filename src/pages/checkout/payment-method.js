@@ -232,8 +232,6 @@ export class PaymentMethodPage extends Component {
   }
 
   render () {
-
-    console.log('payment method render')
     return (
       <div>
         { this.state.loading ? <Loading /> : <PaymentMethods
