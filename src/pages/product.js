@@ -1,5 +1,5 @@
 // Libraries
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 
 // Lib
 import renderComponents from '../lib/render-components'
@@ -62,8 +62,34 @@ class ProductPage extends Component {
     })
   }
 
+  /**
+   * Render the product page when loaded. This method is seperate to the main
+   * render method so it can be overridden, without overriding the loading and
+   * error parts of the render method
+   * @return {String} - HTML markup for the component
+   */
+  renderLoaded () {
+    const { product, product: { template } } = this.props
+
+    const templateSection = template && template.sections && template.sections.slice(-1).pop()
+    const components = templateSection && templateSection.components
+    const selectedVariant = product.variants.find(variant => variant.id === this.state.variantId)
+
+    return (
+      <Fragment>
+        <ProductDisplay
+          product={product}
+          changeVariant={this.changeVariant}
+          addToBag={this.addToBag}
+          selectedVariant={selectedVariant}
+        />
+        { components && renderComponents(components) }
+      </Fragment>
+    )
+  }
+
   render () {
-    const { product, product: { loading, error, template, title } } = this.props
+    const { product, product: { loading, error, title } } = this.props
 
     if (loading) {
       return (
@@ -74,23 +100,13 @@ class ProductPage extends Component {
         <h1>Unable to load product.</h1>
       )
     } else {
-      const templateSection = template && template.sections && template.sections.slice(-1).pop()
-      const components = templateSection && templateSection.components
-      const selectedVariant = product.variants.find(variant => variant.id === this.state.variantId)
-
       return (
-        <>
+        <Fragment>
           <this.Head>
             <title>{ suffixWithStoreName(title) }</title>
           </this.Head>
-          <ProductDisplay
-            product={product}
-            changeVariant={this.changeVariant}
-            addToBag={this.addToBag}
-            selectedVariant={selectedVariant}
-          />
-          { components && renderComponents(components) }
-        </>
+          { this.renderLoaded() }
+        </Fragment>
       )
     }
   }
