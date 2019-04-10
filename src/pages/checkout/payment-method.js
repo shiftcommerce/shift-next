@@ -33,7 +33,7 @@ export class PaymentMethodPage extends Component {
   }
 
   componentDidMount () {
-    // TODO: - interim solution for displaying page 
+    // TODO: - interim solution for delaying PaymentMethods component rendering
     // in order for PayPal SDK to load 
     // Remove timeout once SSR has been fixed
     setTimeout(() => this.setState({

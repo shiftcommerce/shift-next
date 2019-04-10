@@ -1024,18 +1024,18 @@
     braintreehttp "^0.4.0"
     npm "^6.4.0"
 
-"@shiftcommerce/shift-node-api@0.3.1":
-  version "0.3.1"
-  resolved "https://registry.yarnpkg.com/@shiftcommerce/shift-node-api/-/shift-node-api-0.3.1.tgz#b18e44c8bae0ad46832f7f992e14fc1ccb7978ce"
-  integrity sha512-CsLkzkZWQ8KD+DAHG9rFqDqzzdY9dcGHBk/SChl12lT0V4Nlxv63BtEFcgu4SVO+uOazdCcUO/yBbQEQVuG/Sg==
+"@shiftcommerce/shift-node-api@^0.4.1":
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/@shiftcommerce/shift-node-api/-/shift-node-api-0.4.1.tgz#4b1597ccc1a1cd8507c9cac9a7c8ee4181b08566"
+  integrity sha512-8sHA85qGEAMMuL/UuLGRS4anEIfkNgoYY8lol5EAzlYXlx9c6HMPECXMDiXif+sKOnlXsqu7Fv6+W0k7ExyyYw==
   dependencies:
     axios "^0.18.0"
     qs "^6.6.0"
 
 "@shiftcommerce/shift-react-components@^0.9.1":
-  version "0.9.1"
-  resolved "https://registry.yarnpkg.com/@shiftcommerce/shift-react-components/-/shift-react-components-0.9.1.tgz#e21628af1ccc5fe71ffd937971eb92d9f14f3565"
-  integrity sha512-rQjwqnqhLTGc5Hafp2RtlSFW9MczcEhjdfdco06ratVX/LnAM24xBps26sB7Ow2Fu68CVtF9NLiEPNDqt0Mfpg==
+  version "0.9.2"
+  resolved "https://registry.yarnpkg.com/@shiftcommerce/shift-react-components/-/shift-react-components-0.9.2.tgz#1f44d439ecfb2c9c5d6d986decfdbcb01f9c2e89"
+  integrity sha512-DzBTgJgohq/VGAnpxaUkG5FvwwyoxdfebvEq6SmEAFF2jRfrpr/5nNIVaypA2drx0bPF/o3bAKE84RZuYCkgvQ==
   dependencies:
     classnames "^2.2.6"
     date-fns "^1.29.0"

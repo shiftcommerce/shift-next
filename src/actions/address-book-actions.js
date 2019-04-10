@@ -21,6 +21,14 @@ export function fetchAddressBook () {
   return readEndpoint(request)
 }
 
+export function updateAddress (id, addressData) {
+  const request = {
+    endpoint: `/updateAddress/${id}`,
+    body: newAddressBookEntryPayload(addressData)
+  }
+  return postEndpoint(request)
+}
+
 export function deleteAddressBookEntry (address) {
   const request = {
     endpoint: `/deleteAddress/${address.id}`,
