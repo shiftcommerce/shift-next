@@ -144,3 +144,9 @@ const createBillingAddressRequest = (address) => {
 export function createBillingAddress (address) {
   return postEndpoint(createBillingAddressRequest(address))
 }
+
+export function toggleMiniBag () {
+  return {
+    type: actionTypes.TOGGLE_MINIBAG
+  }
+}

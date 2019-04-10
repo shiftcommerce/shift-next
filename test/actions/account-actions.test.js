@@ -35,3 +35,21 @@ test('getCustomerOrders() makes a customer orders request', () => {
 
   getCustomerOrdersSpy.mockRestore()
 })
+
+test('updateCustomerAccount() makes a correct request', () => {
+  const updateAccountSpy = jest.spyOn(apiActions, 'postEndpoint')
+
+  accountActions.updateCustomerAccount('test@example.com', 'John', 'Kowalski')
+
+  expect(updateAccountSpy).toHaveBeenCalledTimes(1)
+  const request = updateAccountSpy.mock.calls[0][0]
+  expect(request.endpoint).toEqual('/updateCustomerAccount')
+  expect(request.successActionType).toEqual(actionTypes.SET_ACCOUNT)
+  expect(request.body).toEqual({
+    email: 'test@example.com',
+    firstName: 'John',
+    lastName: 'Kowalski'
+  })
+
+  updateAccountSpy.mockRestore()
+})
