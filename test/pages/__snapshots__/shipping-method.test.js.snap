@@ -21,6 +21,7 @@ exports[`render shipping methods as expected 1`] = `
         "last_name": "Last Name",
         "line_1": "Test House",
         "primary_phone": "01234567890",
+        "showEditButton": true,
         "state": "Yorkshire",
         "zipcode": "TEST POSTCODE",
       },
@@ -34,6 +35,7 @@ exports[`render shipping methods as expected 1`] = `
       "shippingAddress": Object {
         "collapsed": true,
         "completed": true,
+        "showEditButton": true,
       },
       "shippingMethod": Object {},
     }
@@ -48,45 +50,51 @@ exports[`render shipping methods as expected 1`] = `
   <PaymentMethodsSummary
     onClick={[Function]}
     paymentMethod="Credit/Debit Card"
+    showEditButton={true}
     title="Payment Method"
   >
-    <payment_method_header_PaymentMethodHeader
-      collapsed={true}
-      onClick={[Function]}
-      title="Payment Method"
-    >
-      <div
-        className="o-form__header  c-payment-method__header"
-      >
-        <h2>
-          Payment Method
-        </h2>
-        <Button
-          aria-label="Edit your payment method"
-          className="o-button-edit"
-          label="Edit"
-          onClick={[Function]}
-          status="secondary"
-        >
-          <button
-            aria-label="Edit your payment method"
-            className="o-button-edit o-button o-button--secondary"
-            disabled={false}
-            onClick={[Function]}
-            role="button"
-            tabIndex="0"
-          >
-            Edit
-          </button>
-        </Button>
-      </div>
-    </payment_method_header_PaymentMethodHeader>
     <div
       className="c-payment-methods__summary"
     >
-      <p>
-        Credit/Debit Card
-      </p>
+      <payment_method_header_PaymentMethodHeader
+        collapsed={true}
+        onClick={[Function]}
+        showEditButton={true}
+        title="Payment Method"
+      >
+        <div
+          className="o-form__header  c-payment-method__header"
+        >
+          <h2>
+            Payment Method
+          </h2>
+          <Button
+            aria-label="Edit your payment method"
+            className="o-button-edit"
+            label="Edit"
+            onClick={[Function]}
+            status="secondary"
+          >
+            <button
+              aria-label="Edit your payment method"
+              className="o-button-edit o-button o-button--secondary"
+              disabled={false}
+              onClick={[Function]}
+              role="button"
+              tabIndex="0"
+            >
+              Edit
+            </button>
+          </Button>
+        </div>
+      </payment_method_header_PaymentMethodHeader>
+      <div
+        className="c-payment-methods__summary-information"
+      >
+        <p>
+          Credit/Debit Card
+        </p>
+      </div>
     </div>
   </PaymentMethodsSummary>
   <div
@@ -100,10 +108,12 @@ exports[`render shipping methods as expected 1`] = `
         firstName="First Name"
         lastName="Last Name"
         onClick={[Function]}
+        showEditButton={true}
       >
         <address_form_header_AddressFormHeader
           collapsed={true}
           onClick={[Function]}
+          showEditButton={true}
           title="Shipping Address"
         >
           <div
@@ -188,6 +198,7 @@ exports[`renders correct checkout components 1`] = `
 <Fragment>
   <PaymentMethodsSummary
     onClick={[Function]}
+    showEditButton={true}
     title="Payment Method"
   />
   <div
@@ -198,6 +209,7 @@ exports[`renders correct checkout components 1`] = `
     >
       <AddressFormSummary
         onClick={[Function]}
+        showEditButton={true}
       />
     </div>
   </div>
@@ -222,6 +234,7 @@ exports[`renders line item quantity as expected 1`] = `
         "last_name": "Last Name",
         "line_1": "Test House",
         "primary_phone": "01234567890",
+        "showEditButton": true,
         "state": "Yorkshire",
         "zipcode": "TEST POSTCODE",
       },
@@ -243,6 +256,7 @@ exports[`renders line item quantity as expected 1`] = `
       "shippingAddress": Object {
         "collapsed": true,
         "completed": true,
+        "showEditButton": true,
       },
       "shippingMethod": Object {
         "collapsed": false,
@@ -258,45 +272,51 @@ exports[`renders line item quantity as expected 1`] = `
   <PaymentMethodsSummary
     onClick={[Function]}
     paymentMethod="Credit/Debit Card"
+    showEditButton={true}
     title="Payment Method"
   >
-    <payment_method_header_PaymentMethodHeader
-      collapsed={true}
-      onClick={[Function]}
-      title="Payment Method"
-    >
-      <div
-        className="o-form__header  c-payment-method__header"
-      >
-        <h2>
-          Payment Method
-        </h2>
-        <Button
-          aria-label="Edit your payment method"
-          className="o-button-edit"
-          label="Edit"
-          onClick={[Function]}
-          status="secondary"
-        >
-          <button
-            aria-label="Edit your payment method"
-            className="o-button-edit o-button o-button--secondary"
-            disabled={false}
-            onClick={[Function]}
-            role="button"
-            tabIndex="0"
-          >
-            Edit
-          </button>
-        </Button>
-      </div>
-    </payment_method_header_PaymentMethodHeader>
     <div
       className="c-payment-methods__summary"
     >
-      <p>
-        Credit/Debit Card
-      </p>
+      <payment_method_header_PaymentMethodHeader
+        collapsed={true}
+        onClick={[Function]}
+        showEditButton={true}
+        title="Payment Method"
+      >
+        <div
+          className="o-form__header  c-payment-method__header"
+        >
+          <h2>
+            Payment Method
+          </h2>
+          <Button
+            aria-label="Edit your payment method"
+            className="o-button-edit"
+            label="Edit"
+            onClick={[Function]}
+            status="secondary"
+          >
+            <button
+              aria-label="Edit your payment method"
+              className="o-button-edit o-button o-button--secondary"
+              disabled={false}
+              onClick={[Function]}
+              role="button"
+              tabIndex="0"
+            >
+              Edit
+            </button>
+          </Button>
+        </div>
+      </payment_method_header_PaymentMethodHeader>
+      <div
+        className="c-payment-methods__summary-information"
+      >
+        <p>
+          Credit/Debit Card
+        </p>
+      </div>
     </div>
   </PaymentMethodsSummary>
   <div
@@ -310,10 +330,12 @@ exports[`renders line item quantity as expected 1`] = `
         firstName="First Name"
         lastName="Last Name"
         onClick={[Function]}
+        showEditButton={true}
       >
         <address_form_header_AddressFormHeader
           collapsed={true}
           onClick={[Function]}
+          showEditButton={true}
           title="Shipping Address"
         >
           <div

@@ -4,6 +4,7 @@ exports[`render() renders correct checkout components 1`] = `
 <Fragment>
   <PaymentMethodsSummary
     onClick={[Function]}
+    showEditButton={true}
     title="Payment Method"
   />
   <div
@@ -14,6 +15,7 @@ exports[`render() renders correct checkout components 1`] = `
     >
       <AddressFormSummary
         onClick={[Function]}
+        showEditButton={true}
       />
     </div>
   </div>

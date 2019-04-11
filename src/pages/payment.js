@@ -288,7 +288,7 @@ class CheckoutPaymentPage extends Component {
   }
 
   convertToOrder () {
-    const { cart, checkout, dispatch, order, thirdPartyPaymentMethods } = this.props
+    const { dispatch, thirdPartyPaymentMethods } = this.props
 
     if (thirdPartyPaymentMethods.includes(this.state.paymentMethod)) {
       // set loading to true as we handle the order authorization and creation process
@@ -339,12 +339,13 @@ class CheckoutPaymentPage extends Component {
   })
 
   renderPaymentSummary () {
-    const { cart, order } = this.props
+    const { cart, order, thirdPartyPaymentMethods } = this.props
 
     return (
       <PaymentMethodSummary
         billingAddress={cart.billing_address}
         paymentMethod={this.state.paymentMethod}
+        showEditButton={!thirdPartyPaymentMethods.includes(this.state.paymentMethod)}
         onClick={this.showPayment}
         withErrors={!!order.paymentError}
       />
@@ -382,7 +383,7 @@ class CheckoutPaymentPage extends Component {
   }
 
   render () {
-    const { cart, cart: { shipping_address } } = this.props
+    const { cart, cart: { shipping_address }, thirdPartyPaymentMethods } = this.props
 
     if (this.state.loading) {
       return <Loading />
@@ -394,6 +395,7 @@ class CheckoutPaymentPage extends Component {
           onClick={() => Router.push('/checkout/payment-method')}
           paymentMethod={this.state.paymentMethod}
           title={'Payment Method'}
+          showEditButton={!thirdPartyPaymentMethods.includes(this.state.paymentMethod)}
         />
         <div className='c-checkout__addressform'>
           <div className='o-form__address'>
@@ -404,6 +406,7 @@ class CheckoutPaymentPage extends Component {
               lastName={shipping_address.last_name}
               onClick={() => Router.push('/checkout/shipping-address')}
               postcode={shipping_address.postcode}
+              showEditButton={!thirdPartyPaymentMethods.includes(this.state.paymentMethod)}
             />
           </div>
         </div>

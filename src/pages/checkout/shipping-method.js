@@ -160,6 +160,7 @@ export class ShippingMethodPage extends Component {
           onClick={() => Router.push('/checkout/payment-method')}
           paymentMethod={this.state.paymentMethod}
           title={'Payment Method'}
+          showEditButton={!thirdPartyPaymentMethods.includes(this.state.paymentMethod)}
         />
         <div className='c-checkout__addressform'>
           <div className='o-form__address'>
@@ -170,6 +171,7 @@ export class ShippingMethodPage extends Component {
               lastName={cart.shipping_address.last_name}
               onClick={() => Router.push('/checkout/shipping-address')}
               postcode={cart.shipping_address.postcode}
+              showEditButton={!thirdPartyPaymentMethods.includes(this.state.paymentMethod)}
             />
           </div>
         </div>

@@ -272,7 +272,8 @@ test('sets billing address when a PayPal order is created', () => {
     country_code: 'GB',
     primary_phone: '0352878596',
     collapsed: true,
-    completed: true
+    completed: true,
+    showEditButton: false
   }
   const action = {
     type: actionTypes.SET_CHECKOUT_BILLING_ADDRESS,
@@ -305,7 +306,8 @@ test('sets shipping address when a PayPal order is created', () => {
     country_code: 'GB',
     primary_phone: '0352878596',
     collapsed: true,
-    completed: true
+    completed: true,
+    showEditButton: false
   }
   const action = {
     type: actionTypes.SET_CHECKOUT_SHIPPING_ADDRESS,

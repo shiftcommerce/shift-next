@@ -22,6 +22,7 @@ const shippingAddress = {
   email: 'test@example.com',
   collapsed: false,
   completed: false,
+  showEditButton: true,
   errors: {}
 }
 
@@ -115,7 +116,8 @@ test('renders correct checkout components', () => {
   const checkoutState = {
     shippingAddress: {
       collapsed: true,
-      completed: true
+      completed: true,
+      showEditButton: true
     },
     paymentMethod: 'PayPal'
   }
@@ -153,7 +155,8 @@ test('render shipping methods as expected', async () => {
   const checkout = {
     shippingAddress: {
       collapsed: true,
-      completed: true
+      completed: true,
+      showEditButton: true
     },
     shippingMethod: {}
   }
@@ -213,7 +216,8 @@ test('renders line item quantity as expected', async () => {
   const checkout = {
     shippingAddress: {
       collapsed: true,
-      completed: true
+      completed: true,
+      showEditButton: true
     },
     shippingMethod: {
       collapsed: false
@@ -249,7 +253,8 @@ test('preselects first shipping method when fetching shipping methods and none i
   const checkout = {
     shippingAddress: {
       collapsed: true,
-      completed: true
+      completed: true,
+      showEditButton: true
     },
     shippingMethod: {
       collapsed: false
@@ -323,7 +328,8 @@ test('selecting a shipping method makes a correct API call', async () => {
   const checkout = {
     shippingAddress: {
       collapsed: true,
-      completed: true
+      completed: true,
+      showEditButton: true
     },
     shippingMethod: {
       collapsed: false
@@ -423,7 +429,8 @@ test('fetches shipping methods, sorts them by total and puts them in state', asy
   const checkoutState  = {
     shippingAddress: {
       collapsed: true,
-      completed: true
+      completed: true,
+      showEditButton: true
     },
     shippingMethod: {
       collapsed: false
