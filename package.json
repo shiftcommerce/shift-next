@@ -45,7 +45,7 @@
   },
   "dependencies": {
     "@shiftcommerce/shift-node-api": "^0.4.1",
-    "@shiftcommerce/shift-react-components": "^0.9.1",
+    "@shiftcommerce/shift-react-components": "shiftcommerce/shift-react-components#issue/865_checkout_enhancements",
     "axios": "^0.18.0",
     "js-cookie": "^2.2.0",
     "qs": "^6.6.0",

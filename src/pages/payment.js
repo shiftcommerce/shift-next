@@ -288,7 +288,7 @@ class CheckoutPaymentPage extends Component {
   }
 
   convertToOrder () {
-    const { dispatch, thirdPartyPaymentMethods } = this.props
+    const { cart, checkout, dispatch, order, thirdPartyPaymentMethods } = this.props
 
     if (thirdPartyPaymentMethods.includes(this.state.paymentMethod)) {
       // set loading to true as we handle the order authorization and creation process
