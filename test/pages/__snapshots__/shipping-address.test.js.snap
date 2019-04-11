@@ -4,6 +4,7 @@ exports[`renders address form components 1`] = `
 <Fragment>
   <PaymentMethodsSummary
     onClick={[Function]}
+    showEditButton={true}
     title="Payment Method"
   />
   <div
