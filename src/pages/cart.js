@@ -130,6 +130,12 @@ class CartPage extends Component {
     }
   }
 
+  /**
+   * Render the cart page when loaded. This method is seperate to the main
+   * render method so it can be overridden, without overriding the loading and
+   * error parts of the render method
+   * @return {String} - HTML markup for the component
+   */
   renderLoaded () {
     const { cart } = this.props
     const { cheapestShipping } = this.state
