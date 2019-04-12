@@ -1,5 +1,5 @@
 // Libraries
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 
 // Lib
 import renderComponents from '../lib/render-components'
@@ -73,6 +73,14 @@ class StaticPage extends Component {
     this.setState({ loading: false, page })
   }
 
+  /**
+   * Returns the page object
+   * @return {Object}
+   */
+  getPage () {
+    return this.props.page || this.state.page
+  }
+
   renderPageTitle (title) {
     const homepage = title === 'Homepage'
 
@@ -83,8 +91,28 @@ class StaticPage extends Component {
     )
   }
 
+  /**
+   * Render the static page when loaded. This method is seperate to the main
+   * render method so it can be overridden, without overriding the loading and
+   * error parts of the render method
+   * @return {String} - HTML markup for the component
+   */
+  renderLoaded () {
+    const page = this.getPage()
+
+    if (page.template.sections) {
+      const { components } = page.template.sections.slice(-1).pop()
+
+      if (components) {
+        return renderComponents(components)
+      }
+    }
+
+    return null
+  }
+
   render () {
-    const page = this.props.page || this.state.page
+    const page = this.getPage()
 
     if (this.state.loading) {
       return (
@@ -104,13 +132,11 @@ class StaticPage extends Component {
         />
       )
     } else {
-      const { components } = page.template.sections.slice(-1).pop()
-
       return (
-        <>
+        <Fragment>
           { this.renderPageTitle(page.title) }
-          { components && renderComponents(components) }
-        </>
+          { this.renderLoaded() }
+        </Fragment>
       )
     }
   }
