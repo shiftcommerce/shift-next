@@ -1,5 +1,6 @@
 // actionTypes
 import * as types from '../actions/action-types'
+import t from 'typy'
 
 const addressFormFields = {
   country_code: '',
@@ -172,7 +173,7 @@ export default function setCheckout (state = checkoutInitialState, action) {
         last_name: address.last_name,
         line_1: address.address_line_1,
         line_2: address.address_line_2,
-        primary_phone: address.meta_attributes.phone_number.value,
+        primary_phone: t(address, 'meta_attributes.phone_number.value').safeObject || '',
         state: address.state || '',
         zipcode: address.postcode,
         preferred_shipping: address.preferred_shipping,
@@ -193,7 +194,7 @@ export default function setCheckout (state = checkoutInitialState, action) {
         last_name: action.address.last_name,
         line_1: action.address.address_line_1,
         line_2: action.address.address_line_2,
-        primary_phone: action.address.meta_attributes.phone_number.value,
+        primary_phone: t(action.address, 'meta_attributes.phone_number.value').safeObject || '',
         state: action.address.state || '',
         zipcode: action.address.postcode,
         preferred_shipping: action.address.preferred_shipping,
