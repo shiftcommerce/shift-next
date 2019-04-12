@@ -1,5 +1,5 @@
 // Libraries
-import React from 'react'
+import React, { Fragment } from 'react'
 
 // Components
 import { buildTemplateComponentsManifest } from '@shiftcommerce/shift-react-components'
@@ -22,8 +22,8 @@ export default function renderComponents (componentsData) {
   }
 
   return (
-    <>
+    <Fragment>
       { components }
-    </>
+    </Fragment>
   )
 }
