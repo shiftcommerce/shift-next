@@ -9,7 +9,7 @@ import { buildTemplateComponentsManifest } from '@shiftcommerce/shift-react-comp
 
 /**
  * Get the relevant templates for the page components
- * @param  {Array}    components
+ * @param  {Array}    pageComponents
  * @return {String} - HTML markup for the component
  */
 export default function renderComponents (pageComponents) {
