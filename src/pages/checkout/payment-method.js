@@ -119,15 +119,13 @@ export class PaymentMethodPage extends Component {
     // handle basic order details - PayPal order ID + purchase units reference id
     this.handlePayPalOrderDetails(order)
     // handle parsing + setting of billing address in state + creation
-    console.log({payerPhoneNumber})
-    console.log({order})
     this.handleBillingAddressCreation(
       this.parsePayPalAddress(
         payer.name.given_name,
         payer.name.surname,
         payerEmail,
         payerPhoneNumber,
-        shippingDetails.address
+        payer.address
       )
     ).then(() => {
       // handle parsing + setting of shipping address in state + creation

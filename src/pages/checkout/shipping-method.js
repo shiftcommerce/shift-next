@@ -20,7 +20,7 @@ import {
 import {
   AddressFormSummary,
   Loading,
-  PaymentMethodsSummary,
+  PaymentMethodSummary,
   ShippingMethods
 } from '@shiftcommerce/shift-react-components'
 
@@ -104,7 +104,8 @@ export class ShippingMethodPage extends Component {
     this.setState({ loading: true })
     // update PayPal order total
     return this.props.dispatch(updatePayPalOrderTotal(this.state.payPalOrderID, this.state.purchaseUnitsReferenceID, this.props.cart)).then(() => {
-      if (!this.props.order.paymentResponseErrors.error.data) {
+      const paymentError = (this.props.order.paymentResponseErrors.error && this.props.order.paymentResponseErrors.error.data)
+      if (!paymentError) {
         // redirect to next step
         this.nextSection()
       }
@@ -156,7 +157,7 @@ export class ShippingMethodPage extends Component {
 
     return (
       <>
-        <PaymentMethodsSummary
+        <PaymentMethodSummary
           onClick={() => Router.push('/checkout/payment-method')}
           paymentMethod={this.state.paymentMethod}
           title={'Payment Method'}
