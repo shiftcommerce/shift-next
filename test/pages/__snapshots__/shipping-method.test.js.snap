@@ -53,48 +53,51 @@ exports[`render shipping methods as expected 1`] = `
     showEditButton={true}
     title="Payment Method"
   >
-    <div
-      className="c-payment-methods__summary"
+    <payment_method_header_PaymentMethodHeader
+      collapsed={true}
+      onClick={[Function]}
+      showEditButton={true}
+      title="Payment"
     >
-      <PaymentMethodHeader
-        collapsed={true}
-        onClick={[Function]}
-        showEditButton={true}
-        title="Payment Method"
-      >
-        <div
-          className="o-form__header  c-payment-method__header"
-        >
-          <h2>
-            Payment Method
-          </h2>
-          <Button
-            aria-label="Edit your payment method"
-            className="o-button-edit"
-            label="Edit"
-            onClick={[Function]}
-            status="secondary"
-          >
-            <button
-              aria-label="Edit your payment method"
-              className="o-button-edit o-button o-button--secondary"
-              disabled={false}
-              onClick={[Function]}
-              role="button"
-              tabIndex="0"
-            >
-              Edit
-            </button>
-          </Button>
-        </div>
-      </PaymentMethodHeader>
       <div
-        className="c-payment-methods__summary-information"
+        className="o-form__header  c-payment-method__header"
       >
-        <p>
-          Credit/Debit Card
-        </p>
+        <h2>
+          Payment
+        </h2>
+        <Button
+          aria-label="Edit your payment method"
+          className="o-button-edit"
+          label="Edit"
+          onClick={[Function]}
+          status="secondary"
+        >
+          <button
+            aria-label="Edit your payment method"
+            className="o-button-edit o-button o-button--secondary"
+            disabled={false}
+            onClick={[Function]}
+            role="button"
+            tabIndex="0"
+          >
+            Edit
+          </button>
+        </Button>
       </div>
+    </payment_method_header_PaymentMethodHeader>
+    <div
+      className="c-payment-method__summary"
+    >
+      <p>
+        <span
+          className="u-bold"
+        >
+           Payment Mode: 
+        </span>
+        <span>
+          Credit/Debit Card
+        </span>
+      </p>
     </div>
   </PaymentMethodSummary>
   <div
@@ -275,48 +278,51 @@ exports[`renders line item quantity as expected 1`] = `
     showEditButton={true}
     title="Payment Method"
   >
-    <div
-      className="c-payment-methods__summary"
+    <payment_method_header_PaymentMethodHeader
+      collapsed={true}
+      onClick={[Function]}
+      showEditButton={true}
+      title="Payment"
     >
-      <PaymentMethodHeader
-        collapsed={true}
-        onClick={[Function]}
-        showEditButton={true}
-        title="Payment Method"
-      >
-        <div
-          className="o-form__header  c-payment-method__header"
-        >
-          <h2>
-            Payment Method
-          </h2>
-          <Button
-            aria-label="Edit your payment method"
-            className="o-button-edit"
-            label="Edit"
-            onClick={[Function]}
-            status="secondary"
-          >
-            <button
-              aria-label="Edit your payment method"
-              className="o-button-edit o-button o-button--secondary"
-              disabled={false}
-              onClick={[Function]}
-              role="button"
-              tabIndex="0"
-            >
-              Edit
-            </button>
-          </Button>
-        </div>
-      </PaymentMethodHeader>
       <div
-        className="c-payment-methods__summary-information"
+        className="o-form__header  c-payment-method__header"
       >
-        <p>
-          Credit/Debit Card
-        </p>
+        <h2>
+          Payment
+        </h2>
+        <Button
+          aria-label="Edit your payment method"
+          className="o-button-edit"
+          label="Edit"
+          onClick={[Function]}
+          status="secondary"
+        >
+          <button
+            aria-label="Edit your payment method"
+            className="o-button-edit o-button o-button--secondary"
+            disabled={false}
+            onClick={[Function]}
+            role="button"
+            tabIndex="0"
+          >
+            Edit
+          </button>
+        </Button>
       </div>
+    </payment_method_header_PaymentMethodHeader>
+    <div
+      className="c-payment-method__summary"
+    >
+      <p>
+        <span
+          className="u-bold"
+        >
+           Payment Mode: 
+        </span>
+        <span>
+          Credit/Debit Card
+        </span>
+      </p>
     </div>
   </PaymentMethodSummary>
   <div
