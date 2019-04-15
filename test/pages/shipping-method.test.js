@@ -184,7 +184,7 @@ test('render shipping methods as expected', async () => {
   expect(wrapper.find('Loading')).toBeTruthy()
   expect(wrapper).toMatchSnapshot()
 
-  await wrapper.instance().componentDidMount()
+  // await wrapper.instance().componentDidMount()
 
   expect(wrapper).toIncludeText('1 item')
   expect(wrapper).toIncludeText('Standard shipping')
@@ -239,6 +239,7 @@ test('renders line item quantity as expected', async () => {
   expect(wrapper).toIncludeText('0 items')
 
   fetchShippingSpy.mockRestore()
+  cookieSpy.mockRestore()
 })
 
 test('preselects first shipping method when fetching shipping methods and none is set', async () => {

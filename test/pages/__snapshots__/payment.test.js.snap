@@ -2,7 +2,7 @@
 
 exports[`render() renders correct checkout components 1`] = `
 <Fragment>
-  <PaymentMethodsSummary
+  <PaymentMethodSummary
     onClick={[Function]}
     showEditButton={true}
     title="Payment Method"
@@ -22,7 +22,7 @@ exports[`render() renders correct checkout components 1`] = `
   <ShippingMethodsSummary
     onClick={[Function]}
   />
-  <PaymentMethod
+  <Payment
     addressBook={Array []}
     addressFormDisplayed={[Function]}
     autoFillAddress={[Function]}

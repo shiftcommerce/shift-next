@@ -11,9 +11,9 @@ import InputFieldValidator from '../lib/input-field-validator'
 import {
   AddressFormSummary,
   Loading,
-  PaymentMethod,
+  Payment,
+  PaymentSummary,
   PaymentMethodSummary,
-  PaymentMethodsSummary,
   ShippingMethodsSummary
 } from '@shiftcommerce/shift-react-components'
 
@@ -342,7 +342,7 @@ class CheckoutPaymentPage extends Component {
     const { cart, order, thirdPartyPaymentMethods } = this.props
 
     return (
-      <PaymentMethodSummary
+      <PaymentSummary
         billingAddress={cart.billing_address}
         paymentMethod={this.state.paymentMethod}
         showEditButton={!thirdPartyPaymentMethods.includes(this.state.paymentMethod)}
@@ -356,7 +356,7 @@ class CheckoutPaymentPage extends Component {
     const { checkout: { addressBook }, loggedIn } = this.props
 
     return (
-      <PaymentMethod
+      <Payment
         addingNewAddress={this.state.addingNewAddress}
         addressBook={addressBook}
         addressFormDisplayed={this.addressFormDisplayed}
@@ -391,7 +391,7 @@ class CheckoutPaymentPage extends Component {
 
     return (
       <>
-        <PaymentMethodsSummary
+        <PaymentMethodSummary
           onClick={() => Router.push('/checkout/payment-method')}
           paymentMethod={this.state.paymentMethod}
           title={'Payment Method'}

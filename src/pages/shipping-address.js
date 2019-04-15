@@ -12,7 +12,7 @@ import {
   AddressFormHeader,
   Button,
   CheckoutAddressForm,
-  PaymentMethodsSummary
+  PaymentMethodSummary
 } from '@shiftcommerce/shift-react-components'
 
 // Actions
@@ -207,7 +207,7 @@ export class ShippingAddressPage extends Component {
 
     return (
       <>
-        <PaymentMethodsSummary
+        <PaymentMethodSummary
           onClick={() => Router.push('/checkout/payment-method')}
           paymentMethod={this.state.paymentMethod}
           title={'Payment Method'}

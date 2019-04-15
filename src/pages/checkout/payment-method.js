@@ -17,7 +17,7 @@ import {
 } from '../../actions/cart-actions'
 
 // Components
-import { PaymentMethods, Loading } from '@shiftcommerce/shift-react-components'
+import { PaymentMethod, Loading } from '@shiftcommerce/shift-react-components'
 
 export class PaymentMethodPage extends Component {
   constructor (props) {
@@ -119,13 +119,15 @@ export class PaymentMethodPage extends Component {
     // handle basic order details - PayPal order ID + purchase units reference id
     this.handlePayPalOrderDetails(order)
     // handle parsing + setting of billing address in state + creation
+    console.log({payerPhoneNumber})
+    console.log({order})
     this.handleBillingAddressCreation(
       this.parsePayPalAddress(
         payer.name.given_name,
         payer.name.surname,
         payerEmail,
         payerPhoneNumber,
-        payer.address
+        shippingDetails.address
       )
     ).then(() => {
       // handle parsing + setting of shipping address in state + creation
@@ -234,7 +236,7 @@ export class PaymentMethodPage extends Component {
   render () {
     return (
       <>
-        { this.state.loading ? <Loading /> : <PaymentMethods
+        { this.state.loading ? <Loading /> : <PaymentMethod
           nextSection={this.nextSection}
           paypalCreateOrder={this.payPalCreateOrder}
           paypalOnApprove={this.payPalOnApprove}
