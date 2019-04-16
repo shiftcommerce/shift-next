@@ -346,6 +346,7 @@ class CheckoutPaymentPage extends Component {
         billingAddress={cart.billing_address}
         paymentMethod={this.state.paymentMethod}
         showEditButton={!thirdPartyPaymentMethods.includes(this.state.paymentMethod)}
+        title={'Payment'}
         onClick={this.showPayment}
         withErrors={!!order.paymentError}
       />

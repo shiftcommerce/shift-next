@@ -1,5 +1,5 @@
 // Libraries
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import Router from 'next/router'
 import Cookies from 'js-cookie'
 
@@ -156,7 +156,7 @@ export class ShippingMethodPage extends Component {
     if (!cart.shipping_address) return null
 
     return (
-      <>
+      <div>
         <PaymentMethodSummary
           onClick={() => Router.push('/checkout/payment-method')}
           paymentMethod={this.state.paymentMethod}
@@ -184,7 +184,7 @@ export class ShippingMethodPage extends Component {
           shippingMethods={this.state.shippingMethods}
           isThirdPartyPayment={thirdPartyPaymentMethods.includes(this.state.paymentMethod)}
         /> }
-      </>
+      </div>
     )
   }
 }
