@@ -22,7 +22,7 @@ exports[`render() renders correct checkout components 1`] = `
   <ShippingMethodsSummary
     onClick={[Function]}
   />
-  <Component
+  <Payment
     addressBook={Array []}
     addressFormDisplayed={[Function]}
     autoFillAddress={[Function]}

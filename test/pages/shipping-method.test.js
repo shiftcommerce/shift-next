@@ -118,8 +118,7 @@ test('renders correct checkout components', () => {
       collapsed: true,
       completed: true,
       showEditButton: true
-    },
-    paymentMethod: 'PayPal'
+    }
   }
 
   // Act
@@ -129,6 +128,7 @@ test('renders correct checkout components', () => {
 
   // Assert
   expect(wrapper).toMatchSnapshot()
+  expect(wrapper.find('PaymentMethodSummary').length).toEqual(1)
   expect(wrapper.find('AddressFormSummary').length).toEqual(1)
   // ShippingMethods component doesn't render as there aren't any
   // shippingMethods returned from the API yet
@@ -184,7 +184,7 @@ test('render shipping methods as expected', async () => {
   expect(wrapper.find('Loading')).toBeTruthy()
   expect(wrapper).toMatchSnapshot()
 
-  // await wrapper.instance().componentDidMount()
+  await wrapper.instance().componentDidMount()
 
   expect(wrapper).toIncludeText('1 item')
   expect(wrapper).toIncludeText('Standard shipping')
