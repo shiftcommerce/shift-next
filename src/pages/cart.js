@@ -1,5 +1,5 @@
 // Libraries
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 
 // Lib
 import { suffixWithStoreName } from '../lib/suffix-with-store-name'
@@ -104,7 +104,7 @@ class CartPage extends Component {
       )
     } else {
       return (
-        <>
+        <Fragment>
           <CartTableGridItem item='a'>
             <LineItems
               deleteItem={this.deleteItem}
@@ -125,14 +125,37 @@ class CartPage extends Component {
             />
             <CartTablePaymentIcons />
           </CartTableGridItem>
-        </>
+        </Fragment>
       )
     }
   }
 
-  render () {
+  /**
+   * Render the cart page when loaded. This method is seperate to the main
+   * render method so it can be overridden, without overriding the loading and
+   * error parts of the render method
+   * @return {String} - HTML markup for the component
+   */
+  renderLoaded () {
     const { cart } = this.props
-    const { loading, cheapestShipping } = this.state
+    const { cheapestShipping } = this.state
+
+    return (
+      <CartTable>
+        <CartTableHeader
+          cart={cart}
+          shippingMethod={cart.shipping_method || cheapestShipping}
+          breadcrumb={<Breadcrumb />}
+        />
+        <CartTableGrid>
+          { this.renderCartTableGrid(cart) }
+        </CartTableGrid>
+      </CartTable>
+    )
+  }
+
+  render () {
+    const { loading } = this.state
 
     if (loading) {
       return (
@@ -140,21 +163,12 @@ class CartPage extends Component {
       )
     } else {
       return (
-        <>
+        <Fragment>
           <this.Head>
             <title>{ suffixWithStoreName('Your Shopping Cart') }</title>
           </this.Head>
-          <CartTable>
-            <CartTableHeader
-              cart={cart}
-              shippingMethod={cart.shipping_method || cheapestShipping}
-              breadcrumb={<Breadcrumb />}
-            />
-            <CartTableGrid>
-              { this.renderCartTableGrid(cart) }
-            </CartTableGrid>
-          </CartTable>
-        </>
+          { this.renderLoaded() }
+        </Fragment>
       )
     }
   }
