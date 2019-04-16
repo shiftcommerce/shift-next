@@ -21,7 +21,6 @@ exports[`render shipping methods as expected 1`] = `
         "last_name": "Last Name",
         "line_1": "Test House",
         "primary_phone": "01234567890",
-        "showEditButton": true,
         "state": "Yorkshire",
         "zipcode": "TEST POSTCODE",
       },
@@ -35,7 +34,6 @@ exports[`render shipping methods as expected 1`] = `
       "shippingAddress": Object {
         "collapsed": true,
         "completed": true,
-        "showEditButton": true,
       },
       "shippingMethod": Object {},
     }
@@ -234,7 +232,6 @@ exports[`renders line item quantity as expected 1`] = `
         "last_name": "Last Name",
         "line_1": "Test House",
         "primary_phone": "01234567890",
-        "showEditButton": true,
         "state": "Yorkshire",
         "zipcode": "TEST POSTCODE",
       },
@@ -256,7 +253,6 @@ exports[`renders line item quantity as expected 1`] = `
       "shippingAddress": Object {
         "collapsed": true,
         "completed": true,
-        "showEditButton": true,
       },
       "shippingMethod": Object {
         "collapsed": false,

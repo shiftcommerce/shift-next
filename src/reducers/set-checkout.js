@@ -27,7 +27,6 @@ const formFields = {
   collapsed: false,
   completed: false,
   selected: false,
-  showEditButton: true,
   errors: {},
   ...addressFormFields
 }
@@ -120,8 +119,7 @@ export default function setCheckout (state = checkoutInitialState, action) {
         country_code: payPalBillingAddress.country_code,
         primary_phone: payPalBillingAddress.primary_phone,
         collapsed: payPalBillingAddress.collapsed,
-        completed: payPalBillingAddress.completed,
-        showEditButton: payPalBillingAddress.showEditButton
+        completed: payPalBillingAddress.completed
       }
       return newState
 
@@ -139,8 +137,7 @@ export default function setCheckout (state = checkoutInitialState, action) {
         country_code: payPalShippingAddress.country_code,
         primary_phone: payPalShippingAddress.primary_phone,
         collapsed: payPalShippingAddress.collapsed,
-        completed: payPalShippingAddress.completed,
-        showEditButton: payPalShippingAddress.showEditButton
+        completed: payPalShippingAddress.completed
       }
       return newState
 

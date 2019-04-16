@@ -199,7 +199,7 @@ export class ShippingAddressPage extends Component {
   }
 
   render () {
-    const { checkout: { addressBook }, thirdPartyPaymentMethods } = this.props
+    const { checkout: { addressBook } } = this.props
     const hasLineItems = this.props.cart.line_items_count > 0
 
     // Don't render anything server-side or when loading data
@@ -211,7 +211,7 @@ export class ShippingAddressPage extends Component {
           onClick={() => Router.push('/checkout/payment-method')}
           paymentMethod={this.state.paymentMethod}
           title={'Payment Method'}
-          showEditButton={!thirdPartyPaymentMethods.includes(this.state.paymentMethod)}
+          showEditButton={true}
         />
         <div className='c-checkout__addressform'>
           <div className='o-form__address'>
