@@ -50,6 +50,11 @@ class LoginPage extends Component {
       })
   }
 
+  /**
+  * Render the login page when loaded. This method is seperate to the main
+  * render method so it can be overridden, without overriding the page title.
+  * @return {String} - HTML markup for the component
+  */
   renderLoaded () {
     return (
       <div className='c-login'>
