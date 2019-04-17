@@ -1,6 +1,6 @@
 {
   "name": "@shiftcommerce/shift-next",
-  "version": "0.8.3",
+  "version": "0.8.4",
   "description": "",
   "main": "dist/bundle.js",
   "repository": "https://github.com/shiftcommerce/shift-next.git",
