@@ -27,7 +27,7 @@ const slugRequest = (slug) => {
 }
 
 class Slug extends Component {
-  static async getInitialProps ({ query }) {
+  static async getInitialProps ({ query, res }) {
     const request = slugRequest(query.slug)
     const response = await new ApiClient().read(request.endpoint, request.query)
 
@@ -39,8 +39,19 @@ class Slug extends Component {
       url = '/'
     }
 
+    if (typeof window === 'undefined') {
+      res.redirect(url)
+      res.end()
+      return {}
+    }
+
     Router.push(`/${resourceType.toLowerCase()}?id=${resourceId}`, url)
+
     return {}
+  }
+
+  render () {
+    return null
   }
 }
 
