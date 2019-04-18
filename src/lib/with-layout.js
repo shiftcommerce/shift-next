@@ -84,11 +84,11 @@ export default function withLayout (Component) {
       this.setState({ toggleShowClass: !this.state.toggleShowClass })
     }
 
-    toggleMiniBag(displayed) {
+    toggleMiniBag (displayed) {
       this.props.dispatch(toggleMiniBag(displayed))
     }
 
-    deleteItem(event) {
+    deleteItem (event) {
       this.props.dispatch(deleteLineItem(event.target.dataset.id))
     }
 
