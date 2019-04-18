@@ -39,6 +39,7 @@ import shiftOrderRoutes from './routes/order-routes.js'
 // Lib
 import Config from './lib/config'
 import { algoliaReduxWrapper, reduxWrapper } from './lib/algolia-redux-wrapper'
+import renderComponents from './lib/render-components'
 import { getSessionExpiryTime } from './lib/session'
 
 // Shift-api Config
@@ -126,6 +127,7 @@ module.exports = {
 
   algoliaReduxWrapper,
   reduxWrapper,
+  renderComponents,
   getSessionExpiryTime,
   shiftNextConfig: Config
 }

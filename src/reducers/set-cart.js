@@ -16,7 +16,7 @@ export default function setCart (state = initialState, action) {
       return {}
 
     case types.TOGGLE_MINIBAG:
-      return Object.assign({}, state, { miniBagDisplayed: !state.miniBagDisplayed })
+      return Object.assign({}, state, { miniBagDisplayed: action.displayed })
 
     default:
       return newState
