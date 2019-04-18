@@ -3,7 +3,7 @@
 # Shift Next
 ## Purpose
 
-This Library can be used to build a SHIFT-powered ecommerce front-end site with Next.js. It provides a collection of pages and backend endpoints. Pages are set up with algolia and redux and can be customised to fit different front-end designs. The backend endpoints go to the SHIFT-platform. All you need to do is change some .env variables to work with the SHIFT platform and you will have a working front-end.
+This Library can be used to build a SHIFT-powered ecommerce front-end site with Next.js. It provides a collection of pages and backend endpoints. Pages are set up with algolia and redux and can be customised to fit different front-end designs. The backend endpoints go to the SHIFT-platform.
 
 
 ## Getting started
