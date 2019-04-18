@@ -123,7 +123,6 @@ export default function withLayout (Component) {
           loggedIn={loggedIn}
           deleteItem={this.deleteItem}
           toggleMiniBag={this.toggleMiniBag}
-          minibagDisplayed={cart.minibagDisplayed}
           onItemQuantityUpdated={this.onItemQuantityUpdated}
         >
           <Component {...otherProps} />
