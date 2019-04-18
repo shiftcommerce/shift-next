@@ -47,13 +47,9 @@ class ProductPage extends Component {
 
   addToBag () {
     const { variantId, quantity } = this.state
-    this.props.dispatch(addToCart(variantId, parseInt(quantity)))
-      .then(success => {
-        if (success) {
-          this.props.dispatch(toggleMiniBag())
-            .then(setTimeout(() => this.props.dispatch(toggleMiniBag()), 4000))
-        }
-      })
+    this.props.dispatch(addToCart(variantId, parseInt(quantity))).then(success => {
+      if (success) this.props.dispatch(toggleMiniBag(true))
+    })
   }
 
   changeVariant (e) {

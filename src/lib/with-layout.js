@@ -10,7 +10,7 @@ import InitialPropsDelegator from './initial-props-delegator'
 import { Layout } from '@shiftcommerce/shift-react-components'
 
 // Actions
-import { readCart, deleteLineItem } from '../actions/cart-actions'
+import { readCart, deleteLineItem, toggleMiniBag, updateLineItemQuantity } from '../actions/cart-actions'
 
 import { connect } from 'react-redux'
 import { withRouter } from 'next/router'
@@ -45,8 +45,7 @@ export default function withLayout (Component) {
 
       this.state = {
         shrunk: false,
-        toggleShowClass: false,
-        minibagDisplayed: false
+        toggleShowClass: false
       }
 
       this.handleScroll = this.handleScroll.bind(this)
@@ -54,6 +53,7 @@ export default function withLayout (Component) {
       this.onCategoryFilterCleared = this.onCategoryFilterCleared.bind(this)
       this.deleteItem = this.deleteItem.bind(this)
       this.toggleMiniBag = this.toggleMiniBag.bind(this)
+      this.onItemQuantityUpdated = this.onItemQuantityUpdated.bind(this)
     }
 
     componentDidMount () {
@@ -84,12 +84,16 @@ export default function withLayout (Component) {
       this.setState({ toggleShowClass: !this.state.toggleShowClass })
     }
 
-    toggleMiniBag() {
-      this.setState({ minibagDisplayed: !this.state.minibagDisplayed })
+    toggleMiniBag (displayed) {
+      this.props.dispatch(toggleMiniBag(displayed))
     }
 
-    deleteItem(event) {
+    deleteItem (event) {
       this.props.dispatch(deleteLineItem(event.target.dataset.id))
+    }
+
+    onItemQuantityUpdated (event) {
+      this.props.dispatch(updateLineItemQuantity(event.target.dataset.id, parseInt(event.target.value, 10)))
     }
 
     onCategoryFilterCleared () {
@@ -119,7 +123,7 @@ export default function withLayout (Component) {
           loggedIn={loggedIn}
           deleteItem={this.deleteItem}
           toggleMiniBag={this.toggleMiniBag}
-          minibagDisplayed={cart.minibagDisplayed || this.state.minibagDisplayed}
+          onItemQuantityUpdated={this.onItemQuantityUpdated}
         >
           <Component {...otherProps} />
         </AppLayout>

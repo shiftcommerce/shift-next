@@ -1,5 +1,5 @@
 // Libraries
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import Link from 'next/link'
 import Router from 'next/router'
 
@@ -50,27 +50,38 @@ class LoginPage extends Component {
       })
   }
 
+  /**
+  * Render the login page when loaded. This method is seperate to the main
+  * render method so it can be overridden, without overriding the page title.
+  * @return {String} - HTML markup for the component
+  */
+  renderLoaded () {
+    return (
+      <div className='c-login'>
+        <h1 className='c-login__title'>Login</h1>
+        <p className='c-login__caption'>Please enter your details below.</p>
+        <LoginForm {...this.props}
+          title='Login'
+          formName='loginForm'
+          handleSubmit={this.handleSubmit}
+        />
+        <a href='/account/forgotpassword' className='c-login__anchor'>Reset Password?</a>
+        <p className='c-login__caption'>Don't have an account?</p>
+        <Link href='/account/register'>
+          <a className='c-login__register-button'>create new account</a>
+        </Link>
+      </div>
+    )
+  }
+
   render () {
     return (
-      <>
+      <Fragment>
         <this.Head>
           <title>{ suffixWithStoreName('Login') }</title>
         </this.Head>
-        <div className='c-login'>
-          <h1 className='c-login__title'>Login</h1>
-          <p className='c-login__caption'>Please enter your details below.</p>
-          <LoginForm {...this.props}
-            title='Login'
-            formName='loginForm'
-            handleSubmit={this.handleSubmit}
-          />
-          <a href='/account/forgotpassword' className='c-login__anchor'>Reset Password?</a>
-          <p className='c-login__caption'>Don't have an account?</p>
-          <Link href='/account/register'>
-            <a className='c-login__register-button'>create new account</a>
-          </Link>
-        </div>
-      </>
+        { this.renderLoaded() }
+      </Fragment>
     )
   }
 }
