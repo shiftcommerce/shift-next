@@ -3,7 +3,7 @@
 # Shift Next
 ## Purpose
 
-This repo holds everything related to next js, this is meant to be used with the reference site. Pages are set up with algolia and redux. This repo also holds all express route handlers for calls made by shift-node-api to the shift platform. All you need to do is change some .env variables to work with the shift platform and you will have a working front-end.
+This Library can be used to build a SHIFT-powered ecommerce front-end site with Next.js. It provides a collection of pages and backend endpoints. Pages are set up with algolia and redux and can be customised to fit different front-end designs. The backend endpoints go to the SHIFT-platform. All you need to do is change some .env variables to work with the SHIFT platform and you will have a working front-end.
 
 
 ## Getting started
