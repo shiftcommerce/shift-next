@@ -20,7 +20,7 @@ module.exports = {
       if (!signedIn) {
         setUserToLoggedIn(req, res)
       }
-      return res.redirect('/checkout/payment')
+      return res.redirect('/checkout/payment-method')
     }
 
     // If the customer is not in the session, go to the next handler

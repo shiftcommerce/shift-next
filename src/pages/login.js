@@ -35,7 +35,7 @@ class LoginPage extends Component {
     const { account: { loggedIn } } = reduxStore.getState()
     // Determine where to redirect user if already logged in
     if (loggedIn && pathname === '/checkout/login') {
-      Router.push('/checkout/payment')
+      Router.push('/checkout/payment-method')
     } else if (loggedIn) {
       Router.push('/account/myaccount')
     }
@@ -50,7 +50,7 @@ class LoginPage extends Component {
             setCookie()
             // Determine where to redirect user if successful log in
             if (window.location.pathname === '/checkout/login') {
-              Router.push('/checkout/payment')
+              Router.push('/checkout/payment-method')
             } else Router.push('/account/myaccount')
           })
         }
