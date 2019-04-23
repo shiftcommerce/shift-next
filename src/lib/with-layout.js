@@ -81,7 +81,7 @@ export default function withLayout (Component) {
     }
 
     toggleDropDown () {
-      this.setState({ toggleShowClass: !this.state.toggleShowClass })
+      this.setState({ toggleShowClass: true })
     }
 
     toggleMiniBag() {
