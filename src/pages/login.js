@@ -33,7 +33,7 @@ class LoginPage extends Component {
 
   static async getInitialProps ({ reduxStore, pathname }) {
     const { account: { loggedIn } } = reduxStore.getState()
-    // Determine where to redirect user
+    // Determine where to redirect user if already logged in
     if (loggedIn && pathname === '/checkout/login') {
       Router.push('/checkout/payment')
     } else if (loggedIn) {
@@ -48,6 +48,7 @@ class LoginPage extends Component {
         if (success) {
           this.props.dispatch(fetchAccountDetails()).then(() => {
             setCookie()
+            // Determine where to redirect user if successful log in
             if (window.location.pathname === '/checkout/login') {
               Router.push('/checkout/payment')
             } else Router.push('/account/myaccount')
