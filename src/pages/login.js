@@ -6,6 +6,7 @@ import Router from 'next/router'
 // Libs
 import { setCookie } from '../lib/set-cookie'
 import { suffixWithStoreName } from '../lib/suffix-with-store-name'
+import Config from '../lib/config'
 
 // Actions
 import { createLogin } from '../actions/login-actions'
@@ -13,9 +14,6 @@ import { clearErrors, fetchAccountDetails } from '../actions/account-actions'
 
 // Components
 import { LoginForm } from '@shiftcommerce/shift-react-components'
-
-// Config
-import Config from '../lib/config'
 
 class LoginPage extends Component {
   constructor () {
