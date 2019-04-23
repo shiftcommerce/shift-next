@@ -31,10 +31,20 @@ class LoginPage extends Component {
     }
   }
 
-  static async getInitialProps ({ reduxStore }) {
-    // Redirect to myaccount if already logged in
+  static async getInitialProps ({ reduxStore, pathname }) {
     const { account: { loggedIn } } = reduxStore.getState()
-    if (loggedIn) Router.push('/account/myaccount')
+    console.log(reduxStore.getState())
+    console.log(pathname)
+    console.log(loggedIn)
+
+    // Determine where to redirect user
+    if (loggedIn && pathname === '/checkout/login') {
+      console.log('logged in and pathname')
+      Router.push('/checkout/payment')
+    } else if (loggedIn) {
+      console.log('logged in')
+      Router.push('/account/myaccount')
+    }
     return {}
   }
 
@@ -44,7 +54,9 @@ class LoginPage extends Component {
         if (success) {
           this.props.dispatch(fetchAccountDetails()).then(() => {
             setCookie()
-            Router.push('/account/myaccount')
+            if (window.location.pathname === '/checkout/login') {
+              Router.push('/checkout/payment')
+            } else Router.push('/account/myaccount')
           })
         }
       })
