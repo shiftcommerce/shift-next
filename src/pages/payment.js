@@ -378,6 +378,7 @@ class CheckoutPaymentPage extends Component {
         onNewAddress={this.onNewAddress}
         onBookAddressSelected={this.onBookAddressSelected}
         setCardErrors={this.setCardErrors}
+        headerTitle={'Payment Details'}
         {...this.props}
       />
     )

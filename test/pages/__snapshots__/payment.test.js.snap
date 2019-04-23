@@ -55,6 +55,7 @@ exports[`render() renders correct checkout components 1`] = `
       ]
     }
     formName="paymentMethod"
+    headerTitle="Payment Details"
     nextSection={[Function]}
     nextStepAvailable={[Function]}
     onAddressDeleted={[Function]}
