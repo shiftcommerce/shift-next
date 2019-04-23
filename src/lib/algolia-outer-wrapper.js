@@ -74,10 +74,15 @@ export default function algoliaOuterWrapper (NextWrapper, Page) {
 
       // Default implementation
       clearTimeout(this.debouncedSetState)
-      this.debouncedSetState = setTimeout(() => {
-        const href = this.searchStateToUrl(searchState)
-        Router.push(href, href)
-      }, this.updateAfter())
+
+      // Ignore state changes when query is empty
+      if (searchState.query) {
+        this.debouncedSetState = setTimeout(() => {
+          const href = this.searchStateToUrl(searchState)
+          Router.push(href, href)
+        }, this.updateAfter())
+      }
+      
       this.setState({ searchState })
     }
 
