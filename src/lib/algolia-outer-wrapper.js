@@ -67,21 +67,23 @@ export default function algoliaOuterWrapper (NextWrapper, Page) {
     }
 
     onSearchStateChange (searchState) {
+      console.log('onSearchStateChange')
       // Delegate to custom implementation if the page provides one
       if (Page.onSearchStateChange) {
         return Page.onSearchStateChange.call(this, searchState)
       }
 
       // Default implementation
-      
-      // Ignore state changes when query is empty
-      if (!searchState.query) return
-      
       clearTimeout(this.debouncedSetState)
-      this.debouncedSetState = setTimeout(() => {
-        const href = this.searchStateToUrl(searchState)
-        Router.push(href, href)
-      }, this.updateAfter())
+
+      // Ignore state changes when query is empty
+      if (searchState.query) {
+        this.debouncedSetState = setTimeout(() => {
+          const href = this.searchStateToUrl(searchState)
+          Router.push(href, href)
+        }, this.updateAfter())
+      }
+      
       this.setState({ searchState })
     }
 
