@@ -48,7 +48,7 @@ class LoginPage extends Component {
         if (success) {
           this.props.dispatch(fetchAccountDetails()).then(() => {
             setCookie()
-            // Determine where to redirect user if successful log in
+            // Determine where to redirect user after successful log in
             if (window.location.pathname === '/checkout/login') {
               Router.push('/checkout/payment-method')
             } else Router.push('/account/myaccount')

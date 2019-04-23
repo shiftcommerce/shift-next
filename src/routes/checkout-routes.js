@@ -12,7 +12,7 @@ module.exports = {
     const { customerId } = req.session
     const { signedIn } = req.cookies
 
-    // If there is a customer ID, redirect to the myaccount page
+    // If there is a customer ID, redirect to payment-method page
     if (customerId) {
       // If there is a customer ID (in the session), but the customer isn't
       // signed in, update the session and update the `signedIn` cookie in the
