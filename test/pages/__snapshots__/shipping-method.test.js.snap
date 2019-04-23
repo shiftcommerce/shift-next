@@ -111,6 +111,7 @@ exports[`render shipping methods as expected 1`] = `
           showEditButton={true}
         >
           <AddressFormHeader
+            collapsed={true}
             onClick={[Function]}
             showEditButton={true}
             title="Shipping Address"
@@ -125,6 +126,22 @@ exports[`render shipping methods as expected 1`] = `
                   Shipping Address
                 </h2>
               </div>
+              <Button
+                className="o-button-edit"
+                label="Edit"
+                onClick={[Function]}
+                status="secondary"
+              >
+                <button
+                  className="o-button-edit o-button o-button--secondary"
+                  disabled={false}
+                  onClick={[Function]}
+                  role="button"
+                  tabIndex="0"
+                >
+                  Edit
+                </button>
+              </Button>
             </div>
           </AddressFormHeader>
           <div
@@ -318,6 +335,7 @@ exports[`renders line item quantity as expected 1`] = `
           showEditButton={true}
         >
           <AddressFormHeader
+            collapsed={true}
             onClick={[Function]}
             showEditButton={true}
             title="Shipping Address"
@@ -332,6 +350,22 @@ exports[`renders line item quantity as expected 1`] = `
                   Shipping Address
                 </h2>
               </div>
+              <Button
+                className="o-button-edit"
+                label="Edit"
+                onClick={[Function]}
+                status="secondary"
+              >
+                <button
+                  className="o-button-edit o-button o-button--secondary"
+                  disabled={false}
+                  onClick={[Function]}
+                  role="button"
+                  tabIndex="0"
+                >
+                  Edit
+                </button>
+              </Button>
             </div>
           </AddressFormHeader>
           <div
