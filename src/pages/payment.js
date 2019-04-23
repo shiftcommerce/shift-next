@@ -346,7 +346,7 @@ class CheckoutPaymentPage extends Component {
         billingAddress={cart.billing_address}
         paymentMethod={this.state.paymentMethod}
         showEditButton={!thirdPartyPaymentMethods.includes(this.state.paymentMethod)}
-        title={'Payment'}
+        headerTitle={'Payment Details'}
         onClick={this.showPayment}
         withErrors={!!order.paymentError}
       />
@@ -395,7 +395,7 @@ class CheckoutPaymentPage extends Component {
         <PaymentMethodSummary
           onClick={() => Router.push('/checkout/payment-method')}
           paymentMethod={this.state.paymentMethod}
-          title={'Payment Method'}
+          headerTitle={'Payment Method'}
           showEditButton={true}
         />
         <div className='c-checkout__addressform'>
@@ -408,12 +408,14 @@ class CheckoutPaymentPage extends Component {
               onClick={() => Router.push('/checkout/shipping-address')}
               postcode={shipping_address.postcode}
               showEditButton={!thirdPartyPaymentMethods.includes(this.state.paymentMethod)}
+              headerTitle={'Shipping Address'}
             />
           </div>
         </div>
         <ShippingMethodsSummary
           onClick={() => Router.push('/checkout/shipping-method')}
           shippingMethod={cart.shipping_method}
+          headerTitle={'Shipping Method'}
         />
         { this.state.reviewStep ? this.renderPaymentSummary() : this.renderPaymentForm() }
       </>

@@ -3,9 +3,9 @@
 exports[`renders address form components 1`] = `
 <Fragment>
   <PaymentMethodSummary
+    headerTitle="Payment Method"
     onClick={[Function]}
     showEditButton={true}
-    title="Payment Method"
   />
   <div
     className="c-checkout__addressform"
@@ -13,7 +13,7 @@ exports[`renders address form components 1`] = `
     <div
       className="o-form__address"
     >
-      <address_form_header_AddressFormHeader
+      <AddressFormHeader
         title="Shipping Address"
       />
       <AddressForm

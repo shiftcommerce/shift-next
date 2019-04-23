@@ -47,10 +47,10 @@ exports[`render shipping methods as expected 1`] = `
 >
   <div>
     <PaymentMethodSummary
+      headerTitle="Payment Method"
       onClick={[Function]}
       paymentMethod="Credit/Debit Card"
       showEditButton={true}
-      title="Payment Method"
     >
       <div
         className="c-payment-method__summary"
@@ -105,12 +105,12 @@ exports[`render shipping methods as expected 1`] = `
         <AddressFormSummary
           city="Leeds"
           firstName="First Name"
+          headerTitle="Shipping Address"
           lastName="Last Name"
           onClick={[Function]}
           showEditButton={true}
         >
-          <address_form_header_AddressFormHeader
-            collapsed={true}
+          <AddressFormHeader
             onClick={[Function]}
             showEditButton={true}
             title="Shipping Address"
@@ -125,24 +125,8 @@ exports[`render shipping methods as expected 1`] = `
                   Shipping Address
                 </h2>
               </div>
-              <Button
-                className="o-button-edit"
-                label="Edit"
-                onClick={[Function]}
-                status="secondary"
-              >
-                <button
-                  className="o-button-edit o-button o-button--secondary"
-                  disabled={false}
-                  onClick={[Function]}
-                  role="button"
-                  tabIndex="0"
-                >
-                  Edit
-                </button>
-              </Button>
             </div>
-          </address_form_header_AddressFormHeader>
+          </AddressFormHeader>
           <div
             className="o-form__wrapper--collapsed c-address-form__summary"
           >
@@ -197,9 +181,9 @@ exports[`render shipping methods as expected 1`] = `
 exports[`renders correct checkout components 1`] = `
 <div>
   <PaymentMethodSummary
+    headerTitle="Payment Method"
     onClick={[Function]}
     showEditButton={true}
-    title="Payment Method"
   />
   <div
     className="c-checkout__addressform"
@@ -208,6 +192,7 @@ exports[`renders correct checkout components 1`] = `
       className="o-form__address"
     >
       <AddressFormSummary
+        headerTitle="Shipping Address"
         onClick={[Function]}
         showEditButton={true}
       />
@@ -269,10 +254,10 @@ exports[`renders line item quantity as expected 1`] = `
 >
   <div>
     <PaymentMethodSummary
+      headerTitle="Payment Method"
       onClick={[Function]}
       paymentMethod="Credit/Debit Card"
       showEditButton={true}
-      title="Payment Method"
     >
       <div
         className="c-payment-method__summary"
@@ -327,12 +312,12 @@ exports[`renders line item quantity as expected 1`] = `
         <AddressFormSummary
           city="Leeds"
           firstName="First Name"
+          headerTitle="Shipping Address"
           lastName="Last Name"
           onClick={[Function]}
           showEditButton={true}
         >
-          <address_form_header_AddressFormHeader
-            collapsed={true}
+          <AddressFormHeader
             onClick={[Function]}
             showEditButton={true}
             title="Shipping Address"
@@ -347,24 +332,8 @@ exports[`renders line item quantity as expected 1`] = `
                   Shipping Address
                 </h2>
               </div>
-              <Button
-                className="o-button-edit"
-                label="Edit"
-                onClick={[Function]}
-                status="secondary"
-              >
-                <button
-                  className="o-button-edit o-button o-button--secondary"
-                  disabled={false}
-                  onClick={[Function]}
-                  role="button"
-                  tabIndex="0"
-                >
-                  Edit
-                </button>
-              </Button>
             </div>
-          </address_form_header_AddressFormHeader>
+          </AddressFormHeader>
           <div
             className="o-form__wrapper--collapsed c-address-form__summary"
           >

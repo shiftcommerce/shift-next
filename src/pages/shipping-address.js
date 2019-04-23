@@ -184,7 +184,7 @@ export class ShippingAddressPage extends Component {
     return (this.cartAddressFromBook() && !this.state.addingNewAddress) || addressFormValidator(shippingAddress)
   }
 
-  pageTitle = () => 'Shipping Adress'
+  pageTitle = () => 'Shipping Address'
 
   currentStep = () => 2
 
@@ -210,7 +210,7 @@ export class ShippingAddressPage extends Component {
         <PaymentMethodSummary
           onClick={() => Router.push('/checkout/payment-method')}
           paymentMethod={this.state.paymentMethod}
-          title={'Payment Method'}
+          headerTitle={'Payment Method'}
           showEditButton={true}
         />
         <div className='c-checkout__addressform'>

@@ -1,5 +1,5 @@
 // Libraries
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import Router from 'next/router'
 import Cookies from 'js-cookie'
 
@@ -160,7 +160,7 @@ export class ShippingMethodPage extends Component {
         <PaymentMethodSummary
           onClick={() => Router.push('/checkout/payment-method')}
           paymentMethod={this.state.paymentMethod}
-          title={'Payment Method'}
+          headerTitle={'Payment Method'}
           showEditButton={true}
         />
         <div className='c-checkout__addressform'>
@@ -173,6 +173,7 @@ export class ShippingMethodPage extends Component {
               onClick={() => Router.push('/checkout/shipping-address')}
               postcode={cart.shipping_address.postcode}
               showEditButton={!thirdPartyPaymentMethods.includes(this.state.paymentMethod)}
+              headerTitle={'Shipping Address'}
             />
           </div>
         </div>
