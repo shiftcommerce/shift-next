@@ -34,13 +34,10 @@ const fetchCategory = async (id) => {
 class CategoryPage extends Component {
   static algoliaEnabled = () => true
 
-  static async getInitialProps ({ query: { id }, reduxStore, req }) {
-    if (req) { // server-side
-      const category = await fetchCategory(id)
-      return { id, category }
-    } else { // client side
-      return { id }
-    }
+  static async getInitialProps ({ query: { id }, reduxStore }) {
+    const category = await fetchCategory(id)
+
+    return { id, category }
   }
 
   static buildAlgoliaStates ({ query: { id, ...options } }) {
@@ -142,14 +139,14 @@ class CategoryPage extends Component {
         </>
       )
     } else {
-      const { title, facets } = category
+      const { title, facets, default_sort_order } = category
 
       return (
         <>
           <this.Head>
             <title>{ suffixWithStoreName(title) }</title>
           </this.Head>
-          <ProductListing title={title} indexName={Config.get().algoliaIndexName} facets={facets} />
+          <ProductListing title={title} indexName={`${Config.get().algoliaIndexName}_${default_sort_order}`} indexNameWithoutDefaultSortOrder={Config.get().algoliaIndexName} facets={facets} />
         </>
       )
     }
