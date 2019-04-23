@@ -67,7 +67,6 @@ export default function algoliaOuterWrapper (NextWrapper, Page) {
     }
 
     onSearchStateChange (searchState) {
-      console.log('onSearchStateChange')
       // Delegate to custom implementation if the page provides one
       if (Page.onSearchStateChange) {
         return Page.onSearchStateChange.call(this, searchState)
