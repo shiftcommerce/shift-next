@@ -139,14 +139,14 @@ class CategoryPage extends Component {
         </>
       )
     } else {
-      const { title, facets, default_sort_order } = category
+      const { title, search_facets, default_sort_order } = category
 
       return (
         <>
           <this.Head>
             <title>{ suffixWithStoreName(title) }</title>
           </this.Head>
-          <ProductListing title={title} indexName={`${Config.get().algoliaIndexName}_${default_sort_order}`} indexNameWithoutDefaultSortOrder={Config.get().algoliaIndexName} facets={facets} />
+          <ProductListing title={title} indexName={`${Config.get().algoliaIndexName}_${default_sort_order}`} indexNameWithoutDefaultSortOrder={Config.get().algoliaIndexName} facets={search_facets} />
         </>
       )
     }
