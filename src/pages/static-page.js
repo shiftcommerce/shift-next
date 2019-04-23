@@ -8,7 +8,7 @@ import ApiClient from '../lib/api-client'
 import Config from '../lib/config'
 
 // Components
-import { Loading, StaticPageError } from '@shiftcommerce/shift-react-components'
+import { StaticPageError } from '@shiftcommerce/shift-react-components'
 
 const pageRequest = (pageId) => {
   return {
@@ -31,54 +31,16 @@ const fetchPage = async (id) => {
 }
 
 class StaticPage extends Component {
-  static async getInitialProps ({ query: { id }, req }) {
-    if (req) { // server-side
-      const page = await fetchPage(id)
+  static async getInitialProps ({ query: { id } }) {
+    const page = await fetchPage(id)
 
-      return { id, page }
-    } else { // client side
-      return { id }
-    }
+    return { id, page }
   }
 
   constructor (props) {
     super(props)
-    this.state = {
-      loading: true
-    }
 
     this.Head = Config.get().Head
-  }
-
-  static getDerivedStateFromProps (newProps, prevState) {
-    if (prevState.currentId !== newProps.id) {
-      return { currentId: newProps.id, loading: true }
-    }
-    return null
-  }
-
-  async componentDidMount () {
-    await this.fetchPageIntoState(this.props.id)
-  }
-
-  async componentDidUpdate (_, prevState) {
-    if (prevState.currentId !== this.state.currentId) {
-      await this.fetchPageIntoState(this.props.id)
-    }
-  }
-
-  async fetchPageIntoState (id) {
-    const page = await fetchPage(id)
-
-    this.setState({ loading: false, page })
-  }
-
-  /**
-   * Returns the page object
-   * @return {Object}
-   */
-  getPage () {
-    return this.props.page || this.state.page
   }
 
   renderPageTitle (title) {
@@ -98,7 +60,7 @@ class StaticPage extends Component {
    * @return {String} - HTML markup for the component
    */
   renderLoaded () {
-    const page = this.getPage()
+    const { page } = this.props
 
     if (page.template.sections) {
       const { components } = page.template.sections.slice(-1).pop()
@@ -112,13 +74,9 @@ class StaticPage extends Component {
   }
 
   render () {
-    const page = this.getPage()
+    const { page } = this.props
 
-    if (this.state.loading) {
-      return (
-        <Loading />
-      )
-    } else if (page.error) {
+    if (page.error) {
       const errorDetails = {
         Endpoint: JSON.stringify(page.error.request.endpoint),
         Query: JSON.stringify(page.error.request.query),
