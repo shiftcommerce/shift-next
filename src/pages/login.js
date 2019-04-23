@@ -33,16 +33,10 @@ class LoginPage extends Component {
 
   static async getInitialProps ({ reduxStore, pathname }) {
     const { account: { loggedIn } } = reduxStore.getState()
-    console.log(reduxStore.getState())
-    console.log(pathname)
-    console.log(loggedIn)
-
     // Determine where to redirect user
     if (loggedIn && pathname === '/checkout/login') {
-      console.log('logged in and pathname')
       Router.push('/checkout/payment')
     } else if (loggedIn) {
-      console.log('logged in')
       Router.push('/account/myaccount')
     }
     return {}
