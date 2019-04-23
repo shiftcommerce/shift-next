@@ -73,6 +73,10 @@ export default function algoliaOuterWrapper (NextWrapper, Page) {
       }
 
       // Default implementation
+      
+      // Ignore state changes when query is empty
+      if (!searchState.query) return
+      
       clearTimeout(this.debouncedSetState)
       this.debouncedSetState = setTimeout(() => {
         const href = this.searchStateToUrl(searchState)
