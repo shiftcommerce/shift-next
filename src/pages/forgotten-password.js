@@ -1,5 +1,5 @@
 // Libraries
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 
 // Lib
 import { suffixWithStoreName } from '../lib/suffix-with-store-name'
@@ -27,16 +27,20 @@ export class ForgottenPassword extends Component {
     this.setState({ flashMessage: true })
   }
 
+  renderLoaded (account) {
+    return <ForgotPasswordForm handleSubmit={this.handleSubmit} flashMessage={this.state.flashMessage} account={account} />
+  }
+
   render () {
     const { account } = this.props
 
     return (
-      <>
+      <Fragment>
         <this.Head>
-          <title>{ suffixWithStoreName('Reset Password') }</title>
+          <title>{ suffixWithStoreName('Forgot Password') }</title>
         </this.Head>
-        <ForgotPasswordForm handleSubmit={this.handleSubmit} flashMessage={this.state.flashMessage} account={account} />
-      </>
+        { this.renderLoaded(account) }
+      </Fragment>
     )
   }
 }
