@@ -91,6 +91,7 @@ module.exports = {
     /**
      * Checkout Routes
      */
+    server.get('/checkout/login', shiftCheckoutRoutes.loginRoute)
     server.get('/checkout/review', shiftCheckoutRoutes.reviewRoute)
 
     /**
