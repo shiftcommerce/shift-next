@@ -59,8 +59,7 @@ export function convertCheckoutToOrder (cart, paymentMethod, order) {
   const discountSummaries = prepareDiscountSummaries(cart, lineItems)
   const orderDiscountIncTax = cart.shipping_total_discount * -1
   const orderDiscountExcTax = orderDiscountIncTax > 0 ? cart.shipping_method.sub_total : 0
-
-  console.log('lineItems', lineItems)
+  const shippingTotalExTax = cart.free_shipping ? 0 : cart.shipping_method.sub_total
 
   const orderPayload = {
     attributes: {
@@ -73,7 +72,7 @@ export function convertCheckoutToOrder (cart, paymentMethod, order) {
       shipping_method: prepareShippingMethod(cart.shipping_method),
       discount_summaries: discountSummaries,
       total_inc_tax: cart.total,
-      total_ex_tax: cart.total - cart.tax,
+      total_ex_tax: lineItems.reduce((sum, lineItem) => sum + lineItem.attributes.line_total_ex_tax, 0) + shippingTotalExTax,
       pre_discount_line_items_total_ex_tax: lineItems.reduce((sum, lineItem) => sum + lineItem.attributes.pre_discount_line_total_ex_tax, 0),
       pre_discount_line_items_total_inc_tax: lineItems.reduce((sum, lineItem) => sum + lineItem.attributes.pre_discount_line_total_inc_tax, 0),
       order_discount_ex_tax: orderDiscountExcTax,
@@ -187,8 +186,8 @@ function prepareShippingMethod (shippingMethod) {
 function prepareDiscountSummaries (cart, lineItems) {
   return cart.discount_summaries.map(discountSummary => {
     const lineItemDiscounts = lineItems.map(lineItem => {
-      return lineItem.attributes.line_item_discounts.find(lineItemDiscount => lineItemDiscount.promotion_id === discountSummary.promotion_id)
-    }).filter(discount => discount)
+      return lineItem.attributes.line_item_discounts.filter(lineItemDiscount => lineItemDiscount.attributes.promotion_id === discountSummary.promotion_id)
+    }).flat()
 
     return {
       id: discountSummary.id,
@@ -196,8 +195,8 @@ function prepareDiscountSummaries (cart, lineItems) {
       attributes: {
         promotion_id: discountSummary.promotion_id,
         name: discountSummary.name,
-        amount_ex_tax: lineItemDiscounts.reduce((discountA, discountB) => discountA.amount_ex_tax + discountB.amount_ex_tax, 0),
-        amount_inc_tax: lineItemDiscounts.reduce((discountA, discountB) => discountA.amount_inc_tax + discountB.amount_inc_tax, 0)
+        amount_ex_tax: lineItemDiscounts.reduce((sum, discount) => sum + discount.attributes.amount_ex_tax, 0),
+        amount_inc_tax: lineItemDiscounts.reduce((sum, discount) => sum + discount.attributes.amount_inc_tax, 0)
       }
     }
   })
