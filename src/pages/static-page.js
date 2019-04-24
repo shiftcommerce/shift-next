@@ -8,7 +8,7 @@ import ApiClient from '../lib/api-client'
 import Config from '../lib/config'
 
 // Components
-import { StaticPageError } from '@shiftcommerce/shift-react-components'
+import { StaticPageError, Loading } from '@shiftcommerce/shift-react-components'
 
 const pageRequest = (pageId) => {
   return {
@@ -31,10 +31,10 @@ const fetchPage = async (id) => {
 }
 
 class StaticPage extends Component {
-  static async getInitialProps ({ query: { id } }) {
+  static async getInitialProps ({ query: { id }, req }) {
     const page = await fetchPage(id)
 
-    return { id, page }
+    return { id, page, isServer: !!req }
   }
 
   constructor (props) {
@@ -76,7 +76,11 @@ class StaticPage extends Component {
   render () {
     const { page } = this.props
 
-    if (page.error) {
+    if (this.props.loading && !this.props.isServer) {
+      return (
+        <Loading />
+      )
+    } else if (page.error) {
       const errorDetails = {
         Endpoint: JSON.stringify(page.error.request.endpoint),
         Query: JSON.stringify(page.error.request.query),

@@ -12,11 +12,13 @@ import setOrders from './set-orders'
 import setProduct from './set-product'
 import setRegistration from './set-registration'
 import setSearchState from './set-search-state'
+import loadingReducer from 'redux-loading-middleware/loadingReducer'
 
 const rootReducer = combineReducers({
   account: setAccount,
   cart: setCart,
   checkout: setCheckout,
+  global: loadingReducer,
   login: setLogin,
   menu: setMenu,
   order: setOrder,
