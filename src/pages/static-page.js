@@ -75,7 +75,7 @@ class StaticPage extends Component {
 
   render () {
     const { page } = this.props
-
+    
     if (this.props.loading && !this.props.isServer) {
       return (
         <Loading />
@@ -95,7 +95,7 @@ class StaticPage extends Component {
       )
     } else {
       return (
-        <Fragment>
+        <Fragment key={page.id}>
           { this.renderPageTitle(page.title) }
           { this.renderLoaded() }
         </Fragment>

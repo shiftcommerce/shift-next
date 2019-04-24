@@ -52,7 +52,6 @@
     "react-redux": "^5.0.7",
     "redux": "^3.7.2",
     "redux-devtools-extension": "^2.13.8",
-    "redux-loading-middleware": "^1.0.1",
     "redux-thunk": "^2.3.0",
     "stripe": "^6.25.1"
   }
