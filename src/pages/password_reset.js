@@ -36,7 +36,7 @@ export class PasswordReset extends Component {
   }
 
   renderLoaded (account) {
-    return <PasswordResetForm handleSubmit={this.handleSubmit} account={account} />
+    return <PasswordResetForm account={account} handleSubmit={this.handleSubmit} />
   }
 
   render () {
