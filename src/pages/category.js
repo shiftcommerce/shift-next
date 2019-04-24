@@ -140,6 +140,7 @@ class CategoryPage extends Component {
       )
     } else {
       const { title, search_facets, default_sort_order } = category
+      const { algoliaIndexName } = Config.get()
 
       return (
         <>
