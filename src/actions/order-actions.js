@@ -80,8 +80,11 @@ export function convertCheckoutToOrder (cart, paymentMethod, order) {
       order_discount_inc_tax: orderDiscountIncTax,
       total_discount_ex_tax: discountSummaries.reduce((sum, discount) => sum + discount.attributes.amount_ex_tax, 0) + orderDiscountExcTax,
       total_discount_inc_tax: discountSummaries.reduce((sum, discount) => sum + discount.attributes.amount_inc_tax, 0) + orderDiscountIncTax,
-      shipping_total: cart.shipping_total,
-      placed_at: new Date().toISOString()
+      shipping_total: cart.shipping_total + cart.shipping_total_discount,
+      placed_at: new Date().toISOString(),
+      free_shipping: cart.free_shipping,
+      shipping_discount_name: cart.shipping_discount_name,
+      shipping_discount: cart.shipping_total_discount
     },
     type: 'create_order'
   }
