@@ -147,7 +147,7 @@ class CategoryPage extends Component {
           <this.Head>
             <title>{ suffixWithStoreName(title) }</title>
           </this.Head>
-          <ProductListing title={title} indexName={`${Config.get().algoliaIndexName}_${default_sort_order}`} indexNameWithoutDefaultSortOrder={Config.get().algoliaIndexName} facets={search_facets} />
+          <ProductListing title={title} indexName={`${algoliaIndexName}_${default_sort_order}`} indexNameWithoutDefaultSortOrder={algoliaIndexName} facets={search_facets} />
         </>
       )
     }
