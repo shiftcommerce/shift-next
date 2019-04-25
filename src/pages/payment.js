@@ -383,6 +383,8 @@ class CheckoutPaymentPage extends Component {
   }
 
   renderPayment () {
+    // When moving to the review step the payment form is hidden instead of unmounted
+    // so that the Stripe form remains in the DOM.
     return (
       <>
         <div className={classNames({ 'u-hidden': !this.state.reviewStep })}>
