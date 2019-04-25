@@ -11,13 +11,13 @@ import Config from '../lib/config'
 
 // Components
 import {
+  CartTablePaymentIcons,
   CheckoutCart,
   CheckoutCartButtons,
   CheckoutCartTotal,
   CheckoutSteps,
   CouponForm,
-  MiniPlaceOrder,
-  PaymentIcons
+  MiniPlaceOrder
 } from '@shiftcommerce/shift-react-components'
 
 // Actions
@@ -179,7 +179,7 @@ export function withCheckout (WrappedComponent) {
                     continueButtonProps={continueButtonProps}
                   />
                   <div className='c-checkout__payment'>
-                    <PaymentIcons />
+                    <CartTablePaymentIcons />
                   </div>
                 </div>
               </div>
