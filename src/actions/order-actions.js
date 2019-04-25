@@ -85,6 +85,7 @@ export function convertCheckoutToOrder (cart, paymentMethod, order) {
       shipping_total: cart.shipping_total + cart.shipping_total_discount,
       placed_at: new Date().toISOString(),
       free_shipping: cart.free_shipping,
+      settle_payments_immediately: true,
       shipping_discount_name: cart.shipping_discount_name,
       shipping_discount: cart.shipping_total_discount
     },

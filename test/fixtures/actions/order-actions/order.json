@@ -138,6 +138,7 @@
       "shipping_total": 0,
       "free_shipping": true,
       "placed_at": "2019-04-25T10:48:48.550Z",
+      "settle_payments_immediately": true,
       "shipping_discount_name": "Free Standard Delivery on orders over £10",
       "shipping_discount": -1.95
     },
