@@ -3,6 +3,7 @@ import React from 'react'
 import Config from './config'
 import InitialPropsDelegator from './initial-props-delegator'
 import { Configure } from 'react-instantsearch/dom'
+import t from 'typy'
 
 // Components
 import { InstantSearch } from './instant-search'
@@ -17,11 +18,14 @@ export default function algoliaInnerWrapper (Component) {
       } = Config.get()
       const { resultsState, onSearchStateChange, searchState, ...otherProps } = this.props
 
+      const categoryDefaultSortOrder = t(otherProps, 'category.default_sort_order').safeObject
+      const indexWithDefaultSortOrder = categoryDefaultSortOrder ? `${algoliaIndexName}_${categoryDefaultSortOrder}` : algoliaIndexName
+
       return (
         <InstantSearch
           appId={algoliaAppId}
           apiKey={algoliaApiKey}
-          indexName={algoliaIndexName}
+          indexName={indexWithDefaultSortOrder}
           resultsState={resultsState}
           onSearchStateChange={onSearchStateChange}
           searchState={searchState}

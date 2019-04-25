@@ -39,7 +39,8 @@ export default function algoliaOuterWrapper (NextWrapper, Page) {
       searchState.configure = {
         ...searchState.configure,
         hitsPerPage: Config.get().algoliaResultsPerPage,
-        distinct: Config.get().algoliaDistinctVariants || true
+        distinct: Config.get().algoliaDistinctVariants || true,
+        tagFilters: "-redirect"
       }
 
       let resultsState = {
