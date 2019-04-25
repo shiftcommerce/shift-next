@@ -1,17 +1,3 @@
-// exports.default = function () {
-//   const state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {}
-//   const action = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {}
-
-//   switch (action.type) {
-//     case 'TOGGLE_LOADING':
-//       return Object.assign({}, state, {
-//         loading: action.loading
-//       })
-//     default:
-//       return state;
-//   }
-// }
-
 import * as types from '../actions/action-types'
 
 export const initialState = {
@@ -20,7 +6,7 @@ export const initialState = {
 
 export default function setGlobal (state = initialState, action) {
   switch(action.type) {
-    case 'TOGGLE_LOADING':
+    case types.TOGGLE_LOADING:
       return Object.assign({}, state, {
         loading: action.loading
       })

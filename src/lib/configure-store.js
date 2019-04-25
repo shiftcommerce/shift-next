@@ -1,7 +1,6 @@
 import { createStore, applyMiddleware } from 'redux'
 import { composeWithDevTools } from 'redux-devtools-extension'
 import thunkMiddleware from 'redux-thunk'
-import loadingMiddleware from './loading-middleware'
 
 // Reducers
 import rootReducer from '../reducers/root-reducer'
@@ -13,7 +12,6 @@ export function initializeStore (initialState) {
     rootReducer,
     initialState,
     composeWithDevTools(applyMiddleware(
-      loadingMiddleware,
       thunkMiddleware
     ))
   )

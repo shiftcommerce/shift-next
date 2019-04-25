@@ -19,11 +19,10 @@ const pageRequest = (pageId) => {
   }
 }
 
-const fetchPage = async (id) => {
+const fetchPage = async (id, dispatch) => {
   try {
     const request = pageRequest(id)
-    const response = await new ApiClient().read(request.endpoint, request.query)
-
+    const response = await new ApiClient().read(request.endpoint, request.query, dispatch)
     return response.data
   } catch (error) {
     return { error }
@@ -31,8 +30,8 @@ const fetchPage = async (id) => {
 }
 
 class StaticPage extends Component {
-  static async getInitialProps ({ query: { id }, req }) {
-    const page = await fetchPage(id)
+  static async getInitialProps ({ query: { id }, req, reduxStore }) {
+    const page = await fetchPage(id, reduxStore.dispatch)
 
     return { id, page, isServer: !!req }
   }
@@ -75,7 +74,7 @@ class StaticPage extends Component {
 
   render () {
     const { page } = this.props
-    
+
     if (this.props.loading && !this.props.isServer) {
       return (
         <Loading />
