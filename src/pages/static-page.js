@@ -94,7 +94,7 @@ class StaticPage extends Component {
       )
     } else {
       return (
-        <Fragment key={page.id}>
+        <Fragment>
           { this.renderPageTitle(page.title) }
           { this.renderLoaded() }
         </Fragment>

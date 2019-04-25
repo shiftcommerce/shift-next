@@ -29,6 +29,7 @@ class ApiClient {
       shouldDispatch(dispatch, false)
       return { status: response.status, data: response.data }
     } catch (error) {
+      shouldDispatch(dispatch, false)
       console.error('API CLIENT: Error while fetching data', error)
       return { status: error.response.status, data: error.response.data }
     }
@@ -54,6 +55,7 @@ class ApiClient {
       shouldDispatch(dispatch, false)
       return { status: response.status, data: response.data }
     } catch (error) {
+      shouldDispatch(dispatch, false)
       console.error('Error during delete request', error)
       return { status: error.response.status, data: error.response.data }
     }
