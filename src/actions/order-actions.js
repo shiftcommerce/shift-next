@@ -1,3 +1,6 @@
+// Lib
+import { decimalPrice } from '../lib/decimal-price'
+
 // actionTypes
 import * as types from './action-types'
 
@@ -89,7 +92,7 @@ export function convertCheckoutToOrder (cart, paymentMethod, order) {
   }
 
   return {
-    data: orderPayload,
+    data: roundDecimals(orderPayload),
     payment_method: paymentMethod,
     card_token: order.cardToken,
     payment_authorization_id: order.paymentAuthorization.id
@@ -200,4 +203,44 @@ function prepareDiscountSummaries (cart, lineItems) {
       }
     }
   })
+}
+
+function roundDecimals (order) {
+  order.attributes.line_items_resources.forEach(lineItem => {
+    lineItem.attributes.each_ex_tax = decimalFloat(lineItem.attributes.each_ex_tax)
+    lineItem.attributes.each_inc_tax = decimalFloat(lineItem.attributes.each_inc_tax)
+    lineItem.attributes.pre_discount_line_total_ex_tax = decimalFloat(lineItem.attributes.pre_discount_line_total_ex_tax)
+    lineItem.attributes.pre_discount_line_total_inc_tax = decimalFloat(lineItem.attributes.pre_discount_line_total_inc_tax)
+    lineItem.attributes.line_discount_ex_tax = decimalFloat(lineItem.attributes.line_discount_ex_tax)
+    lineItem.attributes.line_discount_inc_tax = decimalFloat(lineItem.attributes.line_discount_inc_tax)
+    lineItem.attributes.line_total_ex_tax = decimalFloat(lineItem.attributes.line_total_ex_tax)
+    lineItem.attributes.line_total_inc_tax = decimalFloat(lineItem.attributes.line_total_inc_tax)
+
+    lineItem.attributes.line_item_discounts.forEach(discount => {
+      discount.attributes.amount_ex_tax = decimalFloat(discount.attributes.amount_ex_tax)
+      discount.attributes.amount_inc_tax = decimalFloat(discount.attributes.amount_inc_tax)
+    })
+  })
+
+  order.attributes.discount_summaries.forEach(discount => {
+    discount.attributes.amount_ex_tax = decimalFloat(discount.attributes.amount_ex_tax)
+    discount.attributes.amount_inc_tax = decimalFloat(discount.attributes.amount_inc_tax)
+  })
+
+  order.attributes.total_inc_tax = decimalFloat(order.attributes.total_inc_tax)
+  order.attributes.total_ex_tax = decimalFloat(order.attributes.total_ex_tax)
+  order.attributes.pre_discount_line_items_total_ex_tax = decimalFloat(order.attributes.pre_discount_line_items_total_ex_tax)
+  order.attributes.pre_discount_line_items_total_inc_tax = decimalFloat(order.attributes.pre_discount_line_items_total_inc_tax)
+  order.attributes.order_discount_ex_tax = decimalFloat(order.attributes.order_discount_ex_tax)
+  order.attributes.order_discount_inc_tax = decimalFloat(order.attributes.order_discount_inc_tax)
+  order.attributes.total_discount_ex_tax = decimalFloat(order.attributes.total_discount_ex_tax)
+  order.attributes.total_discount_inc_tax = decimalFloat(order.attributes.total_discount_inc_tax)
+  order.attributes.shipping_total = decimalFloat(order.attributes.shipping_total)
+  order.attributes.shipping_discount = decimalFloat(order.attributes.shipping_discount)
+
+  return order
+}
+
+function decimalFloat (number) {
+  return parseFloat(decimalPrice(number))
 }
