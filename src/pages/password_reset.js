@@ -1,5 +1,5 @@
 // Libraries
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import Router from 'next/router'
 
 // Lib
@@ -35,16 +35,20 @@ export class PasswordReset extends Component {
       })
   }
 
+  renderLoaded (account) {
+    return <PasswordResetForm account={account} handleSubmit={this.handleSubmit} />
+  }
+
   render () {
     const { account } = this.props
 
     return (
-      <>
+      <Fragment>
         <this.Head>
           <title>{ suffixWithStoreName('Password Reset') }</title>
         </this.Head>
-        <PasswordResetForm handleSubmit={this.handleSubmit} account={account} />
-      </>
+        { this.renderLoaded(account) }
+      </Fragment>
     )
   }
 }
