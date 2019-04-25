@@ -11,7 +11,7 @@ module.exports = {
 
     if (paymentMethod === 'card') {
       stripe.charges.create({
-        amount: Math.round(orderPayload.data.attributes.total_inc_tax * 100),
+        amount: Math.round(orderPayload.data.attributes.total * 100),
         currency: orderPayload.data.attributes.currency,
         source: cardToken.id,
         capture: false
