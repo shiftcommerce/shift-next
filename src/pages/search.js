@@ -25,6 +25,15 @@ class SearchPage extends Component {
     }
   }
 
+  static onSearchStateChange (searchState) {
+    clearTimeout(this.debouncedSetState)
+    this.debouncedSetState = setTimeout(() => {
+      const href = this.searchStateToUrl(searchState)
+      Router.push(href, href)
+    }, this.updateAfter())
+    this.setState({ searchState })
+  }
+
   constructor(props) {
     super(props) 
 

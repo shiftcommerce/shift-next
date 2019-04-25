@@ -6,6 +6,7 @@ import Router from 'next/router'
 // Libs
 import { setCookie } from '../lib/set-cookie'
 import { suffixWithStoreName } from '../lib/suffix-with-store-name'
+import Config from '../lib/config'
 
 // Actions
 import { createLogin } from '../actions/login-actions'
@@ -13,9 +14,6 @@ import { clearErrors, fetchAccountDetails } from '../actions/account-actions'
 
 // Components
 import { LoginForm } from '@shiftcommerce/shift-react-components'
-
-// Config
-import Config from '../lib/config'
 
 class LoginPage extends Component {
   constructor () {
@@ -31,10 +29,14 @@ class LoginPage extends Component {
     }
   }
 
-  static async getInitialProps ({ reduxStore }) {
-    // Redirect to myaccount if already logged in
+  static async getInitialProps ({ reduxStore, pathname }) {
     const { account: { loggedIn } } = reduxStore.getState()
-    if (loggedIn) Router.push('/account/myaccount')
+    // Determine where to redirect user if already logged in
+    if (loggedIn && pathname === '/checkout/login') {
+      Router.push('/checkout/payment-method')
+    } else if (loggedIn) {
+      Router.push('/account/myaccount')
+    }
     return {}
   }
 
@@ -44,7 +46,10 @@ class LoginPage extends Component {
         if (success) {
           this.props.dispatch(fetchAccountDetails()).then(() => {
             setCookie()
-            Router.push('/account/myaccount')
+            // Determine where to redirect user after successful log in
+            if (window.location.pathname === '/checkout/login') {
+              Router.push('/checkout/payment-method')
+            } else Router.push('/account/myaccount')
           })
         }
       })
