@@ -178,17 +178,25 @@ describe('getInitialProps()', () => {
     expect(pageRequest.isDone()).toBe(true)
   })
 
-  test.only('fetches and returns the page when run server side with a custom request query', async () => {
+  test('fetches and returns the page when run server side with a custom request query', async () => {
     Config.set({
-      apiHostProxy: 'http://example.com',
-      staticPageRequestQuery: {
-        include: 'template,meta.*.meta.*'
-      }
+      apiHostProxy: 'http://example.com'
     })
+
+    const staticPageQuery = {
+      include: 'aCustomQuery'
+    }
+
+    StaticPage.pageRequest = (pageId) => {
+      return {
+        endpoint: `/getStaticPage/${pageId}`,
+        query: staticPageQuery
+      }
+    }
 
     const pageRequest = nock(/example\.com/)
       .get('/getStaticPage/10')
-      .query(Config.get().staticPageRequestQuery)
+      .query(staticPageQuery)
       .reply(200, {
         id: 10,
         title: 'Test Page'
