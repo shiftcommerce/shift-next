@@ -1,0 +1,150 @@
+{
+  "data": {
+    "attributes": {
+      "billing_address": {
+        "id": "1281",
+        "attributes": {
+          "address_line_1": "asdas",
+          "address_line_2": "asdsa",
+          "city": "asdas",
+          "country": "GB",
+          "first_name": "asda",
+          "last_name": "asdas",
+          "postcode": "asdas"
+        },
+        "type": "addresses"
+      },
+      "channel": "web",
+      "currency": "GBP",
+      "email": "asdasd@dasda.as",
+      "line_items_resources": [
+        {
+          "attributes": {
+            "sku": "bdm1",
+            "title": "1 kg",
+            "unit_quantity": 4,
+            "each_ex_tax": 13.75,
+            "each_inc_tax": 16.5,
+            "pre_discount_line_total_ex_tax": 55,
+            "pre_discount_line_total_inc_tax": 66,
+            "line_discount_ex_tax": 8.33,
+            "line_discount_inc_tax": 10,
+            "line_total_ex_tax": 46.67,
+            "line_total_inc_tax": 56,
+            "tax_rate": "0.2",
+            "line_item_discounts": [
+              {
+                "id": "414772e3-83b7-4dd1-af89-f6da33e2c52b",
+                "type": "line_item_discounts",
+                "attributes": {
+                  "line_item_number": 1,
+                  "promotion_id": 22,
+                  "amount_ex_tax": 2.08,
+                  "amount_inc_tax": 2.5,
+                  "label": "£10 off orders overs over £50"
+                }
+              },
+              {
+                "id": "a8e24031-6324-473e-893c-c65c5bcbcba7",
+                "type": "line_item_discounts",
+                "attributes": {
+                  "line_item_number": 2,
+                  "promotion_id": 22,
+                  "amount_ex_tax": 2.08,
+                  "amount_inc_tax": 2.5,
+                  "label": "£10 off orders overs over £50"
+                }
+              },
+              {
+                "id": "69cbfada-d86a-4350-a98d-821942ae16af",
+                "type": "line_item_discounts",
+                "attributes": {
+                  "line_item_number": 3,
+                  "promotion_id": 22,
+                  "amount_ex_tax": 2.08,
+                  "amount_inc_tax": 2.5,
+                  "label": "£10 off orders overs over £50"
+                }
+              },
+              {
+                "id": "920009f1-2612-47fc-93ae-4f3cd26aba08",
+                "type": "line_item_discounts",
+                "attributes": {
+                  "line_item_number": 4,
+                  "promotion_id": 22,
+                  "amount_ex_tax": 2.08,
+                  "amount_inc_tax": 2.5,
+                  "label": "£10 off orders overs over £50"
+                }
+              }
+            ]
+          },
+          "type": "line_items"
+        }
+      ],
+      "shipping_address": {
+        "id": "1281",
+        "attributes": {
+          "address_line_1": "asdas",
+          "address_line_2": "asdsa",
+          "city": "asdas",
+          "country": "GB",
+          "first_name": "asda",
+          "last_name": "asdas",
+          "postcode": "asdas"
+        },
+        "type": "addresses"
+      },
+      "shipping_method": {
+        "attributes": {
+          "description": "Standard - shipping method",
+          "label": "Standard",
+          "meta_attributes": {
+            "working_days": {
+              "value": "2",
+              "data_type": "text"
+            }
+          },
+          "reference": "STANDARD",
+          "sku": "REGULAR",
+          "sub_total": 1.62,
+          "tax": 0.33,
+          "tax_rate": 0.2,
+          "total": 1.95
+        },
+        "id": "21",
+        "type": "shipping_methods"
+      },
+      "discount_summaries": [
+        {
+          "id": "9ebf8809-2eb8-409b-abce-cf615437829a",
+          "type": "discount_summaries",
+          "attributes": {
+            "promotion_id": 22,
+            "name": "£10 off orders overs over £50",
+            "amount_ex_tax": 8.33,
+            "amount_inc_tax": 10
+          }
+        }
+      ],
+      "total_inc_tax": 56,
+      "total_ex_tax": 46.67,
+      "pre_discount_line_items_total_ex_tax": 55,
+      "pre_discount_line_items_total_inc_tax": 66,
+      "order_discount_ex_tax": 1.62,
+      "order_discount_inc_tax": 1.95,
+      "total_discount_ex_tax": 9.95,
+      "total_discount_inc_tax": 11.95,
+      "shipping_total": 0,
+      "free_shipping": true,
+      "placed_at": "2019-04-25T10:48:48.550Z",
+      "settle_payments_immediately": true,
+      "shipping_discount_name": "Free Standard Delivery on orders over £10",
+      "shipping_discount": -1.95
+    },
+    "type": "create_order"
+  },
+  "payment_method": "card",
+  "card_token": "card_token",
+  "payment_authorization_id": "10"
+}

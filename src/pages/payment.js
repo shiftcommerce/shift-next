@@ -2,6 +2,7 @@
 import React, { Component } from 'react'
 import Router from 'next/router'
 import Cookies from 'js-cookie'
+import classNames from 'classnames'
 
 // Libs
 import addressFormValidator from '../lib/address-form-validator'
@@ -381,6 +382,21 @@ class CheckoutPaymentPage extends Component {
     )
   }
 
+  renderPayment () {
+    // When moving to the review step the payment form is hidden instead of unmounted
+    // so that the Stripe form remains in the DOM.
+    return (
+      <>
+        <div className={classNames({ 'u-hidden': !this.state.reviewStep })}>
+          {this.renderPaymentSummary()}
+        </div>
+        <div className={classNames({ 'u-hidden': this.state.reviewStep })}>
+          {this.renderPaymentForm()}
+        </div>
+      </>
+    )
+  }
+
   render () {
     const { cart, cart: { shipping_address }, thirdPartyPaymentMethods } = this.props
 
@@ -407,7 +423,7 @@ class CheckoutPaymentPage extends Component {
           onClick={() => Router.push('/checkout/shipping-method')}
           shippingMethod={cart.shipping_method}
         />
-        { this.state.reviewStep ? this.renderPaymentSummary() : this.renderPaymentForm() }
+        { this.renderPayment() }
       </>
     )
   }

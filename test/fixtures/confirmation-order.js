@@ -112,8 +112,7 @@ const order = {
   test: true,
   placed_at: '2018-11-01T14:50:39.968Z',
   shipping_discount: 0,
-  total: 110.26,
-  sub_total: 106.81,
+  total_inc_tax: 110.26,
   shipping_total: 3.45,
   tax: 0,
   line_items: [
