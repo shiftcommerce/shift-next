@@ -13,6 +13,7 @@ import { Loading, StaticPageError } from '@shiftcommerce/shift-react-components'
 const pageRequest = (pageId) => {
   return {
     endpoint: `/getStaticPage/${pageId}`,
+    // Overwrite the default query if there is a custom one
     query: Object.assign({
       include: 'template,meta.*'
     }, Config.get().staticPageRequestQuery)
