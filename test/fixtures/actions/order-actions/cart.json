@@ -1,0 +1,239 @@
+{
+  "miniBagDisplayed": false,
+  "id": "1241",
+  "meta_attributes": {},
+  "updated_at": "2019-04-25T10:35:50Z",
+  "created_at": "2019-04-25T10:35:47Z",
+  "email": "",
+  "channel": "web",
+  "line_items_count": 1,
+  "shipping_total_discount": -1.95,
+  "shipping_discount_name": "Free Standard Delivery on orders over £10",
+  "free_shipping": true,
+  "test": false,
+  "sub_total": 66,
+  "tax": 9.33,
+  "total_discount": 10,
+  "total": 56,
+  "shipping_total": 1.95,
+  "line_items": [
+    {
+      "id": "2065",
+      "stock_available_level": 999875,
+      "title": "1 kg",
+      "unit_quantity": 4,
+      "item_type": "Variant",
+      "item_id": 345,
+      "tax_rate": "0.2",
+      "order_status": null,
+      "total": 56,
+      "total_discount": 10,
+      "tax": 9.33333333333333,
+      "sub_total": 66,
+      "unit_price": 16.5,
+      "gift": false,
+      "container_id": 1241,
+      "sku": "bdm1",
+      "cart_id": 1241,
+      "item": {
+        "id": "345",
+        "meta_attributes": {
+          "size": {
+            "value": "1 kg",
+            "data_type": "text"
+          }
+        },
+        "updated_at": "2019-04-24T15:59:03Z",
+        "created_at": "2018-10-17T14:43:37Z",
+        "deleted_at": null,
+        "title": "1 kg",
+        "description": "",
+        "reference": "bdm1",
+        "ewis_eligible": false,
+        "expected_availability_date": null,
+        "ordered_total": 125,
+        "position": null,
+        "product_id": 177,
+        "sku": "bdm1",
+        "stock_allocated_level": 125,
+        "stock_level": 1000000,
+        "tax_code": "vat",
+        "stock_available_level": 999875,
+        "has_assets": true,
+        "price_includes_taxes": true,
+        "available_to_browse": true,
+        "available_to_order": true,
+        "price": 16.5,
+        "current_price": 16.5,
+        "picture_url": "https://shift-platform-dev.s3-eu-west-1.amazonaws.com/uploads/asset_file/asset_file/191/1539787307.712223-coffee-product-1.jpg",
+        "product": {
+          "id": "177",
+          "meta_attributes": {},
+          "updated_at": "2019-04-24T14:11:46Z",
+          "created_at": "2018-10-17T14:43:03Z",
+          "deleted_at": null,
+          "slug": "coffee/brazil-daterra-masterpiece-curupira",
+          "canonical_path": "/coffee/brazil-daterra-masterpiece-curupira",
+          "title": "Brazil Daterra Masterpiece - Curupira",
+          "reference": "brazil-daterra-masterpiece-curupira",
+          "description": "",
+          "attribute_merchandising": {},
+          "category_ids_cache": [
+            50
+          ],
+          "content_type": "html",
+          "merged_attribute_merchandising": {},
+          "seo_meta_description": "",
+          "seo_meta_keywords": "",
+          "seo_meta_title": "",
+          "rating": 0,
+          "total_ratings": null,
+          "web_product_description": "",
+          "web_product_name": "",
+          "picture_url": "https://shift-platform-dev.s3-eu-west-1.amazonaws.com/uploads/asset_file/asset_file/191/1539787307.712223-coffee-product-1.jpg",
+          "sellable": true,
+          "available_to_browse": true,
+          "merchandised": true,
+          "published": true,
+          "has_assets": true,
+          "ewis_status": "not_ewis_eligible",
+          "average_rating": 0,
+          "min_price": 16.5,
+          "max_price": 16.5,
+          "min_current_price": 16.5,
+          "max_current_price": 16.5
+        }
+      },
+      "line_item_discounts": [
+        {
+          "id": "414772e3-83b7-4dd1-af89-f6da33e2c52b",
+          "updated_at": null,
+          "created_at": null,
+          "line_item_number": 1,
+          "promotion_id": 22,
+          "total": 2.5
+        },
+        {
+          "id": "a8e24031-6324-473e-893c-c65c5bcbcba7",
+          "updated_at": null,
+          "created_at": null,
+          "line_item_number": 2,
+          "promotion_id": 22,
+          "total": 2.5
+        },
+        {
+          "id": "69cbfada-d86a-4350-a98d-821942ae16af",
+          "updated_at": null,
+          "created_at": null,
+          "line_item_number": 3,
+          "promotion_id": 22,
+          "total": 2.5
+        },
+        {
+          "id": "920009f1-2612-47fc-93ae-4f3cd26aba08",
+          "updated_at": null,
+          "created_at": null,
+          "line_item_number": 4,
+          "promotion_id": 22,
+          "total": 2.5
+        }
+      ]
+    }
+  ],
+  "discount_summaries": [
+    {
+      "id": "9ebf8809-2eb8-409b-abce-cf615437829a",
+      "name": "£10 off orders overs over £50",
+      "promotion_id": 22,
+      "total": 10
+    }
+  ],
+  "customer_account": {
+    "id": "64",
+    "meta_attributes": {
+      "first_name": {
+        "value": "John",
+        "data_type": "text"
+      },
+      "last_name": {
+        "value": "Doe",
+        "data_type": "text"
+      }
+    },
+    "email": "registrationtest101@example.com",
+    "reference": "64",
+    "created_at": "2018-12-12T15:40:54.687Z",
+    "updated_at": "2019-04-12T13:19:05.423Z"
+  },
+  "billing_address": {
+    "id": "1281",
+    "meta_attributes": {
+      "phone_number": {
+        "value": "123123123",
+        "data_type": "text"
+      },
+      "email": {
+        "value": "asdasd@dasda.as",
+        "data_type": "text"
+      }
+    },
+    "customer_account_id": 64,
+    "first_name": "asda",
+    "last_name": "asdas",
+    "middle_names": "",
+    "address_line_1": "asdas",
+    "address_line_2": "asdsa",
+    "address_line_3": "",
+    "city": "asdas",
+    "state": "",
+    "postcode": "asdas",
+    "country": "GB",
+    "preferred_shipping": false,
+    "preferred_billing": false
+  },
+  "shipping_address": {
+    "id": "1281",
+    "meta_attributes": {
+      "phone_number": {
+        "value": "123123123",
+        "data_type": "text"
+      },
+      "email": {
+        "value": "asdasd@dasda.as",
+        "data_type": "text"
+      }
+    },
+    "customer_account_id": 64,
+    "first_name": "asda",
+    "last_name": "asdas",
+    "middle_names": "",
+    "address_line_1": "asdas",
+    "address_line_2": "asdsa",
+    "address_line_3": "",
+    "city": "asdas",
+    "state": "",
+    "postcode": "asdas",
+    "country": "GB",
+    "preferred_shipping": false,
+    "preferred_billing": false
+  },
+  "shipping_method": {
+    "id": "21",
+    "meta_attributes": {
+      "working_days": {
+        "value": "2",
+        "data_type": "text"
+      }
+    },
+    "updated_at": "2019-04-24T15:01:18Z",
+    "created_at": "2018-09-24T15:43:27Z",
+    "label": "Standard",
+    "sku": "REGULAR",
+    "reference": "STANDARD",
+    "description": "Standard - shipping method",
+    "sub_total": 1.62,
+    "tax": 0.33,
+    "total": 1.95,
+    "tax_rate": 0.2
+  }
+}
