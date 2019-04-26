@@ -383,16 +383,21 @@ class CheckoutPaymentPage extends Component {
   }
 
   renderPayment () {
-    // When moving to the review step the payment form is hidden instead of unmounted
-    // so that the Stripe form remains in the DOM.
+    const { thirdPartyPaymentMethods } = this.props
+
+    // When checking out with Stipe and moving to the review step the payment form
+    // is hidden instead of unmounted that the Stripe form remains in the DOM.
+    // The payment form is not rendered at all when checking out with a third party.
     return (
       <>
         <div className={classNames({ 'u-hidden': !this.state.reviewStep })}>
           {this.renderPaymentSummary()}
         </div>
-        <div className={classNames({ 'u-hidden': this.state.reviewStep })}>
-          {this.renderPaymentForm()}
-        </div>
+        {!thirdPartyPaymentMethods.includes(this.state.paymentMethod) &&
+          <div className={classNames({ 'u-hidden': this.state.reviewStep })}>
+            {this.renderPaymentForm()}
+          </div>
+        }
       </>
     )
   }
