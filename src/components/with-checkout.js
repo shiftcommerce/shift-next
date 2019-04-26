@@ -141,7 +141,7 @@ export function withCheckout (WrappedComponent) {
           { currentStep === 5 && <MiniPlaceOrder
             convertToOrder={this.wrappedRef.current.convertToOrder}
             total={cart.total}
-            isValidOrder={this.wrappedRef.current.isValidOrder(cart, order)}
+            isValidOrder={this.wrappedRef.current.isValidOrder && this.wrappedRef.current.isValidOrder(cart, order)}
           /> }
           <div className='c-checkout'>
             <div className='o-grid-container'>
