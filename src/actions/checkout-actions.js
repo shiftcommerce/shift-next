@@ -107,6 +107,8 @@ export function authorizePayPalAndCreateOrder (payPalOrderID, paymentMethod) {
       if (!paymentError) {
         // create order
         return dispatch(createOrder(getState().cart, paymentMethod, order))
+      } else {
+        throw paymentError
       }
     })
   }

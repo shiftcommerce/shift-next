@@ -108,8 +108,25 @@ export class ShippingMethodPage extends Component {
       if (!paymentError) {
         // redirect to next step
         this.nextSection()
+      } else {
+        // set loading to false
+        this.setState({ loading: false })
       }
     })
+  }
+
+  /**
+   * Formats form errors
+   */
+  formSubmissionError () {
+    const { order } = this.props
+    // check for any PayPal error messages
+    if ((order.paymentResponseErrors.error && order.paymentResponseErrors.error.data)) {
+      // return custom message as PayPal error is not user friendly
+      return 'Sorry! There has been a problem with your selection. Please try again.'
+    } else {
+      return null
+    }
   }
 
   /**
@@ -184,6 +201,7 @@ export class ShippingMethodPage extends Component {
           handleSetShippingMethod={this.handleSetShippingMethod}
           shippingMethods={this.state.shippingMethods}
           isThirdPartyPayment={thirdPartyPaymentMethods.includes(this.state.paymentMethod)}
+          errorMessage={ this.formSubmissionError() }
         /> }
       </div>
     )
