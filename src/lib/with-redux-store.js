@@ -3,6 +3,7 @@ import Cookies from 'js-cookie'
 import { initializeStore } from './configure-store'
 import { readMenu } from '../actions/menu-actions'
 import { fetchAccountDetails, setLoggedInFromCookies } from '../actions/account-actions'
+import { toggleLoading } from '../actions/global-actions'
 
 // Lib
 import InitialPropsDelegator from './initial-props-delegator'
@@ -29,6 +30,7 @@ export default (App) => {
       // Get or Create the store with `undefined` as initialState
       // This allows you to set a custom default initialState
       const reduxStore = getOrCreateStore()
+      reduxStore.dispatch(toggleLoading(true))
       await reduxStore.dispatch(readMenu())
       // Provide the store to getInitialProps of pages
       appContext.reduxStore = reduxStore
