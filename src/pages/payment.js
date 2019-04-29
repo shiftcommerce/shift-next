@@ -2,6 +2,7 @@
 import React, { Component } from 'react'
 import Router from 'next/router'
 import Cookies from 'js-cookie'
+import classNames from 'classnames'
 
 // Libs
 import addressFormValidator from '../lib/address-form-validator'
@@ -402,6 +403,26 @@ class CheckoutPaymentPage extends Component {
     )
   }
 
+  renderPayment () {
+    const { thirdPartyPaymentMethods } = this.props
+
+    // When checking out with Stipe and moving to the review step the payment form
+    // is hidden instead of unmounted that the Stripe form remains in the DOM.
+    // The payment form is not rendered at all when checking out with a third party.
+    return (
+      <>
+        <div className={classNames({ 'u-hidden': !this.state.reviewStep })}>
+          {this.renderPaymentSummary()}
+        </div>
+        {!thirdPartyPaymentMethods.includes(this.state.paymentMethod) &&
+          <div className={classNames({ 'u-hidden': this.state.reviewStep })}>
+            {this.renderPaymentForm()}
+          </div>
+        }
+      </>
+    )
+  }
+
   render () {
     const { cart, cart: { shipping_address }, thirdPartyPaymentMethods } = this.props
 
@@ -436,7 +457,7 @@ class CheckoutPaymentPage extends Component {
           shippingMethod={cart.shipping_method}
           headerTitle={'Shipping Method'}
         />
-        { this.state.reviewStep ? this.renderPaymentSummary() : this.renderPaymentForm() }
+        { this.renderPayment() }
       </>
     )
   }

@@ -10,30 +10,10 @@ import Config from '../lib/config'
 // Components
 import { Loading, StaticPageError } from '@shiftcommerce/shift-react-components'
 
-const pageRequest = (pageId) => {
-  return {
-    endpoint: `/getStaticPage/${pageId}`,
-    query: {
-      include: 'template,meta.*'
-    }
-  }
-}
-
-const fetchPage = async (id) => {
-  try {
-    const request = pageRequest(id)
-    const response = await new ApiClient().read(request.endpoint, request.query)
-
-    return response.data
-  } catch (error) {
-    return { error }
-  }
-}
-
 class StaticPage extends Component {
   static async getInitialProps ({ query: { id }, req }) {
     if (req) { // server-side
-      const page = await fetchPage(id)
+      const page = await StaticPage.fetchPage(id)
 
       return { id, page }
     } else { // client side
@@ -68,9 +48,41 @@ class StaticPage extends Component {
   }
 
   async fetchPageIntoState (id) {
-    const page = await fetchPage(id)
+    const page = await StaticPage.fetchPage(id)
 
     this.setState({ loading: false, page })
+  }
+
+  /**
+   * Request the page from the API
+   * @param  {Number} id
+   * @return {Object} API response or error
+   */
+  static async fetchPage (id) {
+    try {
+      const request = StaticPage.pageRequest(id)
+      const response = await new ApiClient().read(request.endpoint, request.query)
+
+      return response.data
+    } catch (error) {
+      return { error }
+    }
+  }
+
+  /**
+   * Generate the page request object. This method can be overridden when
+   * StaticPage is imported, if the query needs to be altered. For example:
+   * StaticPage.pageRequest = (pageId) => { ... }
+   * @param  {Number} pageId
+   * @return {Object}
+   */
+  static pageRequest (pageId) {
+    return {
+      endpoint: `/getStaticPage/${pageId}`,
+      query: {
+        include: 'template,meta.*'
+      }
+    }
   }
 
   /**

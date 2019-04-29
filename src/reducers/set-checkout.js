@@ -1,3 +1,6 @@
+// Libraries
+import t from 'typy'
+
 // actionTypes
 import * as types from '../actions/action-types'
 import t from 'typy'
@@ -165,12 +168,12 @@ export default function setCheckout (state = checkoutInitialState, action) {
         id: address.id,
         city: address.city,
         country_code: address.country,
-        email: address.meta_attributes.email.value,
+        email: t(address, 'meta_attributes.email.value').safeObject,
         first_name: address.first_name,
         last_name: address.last_name,
         line_1: address.address_line_1,
         line_2: address.address_line_2,
-        primary_phone: t(address, 'meta_attributes.phone_number.value').safeObject || '',
+        primary_phone: t(address, 'meta_attributes.phone_number.value').safeObject,
         state: address.state || '',
         zipcode: address.postcode,
         preferred_shipping: address.preferred_shipping,
@@ -186,12 +189,12 @@ export default function setCheckout (state = checkoutInitialState, action) {
         id: action.address.id,
         city: action.address.city,
         country_code: action.address.country,
-        email: action.address.meta_attributes.email.value,
+        email: t(action, 'address.meta_attributes.email.value').safeObject,
         first_name: action.address.first_name,
         last_name: action.address.last_name,
         line_1: action.address.address_line_1,
         line_2: action.address.address_line_2,
-        primary_phone: t(action.address, 'meta_attributes.phone_number.value').safeObject || '',
+        primary_phone: t(action, 'address.meta_attributes.phone_number.value').safeObject,
         state: action.address.state || '',
         zipcode: action.address.postcode,
         preferred_shipping: action.address.preferred_shipping,

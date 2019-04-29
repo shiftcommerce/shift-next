@@ -1058,7 +1058,7 @@ describe('render()', () => {
     expect(wrapper.find('AddressFormSummary').length).toEqual(1)
     expect(wrapper.find('ShippingMethodsSummary').length).toEqual(1)
     expect(wrapper.find('Payment').length).toEqual(1)
-    expect(wrapper.find('PaymentSummary').length).toEqual(0)
+    expect(wrapper.find('PaymentSummary').length).toEqual(1)
   })
 
   test('displays payment method selection when at payment step', () => {
@@ -1078,7 +1078,9 @@ describe('render()', () => {
 
     // Assert
     expect(wrapper.find('Payment').length).toEqual(1)
-    expect(wrapper.find('PaymentSummary').length).toEqual(0)
+    // Payment Method Summary should be in the DOM but hidden
+    expect(wrapper.find('PaymentSummary').length).toEqual(1)
+    expect(wrapper.find('PaymentSummary').parent().hasClass('u-hidden')).toBe(true)
   })
 
   test('displays payment method summary when at payment step', () => {
@@ -1100,7 +1102,9 @@ describe('render()', () => {
     })
 
     // Assert
-    expect(wrapper.find('Payment').length).toEqual(0)
     expect(wrapper.find('PaymentSummary').length).toEqual(1)
+    // Payment Method should be in the DOM but hidden
+    expect(wrapper.find('Payment').length).toEqual(1)
+    expect(wrapper.find('Payment').parent().hasClass('u-hidden')).toBe(true)
   })
 })

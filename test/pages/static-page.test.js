@@ -178,6 +178,40 @@ describe('getInitialProps()', () => {
     expect(pageRequest.isDone()).toBe(true)
   })
 
+  test('fetches and returns the page when run server side with a custom request query', async () => {
+    Config.set({
+      apiHostProxy: 'http://example.com'
+    })
+
+    const staticPageQuery = {
+      include: 'aCustomQuery'
+    }
+
+    StaticPage.pageRequest = (pageId) => {
+      return {
+        endpoint: `/getStaticPage/${pageId}`,
+        query: staticPageQuery
+      }
+    }
+
+    const pageRequest = nock(/example\.com/)
+      .get('/getStaticPage/10')
+      .query(staticPageQuery)
+      .reply(200, {
+        id: 10,
+        title: 'Test Page'
+      })
+
+    expect(await StaticPage.getInitialProps({ query: { id: 10 }, req: { includes: 'valueToBeOverwritten' } })).toEqual({
+      id: 10,
+      page: {
+        id: 10,
+        title: 'Test Page'
+      }
+    })
+    expect(pageRequest.isDone()).toBe(true)
+  })
+
   test('returns the id from the query when run client side', async () => {
     expect(await StaticPage.getInitialProps({ query: { id: 10 } })).toEqual({ id: 10 })
   })
