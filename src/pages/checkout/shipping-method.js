@@ -43,7 +43,8 @@ export class ShippingMethodPage extends Component {
       loading: true,
       payPalOrderID: Cookies.get('ppOrderID'),
       paymentMethod: Cookies.get('paymentMethod'),
-      purchaseUnitsReferenceID: Cookies.get('purchaseUnitsReferenceID')
+      purchaseUnitsReferenceID: Cookies.get('purchaseUnitsReferenceID'),
+      payPalOrderUpdateError: false
     }
 
     this.handleFormSubmit = this.handleFormSubmit.bind(this)
@@ -110,7 +111,7 @@ export class ShippingMethodPage extends Component {
         this.nextSection()
       } else {
         // set loading to false
-        this.setState({ loading: false })
+        this.setState({ loading: false, payPalOrderUpdateError: true })
       }
     })
   }
@@ -119,9 +120,8 @@ export class ShippingMethodPage extends Component {
    * Formats form errors
    */
   formSubmissionError () {
-    const { order } = this.props
     // check for any PayPal error messages
-    if ((order.paymentResponseErrors.error && order.paymentResponseErrors.error.data)) {
+    if (this.state.payPalOrderUpdateError) {
       // return custom message as PayPal error is not user friendly
       return 'Sorry! There has been a problem with your selection. Please try again.'
     } else {
