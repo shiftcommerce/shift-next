@@ -1033,8 +1033,8 @@
     qs "^6.6.0"
 
 "@shiftcommerce/shift-react-components@shiftcommerce/shift-react-components#issue/865_checkout_enhancements":
-  version "0.12.0"
-  resolved "https://codeload.github.com/shiftcommerce/shift-react-components/tar.gz/646b074215aa6e6259466518a7b49c60feb80874"
+  version "0.13.0"
+  resolved "https://codeload.github.com/shiftcommerce/shift-react-components/tar.gz/47f94fa7617f6d0a4d4168b672073ab4a09041e5"
   dependencies:
     classnames "^2.2.6"
     formik "^1.4.0"
