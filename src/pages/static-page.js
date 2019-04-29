@@ -10,28 +10,10 @@ import Config from '../lib/config'
 // Components
 import { StaticPageError, Loading } from '@shiftcommerce/shift-react-components'
 
-const pageRequest = (pageId) => {
-  return {
-    endpoint: `/getStaticPage/${pageId}`,
-    query: {
-      include: 'template,meta.*'
-    }
-  }
-}
-
-const fetchPage = async (id, dispatch) => {
-  try {
-    const request = pageRequest(id)
-    const response = await new ApiClient().read(request.endpoint, request.query, dispatch)
-    return response.data
-  } catch (error) {
-    return { error }
-  }
-}
 
 class StaticPage extends Component {
   static async getInitialProps ({ query: { id }, req, reduxStore }) {
-    const page = await fetchPage(id, reduxStore.dispatch)
+    const page = await StaticPage.fetchPage(id, reduxStore.dispatch)
 
     return { id, page, isServer: !!req }
   }
@@ -40,6 +22,38 @@ class StaticPage extends Component {
     super(props)
 
     this.Head = Config.get().Head
+  }
+
+  /**
+ * Request the page from the API
+ * @param  {Number} id
+ * @return {Object} API response or error
+ */
+  static async fetchPage(id, dispatch) {
+    try {
+      const request = StaticPage.pageRequest(id)
+      const response = await new ApiClient().read(request.endpoint, request.query, dispatch)
+
+      return response.data
+    } catch (error) {
+      return { error }
+    }
+  }
+
+  /**
+   * Generate the page request object. This method can be overridden when
+   * StaticPage is imported, if the query needs to be altered. For example:
+   * StaticPage.pageRequest = (pageId) => { ... }
+   * @param  {Number} pageId
+   * @return {Object}
+   */
+  static pageRequest(pageId) {
+    return {
+      endpoint: `/getStaticPage/${pageId}`,
+      query: {
+        include: 'template,meta.*'
+      }
+    }
   }
 
   renderPageTitle (title) {
