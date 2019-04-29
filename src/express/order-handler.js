@@ -46,7 +46,7 @@ module.exports = {
             token: paymentAuthorizationID,
           },
           status: 'success',
-          amount: orderPayload.data.attributes.total,
+          amount: orderPayload.data.attributes.total_inc_tax,
           currency: orderPayload.data.attributes.currency
         },
         type: 'payment_transactions'
