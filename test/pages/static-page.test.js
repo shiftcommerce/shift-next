@@ -80,7 +80,7 @@ describe('getInitialProps()', () => {
         title: 'Test Page'
       })
 
-    expect(await StaticPage.getInitialProps({ query: { id: 10 }, req: true, reduxStore: jest.fn() })).toEqual({
+    expect(await StaticPage.getInitialProps({ query: { id: 10 }, req: true, reduxStore: { dispatch: jest.fn() }})).toEqual({
       id: 10,
       page: {
         id: 10,
@@ -102,7 +102,7 @@ describe('getInitialProps()', () => {
         title: 'Test Page'
       })
 
-    expect(await StaticPage.getInitialProps({ query: { id: 10 }, req: false, reduxStore: jest.fn() })).toEqual({
+    expect(await StaticPage.getInitialProps({ query: { id: 10 }, req: false, reduxStore: { dispatch: jest.fn() }})).toEqual({
       id: 10,
       page: {
         id: 10,
@@ -137,17 +137,14 @@ describe('getInitialProps()', () => {
         title: 'Test Page'
       })
 
-    expect(await StaticPage.getInitialProps({ query: { id: 10 }, req: { includes: 'valueToBeOverwritten' } })).toEqual({
+    expect(await StaticPage.getInitialProps({ query: { id: 10 }, req: true, reduxStore: { dispatch: jest.fn() } })).toEqual({
       id: 10,
       page: {
         id: 10,
         title: 'Test Page'
-      }
+      },
+      isServer: true
     })
     expect(pageRequest.isDone()).toBe(true)
-  })
-
-  test('returns the id from the query when run client side', async () => {
-    expect(await StaticPage.getInitialProps({ query: { id: 10 } })).toEqual({ id: 10 })
   })
 })
