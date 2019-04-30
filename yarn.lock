@@ -1034,7 +1034,7 @@
 
 "@shiftcommerce/shift-react-components@shiftcommerce/shift-react-components#issue/865_checkout_enhancements":
   version "0.13.0"
-  resolved "https://codeload.github.com/shiftcommerce/shift-react-components/tar.gz/4f2af6f4dbb79e4e001f6e0fae571184bcf44ded"
+  resolved "https://codeload.github.com/shiftcommerce/shift-react-components/tar.gz/8802e560a2467c734c56811100a3d5b3b30fc971"
   dependencies:
     classnames "^2.2.6"
     formik "^1.4.0"
@@ -3986,9 +3986,9 @@ global@^4.3.2:
     process "~0.5.1"
 
 globals@^11.1.0:
-  version "11.11.0"
-  resolved "https://registry.yarnpkg.com/globals/-/globals-11.11.0.tgz#dcf93757fa2de5486fbeed7118538adf789e9c2e"
-  integrity sha512-WHq43gS+6ufNOEqlrDBxVEbb8ntfXrfAUU2ZOpCxrBdGKW3gyv8mCxAfIBD0DroPKGrJ2eSsXsLtY9MPntsyTw==
+  version "11.12.0"
+  resolved "https://registry.yarnpkg.com/globals/-/globals-11.12.0.tgz#ab8795338868a0babd8525758018c2a7eb95c42e"
+  integrity sha512-WOBp/EEGUiIsJSp7wcv/y6MO+lV9UoncWqxuFfm8eBwzWNgyfBd6Gz+IeKQ9jCmyhoH99g15M3T+QaVHFjizVA==
 
 globby@^5.0.0:
   version "5.0.0"
