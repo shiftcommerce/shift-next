@@ -27,6 +27,7 @@ class StaticPage extends Component {
   /**
  * Request the page from the API
  * @param  {Number} id
+ * @param  {Function} dispatch
  * @return {Object} API response or error
  */
   static async fetchPage(id, dispatch) {
