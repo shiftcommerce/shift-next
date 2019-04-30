@@ -7,7 +7,7 @@ import Config from '../lib/config'
 import { toggleLoading } from '../actions/global-actions'
 
 // Check to see if dispatch is passed through,
-// if it is dispatch this action, otherwise dont do anything.
+// if so, dispatch `toggleLoading`, otherwise don't do anything.
 // We need to pass dispatch through as apiClient isnt coupled to redux.
 const shouldDispatch = (dispatch, value) => {
   dispatch ? dispatch(toggleLoading(value)) : null
