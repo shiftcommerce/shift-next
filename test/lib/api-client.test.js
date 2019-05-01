@@ -5,6 +5,7 @@ import httpAdapter from 'axios/lib/adapters/http'
 import ApiClient from '../../src//lib/api-client'
 import payload from '../fixtures/products-payload'
 import Config from '../../src/lib/config'
+import * as globalActions from '../../src/actions/global-actions'
 
 axios.defaults.adapter = httpAdapter
 
@@ -106,4 +107,34 @@ test('delete returns correct response and status and logs when request fails', a
 
   // Clean up after mocking out the error logger
   spy.mockRestore()
+})
+
+test('if dispatch is passed through it dispatches toggle loading action', async () => {
+  // Prepare the request query object
+  const queryObject = {
+    fields: {
+      include: 'asset_files,variants,bundles,template,meta.*'
+    }
+  }
+
+  // Initialize the client
+  const client = new ApiClient()
+  
+  const toggleLoadingSpy = jest.spyOn(globalActions, 'toggleLoading').mockImplementation(() => 'toggleLoadingAction')
+  const dispatch = jest.fn().mockImplementation(() => Promise.resolve())
+
+  // Mock out a successful get request
+  nockScope
+    .get('/products')
+    .query(queryObject)
+    .reply(200, payload)
+
+  // Make the request
+  await client.read('/products', queryObject, dispatch)
+
+  expect(dispatch).toHaveBeenCalledWith('toggleLoadingAction')
+  // expect to set loading to true when making api call
+  expect(toggleLoadingSpy).toHaveBeenCalledWith(true)
+  // expect to set loading to false when data is recieved
+  expect(toggleLoadingSpy).toHaveBeenCalledWith(false)
 })

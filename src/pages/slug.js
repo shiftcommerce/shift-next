@@ -7,6 +7,8 @@ import qs from 'qs'
 // Lib
 import ApiClient from '../lib/api-client'
 
+import { toggleLoading } from '../actions/global-actions'
+
 const slugRequest = (slug) => {
   const queryObject = {
     filter: {
@@ -27,7 +29,8 @@ const slugRequest = (slug) => {
 }
 
 class Slug extends Component {
-  static async getInitialProps ({ query }) {
+  static async getInitialProps ({ query, reduxStore }) {
+    reduxStore.dispatch(toggleLoading(true))
     const request = slugRequest(query.slug)
     const response = await new ApiClient().read(request.endpoint, request.query)
 
