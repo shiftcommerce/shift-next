@@ -114,6 +114,7 @@ export class PaymentMethodPage extends Component {
 
   /**
    * This workaround function is used within the test environment for testing PayPal
+   * Solution came about from a team discussion, due to https://github.com/cypress-io/cypress/issues/1496
    */
   mockPayPalApproval () {
     this.handleSetPaymentMethod('PayPal')
