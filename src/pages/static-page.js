@@ -8,60 +8,32 @@ import ApiClient from '../lib/api-client'
 import Config from '../lib/config'
 
 // Components
-import { Loading, StaticPageError } from '@shiftcommerce/shift-react-components'
+import { StaticPageError, Loading } from '@shiftcommerce/shift-react-components'
+
 
 class StaticPage extends Component {
-  static async getInitialProps ({ query: { id }, req }) {
-    if (req) { // server-side
-      const page = await StaticPage.fetchPage(id)
+  static async getInitialProps ({ query: { id }, req, reduxStore }) {
+    const page = await StaticPage.fetchPage(id, reduxStore.dispatch)
 
-      return { id, page }
-    } else { // client side
-      return { id }
-    }
+    return { id, page, isServer: !!req }
   }
 
   constructor (props) {
     super(props)
-    this.state = {
-      loading: true
-    }
 
     this.Head = Config.get().Head
   }
 
-  static getDerivedStateFromProps (newProps, prevState) {
-    if (prevState.currentId !== newProps.id) {
-      return { currentId: newProps.id, loading: true }
-    }
-    return null
-  }
-
-  async componentDidMount () {
-    await this.fetchPageIntoState(this.props.id)
-  }
-
-  async componentDidUpdate (_, prevState) {
-    if (prevState.currentId !== this.state.currentId) {
-      await this.fetchPageIntoState(this.props.id)
-    }
-  }
-
-  async fetchPageIntoState (id) {
-    const page = await StaticPage.fetchPage(id)
-
-    this.setState({ loading: false, page })
-  }
-
   /**
-   * Request the page from the API
-   * @param  {Number} id
-   * @return {Object} API response or error
-   */
-  static async fetchPage (id) {
+ * Request the page from the API
+ * @param  {Number} id
+ * @param  {Function} dispatch
+ * @return {Object} API response or error
+ */
+  static async fetchPage(id, dispatch) {
     try {
       const request = StaticPage.pageRequest(id)
-      const response = await new ApiClient().read(request.endpoint, request.query)
+      const response = await new ApiClient().read(request.endpoint, request.query, dispatch)
 
       return response.data
     } catch (error) {
@@ -76,21 +48,13 @@ class StaticPage extends Component {
    * @param  {Number} pageId
    * @return {Object}
    */
-  static pageRequest (pageId) {
+  static pageRequest(pageId) {
     return {
       endpoint: `/getStaticPage/${pageId}`,
       query: {
         include: 'template,meta.*'
       }
     }
-  }
-
-  /**
-   * Returns the page object
-   * @return {Object}
-   */
-  getPage () {
-    return this.props.page || this.state.page
   }
 
   renderPageTitle (title) {
@@ -110,7 +74,7 @@ class StaticPage extends Component {
    * @return {String} - HTML markup for the component
    */
   renderLoaded () {
-    const page = this.getPage()
+    const { page } = this.props
 
     if (page.template.sections) {
       const { components } = page.template.sections.slice(-1).pop()
@@ -124,9 +88,9 @@ class StaticPage extends Component {
   }
 
   render () {
-    const page = this.getPage()
+    const { page } = this.props
 
-    if (this.state.loading) {
+    if (this.props.loading && !this.props.isServer) {
       return (
         <Loading />
       )
