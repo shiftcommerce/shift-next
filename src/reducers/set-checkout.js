@@ -121,7 +121,8 @@ export default function setCheckout (state = checkoutInitialState, action) {
         country_code: payPalBillingAddress.country_code,
         primary_phone: payPalBillingAddress.primary_phone,
         collapsed: payPalBillingAddress.collapsed,
-        completed: payPalBillingAddress.completed
+        completed: payPalBillingAddress.completed,
+        errors: {}
       }
       return newState
 
@@ -139,7 +140,8 @@ export default function setCheckout (state = checkoutInitialState, action) {
         country_code: payPalShippingAddress.country_code,
         primary_phone: payPalShippingAddress.primary_phone,
         collapsed: payPalShippingAddress.collapsed,
-        completed: payPalShippingAddress.completed
+        completed: payPalShippingAddress.completed,
+        errors: {}
       }
       return newState
 
