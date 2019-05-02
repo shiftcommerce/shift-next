@@ -181,7 +181,7 @@ export class PaymentMethodPage extends Component {
       line_1: address.address_line_1,
       line_2: address.address_line_2,
       city: address.admin_area_2,
-      state: address.admin_area_1,
+      state: address.admin_area_1 || '',
       zipcode: address.postal_code,
       country_code: address.country_code,
       primary_phone: phone_number,
