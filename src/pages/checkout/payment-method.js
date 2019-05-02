@@ -22,7 +22,7 @@ import { PaymentMethod, Loading } from '@shiftcommerce/shift-react-components'
 // Libs
 import Config from '../../lib/config'
 
-// Fixture
+// Json
 // This is required as a workaround when testing PayPal integration using cypress
 // https://github.com/cypress-io/cypress/issues/1496
 import MockPayPalResponse from '../../../test/fixtures/paypal-order-response'
