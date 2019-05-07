@@ -1034,9 +1034,10 @@
     axios "^0.18.0"
     qs "^6.6.0"
 
-"@shiftcommerce/shift-react-components@shiftcommerce/shift-react-components#issue/865_checkout_enhancements":
+"@shiftcommerce/shift-react-components@^0.12.4":
   version "0.12.4"
-  resolved "https://codeload.github.com/shiftcommerce/shift-react-components/tar.gz/6aad8d70bf2755ce2b5f5b194527c0b2c534605d"
+  resolved "https://registry.yarnpkg.com/@shiftcommerce/shift-react-components/-/shift-react-components-0.12.4.tgz#5d65edacbf9c667d7be380ef20747a4e5699ba39"
+  integrity sha512-CYUTBsyP8AYr5HzhSkqXioLIX19Jq2f9SPEzpe1kpd62D7W1/Zrd5Lzcy8bU8uT1XGss00DgrccEWiv5PBvkPQ==
   dependencies:
     classnames "^2.2.6"
     formik "^1.4.0"
