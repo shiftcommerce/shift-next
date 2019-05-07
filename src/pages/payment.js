@@ -297,24 +297,35 @@ class CheckoutPaymentPage extends Component {
       // set loading to true as we handle the order authorization and creation process
       this.setState({ loading: true })
       // set order submitted state
-      return dispatch(setOrderSubmitted(true)).then(() => {
-        // authorise PayPal order and create order in platform
-        return dispatch(authorizePayPalAndCreateOrder(this.state.payPalOrderID, this.state.paymentMethod)).then(() => {
-          // clean up cookie data
-          Cookies.remove('ppOrderID')
-          // redirect to order page
-          Router.push('/order')
-        }).catch((error) => {
-          // set loading to false
-          this.setState({ loading: false, payPalAuthorizationError: true })
-        })
+      dispatch(setOrderSubmitted(true))
+      // authorise PayPal order and create order in platform
+      dispatch(authorizePayPalAndCreateOrder(this.state.payPalOrderID, this.state.paymentMethod)).then(() => {
+        // clean up cookie data
+        Cookies.remove('ppOrderID')
+        // redirect to order page
+        Router.push('/order')
+      }).catch((error) => {
+        // set loading to false
+        this.setState({ loading: false, payPalAuthorizationError: true })
       })
     } else {
       // set order submitted state
-      return dispatch(setOrderSubmitted(true)).then(() => {
-        // request Stripe token
-        return dispatch(requestCardToken(true))
-      })
+      dispatch(setOrderSubmitted(true))
+      // request Stripe token
+      dispatch(requestCardToken(true))
+    }
+  }
+
+  /**
+   * Formats form errors
+   */
+  formSubmissionError () {
+    // check for any PayPal error messages
+    if (this.state.payPalAuthorizationError) {
+      // return custom message as PayPal error is not user friendly
+      return 'Sorry! There has been a problem authorising your payment. Please try again.'
+    } else {
+      return null
     }
   }
 
