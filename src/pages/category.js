@@ -18,29 +18,29 @@ import { clearSearchFilter, setSearchFilter } from '../actions/search-actions'
 // Config
 import Config from '../lib/config'
 
-const categoryRequest = (categoryId) => {
-  return {
-    endpoint: `/getCategory/${categoryId}`,
-    query: {}
-  }
-}
-
-const fetchCategory = async (id) => {
-  const request = categoryRequest(id)
-  const response = await new ApiClient().read(request.endpoint, request.query)
-  return response.data
-}
-
 class CategoryPage extends Component {
   static algoliaEnabled = () => true
 
   static async getInitialProps ({ query: { id }, reduxStore, req }) {
     if (req) { // server-side
-      const category = await fetchCategory(id)
+      const category = await CategoryPage.fetchCategory(id)
       return { id, category }
     } else { // client side
       return { id }
     }
+  }
+
+  static categoryRequest (categoryId) {
+    return {
+      endpoint: `/getCategory/${categoryId}`,
+      query: {}
+    }
+  }
+
+  static async fetchCategory (id) {
+    const request = CategoryPage.categoryRequest(id)
+    const response = await new ApiClient().read(request.endpoint, request.query)
+    return response.data
   }
 
   static buildAlgoliaStates ({ query: { id, ...options } }) {
@@ -116,7 +116,7 @@ class CategoryPage extends Component {
   }
 
   async fetchCategoryIntoState (id) {
-    const category = await fetchCategory(id)
+    const category = await CategoryPage.fetchCategory(id)
 
     this.setState({ loading: false, category })
     this.props.dispatch(setSearchFilter(category.title))
