@@ -341,7 +341,11 @@ describe('updateCustomerAccount()', () => {
       body: {
         firstName: 'First name',
         lastName: 'Last name',
-        email: 'email@example.com'
+        email: 'email@example.com',
+        mobilePhone: '07123456789',
+        day: '10',
+        month: 'January',
+        year: '2000'
       }
     }
 
@@ -362,6 +366,14 @@ describe('updateCustomerAccount()', () => {
             },
             last_name: {
               value: 'Last name',
+              data_type: 'string'
+            },
+            mobile_phone: {
+              value: '07123456789',
+              data_type: 'string'
+            },
+            date_of_birth: {
+              value: '10/January/2000',
               data_type: 'string'
             }
           },
@@ -418,6 +430,14 @@ describe('updateCustomerAccount()', () => {
             },
             last_name: {
               value: undefined,
+              data_type: 'string'
+            },
+            mobile_phone: {
+              value: undefined,
+              data_type: 'string'
+            },
+            date_of_birth: {
+              value: 'undefined/undefined/undefined',
               data_type: 'string'
             }
           },

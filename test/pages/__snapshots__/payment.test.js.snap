@@ -27,7 +27,7 @@ exports[`render() renders correct checkout components 1`] = `
   <div
     className="u-hidden"
   >
-    <PaymentSummary
+    <Component
       errorMessage={null}
       headerTitle="Payment Details"
       onClick={[Function]}
@@ -38,7 +38,7 @@ exports[`render() renders correct checkout components 1`] = `
   <div
     className=""
   >
-    <Payment
+    <Component
       addressBook={Array []}
       addressFormDisplayed={[Function]}
       autoFillAddress={[Function]}

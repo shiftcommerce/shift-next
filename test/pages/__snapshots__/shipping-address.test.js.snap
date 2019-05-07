@@ -13,7 +13,7 @@ exports[`renders address form components 1`] = `
     <div
       className="o-form__address"
     >
-      <AddressFormHeader
+      <address_form_header_AddressFormHeader
         title="Shipping Address"
       />
       <AddressForm
