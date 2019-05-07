@@ -1,5 +1,5 @@
 // Libraries
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import Router from 'next/router'
 import qs from 'qs'
 import equal from 'deep-equal'
@@ -126,32 +126,41 @@ class CategoryPage extends Component {
     this.props.dispatch(clearSearchFilter())
   }
 
+  /**
+   * Render the loaded content
+   * @param  {Object} category
+   * @return {String} - HTML markup for the component
+   */
+  renderLoaded (category) {
+    const { title, facets } = category
+
+    return (
+      <Fragment>
+        <this.Head>
+          <title>{ suffixWithStoreName(title) }</title>
+        </this.Head>
+        <ProductListing title={title} indexName={Config.get().algoliaIndexName} facets={facets} />
+      </Fragment>
+    )    
+  }
+
   render () {
     const category = this.props.category || (this.state && this.state.category)
     const loading = (this.state && this.state.loading) || !category
 
     if (loading) {
       return (
-        <>
+        <Fragment>
           <Loading />
           {/* Render Search filters so that the Algolia request triggered by the spinner
           matches the default category page request - otherwise an extra call to Algolia is made */}
           <div className='u-hidden'>
             <SearchFilters />
           </div>
-        </>
+        </Fragment>
       )
     } else {
-      const { title, facets } = category
-
-      return (
-        <>
-          <this.Head>
-            <title>{ suffixWithStoreName(title) }</title>
-          </this.Head>
-          <ProductListing title={title} indexName={Config.get().algoliaIndexName} facets={facets} />
-        </>
-      )
+      return this.renderLoaded(category)
     }
   }
 }
