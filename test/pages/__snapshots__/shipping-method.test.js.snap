@@ -21,7 +21,6 @@ exports[`render shipping methods as expected 1`] = `
         "last_name": "Last Name",
         "line_1": "Test House",
         "primary_phone": "01234567890",
-        "showEditButton": true,
         "state": "Yorkshire",
         "zipcode": "TEST POSTCODE",
       },
@@ -35,7 +34,6 @@ exports[`render shipping methods as expected 1`] = `
       "shippingAddress": Object {
         "collapsed": true,
         "completed": true,
-        "showEditButton": true,
       },
       "shippingMethod": Object {},
     }
@@ -48,6 +46,56 @@ exports[`render shipping methods as expected 1`] = `
   }
 >
   <div>
+    <PaymentMethodSummary
+      headerTitle="Payment Method"
+      onClick={[Function]}
+      paymentMethod="Credit/Debit Card"
+      showEditButton={true}
+    >
+      <div
+        className="c-payment-method__summary"
+      >
+        <PaymentMethodHeader
+          collapsed={true}
+          onClick={[Function]}
+          showEditButton={true}
+          title="Payment Method"
+        >
+          <div
+            className="o-form__header c-payment-method__header"
+          >
+            <h2>
+              Payment Method
+            </h2>
+            <Button
+              aria-label="Edit your payment method"
+              className="o-button-edit"
+              label="Edit"
+              onClick={[Function]}
+              status="secondary"
+            >
+              <button
+                aria-label="Edit your payment method"
+                className="o-button-edit o-button o-button--secondary"
+                disabled={false}
+                onClick={[Function]}
+                role="button"
+                tabIndex="0"
+              >
+                Edit
+              </button>
+            </Button>
+          </div>
+        </PaymentMethodHeader>
+        <div
+          className="c-payment-method__summary-information"
+        >
+          <p>
+            Credit/Debit Card
+          </p>
+        </div>
+      </div>
+    </PaymentMethodSummary>
     <div
       className="c-checkout__addressform"
     >
@@ -57,11 +105,12 @@ exports[`render shipping methods as expected 1`] = `
         <AddressFormSummary
           city="Leeds"
           firstName="First Name"
+          headerTitle="Shipping Address"
           lastName="Last Name"
           onClick={[Function]}
           showEditButton={true}
         >
-          <address_form_header_AddressFormHeader
+          <AddressFormHeader
             collapsed={true}
             onClick={[Function]}
             showEditButton={true}
@@ -94,7 +143,7 @@ exports[`render shipping methods as expected 1`] = `
                 </button>
               </Button>
             </div>
-          </address_form_header_AddressFormHeader>
+          </AddressFormHeader>
           <div
             className="o-form__wrapper--collapsed c-address-form__summary"
           >
@@ -148,6 +197,11 @@ exports[`render shipping methods as expected 1`] = `
 
 exports[`renders correct checkout components 1`] = `
 <div>
+  <PaymentMethodSummary
+    headerTitle="Payment Method"
+    onClick={[Function]}
+    showEditButton={true}
+  />
   <div
     className="c-checkout__addressform"
   >
@@ -155,6 +209,7 @@ exports[`renders correct checkout components 1`] = `
       className="o-form__address"
     >
       <AddressFormSummary
+        headerTitle="Shipping Address"
         onClick={[Function]}
         showEditButton={true}
       />
@@ -181,7 +236,6 @@ exports[`renders line item quantity as expected 1`] = `
         "last_name": "Last Name",
         "line_1": "Test House",
         "primary_phone": "01234567890",
-        "showEditButton": true,
         "state": "Yorkshire",
         "zipcode": "TEST POSTCODE",
       },
@@ -203,7 +257,6 @@ exports[`renders line item quantity as expected 1`] = `
       "shippingAddress": Object {
         "collapsed": true,
         "completed": true,
-        "showEditButton": true,
       },
       "shippingMethod": Object {
         "collapsed": false,
@@ -217,6 +270,56 @@ exports[`renders line item quantity as expected 1`] = `
   }
 >
   <div>
+    <PaymentMethodSummary
+      headerTitle="Payment Method"
+      onClick={[Function]}
+      paymentMethod="Credit/Debit Card"
+      showEditButton={true}
+    >
+      <div
+        className="c-payment-method__summary"
+      >
+        <PaymentMethodHeader
+          collapsed={true}
+          onClick={[Function]}
+          showEditButton={true}
+          title="Payment Method"
+        >
+          <div
+            className="o-form__header c-payment-method__header"
+          >
+            <h2>
+              Payment Method
+            </h2>
+            <Button
+              aria-label="Edit your payment method"
+              className="o-button-edit"
+              label="Edit"
+              onClick={[Function]}
+              status="secondary"
+            >
+              <button
+                aria-label="Edit your payment method"
+                className="o-button-edit o-button o-button--secondary"
+                disabled={false}
+                onClick={[Function]}
+                role="button"
+                tabIndex="0"
+              >
+                Edit
+              </button>
+            </Button>
+          </div>
+        </PaymentMethodHeader>
+        <div
+          className="c-payment-method__summary-information"
+        >
+          <p>
+            Credit/Debit Card
+          </p>
+        </div>
+      </div>
+    </PaymentMethodSummary>
     <div
       className="c-checkout__addressform"
     >
@@ -226,11 +329,12 @@ exports[`renders line item quantity as expected 1`] = `
         <AddressFormSummary
           city="Leeds"
           firstName="First Name"
+          headerTitle="Shipping Address"
           lastName="Last Name"
           onClick={[Function]}
           showEditButton={true}
         >
-          <address_form_header_AddressFormHeader
+          <AddressFormHeader
             collapsed={true}
             onClick={[Function]}
             showEditButton={true}
@@ -263,7 +367,7 @@ exports[`renders line item quantity as expected 1`] = `
                 </button>
               </Button>
             </div>
-          </address_form_header_AddressFormHeader>
+          </AddressFormHeader>
           <div
             className="o-form__wrapper--collapsed c-address-form__summary"
           >

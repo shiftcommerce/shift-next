@@ -12,7 +12,8 @@ import InputFieldValidator from '../lib/input-field-validator'
 import {
   AddressFormSummary,
   Loading,
-  PaymentMethod,
+  Payment,
+  PaymentSummary,
   PaymentMethodSummary,
   ShippingMethodsSummary
 } from '@shiftcommerce/shift-react-components'
@@ -45,7 +46,8 @@ class CheckoutPaymentPage extends Component {
       loading: true,
       reviewStep: false,
       paymentMethod: Cookies.get('paymentMethod'),
-      payPalOrderID: Cookies.get('ppOrderID')
+      payPalOrderID: Cookies.get('ppOrderID'),
+      payPalAuthorizationError: false
     }
 
     this.nextSection = this.nextSection.bind(this)
@@ -299,9 +301,25 @@ class CheckoutPaymentPage extends Component {
         Cookies.remove('ppOrderID')
         // redirect to order page
         Router.push('/order')
+      }).catch((error) => {
+        // set loading to false
+        this.setState({ loading: false, payPalAuthorizationError: true })
       })
     } else {
       this.props.dispatch(requestCardToken(true))
+    }
+  }
+
+  /**
+   * Formats form errors
+   */
+  formSubmissionError () {
+    // check for any PayPal error messages
+    if (this.state.payPalAuthorizationError) {
+      // return custom message as PayPal error is not user friendly
+      return 'Sorry! There has been a problem authorising your payment. Please try again.'
+    } else {
+      return null
     }
   }
 
@@ -342,12 +360,14 @@ class CheckoutPaymentPage extends Component {
     const { cart, order, thirdPartyPaymentMethods } = this.props
 
     return (
-      <PaymentMethodSummary
+      <PaymentSummary
         billingAddress={cart.billing_address}
         paymentMethod={this.state.paymentMethod}
         showEditButton={!thirdPartyPaymentMethods.includes(this.state.paymentMethod)}
+        headerTitle={'Payment Details'}
         onClick={this.showPayment}
         withErrors={!!order.paymentError}
+        errorMessage={this.formSubmissionError()}
       />
     )
   }
@@ -356,7 +376,7 @@ class CheckoutPaymentPage extends Component {
     const { checkout: { addressBook }, loggedIn } = this.props
 
     return (
-      <PaymentMethod
+      <Payment
         addingNewAddress={this.state.addingNewAddress}
         addressBook={addressBook}
         addressFormDisplayed={this.addressFormDisplayed}
@@ -377,6 +397,7 @@ class CheckoutPaymentPage extends Component {
         onNewAddress={this.onNewAddress}
         onBookAddressSelected={this.onBookAddressSelected}
         setCardErrors={this.setCardErrors}
+        headerTitle={'Payment Details'}
         {...this.props}
       />
     )
@@ -411,6 +432,12 @@ class CheckoutPaymentPage extends Component {
 
     return (
       <>
+        <PaymentMethodSummary
+          onClick={() => Router.push('/checkout/payment-method')}
+          paymentMethod={this.state.paymentMethod}
+          headerTitle={'Payment Method'}
+          showEditButton={true}
+        />
         <div className='c-checkout__addressform'>
           <div className='o-form__address'>
             <AddressFormSummary
@@ -421,12 +448,14 @@ class CheckoutPaymentPage extends Component {
               onClick={() => Router.push('/checkout/shipping-address')}
               postcode={shipping_address.postcode}
               showEditButton={!thirdPartyPaymentMethods.includes(this.state.paymentMethod)}
+              headerTitle={'Shipping Address'}
             />
           </div>
         </div>
         <ShippingMethodsSummary
           onClick={() => Router.push('/checkout/shipping-method')}
           shippingMethod={cart.shipping_method}
+          headerTitle={'Shipping Method'}
         />
         { this.renderPayment() }
       </>

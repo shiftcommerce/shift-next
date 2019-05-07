@@ -10,7 +10,7 @@ export default function setCart (state = initialState, action) {
 
   switch (action.type) {
     case types.CART_UPDATED:
-      return Object.assign({}, state, action.payload)
+      return Object.assign({}, newState, action.payload)
 
     case types.SET_ORDER:
       return {}

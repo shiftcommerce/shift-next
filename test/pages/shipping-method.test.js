@@ -22,7 +22,6 @@ const shippingAddress = {
   email: 'test@example.com',
   collapsed: false,
   completed: false,
-  showEditButton: true,
   errors: {}
 }
 
@@ -116,10 +115,8 @@ test('renders correct checkout components', () => {
   const checkoutState = {
     shippingAddress: {
       collapsed: true,
-      completed: true,
-      showEditButton: true
-    },
-    paymentMethod: 'PayPal'
+      completed: true
+    }
   }
 
   // Act
@@ -129,6 +126,7 @@ test('renders correct checkout components', () => {
 
   // Assert
   expect(wrapper).toMatchSnapshot()
+  expect(wrapper.find('PaymentMethodSummary').length).toEqual(1)
   expect(wrapper.find('AddressFormSummary').length).toEqual(1)
   // ShippingMethods component doesn't render as there aren't any
   // shippingMethods returned from the API yet
@@ -155,8 +153,7 @@ test('render shipping methods as expected', async () => {
   const checkout = {
     shippingAddress: {
       collapsed: true,
-      completed: true,
-      showEditButton: true
+      completed: true
     },
     shippingMethod: {}
   }
@@ -216,8 +213,7 @@ test('renders line item quantity as expected', async () => {
   const checkout = {
     shippingAddress: {
       collapsed: true,
-      completed: true,
-      showEditButton: true
+      completed: true
     },
     shippingMethod: {
       collapsed: false
@@ -239,6 +235,7 @@ test('renders line item quantity as expected', async () => {
   expect(wrapper).toIncludeText('0 items')
 
   fetchShippingSpy.mockRestore()
+  cookieSpy.mockRestore()
 })
 
 test('preselects first shipping method when fetching shipping methods and none is set', async () => {
@@ -253,8 +250,7 @@ test('preselects first shipping method when fetching shipping methods and none i
   const checkout = {
     shippingAddress: {
       collapsed: true,
-      completed: true,
-      showEditButton: true
+      completed: true
     },
     shippingMethod: {
       collapsed: false
@@ -328,8 +324,7 @@ test('selecting a shipping method makes a correct API call', async () => {
   const checkout = {
     shippingAddress: {
       collapsed: true,
-      completed: true,
-      showEditButton: true
+      completed: true
     },
     shippingMethod: {
       collapsed: false
@@ -429,8 +424,7 @@ test('fetches shipping methods, sorts them by total and puts them in state', asy
   const checkoutState  = {
     shippingAddress: {
       collapsed: true,
-      completed: true,
-      showEditButton: true
+      completed: true
     },
     shippingMethod: {
       collapsed: false
