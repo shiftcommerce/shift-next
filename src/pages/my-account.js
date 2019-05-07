@@ -46,7 +46,7 @@ class MyAccountPage extends Component {
         email,
         handleSubmit: this.handleUpdateDetailsSubmit.bind(this),
         firstName,
-        lastName
+        lastName        
       }
     }, {
       label: 'Addresses',
@@ -188,8 +188,9 @@ class MyAccountPage extends Component {
     }
   }
 
-  handleUpdateDetailsSubmit ({ email, firstName, lastName }, { setStatus, setSubmitting }) {
-    this.props.dispatch(updateCustomerAccount(email, firstName, lastName)).then(success => {
+  handleUpdateDetailsSubmit (details = { email, firstName, lastName, day, month, year, mobilePhone }, { setStatus, setSubmitting }) {
+    console.log('my account details', details)
+    this.props.dispatch(updateCustomerAccount(details)).then(success => {
       // Display a relevant flash message
       setStatus(success ? 'success' : 'error')
       setTimeout(() => {
