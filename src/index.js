@@ -41,6 +41,7 @@ import Config from './lib/config'
 import { algoliaReduxWrapper, reduxWrapper } from './lib/algolia-redux-wrapper'
 import renderComponents from './lib/render-components'
 import { getSessionExpiryTime } from './lib/session'
+import { suffixWithStoreName } from './lib/suffix-with-store-name'
 
 // Shift-api Config
 import { shiftApiConfig } from '@shiftcommerce/shift-node-api'
@@ -130,5 +131,6 @@ module.exports = {
   reduxWrapper,
   renderComponents,
   getSessionExpiryTime,
-  shiftNextConfig: Config
+  shiftNextConfig: Config,
+  suffixWithStoreName: suffixWithStoreName
 }
