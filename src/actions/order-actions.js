@@ -245,3 +245,13 @@ function roundDecimals (order) {
 function decimalFloat (number) {
   return parseFloat(decimalPrice(number))
 }
+
+export function setOrderSubmitted (value) {
+  return {
+    type: actionTypes.SET_ORDER_SUBMITTED,
+    payload: {
+      submitted: value
+    }
+  }
+}
+

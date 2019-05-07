@@ -29,9 +29,10 @@ import {
 import { setCartBillingAddress, createBillingAddress } from '../actions/cart-actions'
 import {
   requestCardToken,
+  setCardErrors,
   setCardToken,
-  setPaymentError,
-  setCardErrors
+  setOrderSubmitted,
+  setPaymentError
 } from '../actions/order-actions'
 import { deleteAddressBookEntry, fetchAddressBook, saveToAddressBook } from '../actions/address-book-actions'
 
@@ -295,18 +296,25 @@ class CheckoutPaymentPage extends Component {
     if (thirdPartyPaymentMethods.includes(this.state.paymentMethod)) {
       // set loading to true as we handle the order authorization and creation process
       this.setState({ loading: true })
-      // authorise PayPal order and create order in platform
-      return dispatch(authorizePayPalAndCreateOrder(this.state.payPalOrderID, this.state.paymentMethod)).then(() => {
-        // clean up cookie data
-        Cookies.remove('ppOrderID')
-        // redirect to order page
-        Router.push('/order')
-      }).catch((error) => {
-        // set loading to false
-        this.setState({ loading: false, payPalAuthorizationError: true })
+      // set order submitted state
+      return dispatch(setOrderSubmitted(true)).then(() => {
+        // authorise PayPal order and create order in platform
+        return dispatch(authorizePayPalAndCreateOrder(this.state.payPalOrderID, this.state.paymentMethod)).then(() => {
+          // clean up cookie data
+          Cookies.remove('ppOrderID')
+          // redirect to order page
+          Router.push('/order')
+        }).catch((error) => {
+          // set loading to false
+          this.setState({ loading: false, payPalAuthorizationError: true })
+        })
       })
     } else {
-      this.props.dispatch(requestCardToken(true))
+      // set order submitted state
+      return dispatch(setOrderSubmitted(true)).then(() => {
+        // request Stripe token
+        return dispatch(requestCardToken(true))
+      })
     }
   }
 
@@ -331,7 +339,7 @@ class CheckoutPaymentPage extends Component {
         'aria-label': 'Place Order',
         label: 'Place Order',
         status: this.isValidOrder(cart, order) ? 'primary' : 'disabled',
-        disabled: !this.isValidOrder(cart, order),
+        disabled: !this.isValidOrder(cart, order) || order.submitted,
         onClick: this.convertToOrder
       }
     } else {
