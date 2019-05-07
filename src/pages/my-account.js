@@ -188,8 +188,7 @@ class MyAccountPage extends Component {
     }
   }
 
-  handleUpdateDetailsSubmit (details = { email, firstName, lastName, day, month, year, mobilePhone }, { setStatus, setSubmitting }) {
-    console.log('my account details', details)
+  handleUpdateDetailsSubmit (details, { setStatus, setSubmitting }) {
     this.props.dispatch(updateCustomerAccount(details)).then(success => {
       // Display a relevant flash message
       setStatus(success ? 'success' : 'error')

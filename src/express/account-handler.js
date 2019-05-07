@@ -176,7 +176,7 @@ module.exports = {
     }
 
     const { firstName, lastName, email, mobilePhone, day, month, year } = req.body
-    console.log(req.body)
+
     const body = {
       data: {
         type: 'customer_accounts',
@@ -203,7 +203,6 @@ module.exports = {
         }
       }
     }
-    console.log('body', body)
 
     try {
       const response = await SHIFTClient.updateCustomerAccountV1(body, customerId)
