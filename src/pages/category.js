@@ -30,6 +30,13 @@ class CategoryPage extends Component {
     }
   }
 
+  /**
+   * Generate the category request object. This method can be overridden when
+   * StaticPage is imported, if the query needs to be altered. For example:
+   * CategoryPage.categoryRequest = (categoryId) => { ... }
+   * @param  {Number} categoryId
+   * @return {Object}
+   */
   static categoryRequest (categoryId) {
     return {
       endpoint: `/getCategory/${categoryId}`,
@@ -37,6 +44,11 @@ class CategoryPage extends Component {
     }
   }
 
+  /**
+   * Request the category from the API
+   * @param  {Number} id
+   * @return {Object} API response or error
+   */
   static async fetchCategory (id) {
     const request = CategoryPage.categoryRequest(id)
     const response = await new ApiClient().read(request.endpoint, request.query)
