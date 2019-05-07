@@ -47,7 +47,6 @@ export function withCheckout (WrappedComponent) {
 
       this.Head = Config.get().Head
       this.setCurrentStep = this.setCurrentStep.bind(this)
-      this.updateQuantity = this.updateQuantity.bind(this)
       this.deleteItem = this.deleteItem.bind(this)
       this.handleCouponSubmit = this.handleCouponSubmit.bind(this)
     }
@@ -110,10 +109,6 @@ export function withCheckout (WrappedComponent) {
         .finally(() => setSubmitting(false))
     }
 
-    updateQuantity (e) {
-      this.props.dispatch(updateLineItemQuantity(e.target.dataset.id, parseInt(e.target.value, 10)))
-    }
-
     deleteItem (e) {
       e.preventDefault()
       this.props.dispatch(deleteLineItem(e.target.dataset.id)).then(() => {
@@ -161,7 +156,6 @@ export function withCheckout (WrappedComponent) {
                     lineItems={cart.line_items}
                     lineItemsCount={cart.line_items_count}
                     total={cart.total}
-                    updateQuantity={this.updateQuantity}
                   />
                   <CouponForm
                     handleSubmit={this.handleCouponSubmit}

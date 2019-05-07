@@ -37,8 +37,7 @@ describe('componentDidMount()', () => {
         }, {
           id: 2,
           preferred_shipping: true
-        }],
-        paymentMethod: 'PayPal'
+        }]
       }
       const thirdPartyPaymentMethods = ['PayPal']
 
@@ -68,8 +67,9 @@ describe('componentDidMount()', () => {
           id: 2
         }]
       }
+      const thirdPartyPaymentMethods = ['PayPal']
 
-      const wrapper = shallow(<ShippingAddressPage cart={{}} dispatch={dispatch} checkout={checkout} />)
+      const wrapper = shallow(<ShippingAddressPage cart={{}} dispatch={dispatch} checkout={checkout} thirdPartyPaymentMethods={thirdPartyPaymentMethods} />)
 
       await wrapper.instance().componentDidMount()
 
@@ -152,8 +152,9 @@ describe('nextSection()', () => {
         saveToAddressBook: true
       }
     }
+    const thirdPartyPaymentMethods = ['PayPal']
 
-    const wrapper = shallow(<ShippingAddressPage cart={cart} checkout={checkout} dispatch={dispatch} />, { disableLifecycleMethods: true })
+    const wrapper = shallow(<ShippingAddressPage cart={cart} checkout={checkout} dispatch={dispatch} thirdPartyPaymentMethods={thirdPartyPaymentMethods} />, { disableLifecycleMethods: true })
     wrapper.setState({ addingNewAddress: true })
 
     await wrapper.instance().nextSection()
@@ -186,8 +187,9 @@ describe('nextSection()', () => {
         id: 20
       }
     }
+    const thirdPartyPaymentMethods = ['PayPal']
 
-    const wrapper = shallow(<ShippingAddressPage cart={cart} checkout={checkout} dispatch={dispatch} />, { disableLifecycleMethods: true })
+    const wrapper = shallow(<ShippingAddressPage cart={cart} checkout={checkout} dispatch={dispatch} thirdPartyPaymentMethods={thirdPartyPaymentMethods}/>, { disableLifecycleMethods: true })
     wrapper.setState({ addingNewAddress: true })
 
     await wrapper.instance().nextSection()
@@ -315,8 +317,9 @@ test('renders address form components', () => {
   const cart = {
     line_items_count: 1
   }
+  const thirdPartyPaymentMethods = ['PayPal']
 
-  const wrapper = shallow(<ShippingAddressPage cart={cart} checkout={checkout} />, { disableLifecycleMethods: true })
+  const wrapper = shallow(<ShippingAddressPage cart={cart} checkout={checkout} thirdPartyPaymentMethods={thirdPartyPaymentMethods}/>, { disableLifecycleMethods: true })
   wrapper.setState({ loading: false })
 
   expect(wrapper).toMatchSnapshot()

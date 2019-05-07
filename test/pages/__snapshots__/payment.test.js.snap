@@ -2,6 +2,11 @@
 
 exports[`render() renders correct checkout components 1`] = `
 <Fragment>
+  <PaymentMethodSummary
+    headerTitle="Payment Method"
+    onClick={[Function]}
+    showEditButton={true}
+  />
   <div
     className="c-checkout__addressform"
   >
@@ -9,18 +14,22 @@ exports[`render() renders correct checkout components 1`] = `
       className="o-form__address"
     >
       <AddressFormSummary
+        headerTitle="Shipping Address"
         onClick={[Function]}
         showEditButton={true}
       />
     </div>
   </div>
   <ShippingMethodsSummary
+    headerTitle="Shipping Method"
     onClick={[Function]}
   />
   <div
     className="u-hidden"
   >
-    <PaymentMethodSummary
+    <PaymentSummary
+      errorMessage={null}
+      headerTitle="Payment Details"
       onClick={[Function]}
       showEditButton={true}
       withErrors={false}
@@ -29,7 +38,7 @@ exports[`render() renders correct checkout components 1`] = `
   <div
     className=""
   >
-    <PaymentMethod
+    <Payment
       addressBook={Array []}
       addressFormDisplayed={[Function]}
       autoFillAddress={[Function]}
@@ -60,6 +69,7 @@ exports[`render() renders correct checkout components 1`] = `
         ]
       }
       formName="paymentMethod"
+      headerTitle="Payment Details"
       nextSection={[Function]}
       nextStepAvailable={[Function]}
       onAddressDeleted={[Function]}

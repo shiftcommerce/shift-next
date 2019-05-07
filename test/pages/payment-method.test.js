@@ -40,8 +40,7 @@ const payPalBillingAddress = {
   country_code: 'GB',
   primary_phone: '0352878596',
   collapsed: true,
-  completed: true,
-  showEditButton: false
+  completed: true
 }
 
 const payPalShippingAddress = {
@@ -56,8 +55,7 @@ const payPalShippingAddress = {
   country_code: 'GB',
   primary_phone: '0352878596',
   collapsed: true,
-  completed: true,
-  showEditButton: false    
+  completed: true  
 }
 
 test('renders correct checkout components', () => {
@@ -247,8 +245,7 @@ describe('parsePayPalAddress()', () => {
       country_code: 'GB',
       primary_phone: '0352878596',
       collapsed: true,
-      completed: true,
-      showEditButton: false
+      completed: true
     }
     const setCurrentStep = jest.fn().mockImplementation(() => {})
     const wrapper = shallow(<PaymentMethodPage cart={cartState} checkout={checkoutState} setCurrentStep={setCurrentStep}/>, { disableLifecycleMethods: true })
@@ -286,8 +283,7 @@ describe('handleBillingAddressCreation()', () => {
       country_code: 'GB',
       primary_phone: '0352878596',
       collapsed: true,
-      completed: true,
-      showEditButton: false
+      completed: true
     }
     const checkout = {}
     const wrapper = shallow(<PaymentMethodPage cart={cart} checkout={checkout} dispatch={dispatch} />, { disableLifecycleMethods: true })
@@ -324,8 +320,7 @@ describe('handleShippingAddressCreation()', () => {
       country_code: 'GB',
       primary_phone: '0352878596',
       collapsed: true,
-      completed: true,
-      showEditButton: false  
+      completed: true  
     }
     const checkout = {}
     const wrapper = shallow(<PaymentMethodPage cart={cart} checkout={checkout} dispatch={dispatch} />, { disableLifecycleMethods: true })
