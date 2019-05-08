@@ -70,6 +70,26 @@ class CheckoutPaymentPage extends Component {
     this.continueButtonProps = this.continueButtonProps.bind(this)
   }
 
+  componentWillMount () {
+    const { cart, thirdPartyPaymentMethods } = this.props
+    if (!cart.shipping_address) {
+      if (thirdPartyPaymentMethods.includes(this.state.paymentMethod)) {
+        // If shipping address is not present and customer has used third
+        // party payment service redirect to the payment method page
+        return Router.push('/checkout/payment-method')
+      } else {
+        return Router.push('/checkout/shipping-address')
+      }
+    }
+
+    if (!cart.shipping_method) {
+      return Router.push('/checkout/shipping-method')
+    }
+
+    // If customer has used third party payment service only show review page
+    if (thirdPartyPaymentMethods.includes(this.state.paymentMethod)) this.showReview()
+  }
+
   componentDidMount () {
     const { cart, thirdPartyPaymentMethods } = this.props
     if (!cart.shipping_address) {
@@ -455,7 +475,7 @@ class CheckoutPaymentPage extends Component {
         />
         <div className='c-checkout__addressform'>
           <div className='o-form__address'>
-            <AddressFormSummary
+            { shipping_address && <AddressFormSummary
               addressLine1={shipping_address.address_line_1}
               city={shipping_address.city}
               firstName={shipping_address.first_name}
@@ -464,7 +484,7 @@ class CheckoutPaymentPage extends Component {
               postcode={shipping_address.postcode}
               showEditButton={!thirdPartyPaymentMethods.includes(this.state.paymentMethod)}
               headerTitle={'Shipping Address'}
-            />
+            /> }
           </div>
         </div>
         <ShippingMethodsSummary

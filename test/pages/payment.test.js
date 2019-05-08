@@ -71,6 +71,8 @@ test('sets paymentMethod in state when instantiated', () => {
 
   // Assert
   expect(wrapper.instance().state.paymentMethod).toBe('PayPal')
+  expect(wrapper.instance().state.payPalAuthorizationError).toBe(false)
+  expect(wrapper.instance().state.disablePlaceOrderButton).toBe(false)
   cookieSpy.mockRestore()
   pushSpy.mockRestore()
 })
@@ -80,11 +82,7 @@ describe('componentDidMount()', () => {
     // Arrange
     const cookieSpy = jest.spyOn(Cookies, 'get').mockImplementation(() => 'Credit/Debit Card')
     const pushSpy = jest.spyOn(Router, 'push').mockImplementation(() => {})
-    const cartState = { 
-      shipping_address: {},
-      billing_address: billingAddress,
-      shipping_method: { id: 10 }
-    }
+    const cartState = {}
     const orderState = { 
       paymentError: null
     }
@@ -92,8 +90,9 @@ describe('componentDidMount()', () => {
       addressBook: []
     }
     const thirdPartyPaymentMethodOptions = ['PayPal']
+    const dispatch = jest.fn().mockImplementation(() => Promise.resolve())
     const wrapper = shallow(
-      <CheckoutPaymentPage cart={cartState} order={orderState} checkout={checkoutState} thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions}/>,
+      <CheckoutPaymentPage cart={cartState} order={orderState} checkout={checkoutState} dispatch={dispatch} thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions}/>,
       { disableLifecycleMethods: true }
     )
   
@@ -111,7 +110,6 @@ describe('componentDidMount()', () => {
     const cookieSpy = jest.spyOn(Cookies, 'get').mockImplementation(() => 'PayPal')
     const pushSpy = jest.spyOn(Router, 'push').mockImplementation(() => {})
     const cartState = { 
-      shipping_address: {},
       billing_address: billingAddress,
       shipping_method: { id: 10 }
     }
@@ -1067,7 +1065,7 @@ describe('continueButtonProps()', () => {
     expect(continueButtonProps.disabled).toBe(false)
   })
 
-  test('returns a disabled Place Order button props when at review step and order is invalid', () => {
+  test('returns a disabled Place Order button props when at review step and place order button is disabled in state', () => {
     // Arrange
     const cartState = { 
       shipping_address: shippingAddress,
@@ -1075,8 +1073,31 @@ describe('continueButtonProps()', () => {
       shipping_method: { id: 10 }
     }
     const orderState = { 
-      paymentError: { key: 'error' },
-      card_errors: true
+      paymentError: null
+    }
+    const checkoutState = {
+      addressBook: []
+    }
+    const thirdPartyPaymentMethodOptions = ['PayPal']
+    const wrapper = shallow(<CheckoutPaymentPage cart={cartState} order={orderState} checkout={checkoutState} thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions}/>, { disableLifecycleMethods: true })
+    
+    // Act
+    wrapper.setState({ reviewStep: true, disablePlaceOrderButton: true })
+
+    // Assert
+    const continueButtonProps = wrapper.instance().continueButtonProps()
+    expect(continueButtonProps.label).toEqual('Place Order')
+    expect(continueButtonProps.disabled).toBe(true)
+  })
+
+  test('returns a disabled Place Order button props when at review step and order is invalid', () => {
+    // Arrange
+    const cartState = { 
+      shipping_address: shippingAddress,
+      billing_address: billingAddress
+    }
+    const orderState = { 
+      paymentError: null
     }
     const checkoutState = {
       addressBook: []
