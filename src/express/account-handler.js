@@ -175,7 +175,8 @@ module.exports = {
       return res.status(401).send({})
     }
 
-    const { firstName, lastName, email } = req.body
+    const { firstName, lastName, email, mobilePhone, day, month, year } = req.body
+
     const body = {
       data: {
         type: 'customer_accounts',
@@ -187,6 +188,14 @@ module.exports = {
             },
             last_name: {
               value: lastName,
+              data_type: 'string'
+            },
+            mobile_phone: {
+              value: mobilePhone,
+              data_type: 'string'
+            },
+            date_of_birth: {
+              value: `${day}/${month}/${year}`,
               data_type: 'string'
             }
           },

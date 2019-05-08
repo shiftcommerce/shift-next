@@ -1026,17 +1026,17 @@
     braintreehttp "^0.4.0"
     npm "^6.4.0"
 
-"@shiftcommerce/shift-node-api@^0.4.1":
-  version "0.4.1"
-  resolved "https://registry.yarnpkg.com/@shiftcommerce/shift-node-api/-/shift-node-api-0.4.1.tgz#4b1597ccc1a1cd8507c9cac9a7c8ee4181b08566"
-  integrity sha512-8sHA85qGEAMMuL/UuLGRS4anEIfkNgoYY8lol5EAzlYXlx9c6HMPECXMDiXif+sKOnlXsqu7Fv6+W0k7ExyyYw==
+"@shiftcommerce/shift-node-api@^0.6.1":
+  version "0.6.1"
+  resolved "https://registry.yarnpkg.com/@shiftcommerce/shift-node-api/-/shift-node-api-0.6.1.tgz#6b4632f286910e7534a61c763cd0cd829092fdc6"
+  integrity sha512-evynEH2z/70LjMrR+LVUQj3tkOQQp9jGbXzM67hHLoRYMhK1M9fTqB5W9dznpJMOXoo3B3nnlkxhUMpCKTuOvQ==
   dependencies:
     axios "^0.18.0"
     qs "^6.6.0"
 
 "@shiftcommerce/shift-react-components@shiftcommerce/shift-react-components#trendy_golf_issue/111_checkout_updates":
-  version "0.12.5"
-  resolved "https://codeload.github.com/shiftcommerce/shift-react-components/tar.gz/f2317d3ccc36abaf00ccac4389fe7ef3e6035988"
+  version "0.12.6"
+  resolved "https://codeload.github.com/shiftcommerce/shift-react-components/tar.gz/2b71629f67155bae1aca40c93ae66888463ed661"
   dependencies:
     classnames "^2.2.6"
     formik "^1.4.0"
