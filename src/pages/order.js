@@ -52,7 +52,7 @@ class OrderPage extends Component {
       <div className='c-order__detail-shipping-address'>
         <h2>Shipping Address</h2>
         <p>{ shippingAddress.first_name } { shippingAddress.last_name }</p>
-        <p>{ shippingAddress.address_line_1 }, { shippingAddress.address_line_2 }, { shippingAddress.postcode }</p>
+        <p>{ shippingAddress.address_line_1 }, { shippingAddress.address_line_2 }, { shippingAddress.city }, { shippingAddress.postcode }</p>
       </div>
     )
   }
@@ -113,7 +113,7 @@ class OrderPage extends Component {
         </div>
         <p className='u-bold'>Billing Address:</p>
         <p>{ billingAddress.first_name } { billingAddress.last_name }</p>
-        <p>{ billingAddress.address_line_1 }, { billingAddress.address_line_2 }, { billingAddress.postcode }</p>
+        <p>{ billingAddress.address_line_1 }, { billingAddress.address_line_2 }, { billingAddress.city }, { billingAddress.postcode }</p>
       </div>
     )
   }
