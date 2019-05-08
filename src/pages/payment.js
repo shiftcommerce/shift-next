@@ -210,7 +210,9 @@ class CheckoutPaymentPage extends Component {
 
     if (error) {
       return dispatch(setPaymentError(error.message)).then(() => {
-        return dispatch(requestCardToken(false))
+        dispatch(requestCardToken(false))
+        // set order submitted state to false
+        dispatch(setOrderSubmitted(false))
       })
     } else {
       return dispatch(setCardToken(token, 'card')).then(() => {
@@ -307,6 +309,8 @@ class CheckoutPaymentPage extends Component {
       }).catch((error) => {
         // set loading to false
         this.setState({ loading: false, payPalAuthorizationError: true })
+        // set order submitted state
+        dispatch(setOrderSubmitted(false))
       })
     } else {
       // set order submitted state
