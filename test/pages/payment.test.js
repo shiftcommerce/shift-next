@@ -28,6 +28,7 @@ afterAll(() => {
 })
 
 const shippingAddress = {
+  id: 20,
   country_code: 'GB',
   first_name: 'First Name',
   last_name: 'Last Name',
@@ -48,18 +49,23 @@ test('sets paymentMethod in state when instantiated', () => {
   // Arrange
   const cookieSpy = jest.spyOn(Cookies, 'get').mockImplementation(() => 'PayPal')
   const pushSpy = jest.spyOn(Router, 'push').mockImplementation(() => {})
-  const cartState = {
+  const cartState = { 
     shipping_address: shippingAddress,
-    billing_address: { id: 99 },
-    shipping_method: { id: 99 }
+    billing_address: billingAddress,
+    shipping_method: { id: 10 }
   }
-  const checkoutState = {}
+  const orderState = { 
+    paymentError: null
+  }
+  const checkoutState = {
+    addressBook: []
+  }
   const thirdPartyPaymentMethodOptions = ['PayPal']
   const setCurrentStep = jest.fn()
 
   // Act
   const wrapper = shallow(
-    <CheckoutPaymentPage cart={cartState} checkout={checkoutState} setCurrentStep={setCurrentStep} thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions}/>,
+    <CheckoutPaymentPage cart={cartState} order={orderState} checkout={checkoutState} setCurrentStep={setCurrentStep} thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions}/>,
     { disableLifecycleMethods: true }
   )
 
@@ -74,11 +80,20 @@ describe('componentDidMount()', () => {
     // Arrange
     const cookieSpy = jest.spyOn(Cookies, 'get').mockImplementation(() => 'Credit/Debit Card')
     const pushSpy = jest.spyOn(Router, 'push').mockImplementation(() => {})
-    const cartState = {}
-    const checkoutState = {}
+    const cartState = { 
+      shipping_address: {},
+      billing_address: billingAddress,
+      shipping_method: { id: 10 }
+    }
+    const orderState = { 
+      paymentError: null
+    }
+    const checkoutState = {
+      addressBook: []
+    }
     const thirdPartyPaymentMethodOptions = ['PayPal']
     const wrapper = shallow(
-      <CheckoutPaymentPage cart={cartState} checkout={checkoutState} thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions}/>,
+      <CheckoutPaymentPage cart={cartState} order={orderState} checkout={checkoutState} thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions}/>,
       { disableLifecycleMethods: true }
     )
   
@@ -95,11 +110,22 @@ describe('componentDidMount()', () => {
     // Arrange
     const cookieSpy = jest.spyOn(Cookies, 'get').mockImplementation(() => 'PayPal')
     const pushSpy = jest.spyOn(Router, 'push').mockImplementation(() => {})
-    const cartState = {}
-    const checkoutState = {}
+    const cartState = { 
+      shipping_address: {},
+      billing_address: billingAddress,
+      shipping_method: { id: 10 }
+    }
+    const orderState = { 
+      paymentError: null
+    }
+    const checkoutState = {
+      addressBook: []
+    }
     const thirdPartyPaymentMethodOptions = ['PayPal']
+    const setCurrentStep = jest.fn()
+    const dispatch = jest.fn().mockImplementation(() => Promise.resolve())
     const wrapper = shallow(
-      <CheckoutPaymentPage cart={cartState} checkout={checkoutState} thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions}/>,
+      <CheckoutPaymentPage cart={cartState} order={orderState} checkout={checkoutState} dispatch={dispatch} setCurrentStep={setCurrentStep} thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions}/>,
       { disableLifecycleMethods: true }
     )
 
@@ -117,16 +143,21 @@ describe('componentDidMount()', () => {
     const cookieSpy = jest.spyOn(Cookies, 'get').mockImplementation(() => 'PayPal')
     const pushSpy = jest.spyOn(Router, 'push').mockImplementation(() => {})
     const dispatch = jest.fn().mockImplementation(() => Promise.resolve())
-    const cartState = {
+    const cartState = { 
       shipping_address: shippingAddress,
-      shipping_method: { id: 99 },
-      billing_address: { id: 99 }
+      billing_address: billingAddress,
+      shipping_method: { id: 10 }
     }
-    const checkoutState = {}
+    const orderState = { 
+      paymentError: null
+    }
+    const checkoutState = {
+      addressBook: []
+    }
     const setCurrentStep = jest.fn()
     const thirdPartyPaymentMethodOptions = ['PayPal']
     const wrapper = shallow(
-      <CheckoutPaymentPage cart={cartState} checkout={checkoutState} setCurrentStep={setCurrentStep} thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions} dispatch={dispatch}/>,
+      <CheckoutPaymentPage cart={cartState} order={orderState} checkout={checkoutState} setCurrentStep={setCurrentStep} thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions} dispatch={dispatch}/>,
       { disableLifecycleMethods: true }
     )
 
@@ -144,12 +175,19 @@ describe('componentDidMount()', () => {
   test('redirects to the shipping method page when one is not set', () => {
     // Arrange
     const cookieSpy = jest.spyOn(Cookies, 'get').mockImplementation(() => 'Credit/Debit Card')
-    const cartState = { shipping_address: shippingAddress }
-    const checkoutState = {}
+    const cartState = { 
+      shipping_address: shippingAddress
+    }
+    const orderState = { 
+      paymentError: null
+    }
+    const checkoutState = {
+      addressBook: []
+    }
     const pushSpy = jest.spyOn(Router, 'push').mockImplementation(() => {})
     const thirdPartyPaymentMethodOptions = ['PayPal']
     const wrapper = shallow(
-      <CheckoutPaymentPage cart={cartState} checkout={checkoutState} thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions} />,
+      <CheckoutPaymentPage cart={cartState} order={orderState} checkout={checkoutState} thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions} />,
       { disableLifecycleMethods: true }
     )
   
@@ -164,14 +202,20 @@ describe('componentDidMount()', () => {
 
   test('sets loading to false in state when user is not logged in', async () => {
     // Arrange
-    const cart = {
-      shipping_address: {},
-      shipping_method: {},
-      billing_address: {}
+    const cartState = { 
+      shipping_address: shippingAddress,
+      billing_address: billingAddress,
+      shipping_method: { id: 10 }
     }
-    const checkoutState = { paymentMethod: 'Credit/Debit Card' }
+    const orderState = { 
+      paymentError: null
+    }
+    const checkoutState = {
+      addressBook: []
+    }
+    const dispatch = jest.fn().mockImplementation(() => Promise.resolve())
     const thirdPartyPaymentMethodOptions = ['PayPal']
-    const wrapper = shallow(<CheckoutPaymentPage cart={cart} checkout={checkoutState} thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions} />)
+    const wrapper = shallow(<CheckoutPaymentPage cart={cartState} order={orderState} dispatch={dispatch} checkout={checkoutState} thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions} />)
 
     // Act
     await wrapper.instance().componentDidMount()
@@ -184,15 +228,20 @@ describe('componentDidMount()', () => {
     // Arrange
     const cookieSpy = jest.spyOn(Cookies, 'get').mockImplementation(() => true)
     const fetchAddressBookSpy = jest.spyOn(AddressBookActions, 'fetchAddressBook').mockImplementation(() => 'fetchAddressBookAction')
-    const cart = {
-      shipping_address: {},
-      shipping_method: {},
-      billing_address: {}
+    const cartState = { 
+      shipping_address: shippingAddress,
+      billing_address: billingAddress,
+      shipping_method: { id: 10 }
     }
-    const checkoutState = { paymentMethod: 'Credit/Debit Card' }
+    const orderState = { 
+      paymentError: null
+    }
+    const checkoutState = {
+      addressBook: [{ id: 10 }]
+    }
     const dispatch = jest.fn().mockImplementation(() => Promise.resolve())
     const thirdPartyPaymentMethodOptions = ['PayPal']
-    const wrapper = shallow(<CheckoutPaymentPage cart={cart} dispatch={dispatch} checkout={checkoutState} thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions} />)
+    const wrapper = shallow(<CheckoutPaymentPage cart={cartState} order={orderState} dispatch={dispatch} checkout={checkoutState} thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions} />)
 
     // Act
     await wrapper.instance().componentDidMount()
@@ -207,14 +256,20 @@ describe('componentDidMount()', () => {
 
   test('sets billingAsShipping to true in state when billing and shipping addresses are the same', async () => {
     // Arrange
-    const cart = {
-      shipping_address: { id: 99 },
-      shipping_method: {},
-      billing_address: { id: 99 }
+    const cartState = { 
+      shipping_address: shippingAddress,
+      billing_address: billingAddress,
+      shipping_method: { id: 10 }
     }
-    const checkoutState = { paymentMethod: 'Credit/Debit Card' }
+    const orderState = { 
+      paymentError: null
+    }
+    const checkoutState = {
+      addressBook: []
+    }
     const thirdPartyPaymentMethodOptions = ['PayPal']
-    const wrapper = shallow(<CheckoutPaymentPage cart={cart} checkout={checkoutState} thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions} />)
+    const dispatch = jest.fn().mockImplementation(() => Promise.resolve())
+    const wrapper = shallow(<CheckoutPaymentPage cart={cartState} order={orderState} dispatch={dispatch} checkout={checkoutState} thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions} />)
 
     // Act
     await wrapper.instance().componentDidMount()
@@ -227,21 +282,26 @@ describe('componentDidMount()', () => {
   test("sets the billing address to shipping address if cart doesn't have a billing address yet", async () => {
     // Arrange
     const setCartBillingAddressSpy = jest.spyOn(CartActions, 'setCartBillingAddress').mockImplementation(() => 'setCartBillingAddressAction')
-    const cart = {
-      shipping_address: { id: 99 },
-      shipping_method: {}
+    const cartState = { 
+      shipping_address: shippingAddress,
+      shipping_method: { id: 10 }
     }
-    const checkoutState = { paymentMethod: 'Credit/Debit Card' }
+    const orderState = { 
+      paymentError: null
+    }
+    const checkoutState = {
+      addressBook: []
+    }
     const dispatch = jest.fn().mockImplementation(() => Promise.resolve())
     const thirdPartyPaymentMethodOptions = ['PayPal']
-    const wrapper = shallow(<CheckoutPaymentPage cart={cart} dispatch={dispatch} checkout={checkoutState} thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions} />)
+    const wrapper = shallow(<CheckoutPaymentPage cart={cartState} order={orderState} dispatch={dispatch} checkout={checkoutState} thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions} />)
 
     // Act
     await wrapper.instance().componentDidMount()
 
     // Assert
     expect(dispatch).toHaveBeenCalledWith('setCartBillingAddressAction')
-    expect(setCartBillingAddressSpy).toHaveBeenCalledWith(99)
+    expect(setCartBillingAddressSpy).toHaveBeenCalledWith(20)
     expect(wrapper.instance().state.billingAsShipping).toBe(true)
     expect(wrapper.instance().state.loading).toBe(false)
 
@@ -253,24 +313,26 @@ describe('changeBillingAsShipping()', () => {
   test('sets billing address as shipping address when checkbox is being checked', async () => {
     // Arrange
     const setCartBillingAddressSpy = jest.spyOn(CartActions, 'setCartBillingAddress').mockImplementation(() => 'setCartBillingAddressAction')
-    const cart = {
-      shipping_address: { id: 99 },
-      shipping_method: {}
+    const cartState = { 
+      shipping_address: shippingAddress,
+      shipping_method: { id: 10 }
+    }
+    const orderState = { 
+      paymentError: null
     }
     const checkoutState = {
-      addressBook: [],
-      paymentMethod: 'Credit/Debit Card'
+      addressBook: []
     }
     const dispatch = jest.fn().mockImplementation(() => Promise.resolve())
     const thirdPartyPaymentMethodOptions = ['PayPal']
-    const wrapper = shallow(<CheckoutPaymentPage cart={cart} checkout={checkoutState} dispatch={dispatch} thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions} />)
+    const wrapper = shallow(<CheckoutPaymentPage cart={cartState} order={orderState} checkout={checkoutState} dispatch={dispatch} thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions} />)
 
     // Act
     await wrapper.instance().changeBillingAsShipping({ target: { checked: true } })
 
     // Assert
     expect(dispatch).toHaveBeenCalledWith('setCartBillingAddressAction')
-    expect(setCartBillingAddressSpy).toHaveBeenCalledWith(99)
+    expect(setCartBillingAddressSpy).toHaveBeenCalledWith(20)
     expect(wrapper.instance().state.billingAsShipping).toBe(true)
 
     setCartBillingAddressSpy.mockRestore()
@@ -280,9 +342,12 @@ describe('changeBillingAsShipping()', () => {
     test('sets billing address to preferred billing address from address book when there is one', async () => {
       // Arrange
       const setCartBillingAddressSpy = jest.spyOn(CartActions, 'setCartBillingAddress').mockImplementation(() => 'setCartBillingAddressAction')
-      const cart = {
-        shipping_address: { id: 99 },
-        shipping_method: {}
+      const cartState = { 
+        shipping_address: shippingAddress,
+        shipping_method: { id: 10 }
+      }
+      const orderState = { 
+        paymentError: null
       }
       const checkoutState = {
         addressBook: [{
@@ -290,12 +355,11 @@ describe('changeBillingAsShipping()', () => {
         }, {
           id: 123,
           preferred_billing: true
-        }],
-        paymentMethod: 'Credit/Debit Card'
+        }]
       }
       const dispatch = jest.fn().mockImplementation(() => Promise.resolve())
       const thirdPartyPaymentMethodOptions = ['PayPal']
-      const wrapper = shallow(<CheckoutPaymentPage cart={cart} checkout={checkoutState} dispatch={dispatch} thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions} />)
+      const wrapper = shallow(<CheckoutPaymentPage cart={cartState} order={orderState} checkout={checkoutState} dispatch={dispatch} thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions} />)
 
       // Act
       await wrapper.instance().changeBillingAsShipping({ target: { checked: false } })
@@ -311,21 +375,23 @@ describe('changeBillingAsShipping()', () => {
     test("sets billing address to first address from address book when there isn't a preffered one", async () => {
       // Arrange
       const setCartBillingAddressSpy = jest.spyOn(CartActions, 'setCartBillingAddress').mockImplementation(() => 'setCartBillingAddressAction')
-      const cart = {
-        shipping_address: { id: 99 },
-        shipping_method: {}
+      const cartState = { 
+        shipping_address: shippingAddress,
+        shipping_method: { id: 10 }
+      }
+      const orderState = { 
+        paymentError: null
       }
       const checkoutState = {
         addressBook: [{
           id: 10
         }, {
           id: 123
-        }],
-        paymentMethod: 'Credit/Debit Card'
+        }]
       }
       const dispatch = jest.fn().mockImplementation(() => Promise.resolve())
       const thirdPartyPaymentMethodOptions = ['PayPal']
-      const wrapper = shallow(<CheckoutPaymentPage cart={cart} checkout={checkoutState} dispatch={dispatch} thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions} />)
+      const wrapper = shallow(<CheckoutPaymentPage cart={cartState} order={orderState} checkout={checkoutState} dispatch={dispatch} thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions} />)
 
       // Act
       await wrapper.instance().changeBillingAsShipping({ target: { checked: false } })
@@ -340,16 +406,20 @@ describe('changeBillingAsShipping()', () => {
 
     test('starts adding a new billing address when address book is empty', async () => {
       // Arrange
-      const cart = {
-        shipping_address: {},
-        shipping_method: {}
+      const cartState = { 
+        shipping_address: shippingAddress,
+        billing_address: {},
+        shipping_method: { id: 10 }
+      }
+      const orderState = { 
+        paymentError: null
       }
       const checkoutState = {
-        addressBook: [],
-        paymentMethod: 'Credit/Debit Card'
+        addressBook: []
       }
+      const dispatch = jest.fn().mockImplementation(() => Promise.resolve())
       const thirdPartyPaymentMethodOptions = ['PayPal']
-      const wrapper = shallow(<CheckoutPaymentPage cart={cart} checkout={checkoutState} thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions} />)
+      const wrapper = shallow(<CheckoutPaymentPage cart={cartState} order={orderState} dispatch={dispatch} checkout={checkoutState} thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions} />)
 
       // Act
       await wrapper.instance().changeBillingAsShipping({ target: { checked: false } })
@@ -364,17 +434,22 @@ describe('changeBillingAsShipping()', () => {
 describe('onCardTokenReceived()', () => {
   test('sets payment errors when errors are present', async () => {
     // Act
-    const cart = {
-      shipping_address: {},
-      shipping_method: {},
-      billing_address: {}
+    const cartState = { 
+      shipping_address: shippingAddress,
+      billing_address: billingAddress,
+      shipping_method: { id: 10 }
     }
-    const checkoutState = { paymentMethod: 'Credit/Debit Card' }
+    const orderState = { 
+      paymentError: null
+    }
+    const checkoutState = {
+      addressBook: []
+    }
     const thirdPartyPaymentMethodOptions = ['PayPal']
     const setPaymentErrorSpy = jest.spyOn(OrderActions, 'setPaymentError').mockImplementation(() => 'setPaymentErrorAction')
     const requestCardTokenSpy = jest.spyOn(OrderActions, 'requestCardToken').mockImplementation(() => 'requestCardTokenAction')
     const dispatch = jest.fn().mockImplementation(() => Promise.resolve())
-    const wrapper = shallow(<CheckoutPaymentPage cart={cart} dispatch={dispatch} checkout={checkoutState} thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions} />)
+    const wrapper = shallow(<CheckoutPaymentPage cart={cartState} order={orderState} dispatch={dispatch} checkout={checkoutState} thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions} />)
 
     // Act
     await wrapper.instance().onCardTokenReceived({
@@ -391,20 +466,25 @@ describe('onCardTokenReceived()', () => {
     requestCardTokenSpy.mockRestore()
   })
 
-  test('sets the card token using the seleected shipping method and redirects to /order', async () => {
+  test('sets the card token using the selected shipping method and redirects to /order', async () => {
     // Arrange
-    const cart = {
-      shipping_address: {},
-      shipping_method: {},
-      billing_address: {}
+    const cartState = { 
+      shipping_address: shippingAddress,
+      billing_address: billingAddress,
+      shipping_method: { id: 10 }
     }
-    const checkoutState = { paymentMethod: 'Credit/Debit Card' }
+    const orderState = { 
+      paymentError: null
+    }
+    const checkoutState = {
+      addressBook: []
+    }
     const thirdPartyPaymentMethodOptions = ['PayPal']
     const setCardTokenSpy = jest.spyOn(OrderActions, 'setCardToken').mockImplementation(() => 'setCardTokenAction')
     const requestCardTokenSpy = jest.spyOn(OrderActions, 'requestCardToken').mockImplementation(() => 'requestCardTokenAction')
     const pushSpy = jest.spyOn(Router, 'push').mockImplementation(() => {})
     const dispatch = jest.fn().mockImplementation(() => Promise.resolve())
-    const wrapper = shallow(<CheckoutPaymentPage cart={cart} dispatch={dispatch} checkout={checkoutState} thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions}/>)
+    const wrapper = shallow(<CheckoutPaymentPage cart={cartState} order={orderState} dispatch={dispatch} checkout={checkoutState} thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions}/>)
    
     // Act
     wrapper.setState({ selectedPaymentMethod: 'card' })
@@ -428,14 +508,21 @@ describe('onCardTokenReceived()', () => {
 describe('addressFormDisplayed()', () => {
   test('returns true when addressBook is empty', () => {
     // Arrange
+    const cartState = { 
+      shipping_address: shippingAddress,
+      billing_address: billingAddress,
+      shipping_method: { id: 10 }
+    }
+    const orderState = { 
+      paymentError: null
+    }
     const checkoutState = {
-      addressBook: [],
-      paymentMethod: 'Credit/Debit Card'
+      addressBook: []
     }
     const thirdPartyPaymentMethodOptions = ['PayPal']
 
     // Act
-    const wrapper = shallow(<CheckoutPaymentPage checkout={checkoutState} cart={{}} thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions}/>, { disableLifecycleMethods: true })
+    const wrapper = shallow(<CheckoutPaymentPage checkout={checkoutState} cart={cartState} order={orderState} thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions}/>, { disableLifecycleMethods: true })
 
     // Assert
     expect(wrapper.instance().addressFormDisplayed()).toBe(true)
@@ -443,12 +530,21 @@ describe('addressFormDisplayed()', () => {
 
   test('returns true when adding new address is set in state', () => {
     // Arrange
+    const cartState = { 
+      shipping_address: shippingAddress,
+      billing_address: billingAddress,
+      shipping_method: { id: 10 }
+    }
+    const orderState = { 
+      paymentError: null
+    }
     const checkoutState = {
-      addressBook: [{ id: 1 }],
-      paymentMethod: 'Credit/Debit Card'
+      addressBook: [{
+        id: 1
+      }]
     }
     const thirdPartyPaymentMethodOptions = ['PayPal']
-    const wrapper = shallow(<CheckoutPaymentPage checkout={checkoutState} cart={{}} thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions}/>, { disableLifecycleMethods: true })
+    const wrapper = shallow(<CheckoutPaymentPage checkout={checkoutState} cart={cartState} order={orderState} thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions}/>, { disableLifecycleMethods: true })
    
     // Act
     wrapper.setState({ addingNewAddress: true })
@@ -459,19 +555,23 @@ describe('addressFormDisplayed()', () => {
 
   test('returns true when address is not from the address book', () => {
     // Arrange
-    const checkoutState = {
-      addressBook: [{ id: 1 }],
-      paymentMethod: 'Credit/Debit Card'
+    const cartState = { 
+      shipping_address: shippingAddress,
+      billing_address: billingAddress,
+      shipping_method: { id: 10 }
     }
-    const cart = {
-      billing_address: {
-        id: 2
-      }
+    const orderState = { 
+      paymentError: null
+    }
+    const checkoutState = {
+      addressBook: [{
+        id: 200001
+      }]
     }
     const thirdPartyPaymentMethodOptions = ['PayPal']
 
     // Act
-    const wrapper = shallow(<CheckoutPaymentPage checkout={checkoutState} cart={cart} thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions}/>, { disableLifecycleMethods: true })
+    const wrapper = shallow(<CheckoutPaymentPage checkout={checkoutState} cart={cartState} order={orderState} thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions}/>, { disableLifecycleMethods: true })
 
     // Assert
     expect(wrapper.instance().addressFormDisplayed()).toBe(true)
@@ -481,52 +581,46 @@ describe('addressFormDisplayed()', () => {
 describe('cartAddressFromBook()', () => {
   test('returns false when customer is not logged in', () => {
     // Arrange
+    const cartState = { 
+      shipping_address: shippingAddress,
+      billing_address: billingAddress,
+      shipping_method: { id: 10 }
+    }
+    const orderState = { 
+      paymentError: null
+    }
     const checkoutState = {
-      addressBook: [],
-      paymentMethod: 'Credit/Debit Card'
+      addressBook: []
     }
     const thirdPartyPaymentMethodOptions = ['PayPal']
   
     // Act
-    const wrapper = shallow(<CheckoutPaymentPage cart={{}} checkout={checkoutState} thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions}/>, { disableLifecycleMethods: true })
+    const wrapper = shallow(<CheckoutPaymentPage cart={cartState} order={orderState} checkout={checkoutState} thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions}/>, { disableLifecycleMethods: true })
 
     // Assert
     expect(wrapper.instance().cartAddressFromBook()).toBe(false)
-  })
-
-  test("returns false when cart doesn't have a shipping address", () => {
-    // Arrange
-    const cookieSpy = jest.spyOn(Cookies, 'get').mockImplementation(() => true)
-    const checkoutState = {
-      addressBook: [],
-      paymentMethod: 'Credit/Debit Card'
-    }
-    const thirdPartyPaymentMethodOptions = ['PayPal']
-
-    // Act
-    const wrapper = shallow(<CheckoutPaymentPage cart={{}} checkout={checkoutState} thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions}/>, { disableLifecycleMethods: true })
-  
-    // Assert
-    expect(wrapper.instance().cartAddressFromBook()).toBe(false)
-    cookieSpy.mockRestore()
   })
 
   test('returns false when shipping address is not from the address book', () => {
     // Arrange
     const cookieSpy = jest.spyOn(Cookies, 'get').mockImplementation(() => true)
-    const checkoutState = {
-      addressBook: [{ id: 1 }],
-      paymentMethod: 'Credit/Debit Card'
+    const cartState = { 
+      shipping_address: shippingAddress,
+      billing_address: billingAddress,
+      shipping_method: { id: 10 }
     }
-    const cart = {
-      shipping_address: {
-        id: 10
-      }
+    const orderState = { 
+      paymentError: null
+    }
+    const checkoutState = {
+      addressBook: [{
+        id: 1
+      }]
     }
     const thirdPartyPaymentMethodOptions = ['PayPal']
 
     // Act
-    const wrapper = shallow(<CheckoutPaymentPage cart={cart} checkout={checkoutState} thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions}/>, { disableLifecycleMethods: true })
+    const wrapper = shallow(<CheckoutPaymentPage cart={cartState} order={orderState} checkout={checkoutState} thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions}/>, { disableLifecycleMethods: true })
 
     // Assert
     expect(wrapper.instance().cartAddressFromBook()).toBe(false)
@@ -536,19 +630,23 @@ describe('cartAddressFromBook()', () => {
   test('returns true when billing address is from the address book', () => {
     // Arrange
     const cookieSpy = jest.spyOn(Cookies, 'get').mockImplementation(() => true)
-    const checkoutState = {
-      addressBook: [{ id: 10 }],
-      paymentMethod: 'Credit/Debit Card'
+    const cartState = { 
+      shipping_address: shippingAddress,
+      billing_address: billingAddress,
+      shipping_method: { id: 10 }
     }
-    const cart = {
-      billing_address: {
-        id: 10
-      }
+    const orderState = { 
+      paymentError: null
+    }
+    const checkoutState = {
+      addressBook: [{
+        id: 20
+      }]
     }
     const thirdPartyPaymentMethodOptions = ['PayPal']
 
     // Act
-    const wrapper = shallow(<CheckoutPaymentPage cart={cart} checkout={checkoutState} thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions}/>, { disableLifecycleMethods: true })
+    const wrapper = shallow(<CheckoutPaymentPage cart={cartState} order={orderState} checkout={checkoutState} thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions}/>, { disableLifecycleMethods: true })
 
     // Assert
     expect(wrapper.instance().cartAddressFromBook()).toBe(true)
@@ -559,15 +657,24 @@ describe('cartAddressFromBook()', () => {
 describe('nextStepAvailable()', () => {
   test('returns false when there are card errors', () => {
     // Arrange
-    const order = {
-      card_errors: ['error'],
+    const cartState = { 
+      shipping_address: shippingAddress,
+      billing_address: billingAddress,
+      shipping_method: { id: 10 }
+    }
+    const orderState = { 
+      card_errors: true,
       paymentError: 'error'
     }
-    const checkoutState = { paymentMethod: 'Credit/Debit Card' }
+    const checkoutState = {
+      addressBook: [{
+        id: 20
+      }]
+    }
     const thirdPartyPaymentMethodOptions = ['PayPal']
 
     // Act
-    const wrapper = shallow(<CheckoutPaymentPage cart={{}} checkout={checkoutState} order={order} thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions}/>, { disableLifecycleMethods: true })
+    const wrapper = shallow(<CheckoutPaymentPage cart={cartState} order={orderState} checkout={checkoutState} thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions}/>, { disableLifecycleMethods: true })
 
     // Assert
     expect(wrapper.instance().nextStepAvailable()).toBe(false)
@@ -576,21 +683,23 @@ describe('nextStepAvailable()', () => {
   test('returns true when billing address comes from the address book and there is no card errors', () => {
     // Arrange
     const cookieSpy = jest.spyOn(Cookies, 'get').mockImplementation(() => true)
-    const cart = {
-      billing_address: {
-        id: 10
-      }
+    const cartState = { 
+      shipping_address: shippingAddress,
+      billing_address: billingAddress,
+      shipping_method: { id: 10 }
+    }
+    const orderState = { 
+      paymentError: null
     }
     const checkoutState = {
       addressBook: [{
-        id: 10
-      }],
-      paymentMethod: 'Credit/Debit Card'
+        id: 20
+      }]
     }
     const thirdPartyPaymentMethodOptions = ['PayPal']
 
     // Act
-    const wrapper = shallow(<CheckoutPaymentPage cart={cart} checkout={checkoutState} order={{}} thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions}/>, { disableLifecycleMethods: true })
+    const wrapper = shallow(<CheckoutPaymentPage cart={cartState} order={orderState} checkout={checkoutState} order={{}} thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions}/>, { disableLifecycleMethods: true })
 
     // Assert
     expect(wrapper.instance().nextStepAvailable()).toBe(true)
@@ -685,21 +794,24 @@ describe('nextSection()', () => {
     // Arrange
     const cookieSpy = jest.spyOn(Cookies, 'get').mockImplementation(() => true)
     const pushSpy = jest.spyOn(Router, 'push').mockImplementation(() => {})
-    const cart = {
-      billing_address: {
-        id: 10
-      }
+    const cartState = { 
+      shipping_address: shippingAddress,
+      billing_address: billingAddress,
+      shipping_method: { id: 10 }
+    }
+    const orderState = { 
+      paymentError: null
     }
     const checkoutState = {
       addressBook: [{
-        id: 10
-      }],
-      paymentMethod: 'Credit/Debit Card'
+        id: 20
+      }]
     }
     const setCurrentStep = jest.fn()
     const thirdPartyPaymentMethodOptions = ['PayPal']
     const wrapper = shallow(<CheckoutPaymentPage
-      cart={cart}
+      cart={cartState}
+      order={orderState}
       checkout={checkoutState}
       setCurrentStep={setCurrentStep}
       thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions}
@@ -723,22 +835,23 @@ describe('nextSection()', () => {
     const saveToAddressBookSpy = jest.spyOn(AddressBookActions, 'saveToAddressBook').mockImplementation(() => 'saveToAddressBookAction')
     const setCartBillingAddressSpy = jest.spyOn(CartActions, 'setCartBillingAddress').mockImplementation(() => 'setCartBillingAddressAction')
     const dispatch = jest.fn().mockImplementation(() => Promise.resolve())
-    const cart = {
-      billing_address: {
-        id: 20
-      }
+    const cartState = { 
+      shipping_address: shippingAddress,
+      billing_address: billingAddress,
+      shipping_method: { id: 10 }
+    }
+    const orderState = { 
+      paymentError: null
     }
     const checkoutState = {
-      billingAddress: {
-        id: 20,
-        saveToAddressBook: true
-      },
-      paymentMethod: 'Credit/Debit Card'
+      billingAddress: { saveToAddressBook: true, ...billingAddress },
+      addressBook: []
     }
     const setCurrentStep = jest.fn()
     const thirdPartyPaymentMethodOptions = ['PayPal']
     const wrapper = shallow(<CheckoutPaymentPage
-      cart={cart}
+      cart={cartState}
+      order={orderState}
       checkout={checkoutState}
       dispatch={dispatch}
       setCurrentStep={setCurrentStep}
@@ -768,21 +881,23 @@ describe('nextSection()', () => {
     const createBillingAddressSpy = jest.spyOn(CartActions, 'createBillingAddress').mockImplementation(() => 'createBillingAddressAction')
     const setCartBillingAddressSpy = jest.spyOn(CartActions, 'setCartBillingAddress').mockImplementation(() => 'setCartBillingAddressAction')
     const dispatch = jest.fn().mockImplementation(() => Promise.resolve())
-    const cart = {
-      billing_address: {
-        id: 20
-      }
+    const cartState = { 
+      shipping_address: shippingAddress,
+      billing_address: billingAddress,
+      shipping_method: { id: 10 }
+    }
+    const orderState = { 
+      paymentError: null
     }
     const checkoutState = {
-      billingAddress: {
-        id: 20
-      },
-      paymentMethod: 'Credit/Debit Card'
+      billingAddress: billingAddress,
+      addressBook: []
     }
     const setCurrentStep = jest.fn()
     const thirdPartyPaymentMethodOptions = ['PayPal']
     const wrapper = shallow(<CheckoutPaymentPage
-      cart={cart}
+      cart={cartState}
+      order={orderState}
       checkout={checkoutState}
       dispatch={dispatch}
       setCurrentStep={setCurrentStep}
@@ -809,56 +924,46 @@ describe('nextSection()', () => {
 describe('isValidOrder()', () => {
   test('returns false when order has card errors', () => {
     // Arrange
-    const order = {
-      card_errors: { key: 'value' }
-    }
-    const cart = {
-      shipping_address: { id: 10 },
-      billing_address: { id: 10 },
+    const cartState = { 
+      shipping_address: shippingAddress,
+      billing_address: billingAddress,
       shipping_method: { id: 10 }
     }
-    const checkoutState = { paymentMethod: 'Credit/Debit Card' }
+    const orderState = { 
+      paymentError: { key: 'value' },
+      card_errors: true
+    }
+    const checkoutState = {
+      addressBook: []
+    }
     const thirdPartyPaymentMethodOptions = ['PayPal']
 
     // Act
-    const wrapper = shallow(<CheckoutPaymentPage cart={{}} thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions} checkout={checkoutState}/>, { disableLifecycleMethods: true })
+    const wrapper = shallow(<CheckoutPaymentPage cart={cartState} order={orderState} thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions} checkout={checkoutState}/>, { disableLifecycleMethods: true })
 
     // Assert
-    expect(wrapper.instance().isValidOrder(cart, order)).toBe(false)
-  })
-
-  test('returns false when shipping address is missing', () => {
-    // Arrange
-    const order = {}
-    const cart = {
-      billing_address: { id: 10 },
-      shipping_method: { id: 10 }
-    }
-    const checkoutState = { paymentMethod: 'Credit/Debit Card' }
-    const thirdPartyPaymentMethodOptions = ['PayPal']
-
-    // Act
-    const wrapper = shallow(<CheckoutPaymentPage cart={{}} checkout={checkoutState} thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions}/>, { disableLifecycleMethods: true })
-
-    // Assert
-    expect(wrapper.instance().isValidOrder(cart, order)).toBe(false)
+    expect(wrapper.instance().isValidOrder(cartState, orderState)).toBe(false)
   })
 
   test('returns false when billing address is missing', () => {
     // Arrange
-    const order = {}
-    const cart = {
-      shipping_address: { id: 10 },
+    const orderState = {
+      paymentError: null
+    }
+    const cartState = {
+      shipping_address: shippingAddress,
       shipping_method: { id: 10 }
     }
-    const checkoutState = { paymentMethod: 'Credit/Debit Card' }
+    const checkoutState = {
+      addressBook: []
+    }
     const thirdPartyPaymentMethodOptions = ['PayPal']
 
     // Act
-    const wrapper = shallow(<CheckoutPaymentPage cart={{}} checkout={checkoutState} thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions}/>, { disableLifecycleMethods: true })
+    const wrapper = shallow(<CheckoutPaymentPage cart={cartState} order={orderState} checkout={checkoutState} thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions}/>, { disableLifecycleMethods: true })
 
     // Assert
-    expect(wrapper.instance().isValidOrder(cart, order)).toBe(false)
+    expect(wrapper.instance().isValidOrder(cartState, orderState)).toBe(false)
   })
 
   test('returns false when shipping method is missing', () => {
@@ -870,7 +975,9 @@ describe('isValidOrder()', () => {
       shipping_address: shippingAddress,
       billing_address: billingAddress
     }
-    const checkoutState = { paymentMethod: 'Credit/Debit Card' }
+    const checkoutState = {
+      addressBook: []
+    }
     const thirdPartyPaymentMethodOptions = ['PayPal']
 
     // Act
@@ -942,7 +1049,8 @@ describe('continueButtonProps()', () => {
       shipping_method: { id: 10 }
     }
     const orderState = { 
-      paymentError: null
+      paymentError: null,
+      card_errors: false
     }
     const checkoutState = {
       addressBook: []
@@ -967,8 +1075,8 @@ describe('continueButtonProps()', () => {
       shipping_method: { id: 10 }
     }
     const orderState = { 
-      paymentError: 'error',
-      card_errors: { key: 'error' }
+      paymentError: { key: 'error' },
+      card_errors: true
     }
     const checkoutState = {
       addressBook: []
