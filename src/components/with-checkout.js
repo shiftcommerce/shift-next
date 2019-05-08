@@ -42,7 +42,7 @@ export function withCheckout (WrappedComponent) {
         loading: true,
         continueButtonProps: {},
         currentStep: 1,
-        thirdPartyPaymentMethods: ['PayPal', 'GPay', 'Apple Pay']
+        thirdPartyPaymentMethods: ['PayPal']
       }
 
       this.Head = Config.get().Head

@@ -31,7 +31,6 @@ import {
   requestCardToken,
   setCardErrors,
   setCardToken,
-  setOrderSubmitted,
   setPaymentError
 } from '../actions/order-actions'
 import { deleteAddressBookEntry, fetchAddressBook, saveToAddressBook } from '../actions/address-book-actions'
@@ -48,7 +47,8 @@ class CheckoutPaymentPage extends Component {
       reviewStep: false,
       paymentMethod: Cookies.get('paymentMethod'),
       payPalOrderID: Cookies.get('ppOrderID'),
-      payPalAuthorizationError: false
+      payPalAuthorizationError: false,
+      disablePlaceOrderButton: false
     }
 
     this.nextSection = this.nextSection.bind(this)
@@ -211,8 +211,8 @@ class CheckoutPaymentPage extends Component {
     if (error) {
       return dispatch(setPaymentError(error.message)).then(() => {
         dispatch(requestCardToken(false))
-        // set order submitted state to false
-        dispatch(setOrderSubmitted(false))
+        // set disablePlaceOrderButton to false
+        this.setState({ disablePlaceOrderButton: false })
       })
     } else {
       return dispatch(setCardToken(token, 'card')).then(() => {
@@ -296,10 +296,8 @@ class CheckoutPaymentPage extends Component {
     const { dispatch, thirdPartyPaymentMethods } = this.props
 
     if (thirdPartyPaymentMethods.includes(this.state.paymentMethod)) {
-      // set loading to true as we handle the order authorization and creation process
-      this.setState({ loading: true })
-      // set order submitted state
-      dispatch(setOrderSubmitted(true))
+      // set loading to true and disablePlaceOrderButton to true as we handle the order authorization and creation process
+      this.setState({ loading: true, disablePlaceOrderButton: true })
       // authorise PayPal order and create order in platform
       dispatch(authorizePayPalAndCreateOrder(this.state.payPalOrderID, this.state.paymentMethod)).then(() => {
         // clean up cookie data
@@ -307,14 +305,12 @@ class CheckoutPaymentPage extends Component {
         // redirect to order page
         Router.push('/order')
       }).catch((error) => {
-        // set loading to false
-        this.setState({ loading: false, payPalAuthorizationError: true })
-        // set order submitted state
-        dispatch(setOrderSubmitted(false))
+        // set loading to false, payPalAuthorizationError to true & disablePlaceOrderButton to false
+        this.setState({ loading: false, payPalAuthorizationError: true, disablePlaceOrderButton: false })
       })
     } else {
-      // set order submitted state
-      dispatch(setOrderSubmitted(true))
+      // set disablePlaceOrderButton to true as we handle the order creation process
+      this.setState({ disablePlaceOrderButton: true })
       // request Stripe token
       dispatch(requestCardToken(true))
     }
@@ -354,7 +350,7 @@ class CheckoutPaymentPage extends Component {
         'aria-label': 'Place Order',
         label: 'Place Order',
         status: this.isValidOrder(cart, order) ? 'primary' : 'disabled',
-        disabled: !this.isValidOrder(cart, order) || order.submitted,
+        disabled: !this.isValidOrder(cart, order) || this.state.disablePlaceOrderButton,
         onClick: this.convertToOrder
       }
     } else {

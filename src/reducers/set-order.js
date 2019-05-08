@@ -13,8 +13,7 @@ export const initialState = {
     status: '',
     expiration_time: ''
   },
-  paymentResponseErrors: {},
-  submitted: false
+  paymentResponseErrors: {}
 }
 
 export default function setOrder (state = initialState, action) {
@@ -40,9 +39,6 @@ export default function setOrder (state = initialState, action) {
     case types.SET_PAYMENT_RESPONSE_ERRORS:
       return Object.assign({}, state, { paymentResponseErrors: action.payload })
 
-    case types.SET_ORDER_SUBMITTED:
-      return Object.assign({}, state, { submitted: action.payload.submitted })
-    
     default:
       return state
   }
