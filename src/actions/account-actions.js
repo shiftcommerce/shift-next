@@ -16,13 +16,11 @@ export function fetchAccountDetails (store) {
   return readEndpoint(accountRequest)
 }
 
-export function updateCustomerAccount (email, firstName, lastName) {
+export function updateCustomerAccount (details) {
   const request = {
     endpoint: '/updateCustomerAccount',
     body: {
-      email,
-      firstName,
-      lastName
+      ...details
     },
     successActionType: types.SET_ACCOUNT
   }
