@@ -46,7 +46,7 @@ class MyAccountPage extends Component {
         email,
         handleSubmit: this.handleUpdateDetailsSubmit.bind(this),
         firstName,
-        lastName        
+        lastName
       }
     }, {
       label: 'Addresses',

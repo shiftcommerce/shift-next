@@ -52,51 +52,48 @@ exports[`render shipping methods as expected 1`] = `
       paymentMethod="Credit/Debit Card"
       showEditButton={true}
     >
-      <payment_method_header_PaymentMethodHeader
-        collapsed={true}
-        onClick={[Function]}
-        showEditButton={true}
-        title="Payment"
-      >
-        <div
-          className="o-form__header  c-payment-method__header"
-        >
-          <h2>
-            Payment
-          </h2>
-          <Button
-            aria-label="Edit your payment method"
-            className="o-button-edit"
-            label="Edit"
-            onClick={[Function]}
-            status="secondary"
-          >
-            <button
-              aria-label="Edit your payment method"
-              className="o-button-edit o-button o-button--secondary"
-              disabled={false}
-              onClick={[Function]}
-              role="button"
-              tabIndex="0"
-            >
-              Edit
-            </button>
-          </Button>
-        </div>
-      </payment_method_header_PaymentMethodHeader>
       <div
         className="c-payment-method__summary"
       >
-        <p>
-          <span
-            className="u-bold"
+        <PaymentMethodHeader
+          collapsed={true}
+          onClick={[Function]}
+          showEditButton={true}
+          title="Payment Method"
+        >
+          <div
+            className="o-form__header c-payment-method__header"
           >
-             Payment Mode: 
-          </span>
-          <span>
+            <h2>
+              Payment Method
+            </h2>
+            <Button
+              aria-label="Edit your payment method"
+              className="o-button-edit"
+              label="Edit"
+              onClick={[Function]}
+              status="secondary"
+            >
+              <button
+                aria-label="Edit your payment method"
+                className="o-button-edit o-button o-button--secondary"
+                disabled={false}
+                onClick={[Function]}
+                role="button"
+                tabIndex="0"
+              >
+                Edit
+              </button>
+            </Button>
+          </div>
+        </PaymentMethodHeader>
+        <div
+          className="c-payment-method__summary-information"
+        >
+          <p>
             Credit/Debit Card
-          </span>
-        </p>
+          </p>
+        </div>
       </div>
     </PaymentMethodSummary>
     <div
@@ -113,7 +110,7 @@ exports[`render shipping methods as expected 1`] = `
           onClick={[Function]}
           showEditButton={true}
         >
-          <address_form_header_AddressFormHeader
+          <AddressFormHeader
             collapsed={true}
             onClick={[Function]}
             showEditButton={true}
@@ -146,7 +143,7 @@ exports[`render shipping methods as expected 1`] = `
                 </button>
               </Button>
             </div>
-          </address_form_header_AddressFormHeader>
+          </AddressFormHeader>
           <div
             className="o-form__wrapper--collapsed c-address-form__summary"
           >
@@ -279,51 +276,48 @@ exports[`renders line item quantity as expected 1`] = `
       paymentMethod="Credit/Debit Card"
       showEditButton={true}
     >
-      <payment_method_header_PaymentMethodHeader
-        collapsed={true}
-        onClick={[Function]}
-        showEditButton={true}
-        title="Payment"
-      >
-        <div
-          className="o-form__header  c-payment-method__header"
-        >
-          <h2>
-            Payment
-          </h2>
-          <Button
-            aria-label="Edit your payment method"
-            className="o-button-edit"
-            label="Edit"
-            onClick={[Function]}
-            status="secondary"
-          >
-            <button
-              aria-label="Edit your payment method"
-              className="o-button-edit o-button o-button--secondary"
-              disabled={false}
-              onClick={[Function]}
-              role="button"
-              tabIndex="0"
-            >
-              Edit
-            </button>
-          </Button>
-        </div>
-      </payment_method_header_PaymentMethodHeader>
       <div
         className="c-payment-method__summary"
       >
-        <p>
-          <span
-            className="u-bold"
+        <PaymentMethodHeader
+          collapsed={true}
+          onClick={[Function]}
+          showEditButton={true}
+          title="Payment Method"
+        >
+          <div
+            className="o-form__header c-payment-method__header"
           >
-             Payment Mode: 
-          </span>
-          <span>
+            <h2>
+              Payment Method
+            </h2>
+            <Button
+              aria-label="Edit your payment method"
+              className="o-button-edit"
+              label="Edit"
+              onClick={[Function]}
+              status="secondary"
+            >
+              <button
+                aria-label="Edit your payment method"
+                className="o-button-edit o-button o-button--secondary"
+                disabled={false}
+                onClick={[Function]}
+                role="button"
+                tabIndex="0"
+              >
+                Edit
+              </button>
+            </Button>
+          </div>
+        </PaymentMethodHeader>
+        <div
+          className="c-payment-method__summary-information"
+        >
+          <p>
             Credit/Debit Card
-          </span>
-        </p>
+          </p>
+        </div>
       </div>
     </PaymentMethodSummary>
     <div
@@ -340,7 +334,7 @@ exports[`renders line item quantity as expected 1`] = `
           onClick={[Function]}
           showEditButton={true}
         >
-          <address_form_header_AddressFormHeader
+          <AddressFormHeader
             collapsed={true}
             onClick={[Function]}
             showEditButton={true}
@@ -373,7 +367,7 @@ exports[`renders line item quantity as expected 1`] = `
                 </button>
               </Button>
             </div>
-          </address_form_header_AddressFormHeader>
+          </AddressFormHeader>
           <div
             className="o-form__wrapper--collapsed c-address-form__summary"
           >
