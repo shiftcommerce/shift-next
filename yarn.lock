@@ -1036,7 +1036,7 @@
 
 "@shiftcommerce/shift-react-components@shiftcommerce/shift-react-components#trendy_golf_issue/111_checkout_updates":
   version "0.12.5"
-  resolved "https://codeload.github.com/shiftcommerce/shift-react-components/tar.gz/7098c5a6d075f947bbb6757e0a1981e34332e1db"
+  resolved "https://codeload.github.com/shiftcommerce/shift-react-components/tar.gz/f2317d3ccc36abaf00ccac4389fe7ef3e6035988"
   dependencies:
     classnames "^2.2.6"
     formik "^1.4.0"

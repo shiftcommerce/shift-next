@@ -24,7 +24,7 @@ describe('componentDidMount()', () => {
     expect(readCartSpy).toHaveBeenCalled()
     expect(dispatch).toHaveBeenCalledWith('readCartAction')
     expect(wrapper.state().loading).toBe(false)
-    expect(wrapper.state().thirdPartyPaymentMethods).toEqual(['PayPal', 'GPay', 'Apple Pay'])
+    expect(wrapper.state().thirdPartyPaymentMethods).toEqual(['PayPal'])
 
     readCartSpy.mockRestore()
   })

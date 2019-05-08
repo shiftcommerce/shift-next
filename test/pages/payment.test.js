@@ -27,12 +27,29 @@ afterAll(() => {
   Router.router = originalRouter
 })
 
+const shippingAddress = {
+  country_code: 'GB',
+  first_name: 'First Name',
+  last_name: 'Last Name',
+  line_1: 'Test House',
+  zipcode: 'TEST POSTCODE',
+  city: 'Leeds',
+  state: 'Yorkshire',
+  primary_phone: '01234567890',
+  email: 'test@example.com',
+  collapsed: false,
+  completed: false,
+  errors: {}
+}
+
+const billingAddress = shippingAddress
+
 test('sets paymentMethod in state when instantiated', () => {
   // Arrange
   const cookieSpy = jest.spyOn(Cookies, 'get').mockImplementation(() => 'PayPal')
   const pushSpy = jest.spyOn(Router, 'push').mockImplementation(() => {})
   const cartState = {
-    shipping_address: { id: 99 },
+    shipping_address: shippingAddress,
     billing_address: { id: 99 },
     shipping_method: { id: 99 }
   }
@@ -101,7 +118,7 @@ describe('componentDidMount()', () => {
     const pushSpy = jest.spyOn(Router, 'push').mockImplementation(() => {})
     const dispatch = jest.fn().mockImplementation(() => Promise.resolve())
     const cartState = {
-      shipping_address: { id: 99 },
+      shipping_address: shippingAddress,
       shipping_method: { id: 99 },
       billing_address: { id: 99 }
     }
@@ -127,7 +144,7 @@ describe('componentDidMount()', () => {
   test('redirects to the shipping method page when one is not set', () => {
     // Arrange
     const cookieSpy = jest.spyOn(Cookies, 'get').mockImplementation(() => 'Credit/Debit Card')
-    const cartState = { shipping_address: {} }
+    const cartState = { shipping_address: shippingAddress }
     const checkoutState = {}
     const pushSpy = jest.spyOn(Router, 'push').mockImplementation(() => {})
     const thirdPartyPaymentMethodOptions = ['PayPal']
@@ -543,7 +560,8 @@ describe('nextStepAvailable()', () => {
   test('returns false when there are card errors', () => {
     // Arrange
     const order = {
-      card_errors: ['error']
+      card_errors: ['error'],
+      paymentError: 'error'
     }
     const checkoutState = { paymentMethod: 'Credit/Debit Card' }
     const thirdPartyPaymentMethodOptions = ['PayPal']
@@ -845,37 +863,43 @@ describe('isValidOrder()', () => {
 
   test('returns false when shipping method is missing', () => {
     // Arrange
-    const order = {}
-    const cart = {
-      shipping_address: { id: 10 },
-      billing_address: { id: 10 }
+    const orderState = {
+      paymentError: null
+    }
+    const cartState = {
+      shipping_address: shippingAddress,
+      billing_address: billingAddress
     }
     const checkoutState = { paymentMethod: 'Credit/Debit Card' }
     const thirdPartyPaymentMethodOptions = ['PayPal']
 
     // Act
-    const wrapper = shallow(<CheckoutPaymentPage cart={{}} checkout={checkoutState} thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions}/>, { disableLifecycleMethods: true })
+    const wrapper = shallow(<CheckoutPaymentPage cart={cartState} order={orderState} checkout={checkoutState} thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions}/>, { disableLifecycleMethods: true })
 
     // Assert
-    expect(wrapper.instance().isValidOrder(cart, order)).toBe(false)
+    expect(wrapper.instance().isValidOrder(cartState, orderState)).toBe(false)
   })
 
   test('returns true for valid orders', () => {
     // Arrange
-    const order = {}
-    const cart = {
-      shipping_address: { id: 10 },
-      billing_address: { id: 10 },
+    const cartState = { 
+      shipping_address: shippingAddress,
+      billing_address: billingAddress,
       shipping_method: { id: 10 }
     }
-    const checkoutState = { paymentMethod: 'Credit/Debit Card' }
+    const orderState = { 
+      paymentError: null
+    }
+    const checkoutState = {
+      addressBook: []
+    }
     const thirdPartyPaymentMethodOptions = ['PayPal']
 
     // Act
-    const wrapper = shallow(<CheckoutPaymentPage cart={{}} checkout={checkoutState} thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions}/>, { disableLifecycleMethods: true })
+    const wrapper = shallow(<CheckoutPaymentPage cart={cartState} order={orderState} checkout={checkoutState} thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions}/>, { disableLifecycleMethods: true })
 
     // Assert
-    expect(wrapper.instance().isValidOrder(cart, order)).toBe(true)
+    expect(wrapper.instance().isValidOrder(cartState, orderState)).toBe(true)
   })
 })
 
@@ -884,9 +908,19 @@ describe('convertToOrder()', () => {
     // Arrange
     const requestCardTokenSpy = jest.spyOn(OrderActions, 'requestCardToken').mockImplementation(() => 'requestCardTokenAction')
     const dispatch = jest.fn()
-    const checkoutState = { paymentMethod: 'Credit/Debit Card' }
+    const cartState = { 
+      shipping_address: shippingAddress,
+      billing_address: billingAddress,
+      shipping_method: { id: 10 }
+    }
+    const orderState = { 
+      paymentError: null
+    }
+    const checkoutState = {
+      addressBook: []
+    }
     const thirdPartyPaymentMethodOptions = ['PayPal']
-    const wrapper = shallow(<CheckoutPaymentPage cart={{}} dispatch={dispatch} checkout={checkoutState} thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions}/>, { disableLifecycleMethods: true })
+    const wrapper = shallow(<CheckoutPaymentPage cart={cartState} order={orderState} dispatch={dispatch} checkout={checkoutState} thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions}/>, { disableLifecycleMethods: true })
     
     // Act
     wrapper.setState({ selectedPaymentMethod: 'card' })
@@ -902,15 +936,19 @@ describe('convertToOrder()', () => {
 describe('continueButtonProps()', () => {
   test('returns an enabled Place Order button props when at review step and order is valid', () => {
     // Arrange
-    const order = {}
-    const cart = {
-      shipping_address: { id: 10 },
-      billing_address: { id: 10 },
+    const cartState = { 
+      shipping_address: shippingAddress,
+      billing_address: billingAddress,
       shipping_method: { id: 10 }
     }
-    const checkoutState = { paymentMethod: 'Credit/Debit Card' }
+    const orderState = { 
+      paymentError: null
+    }
+    const checkoutState = {
+      addressBook: []
+    }
     const thirdPartyPaymentMethodOptions = ['PayPal']
-    const wrapper = shallow(<CheckoutPaymentPage cart={cart} order={order} checkout={checkoutState} thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions}/>, { disableLifecycleMethods: true })
+    const wrapper = shallow(<CheckoutPaymentPage cart={cartState} order={orderState} checkout={checkoutState} thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions}/>, { disableLifecycleMethods: true })
     
     // Act
     wrapper.setState({ reviewStep: true })
@@ -923,15 +961,20 @@ describe('continueButtonProps()', () => {
 
   test('returns a disabled Place Order button props when at review step and order is invalid', () => {
     // Arrange
-    const order = { card_errors: { key: 'value' } }
-    const cart = {
-      shipping_address: { id: 10 },
-      billing_address: { id: 10 },
+    const cartState = { 
+      shipping_address: shippingAddress,
+      billing_address: billingAddress,
       shipping_method: { id: 10 }
     }
-    const checkoutState = { paymentMethod: 'Credit/Debit Card' }
+    const orderState = { 
+      paymentError: 'error',
+      card_errors: { key: 'error' }
+    }
+    const checkoutState = {
+      addressBook: []
+    }
     const thirdPartyPaymentMethodOptions = ['PayPal']
-    const wrapper = shallow(<CheckoutPaymentPage cart={cart} order={order} checkout={checkoutState} thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions}/>, { disableLifecycleMethods: true })
+    const wrapper = shallow(<CheckoutPaymentPage cart={cartState} order={orderState} checkout={checkoutState} thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions}/>, { disableLifecycleMethods: true })
     
     // Act
     wrapper.setState({ reviewStep: true })
@@ -944,18 +987,18 @@ describe('continueButtonProps()', () => {
 
   test('returns a Review Your Order button props when at payment step', () => {
     // Arrange
-    const cart = {
-      shipping_address: { id: 10 },
-      billing_address: { id: 10 }
+    const cartState = { 
+      shipping_address: shippingAddress,
+      billing_address: billingAddress
     }
+    const orderState = { paymentError: null }
     const checkoutState = {
-      billingAddress: {},
-      paymentMethod: 'Credit/Debit Card'
+      addressBook: []
     }
     const thirdPartyPaymentMethodOptions = ['PayPal']
 
     // Act
-    const wrapper = shallow(<CheckoutPaymentPage cart={cart} checkout={checkoutState} order={{}} thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions}/>, { disableLifecycleMethods: true })
+    const wrapper = shallow(<CheckoutPaymentPage cart={cartState} order={orderState} checkout={checkoutState} order={{}} thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions}/>, { disableLifecycleMethods: true })
 
     // Assert
     const continueButtonProps = wrapper.instance().continueButtonProps()
@@ -966,9 +1009,11 @@ describe('continueButtonProps()', () => {
 describe('pageTitle()', () => {
   test('returns correct title for the payment step', () => {
     // Arrange
-    const checkoutState = { paymentMethod: 'Credit/Debit Card' }
+    const checkoutState = {}
     const thirdPartyPaymentMethodOptions = ['PayPal']
-    const wrapper = shallow(<CheckoutPaymentPage cart={{}} checkout={checkoutState} thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions}/>, { disableLifecycleMethods: true })
+    const cartState = { shipping_address: shippingAddress }
+    const orderState = { paymentError: null }
+    const wrapper = shallow(<CheckoutPaymentPage cart={cartState} order={orderState} checkout={checkoutState} thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions}/>, { disableLifecycleMethods: true })
 
     // Act
     const pageTitle = wrapper.instance().pageTitle()
@@ -979,9 +1024,11 @@ describe('pageTitle()', () => {
 
   test('returns correct title for the review step', () => {
     // Arrange
-    const checkoutState = { paymentMethod: 'Credit/Debit Card' }
+    const checkoutState = {}
     const thirdPartyPaymentMethodOptions = ['PayPal']
-    const wrapper = shallow(<CheckoutPaymentPage cart={{}} checkout={checkoutState} thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions}/>, { disableLifecycleMethods: true })
+    const cartState = { shipping_address: shippingAddress }
+    const orderState = { paymentError: null }
+    const wrapper = shallow(<CheckoutPaymentPage cart={cartState} order={orderState} checkout={checkoutState} thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions}/>, { disableLifecycleMethods: true })
 
     // Act
     wrapper.setState({ reviewStep: true })
@@ -994,9 +1041,11 @@ describe('pageTitle()', () => {
 describe('currentStep()', () => {
   test('returns correct step for the payment step', () => {
     // Arrange
-    const checkoutState = { paymentMethod: 'Credit/Debit Card' }
+    const checkoutState = {}
     const thirdPartyPaymentMethodOptions = ['PayPal']
-    const wrapper = shallow(<CheckoutPaymentPage cart={{}} checkout={checkoutState} thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions}/>, { disableLifecycleMethods: true })
+    const cartState = { shipping_address: shippingAddress }
+    const orderState = { paymentError: null }
+    const wrapper = shallow(<CheckoutPaymentPage cart={cartState} order={orderState} checkout={checkoutState} thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions}/>, { disableLifecycleMethods: true })
 
     // Act
     const currentStep = wrapper.instance().currentStep()
@@ -1007,9 +1056,12 @@ describe('currentStep()', () => {
 
   test('returns correct step for the review step', () => {
     // Arrange
-    const checkoutState = { paymentMethod: 'Credit/Debit Card' }
+    const checkoutState = {}
     const thirdPartyPaymentMethodOptions = ['PayPal']
-    const wrapper = shallow(<CheckoutPaymentPage cart={{}} checkout={checkoutState} thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions}/>, { disableLifecycleMethods: true })
+    const cartState = { shipping_address: shippingAddress }
+    const orderState = { paymentError: null }
+
+    const wrapper = shallow(<CheckoutPaymentPage cart={cartState} order={orderState} checkout={checkoutState} thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions}/>, { disableLifecycleMethods: true })
     
     // Act
     wrapper.setState({ reviewStep: true })
@@ -1022,19 +1074,21 @@ describe('currentStep()', () => {
 describe('render()', () => {
   test('renders a loading indicator when loading data', () => {
     // Arrange
-    const checkoutState = { paymentMethod: 'Credit/Debit Card' }
+    const checkoutState = {}
     const thirdPartyPaymentMethodOptions = ['PayPal']
+    const cartState = { shipping_address: shippingAddress }
+    const orderState = { paymentError: null }
 
     // Act
-    const wrapper = shallow(<CheckoutPaymentPage cart={{}} checkout={checkoutState} thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions}/>, { disableLifecycleMethods: true })
+    const wrapper = shallow(<CheckoutPaymentPage cart={cartState} order={orderState} checkout={checkoutState} thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions}/>, { disableLifecycleMethods: true })
 
     // Assert
     expect(wrapper.find('Loading')).toBeTruthy()
-    expect(wrapper.find('AddressFormSummary').length).toEqual(0)
-    expect(wrapper.find('ShippingMethodsSummary').length).toEqual(0)
-    expect(wrapper.find('Payment').length).toEqual(0)
-    expect(wrapper.find('PaymentSummary').length).toEqual(0)
-    expect(wrapper.find('PaymentMethodSummary').length).toEqual(0)
+    expect(wrapper.find('AddressFormSummary').length).toEqual(1)
+    expect(wrapper.find('ShippingMethodsSummary').length).toEqual(1)
+    expect(wrapper.find('Payment').length).toEqual(1)
+    expect(wrapper.find('PaymentSummary').length).toEqual(1)
+    expect(wrapper.find('PaymentMethodSummary').length).toEqual(1)
 
   })
 
@@ -1044,8 +1098,7 @@ describe('render()', () => {
       shipping_address: {}
     }
     const checkoutState = {
-      addressBook: [],
-      paymentMethod: 'Credit/Debit Card'
+      addressBook: []
     }
     const thirdPartyPaymentMethodOptions = ['PayPal']
     const wrapper = shallow(<CheckoutPaymentPage cart={cart} checkout={checkoutState} order={{}} thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions}/>, { disableLifecycleMethods: true })
@@ -1067,8 +1120,7 @@ describe('render()', () => {
       shipping_address: {}
     }
     const checkoutState = {
-      addressBook: [],
-      paymentMethod: 'Credit/Debit Card'
+      addressBook: []
     }
     const thirdPartyPaymentMethodOptions = ['PayPal']
     const wrapper = shallow(<CheckoutPaymentPage cart={cart} checkout={checkoutState} order={{}} thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions}/>, { disableLifecycleMethods: true })
@@ -1089,8 +1141,7 @@ describe('render()', () => {
       shipping_address: {}
     }
     const checkoutState = {
-      addressBook: [],
-      paymentMethod: 'Credit/Debit Card'
+      addressBook: []
     }
     const thirdPartyPaymentMethodOptions = ['PayPal']
     const wrapper = shallow(<CheckoutPaymentPage cart={cart} checkout={checkoutState} order={{}} thirdPartyPaymentMethods={thirdPartyPaymentMethodOptions}/>, { disableLifecycleMethods: true })
