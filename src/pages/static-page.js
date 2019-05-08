@@ -10,7 +10,6 @@ import Config from '../lib/config'
 // Components
 import { StaticPageError, Loading } from '@shiftcommerce/shift-react-components'
 
-
 class StaticPage extends Component {
   static async getInitialProps ({ query: { id }, req, reduxStore }) {
     const page = await StaticPage.fetchPage(id, reduxStore.dispatch)
@@ -25,12 +24,12 @@ class StaticPage extends Component {
   }
 
   /**
- * Request the page from the API
- * @param  {Number} id
- * @param  {Function} dispatch
- * @return {Object} API response or error
- */
-  static async fetchPage(id, dispatch) {
+   * Request the page from the API
+   * @param  {Number} id
+   * @param  {Function} dispatch
+   * @return {Object} API response or error
+   */
+  static async fetchPage (id, dispatch) {
     try {
       const request = StaticPage.pageRequest(id)
       const response = await new ApiClient().read(request.endpoint, request.query, dispatch)
@@ -48,7 +47,7 @@ class StaticPage extends Component {
    * @param  {Number} pageId
    * @return {Object}
    */
-  static pageRequest(pageId) {
+  static pageRequest (pageId) {
     return {
       endpoint: `/getStaticPage/${pageId}`,
       query: {
