@@ -17,7 +17,6 @@ export function fetchAccountDetails (store) {
 }
 
 export function updateCustomerAccount (details) {
-  console.log(details)
   const request = {
     endpoint: '/updateCustomerAccount',
     body: {
