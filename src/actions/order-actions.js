@@ -57,15 +57,6 @@ export function getCustomerOrders () {
   })
 }
 
-export function setOrderSubmitted (value) {
-  return {
-    type: types.SET_ORDER_SUBMITTED,
-    payload: {
-      submitted: value
-    }
-  }
-}
-
 export function convertCheckoutToOrder (cart, paymentMethod, order) {
   const lineItems = prepareLineItems(cart)
   const discountSummaries = prepareDiscountSummaries(cart, lineItems)

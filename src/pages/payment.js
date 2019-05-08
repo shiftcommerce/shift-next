@@ -70,26 +70,6 @@ class CheckoutPaymentPage extends Component {
     this.continueButtonProps = this.continueButtonProps.bind(this)
   }
 
-  componentWillMount () {
-    const { cart, thirdPartyPaymentMethods } = this.props
-    if (!cart.shipping_address) {
-      if (thirdPartyPaymentMethods.includes(this.state.paymentMethod)) {
-        // If shipping address is not present and customer has used third
-        // party payment service redirect to the payment method page
-        return Router.push('/checkout/payment-method')
-      } else {
-        return Router.push('/checkout/shipping-address')
-      }
-    }
-
-    if (!cart.shipping_method) {
-      return Router.push('/checkout/shipping-method')
-    }
-
-    // If customer has used third party payment service only show review page
-    if (thirdPartyPaymentMethods.includes(this.state.paymentMethod)) this.showReview()
-  }
-
   componentDidMount () {
     const { cart, thirdPartyPaymentMethods } = this.props
     if (!cart.shipping_address) {
@@ -333,19 +313,6 @@ class CheckoutPaymentPage extends Component {
       this.setState({ disablePlaceOrderButton: true })
       // request Stripe token
       dispatch(requestCardToken(true))
-    }
-  }
-
-  /**
-   * Formats form errors
-   */
-  formSubmissionError () {
-    // check for any PayPal error messages
-    if (this.state.payPalAuthorizationError) {
-      // return custom message as PayPal error is not user friendly
-      return 'Sorry! There has been a problem authorising your payment. Please try again.'
-    } else {
-      return null
     }
   }
 
