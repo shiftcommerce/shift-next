@@ -5,13 +5,16 @@ import { readMenu } from '../actions/menu-actions'
 import { fetchAccountDetails, setLoggedInFromCookies } from '../actions/account-actions'
 import { toggleLoading } from '../actions/global-actions'
 
+// Config
+import Config from './config'
+
 // Lib
 import InitialPropsDelegator from './initial-props-delegator'
 
 const isServer = typeof window === 'undefined'
 const __NEXT_REDUX_STORE__ = '__NEXT_REDUX_STORE__'
 
-function getOrCreateStore (initialState) {
+function getOrCreateStore(initialState) {
   // Always make a new store if server, otherwise state is shared between requests
   if (isServer) {
     return initializeStore(initialState)
@@ -26,12 +29,12 @@ function getOrCreateStore (initialState) {
 
 export default (App) => {
   return class AppWithRedux extends InitialPropsDelegator(App) {
-    static async getInitialProps (appContext) {
+    static async getInitialProps(appContext) {
       // Get or Create the store with `undefined` as initialState
       // This allows you to set a custom default initialState
       const reduxStore = getOrCreateStore()
       reduxStore.dispatch(toggleLoading(true))
-      await reduxStore.dispatch(readMenu())
+      await reduxStore.dispatch(readMenu(Config.get().menuRequest))
       // Provide the store to getInitialProps of pages
       appContext.reduxStore = reduxStore
 
@@ -45,19 +48,19 @@ export default (App) => {
       }
     }
 
-    constructor (props) {
+    constructor(props) {
       super(props)
       this.reduxStore = getOrCreateStore(props.initialReduxState)
     }
 
-    componentDidMount () {
+    componentDidMount() {
       if (Cookies.get('signedIn')) {
         this.reduxStore.dispatch(setLoggedInFromCookies())
         this.reduxStore.dispatch(fetchAccountDetails())
       }
     }
 
-    render () {
+    render() {
       const { reduxStore, initialReduxState, ...otherProps } = this.props
 
       let currentStore = reduxStore
