@@ -39,7 +39,17 @@ test('getCustomerOrders() makes a customer orders request', () => {
 test('updateCustomerAccount() makes a correct request', () => {
   const updateAccountSpy = jest.spyOn(apiActions, 'postEndpoint')
 
-  accountActions.updateCustomerAccount('test@example.com', 'John', 'Kowalski', '07123456789', '10', 'January', '2000')
+  const details = {
+    day: '10',
+    email: 'test@example.com',
+    firstName: 'John',
+    lastName: 'Kowalski',
+    mobilePhone: '07123456789',
+    month: 'January',
+    year: '2000'
+  }
+
+  accountActions.updateCustomerAccount(details)
 
   expect(updateAccountSpy).toHaveBeenCalledTimes(1)
   const request = updateAccountSpy.mock.calls[0][0]

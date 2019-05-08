@@ -15,6 +15,7 @@ export default function setAccount (state = initialState, action) {
       let accountObject
 
       if (action.payload) {
+        console.log(action.payload.email)
         accountObject = Object.assign(initialState, {
           email: action.payload.email,
           firstName: action.payload.meta_attributes.first_name.value,
