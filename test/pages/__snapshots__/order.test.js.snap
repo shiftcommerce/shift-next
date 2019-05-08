@@ -225,6 +225,8 @@ exports[`Page Rendering: renders correctly 1`] = `
                 228 Query Avenue
                 , 
                 , 
+                Manchester
+                , 
                 M1 1TP
               </p>
             </div>
@@ -302,6 +304,8 @@ exports[`Page Rendering: renders correctly 1`] = `
               <p>
                 104 Quay One
                 , 
+                , 
+                Leeds
                 , 
                 LS9 8DS
               </p>

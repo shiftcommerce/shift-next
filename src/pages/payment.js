@@ -1,5 +1,5 @@
 // Libraries
-import React, { Component } from 'react'
+import React, { Fragment, Component } from 'react'
 import Router from 'next/router'
 import Cookies from 'js-cookie'
 import classNames from 'classnames'
@@ -29,9 +29,9 @@ import {
 import { setCartBillingAddress, createBillingAddress } from '../actions/cart-actions'
 import {
   requestCardToken,
+  setCardErrors,
   setCardToken,
-  setPaymentError,
-  setCardErrors
+  setPaymentError
 } from '../actions/order-actions'
 import { deleteAddressBookEntry, fetchAddressBook, saveToAddressBook } from '../actions/address-book-actions'
 
@@ -47,7 +47,8 @@ class CheckoutPaymentPage extends Component {
       reviewStep: false,
       paymentMethod: Cookies.get('paymentMethod'),
       payPalOrderID: Cookies.get('ppOrderID'),
-      payPalAuthorizationError: false
+      payPalAuthorizationError: false,
+      disablePlaceOrderButton: false
     }
 
     this.nextSection = this.nextSection.bind(this)
@@ -209,7 +210,9 @@ class CheckoutPaymentPage extends Component {
 
     if (error) {
       return dispatch(setPaymentError(error.message)).then(() => {
-        return dispatch(requestCardToken(false))
+        dispatch(requestCardToken(false))
+        // enable PlaceOrder button
+        this.setState({ disablePlaceOrderButton: false })
       })
     } else {
       return dispatch(setCardToken(token, 'card')).then(() => {
@@ -293,20 +296,23 @@ class CheckoutPaymentPage extends Component {
     const { dispatch, thirdPartyPaymentMethods } = this.props
 
     if (thirdPartyPaymentMethods.includes(this.state.paymentMethod)) {
-      // set loading to true as we handle the order authorization and creation process
-      this.setState({ loading: true })
+      // set loading to true & disable PlaceOrder button as we handle the order authorization and creation process
+      this.setState({ loading: true, disablePlaceOrderButton: true })
       // authorise PayPal order and create order in platform
-      return dispatch(authorizePayPalAndCreateOrder(this.state.payPalOrderID, this.state.paymentMethod)).then(() => {
+      dispatch(authorizePayPalAndCreateOrder(this.state.payPalOrderID, this.state.paymentMethod)).then(() => {
         // clean up cookie data
         Cookies.remove('ppOrderID')
         // redirect to order page
         Router.push('/order')
       }).catch((error) => {
-        // set loading to false
-        this.setState({ loading: false, payPalAuthorizationError: true })
+        // set loading to false, payPalAuthorizationError to true & enable PlaceOrder button
+        this.setState({ loading: false, payPalAuthorizationError: true, disablePlaceOrderButton: false })
       })
     } else {
-      this.props.dispatch(requestCardToken(true))
+      // disable PlaceOrder button as we handle the order creation process
+      this.setState({ disablePlaceOrderButton: true })
+      // request Stripe token
+      dispatch(requestCardToken(true))
     }
   }
 
@@ -331,7 +337,7 @@ class CheckoutPaymentPage extends Component {
         'aria-label': 'Place Order',
         label: 'Place Order',
         status: this.isValidOrder(cart, order) ? 'primary' : 'disabled',
-        disabled: !this.isValidOrder(cart, order),
+        disabled: !this.isValidOrder(cart, order) || this.state.disablePlaceOrderButton,
         onClick: this.convertToOrder
       }
     } else {
@@ -426,12 +432,8 @@ class CheckoutPaymentPage extends Component {
   render () {
     const { cart, cart: { shipping_address }, thirdPartyPaymentMethods } = this.props
 
-    if (this.state.loading) {
-      return <Loading />
-    }
-
     return (
-      <>
+      <Fragment>
         <PaymentMethodSummary
           onClick={() => Router.push('/checkout/payment-method')}
           paymentMethod={this.state.paymentMethod}
@@ -440,7 +442,7 @@ class CheckoutPaymentPage extends Component {
         />
         <div className='c-checkout__addressform'>
           <div className='o-form__address'>
-            <AddressFormSummary
+            { shipping_address && <AddressFormSummary
               addressLine1={shipping_address.address_line_1}
               city={shipping_address.city}
               firstName={shipping_address.first_name}
@@ -449,7 +451,7 @@ class CheckoutPaymentPage extends Component {
               postcode={shipping_address.postcode}
               showEditButton={!thirdPartyPaymentMethods.includes(this.state.paymentMethod)}
               headerTitle={'Shipping Address'}
-            />
+            /> }
           </div>
         </div>
         <ShippingMethodsSummary
@@ -458,7 +460,8 @@ class CheckoutPaymentPage extends Component {
           headerTitle={'Shipping Method'}
         />
         { this.renderPayment() }
-      </>
+        { this.state.loading && <Loading /> }
+      </Fragment>
     )
   }
 }

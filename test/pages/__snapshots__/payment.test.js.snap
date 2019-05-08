@@ -51,7 +51,6 @@ exports[`render() renders correct checkout components 1`] = `
       checkout={
         Object {
           "addressBook": Array [],
-          "paymentMethod": "Credit/Debit Card",
         }
       }
       countries={

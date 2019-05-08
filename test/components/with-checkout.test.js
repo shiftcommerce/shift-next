@@ -24,7 +24,7 @@ describe('componentDidMount()', () => {
     expect(readCartSpy).toHaveBeenCalled()
     expect(dispatch).toHaveBeenCalledWith('readCartAction')
     expect(wrapper.state().loading).toBe(false)
-    expect(wrapper.state().thirdPartyPaymentMethods).toEqual(['PayPal', 'GPay', 'Apple Pay'])
+    expect(wrapper.state().thirdPartyPaymentMethods).toEqual(['PayPal'])
 
     readCartSpy.mockRestore()
   })
@@ -77,35 +77,6 @@ test("componentDidUpdate() puts ref's button props, page title, current step and
   }))
 
   readCartSpy.mockRestore()
-})
-
-test('deleteItem() makes a request to delete the line item and redirects to cart when cart becomes empty', async () => {
-  const WrappedComponent = withCheckout(Component)
-  const cart = {
-    line_items_count: 0
-  }
-  const deleteLineItemSpy = jest.spyOn(CartActions, 'deleteLineItem').mockImplementation(() => 'deleteLineItemAction')
-  const pushSpy = jest.spyOn(Router, 'push').mockImplementation(() => {})
-  const dispatch = jest.fn().mockImplementation(() => Promise.resolve())
-
-  const wrapper = mount(<WrappedComponent cart={cart} dispatch={dispatch} />, { disableLifecycleMethods: true })
-  const mockEvent = {
-    preventDefault: () => {},
-    target: {
-      dataset: {
-        id: 10
-      }
-    }
-  }
-
-  await wrapper.instance().deleteItem(mockEvent)
-
-  expect(deleteLineItemSpy).toHaveBeenCalledWith(10)
-  expect(dispatch).toHaveBeenCalledWith('deleteLineItemAction')
-  expect(pushSpy).toHaveBeenCalledWith('/cart')
-
-  deleteLineItemSpy.mockRestore()
-  pushSpy.mockRestore()
 })
 
 test('renders common checkout elements', () => {

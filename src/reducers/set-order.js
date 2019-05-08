@@ -38,7 +38,7 @@ export default function setOrder (state = initialState, action) {
 
     case types.SET_PAYMENT_RESPONSE_ERRORS:
       return Object.assign({}, state, { paymentResponseErrors: action.payload })
-    
+
     default:
       return state
   }

@@ -23,8 +23,6 @@ import {
 // Actions
 import {
   readCart,
-  updateLineItemQuantity,
-  deleteLineItem,
   submitCoupon,
   setAPIError
 } from '../actions/cart-actions'
@@ -42,12 +40,11 @@ export function withCheckout (WrappedComponent) {
         loading: true,
         continueButtonProps: {},
         currentStep: 1,
-        thirdPartyPaymentMethods: ['PayPal', 'GPay', 'Apple Pay']
+        thirdPartyPaymentMethods: ['PayPal']
       }
 
       this.Head = Config.get().Head
       this.setCurrentStep = this.setCurrentStep.bind(this)
-      this.deleteItem = this.deleteItem.bind(this)
       this.handleCouponSubmit = this.handleCouponSubmit.bind(this)
     }
 
@@ -109,13 +106,6 @@ export function withCheckout (WrappedComponent) {
         .finally(() => setSubmitting(false))
     }
 
-    deleteItem (e) {
-      e.preventDefault()
-      this.props.dispatch(deleteLineItem(e.target.dataset.id)).then(() => {
-        if (!this.props.cart.line_items_count) Router.push('/cart')
-      })
-    }
-
     render () {
       const { cart, order } = this.props
       const { continueButtonProps, currentStep, loading, stepActions } = this.state
@@ -152,7 +142,6 @@ export function withCheckout (WrappedComponent) {
               <div className='o-col-1-13 o-col-8-13-l'>
                 <div className='c-checkout__cart'>
                   <CheckoutCart
-                    deleteItem={this.deleteItem}
                     lineItems={cart.line_items}
                     lineItemsCount={cart.line_items_count}
                     total={cart.total}
