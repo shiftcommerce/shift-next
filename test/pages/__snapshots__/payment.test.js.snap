@@ -5,6 +5,7 @@ exports[`render() renders correct checkout components 1`] = `
   <PaymentMethodSummary
     headerTitle="Payment Method"
     onClick={[Function]}
+    paymentMethod={true}
     showEditButton={true}
   />
   <div
@@ -31,6 +32,7 @@ exports[`render() renders correct checkout components 1`] = `
       errorMessage={null}
       headerTitle="Payment Details"
       onClick={[Function]}
+      paymentMethod={true}
       showEditButton={true}
       withErrors={false}
     />
