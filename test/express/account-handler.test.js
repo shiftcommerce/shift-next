@@ -390,7 +390,7 @@ describe('updateCustomerAccount()', () => {
     updateSpy.mockRestore()
   })
 
-  test('returns errors when request fails', async () => {
+  test('returns errors when no email is submitted', async () => {
     function RequestException (obj) {
       this.response = obj.response
     }
