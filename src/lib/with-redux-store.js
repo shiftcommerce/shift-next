@@ -5,6 +5,9 @@ import { readMenu } from '../actions/menu-actions'
 import { fetchAccountDetails, setLoggedInFromCookies } from '../actions/account-actions'
 import { toggleLoading } from '../actions/global-actions'
 
+// Config
+import Config from './config'
+
 // Lib
 import InitialPropsDelegator from './initial-props-delegator'
 
@@ -31,7 +34,7 @@ export default (App) => {
       // This allows you to set a custom default initialState
       const reduxStore = getOrCreateStore()
       reduxStore.dispatch(toggleLoading(true))
-      await reduxStore.dispatch(readMenu())
+      await reduxStore.dispatch(readMenu(Config.get().menuRequest))
       // Provide the store to getInitialProps of pages
       appContext.reduxStore = reduxStore
 
