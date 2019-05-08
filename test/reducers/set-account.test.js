@@ -11,6 +11,12 @@ test('sets loggedIn to true and adds account details to state on SET_ACCOUNT', (
         },
         last_name: {
           value: 'Smith'
+        },
+        mobile_phone: {
+          value: '07123456789'
+        },
+        date_of_birth: {
+          value: '1/January/1992'
         }
       },
       email: 'email@example.com'
@@ -24,7 +30,11 @@ test('sets loggedIn to true and adds account details to state on SET_ACCOUNT', (
     errors: [],
     firstName: 'John',
     lastName: 'Smith',
-    email: 'email@example.com'
+    email: 'email@example.com',
+    mobilePhone: '07123456789',
+    day: '1',
+    month: 'January',
+    year: '1992'
   })
 })
 
