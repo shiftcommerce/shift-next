@@ -1,5 +1,5 @@
 // Libraries
-import React, { Component } from 'react'
+import React, { Fragment, Component } from 'react'
 import Router from 'next/router'
 import Cookies from 'js-cookie'
 import classNames from 'classnames'
@@ -211,7 +211,7 @@ class CheckoutPaymentPage extends Component {
     if (error) {
       return dispatch(setPaymentError(error.message)).then(() => {
         dispatch(requestCardToken(false))
-        // set disablePlaceOrderButton to false
+        // enable PlaceOrder button
         this.setState({ disablePlaceOrderButton: false })
       })
     } else {
@@ -296,7 +296,7 @@ class CheckoutPaymentPage extends Component {
     const { dispatch, thirdPartyPaymentMethods } = this.props
 
     if (thirdPartyPaymentMethods.includes(this.state.paymentMethod)) {
-      // set loading to true and disablePlaceOrderButton to true as we handle the order authorization and creation process
+      // set loading to true & disable PlaceOrder button as we handle the order authorization and creation process
       this.setState({ loading: true, disablePlaceOrderButton: true })
       // authorise PayPal order and create order in platform
       dispatch(authorizePayPalAndCreateOrder(this.state.payPalOrderID, this.state.paymentMethod)).then(() => {
@@ -305,11 +305,11 @@ class CheckoutPaymentPage extends Component {
         // redirect to order page
         Router.push('/order')
       }).catch((error) => {
-        // set loading to false, payPalAuthorizationError to true & disablePlaceOrderButton to false
+        // set loading to false, payPalAuthorizationError to true & enable PlaceOrder button
         this.setState({ loading: false, payPalAuthorizationError: true, disablePlaceOrderButton: false })
       })
     } else {
-      // set disablePlaceOrderButton to true as we handle the order creation process
+      // disable PlaceOrder button as we handle the order creation process
       this.setState({ disablePlaceOrderButton: true })
       // request Stripe token
       dispatch(requestCardToken(true))
@@ -445,12 +445,8 @@ class CheckoutPaymentPage extends Component {
   render () {
     const { cart, cart: { shipping_address }, thirdPartyPaymentMethods } = this.props
 
-    if (this.state.loading) {
-      return <Loading />
-    }
-
     return (
-      <>
+      <Fragment>
         <PaymentMethodSummary
           onClick={() => Router.push('/checkout/payment-method')}
           paymentMethod={this.state.paymentMethod}
@@ -477,7 +473,8 @@ class CheckoutPaymentPage extends Component {
           headerTitle={'Shipping Method'}
         />
         { this.renderPayment() }
-      </>
+        { this.state.loading && <Loading /> }
+      </Fragment>
     )
   }
 }
