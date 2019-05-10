@@ -272,6 +272,7 @@ exports[`dispatch updateQuantity action on changing line item quantity 1`] = `
                     href="/home/index"
                   >
                     <a
+                      as="/"
                       className="o-breadcrumb__link"
                       href="/home/index"
                     >
@@ -1242,6 +1243,7 @@ exports[`dispatch updateQuantity action on changing line item quantity 1`] = `
                     href="/slug?slug=/homepage"
                   >
                     <a
+                      as="/"
                       className="o-button--sml c-cart-summary-buttons__cta c-cart-summary-buttons__cta--continue"
                       href="/slug?slug=/homepage"
                     >
