@@ -1,11 +1,11 @@
 {
   "name": "@shiftcommerce/shift-next",
-  "version": "0.12.4",
+  "version": "0.13.1",
   "description": "",
   "main": "dist/bundle.js",
   "repository": "https://github.com/shiftcommerce/shift-next.git",
   "engines": {
-    "node": "^11.13.0"
+    "node": ">=10.15.3"
   },
   "scripts": {
     "start": "NODE_ENV=production ANALYZE_BUNDLE=true ./node_modules/webpack/bin/webpack.js --watch --color -p",
