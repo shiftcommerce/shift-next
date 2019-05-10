@@ -95,32 +95,3 @@ test('renders common checkout elements', () => {
   expect(wrapper.find('CouponForm').length).toEqual(1)
   expect(wrapper.find('CartTablePaymentIcons').length).toEqual(1)
 })
-
-test('renders MiniPlaceOrder for the last checkout step', () => {
-  const cart = {
-    id: 10,
-    shipping_method: {}
-  }
-
-  const WrappedComponent = withCheckout(Component)
-  const wrapper = shallow(<WrappedComponent cart={cart} order={{}} />, { disableLifecycleMethods: true })
-  wrapper.instance().wrappedRef.current = {
-    convertOrder: () => {},
-    isValidOrder: () => {}
-  }
-  wrapper.setState({ loading: false, currentStep: 5 })
-
-  expect(wrapper.find('MiniPlaceOrder').length).toEqual(1)
-})
-
-test("doesn't render MiniPlaceOrder for steps other than last", () => {
-  const cart = {
-    id: 10
-  }
-
-  const WrappedComponent = withCheckout(Component)
-  const wrapper = shallow(<WrappedComponent cart={cart} order={{}} />, { disableLifecycleMethods: true })
-  wrapper.setState({ loading: false, currentStep: 3 })
-
-  expect(wrapper.find('MiniPlaceOrder').length).toEqual(0)
-})

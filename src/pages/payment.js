@@ -336,16 +336,16 @@ class CheckoutPaymentPage extends Component {
       return {
         'aria-label': 'Place Order',
         label: 'Place Order',
-        status: this.isValidOrder(cart, order) ? 'primary' : 'disabled',
-        disabled: !this.isValidOrder(cart, order) || this.state.disablePlaceOrderButton,
+        status: this.isValidOrder(cart, order) || !this.props.loading ? 'primary' : 'disabled',
+        disabled: !this.isValidOrder(cart, order) || this.props.loading,
         onClick: this.convertToOrder
       }
     } else {
       return {
         'aria-label': 'Review Order',
         label: 'Review Your Order',
-        status: 'primary',
-        disabled: !this.nextStepAvailable(),
+        status: !this.props.loading ? 'primary' : 'disabled',
+        disabled: !this.nextStepAvailable() || this.props.loading,
         onClick: () => { this.nextSection('complete') }
       }
     }

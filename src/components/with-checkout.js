@@ -16,8 +16,7 @@ import {
   CheckoutCartButtons,
   CheckoutCartTotal,
   CheckoutSteps,
-  CouponForm,
-  MiniPlaceOrder
+  CouponForm
 } from '@shiftcommerce/shift-react-components'
 
 // Actions
@@ -123,11 +122,6 @@ export function withCheckout (WrappedComponent) {
             currentStep={currentStep}
             stepActions={stepActions}
           />
-          { currentStep === 5 && <MiniPlaceOrder
-            convertToOrder={this.wrappedRef.current.convertToOrder}
-            total={cart.total}
-            isValidOrder={this.wrappedRef.current.isValidOrder && this.wrappedRef.current.isValidOrder(cart, order)}
-          /> }
           <div className='c-checkout'>
             <div className='o-grid-container'>
               <div className='o-col-1-13 o-col-1-8-l'>
@@ -177,8 +171,8 @@ export function withCheckout (WrappedComponent) {
 }
 
 const connectedWithCheckout = (WrappedComponent) => {
-  const mapStateToProps = ({ account: { loggedIn }, cart, checkout, order }) => {
-    return { cart, checkout, loggedIn, order }
+  const mapStateToProps = ({ global: { loading }, account: { loggedIn }, cart, checkout, order }) => {
+    return { cart, checkout, loggedIn, order, loading }
   }
 
   return connect(mapStateToProps)(withCheckout(WrappedComponent))

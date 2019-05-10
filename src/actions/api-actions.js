@@ -5,7 +5,7 @@ import JsonApiParser from '../lib/json-api-parser'
 export const readEndpoint = (request) => {
   return (dispatch) => {
     dispatchInitialAction(dispatch, request)
-    return new ApiClient().read(request.endpoint, request.query)
+    return new ApiClient().read(request.endpoint, request.query, dispatch)
       .then(processResponse(dispatch, request, [200, 304]))
       .catch((error) => {
         if (request.errorActionType) dispatch(setErroredTo(request.errorActionType, error, request))
@@ -16,7 +16,7 @@ export const readEndpoint = (request) => {
 export const postEndpoint = (request) => {
   return (dispatch) => {
     dispatchInitialAction(dispatch, request)
-    return new ApiClient().post(request.endpoint, request.body)
+    return new ApiClient().post(request.endpoint, request.body, dispatch)
       .then(response => {
         return _determinePostDispatch(dispatch, request, response)
       })
@@ -30,7 +30,7 @@ export const postEndpoint = (request) => {
 export const deleteEndpoint = (request) => {
   return (dispatch) => {
     dispatchInitialAction(dispatch, request)
-    return new ApiClient().delete(request.endpoint, request.body)
+    return new ApiClient().delete(request.endpoint, request.body, dispatch)
       .then(processResponse(dispatch, request, [204]))
       .catch(error => {
         if (request.errorActionType) dispatch(setErroredTo(request.errorActionType, error))
