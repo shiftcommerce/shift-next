@@ -1,4 +1,5 @@
 const path = require('path')
+const BrotliPlugin = require('brotli-webpack-plugin')
 
 module.exports = {
   entry: './src/index.js',
@@ -27,6 +28,14 @@ module.exports = {
       }
     ]
   },
+  plugins: [
+    new BrotliPlugin({
+      asset: '[path].br[query]',
+      test: /\.(js|css|html|svg)$/,
+      threshold: 10240,
+      minRatio: 0.8
+    })
+  ],
   externals: {
     react: 'commonjs react',
     'react-dom': 'commonjs react-dom',
