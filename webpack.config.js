@@ -40,6 +40,7 @@ module.exports = {
     react: 'commonjs react',
     'react-dom': 'commonjs react-dom',
     '@shiftcommerce/shift-react-components': 'commonjs @shiftcommerce/shift-react-components',
+    'brotli-webpack-plugin': 'commonjs brotli-webpack-plugin',
     'getConfig': 'commonjs next/config',
     'next/router': 'commonjs next/router',
     'next/link': 'commonjs next/link',
