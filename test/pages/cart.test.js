@@ -16,7 +16,7 @@ jest.mock('next/config', () => () => ({
 }))
 
 // Setup mock date for testing business days
-MockDate.set('5/20/2018')
+MockDate.set('5/20/2019')
 
 afterAll(() => {
   MockDate.reset()
