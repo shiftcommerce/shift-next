@@ -1,8 +1,6 @@
-// Libraries
-import MockDate from 'mockdate'
-
 // Pages
 import CartPage from '../../src/pages/cart'
+import MockDate from 'mockdate'
 
 // Actions
 import { updateLineItemQuantity } from '../../src/actions/cart-actions'
@@ -18,7 +16,7 @@ jest.mock('next/config', () => () => ({
 }))
 
 // Setup mock date for testing business days
-MockDate.set('5/20/2019')
+MockDate.set('5/20/2018')
 
 afterAll(() => {
   MockDate.reset()
