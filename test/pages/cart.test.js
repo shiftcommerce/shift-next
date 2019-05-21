@@ -1,5 +1,6 @@
 // Pages
 import CartPage from '../../src/pages/cart'
+import MockDate from 'mockdate'
 
 // Actions
 import { updateLineItemQuantity } from '../../src/actions/cart-actions'
@@ -14,20 +15,11 @@ jest.mock('next/config', () => () => ({
   publicRuntimeConfig: {}
 }))
 
-const RealDate = Date
-const mockDate = new Date('2019-01-01')
-
-beforeAll(() => {
-  global.Date = class extends Date {
-    constructor () {
-      super()
-      return mockDate
-    }
-  }
-})
+// Setup mock date for testing business days
+MockDate.set('5/20/2019')
 
 afterAll(() => {
-  global.Date = RealDate
+  MockDate.reset()
 })
 
 test('dispatch updateQuantity action on changing line item quantity', () => {

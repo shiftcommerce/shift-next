@@ -103,7 +103,13 @@ const Cart = {
   line_items_count: 2,
   meta_attributes: {},
   shipping_method: {
-    total: 3.45
+    total: 3.45,
+    meta_attributes: {
+      working_days: {
+        data_type: 'text',
+        value: '1'
+      }
+    }
   },
   shipping_total: 3.45,
   shipping_total_discount: 0,

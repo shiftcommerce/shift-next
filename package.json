@@ -1,6 +1,6 @@
 {
   "name": "@shiftcommerce/shift-next",
-  "version": "0.13.2",
+  "version": "0.13.3",
   "description": "",
   "main": "dist/bundle.js",
   "repository": "https://github.com/shiftcommerce/shift-next.git",
@@ -39,6 +39,7 @@
     "enzyme-adapter-react-16": "^1.9.1",
     "jest": "^24.1.0",
     "jest-enzyme": "^7.0.1",
+    "mockdate": "^2.0.2",
     "next": "^7.0.2",
     "nock": "^10.0.6",
     "redux-mock-store": "^1.5.3",
@@ -48,7 +49,7 @@
   },
   "dependencies": {
     "@shiftcommerce/shift-node-api": "^0.6.1",
-    "@shiftcommerce/shift-react-components": "^0.12.7",
+    "@shiftcommerce/shift-react-components": "^0.12.8",
     "axios": "^0.18.0",
     "js-cookie": "^2.2.0",
     "qs": "^6.6.0",
