@@ -5,14 +5,7 @@ module.exports = {
   getProductById: async (req, res) => {
     const response = await SHIFTClient.getProductV1(req.params.id, req.query)
 
-    // copy over any CDN cache key response headers from the platform request
-    Object.keys(response.headers)
-      .filter(name => name.toLowerCase().indexOf('surrogate') === 0)
-      .forEach(key => {
-        res.set(key, response.headers[key])
-      })
-
-    setSurrog(response.headers, res)
+    setSurrogateHeaders(response.headers, res)
 
     switch (response.status) {
       case 404:
