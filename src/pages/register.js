@@ -1,5 +1,5 @@
 // Libraries
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import Router from 'next/router'
 
 // Libs
@@ -51,27 +51,33 @@ class RegisterPage extends Component {
     this.props.dispatch(createAccount(values))
   }
 
+  renderLoaded () {
+    return (
+      <div className='c-register'>
+        <div className='c-register__text'>
+          <h1 className='c-register__text-title'>Create your account</h1>
+          <p className='c-register__text-caption'>We are delighted to have you as part of the family. All we ask is that you fill in the missing details highlighted in the form below:</p>
+        </div>
+        <RegisterForm {...this.props}
+          title='Create Account'
+          formName='createAccountFields'
+          onBlur={this.validateInput}
+          onCreateAccount={this.onCreateAccount}
+          handleSubmit={this.handleSubmit}
+        />
+        <a className='c-register__anchor'>Privacy Policy</a>
+      </div>
+    )
+  }
+
   render () {
     return (
-      <>
+      <Fragment>
         <this.Head>
           <title>{ suffixWithStoreName('Create Account') }</title>
         </this.Head>
-        <div className='c-register'>
-          <div className='c-register__text'>
-            <h1 className='c-register__text-title'>Create your account</h1>
-            <p className='c-register__text-caption'>We are delighted to have you as part of the family. All we ask is that you fill in the missing details highlighted in the form below:</p>
-          </div>
-          <RegisterForm {...this.props}
-            title='Create Account'
-            formName='createAccountFields'
-            onBlur={this.validateInput}
-            onCreateAccount={this.onCreateAccount}
-            handleSubmit={this.handleSubmit}
-          />
-          <a className='c-register__anchor'>Privacy Policy</a>
-        </div>
-      </>
+        { this.renderLoaded() }
+      </Fragment>
     )
   }
 }

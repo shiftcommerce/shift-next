@@ -1,57 +1,64 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders address form components 1`] = `
-<div
-  className="c-checkout__addressform"
->
+<Fragment>
+  <PaymentMethodSummary
+    headerTitle="Payment Method"
+    onClick={[Function]}
+    showEditButton={true}
+  />
   <div
-    className="o-form__address"
+    className="c-checkout__addressform"
   >
-    <address_form_header_AddressFormHeader
-      title="Shipping Address"
-    />
-    <AddressForm
-      autoFillAddress={[Function]}
-      checkout={
-        Object {
-          "addressBook": Array [],
-          "shippingAddress": Object {
-            "errors": Object {},
-          },
-        }
-      }
-      countries={
-        Array [
-          Object {
-            "id": 1,
-            "title": "United Kingdom",
-            "value": "GB",
-          },
-          Object {
-            "id": 2,
-            "title": "United States",
-            "value": "US",
-          },
-        ]
-      }
-      formName="shippingAddress"
-      onBlur={[Function]}
-      onChange={[Function]}
-      onShowField={[Function]}
-    />
     <div
-      className="o-form__input-group"
+      className="o-form__address"
     >
-      <Button
-        aria-label="View Shipping Options"
-        className="c-address-form__button o-button--sml"
-        disabled={true}
-        label="View Shipping Options"
-        onClick={[Function]}
-        status="disabled"
-        type="primary"
+      <AddressFormHeader
+        title="Shipping Address"
       />
+      <AddressForm
+        autoFillAddress={[Function]}
+        checkout={
+          Object {
+            "addressBook": Array [],
+            "shippingAddress": Object {
+              "errors": Object {},
+            },
+          }
+        }
+        countries={
+          Array [
+            Object {
+              "id": 1,
+              "title": "United Kingdom",
+              "value": "GB",
+            },
+            Object {
+              "id": 2,
+              "title": "United States",
+              "value": "US",
+            },
+          ]
+        }
+        formName="shippingAddress"
+        onBlur={[Function]}
+        onChange={[Function]}
+        onShowField={[Function]}
+      />
+      <div
+        className="o-form__input-group"
+      >
+        <Button
+          aria-label="View Shipping Options"
+          className="c-address-form__button o-button--sml"
+          disabled={true}
+          label="View Shipping Options"
+          onClick={[Function]}
+          status="disabled"
+          type="primary"
+        />
+      </div>
     </div>
   </div>
-</div>
+</Fragment>
 `;

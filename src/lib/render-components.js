@@ -26,6 +26,7 @@ export default function renderComponents (pageComponents) {
       return (
         <ComponentName
           key={pageComponentIndex}
+          index={pageComponentIndex}
           componentData={pageComponent}
         />
       )

@@ -17,7 +17,15 @@ import {
 } from '../../actions/cart-actions'
 
 // Components
-import { PaymentMethods, Loading } from '@shiftcommerce/shift-react-components'
+import { PaymentMethod, Loading } from '@shiftcommerce/shift-react-components'
+
+// Libs
+import Config from '../../lib/config'
+
+// Json
+// This is required as a workaround when testing PayPal integration using cypress
+// https://github.com/cypress-io/cypress/issues/1496
+import MockPayPalResponse from '../../../test/fixtures/paypal-order-response'
 
 export class PaymentMethodPage extends Component {
   constructor (props) {
@@ -26,10 +34,11 @@ export class PaymentMethodPage extends Component {
       loading: true
     }
 
+    this.handleSetPaymentMethod = this.handleSetPaymentMethod.bind(this)
+    this.mockPayPalApproval = this.mockPayPalApproval.bind(this)
     this.nextSection = this.nextSection.bind(this)
     this.payPalCreateOrder = this.payPalCreateOrder.bind(this)
     this.payPalOnApprove = this.payPalOnApprove.bind(this)
-    this.handleSetPaymentMethod = this.handleSetPaymentMethod.bind(this)
   }
 
   componentDidMount () {
@@ -104,6 +113,15 @@ export class PaymentMethodPage extends Component {
   }
 
   /**
+   * This workaround function is used within the test environment for testing PayPal
+   * Solution came about from a team discussion, due to https://github.com/cypress-io/cypress/issues/1496
+   */
+  mockPayPalApproval () {
+    this.handleSetPaymentMethod('PayPal')
+    return this.handlePayPalOrderResponse(MockPayPalResponse)
+  }
+  
+  /**
    * Handles data for the fetched PayPal Order 
    * @param  {object} order
    */
@@ -163,13 +181,12 @@ export class PaymentMethodPage extends Component {
       line_1: address.address_line_1,
       line_2: address.address_line_2,
       city: address.admin_area_2,
-      state: address.admin_area_1,
+      state: address.admin_area_1 || '',
       zipcode: address.postal_code,
       country_code: address.country_code,
       primary_phone: phone_number,
       collapsed: true,
-      completed: true,
-      showEditButton: false
+      completed: true
     }
   }
 
@@ -234,11 +251,13 @@ export class PaymentMethodPage extends Component {
   render () {
     return (
       <>
-        { this.state.loading ? <Loading /> : <PaymentMethods
+        { this.state.loading ? <Loading /> : <PaymentMethod
+          enableTestPayPalButton={Config.get().enableTestPayPalButton === 'true'}
+          handleSetPaymentMethod={this.handleSetPaymentMethod}
+          mockPayPalApproval={this.mockPayPalApproval}
           nextSection={this.nextSection}
           paypalCreateOrder={this.payPalCreateOrder}
           paypalOnApprove={this.payPalOnApprove}
-          handleSetPaymentMethod={this.handleSetPaymentMethod}
         /> }
       </>
     )

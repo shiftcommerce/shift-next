@@ -141,7 +141,6 @@ test('sets shipping address id when a shipping address is created', () => {
 
   const updatedState = setCheckout(currentState, action)
 
-  console.log({updatedState})
   expect(updatedState.shippingAddress.id).toEqual(10)
 })
 
@@ -272,8 +271,11 @@ test('sets billing address when a PayPal order is created', () => {
     country_code: 'GB',
     primary_phone: '0352878596',
     collapsed: true,
-    completed: true,
-    showEditButton: false
+    completed: true
+  }
+  const expectedAddress = {
+    ...addressPayload,
+    errors: {}
   }
   const action = {
     type: actionTypes.SET_CHECKOUT_BILLING_ADDRESS,
@@ -289,7 +291,7 @@ test('sets billing address when a PayPal order is created', () => {
   const updatedState = setCheckout(currentState, action)
 
   // Assert
-  expect(updatedState.billingAddress).toEqual(addressPayload)
+  expect(updatedState.billingAddress).toEqual(expectedAddress)
 })
 
 test('sets shipping address when a PayPal order is created', () => {
@@ -306,8 +308,12 @@ test('sets shipping address when a PayPal order is created', () => {
     country_code: 'GB',
     primary_phone: '0352878596',
     collapsed: true,
-    completed: true,
-    showEditButton: false
+    completed: true
+  }
+
+  const expectedAddress = {
+    ...addressPayload,
+    errors: {}
   }
   const action = {
     type: actionTypes.SET_CHECKOUT_SHIPPING_ADDRESS,
@@ -323,5 +329,5 @@ test('sets shipping address when a PayPal order is created', () => {
   const updatedState = setCheckout(currentState, action)
 
   // Assert
-  expect(updatedState.shippingAddress).toEqual(addressPayload)
+  expect(updatedState.shippingAddress).toEqual(expectedAddress)
 })

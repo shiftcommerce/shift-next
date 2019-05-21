@@ -11,7 +11,8 @@ import {
   AddressBook,
   AddressFormHeader,
   Button,
-  CheckoutAddressForm
+  CheckoutAddressForm,
+  PaymentMethodSummary
 } from '@shiftcommerce/shift-react-components'
 
 // Actions
@@ -183,7 +184,7 @@ export class ShippingAddressPage extends Component {
     return (this.cartAddressFromBook() && !this.state.addingNewAddress) || addressFormValidator(shippingAddress)
   }
 
-  pageTitle = () => 'Shipping Adress'
+  pageTitle = () => 'Shipping Address'
 
   currentStep = () => 2
 
@@ -205,32 +206,40 @@ export class ShippingAddressPage extends Component {
     if (!hasLineItems || this.state.loading) return <div></div>
 
     return (
-      <div className='c-checkout__addressform'>
-        <div className='o-form__address'>
-          <AddressFormHeader title='Shipping Address' />
-          { !this.addressBookEmpty() && <AddressBook
-            addressBook={addressBook}
-            formName='shippingAddress'
-            currentAddressId={this.props.cart.shipping_address && this.props.cart.shipping_address.id}
-            onAddressDeleted={this.onAddressDeleted}
-            onNewAddress={this.onNewAddress}
-            onBookAddressSelected={this.onBookAddressSelected}
-            addressFormDisplayed={this.addressFormDisplayed()}
-          /> }
-          { this.addressFormDisplayed() && <CheckoutAddressForm
-            autoFillAddress={this.autoFillAddress}
-            checkout={this.props.checkout}
-            countries={countries}
-            currentAddress={this.addressForForm()}
-            formName='shippingAddress'
-            loggedIn={this.props.loggedIn}
-            onChange={this.onInputChange}
-            onBlur={this.onInputBlur}
-            onShowField={this.onShowField}
-          /> }
-          { this.renderFormSubmitButton() }
+      <>
+        <PaymentMethodSummary
+          onClick={() => Router.push('/checkout/payment-method')}
+          paymentMethod={this.state.paymentMethod}
+          headerTitle={'Payment Method'}
+          showEditButton={true}
+        />
+        <div className='c-checkout__addressform'>
+          <div className='o-form__address'>
+            <AddressFormHeader title='Shipping Address' />
+            { !this.addressBookEmpty() && <AddressBook
+              addressBook={addressBook}
+              formName='shippingAddress'
+              currentAddressId={this.props.cart.shipping_address && this.props.cart.shipping_address.id}
+              onAddressDeleted={this.onAddressDeleted}
+              onNewAddress={this.onNewAddress}
+              onBookAddressSelected={this.onBookAddressSelected}
+              addressFormDisplayed={this.addressFormDisplayed()}
+            /> }
+            { this.addressFormDisplayed() && <CheckoutAddressForm
+              autoFillAddress={this.autoFillAddress}
+              checkout={this.props.checkout}
+              countries={countries}
+              currentAddress={this.addressForForm()}
+              formName='shippingAddress'
+              loggedIn={this.props.loggedIn}
+              onChange={this.onInputChange}
+              onBlur={this.onInputBlur}
+              onShowField={this.onShowField}
+            /> }
+            { this.renderFormSubmitButton() }
+          </div>
         </div>
-      </div>
+      </>
     )
   }
 }

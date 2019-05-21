@@ -32,12 +32,13 @@ afterEach(() => { nock.cleanAll() })
 test('Performs router replace to homepage when given /', async () => {
   // Set the slug
   const query = { slug: '/homepage' }
+  const reduxStore = { dispatch: jest.fn() }
 
   // Mock next.js router
   const mockedRouter = { push: jest.fn() }
   Router.router = mockedRouter
 
-  await Slug.getInitialProps({ query })
+  await Slug.getInitialProps({ query, reduxStore })
 
   // Assert - verify that only one redirect happens
   expect(Router.router.push.mock.calls.length).toBe(1)
@@ -50,12 +51,13 @@ test('Performs router replace to homepage when given /', async () => {
 test('Performs router push to resource when given slug', async () => {
   // Set the slug
   const query = { slug: '/coffee' }
+  const reduxStore = { dispatch: jest.fn() }
 
   // Mock next.js router
   const mockedRouter = { push: jest.fn() }
   Router.router = mockedRouter
 
-  await Slug.getInitialProps({ query })
+  await Slug.getInitialProps({ query, reduxStore })
 
   // Assert - verify that only one redirect happens
   expect(Router.router.push.mock.calls.length).toBe(1)
