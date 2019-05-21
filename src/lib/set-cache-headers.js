@@ -1,5 +1,4 @@
 // A function that sets CDN headers
-
 function setCacheHeaders (response) {
   // fastly limit of 16,384 bytes is equal to 16384 utf-8 characters
   const lengthLimit = 16384
@@ -25,4 +24,13 @@ function uniq (value, index, self) {
   return self.indexOf(value) === index
 }
 
-module.exports = { setCacheHeaders }
+// copy over any CDN cache key response headers from one response to another
+function setSurrogateHeaders (headers, response) {
+  Object.keys(headers)
+    .filter(name => name.toLowerCase().indexOf('surrogate') === 0)
+    .forEach(key => {
+      response.set(key, headers[key])
+    })
+}
+
+module.exports = { setCacheHeaders, setSurrogateHeaders }
