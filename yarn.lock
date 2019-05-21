@@ -930,13 +930,14 @@
     axios "^0.18.0"
     qs "^6.6.0"
 
-"@shiftcommerce/shift-react-components@^0.12.7":
-  version "0.12.7"
-  resolved "https://registry.yarnpkg.com/@shiftcommerce/shift-react-components/-/shift-react-components-0.12.7.tgz#ca2e41ce57c0880de5ea95c99057f792e178c793"
+"@shiftcommerce/shift-react-components@^0.12.8":
+  version "0.12.8"
+  resolved "https://registry.yarnpkg.com/@shiftcommerce/shift-react-components/-/shift-react-components-0.12.8.tgz#cd13888e1c434e892c7ce949414f580efd1102d3"
+  integrity sha512-A5Xfl30rQjvJgNSUc6PoIzYD6ZxLTd75iMAcRvw6G449gSIucJM85dAZsH+3zS7giJPSQbClDSVfeun9QoHoyQ==
   dependencies:
     classnames "^2.2.6"
+    date-fns "^1.30.1"
     formik "^1.4.0"
-    moment-business-days "^1.1.3"
     react "^16.7.0"
     react-dom "^16.7.0"
     react-input-range "^1.3.0"
@@ -2477,6 +2478,11 @@ data-urls@^1.0.0:
     abab "^2.0.0"
     whatwg-mimetype "^2.2.0"
     whatwg-url "^7.0.0"
+
+date-fns@^1.30.1:
+  version "1.30.1"
+  resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-1.30.1.tgz#2e71bf0b119153dbb4cc4e88d9ea5acfb50dc05c"
+  integrity sha512-hBSVCvSmWC+QypYObzwGOd9wqdDpOt+0wl0KbU+R+uuZBS1jN8VsD1ss3irQDknRj5NvxiTF6oj/nDRnN/UQNw==
 
 date-now@^0.1.4:
   version "0.1.4"
@@ -5201,9 +5207,10 @@ mkdirp-then@1.2.0:
   dependencies:
     minimist "0.0.8"
 
-moment-business-days@^1.1.3:
-  version "1.1.3"
-  resolved "https://registry.yarnpkg.com/moment-business-days/-/moment-business-days-1.1.3.tgz#2922c3ffab8640a84dd27484336a5e0b3c07175a"
+mockdate@^2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/mockdate/-/mockdate-2.0.2.tgz#5ae0c0eaf8fe23e009cd01f9889b42c4f634af12"
+  integrity sha1-WuDA6vj+I+AJzQH5iJtCxPY0rxI=
 
 moment@^2.22.1:
   version "2.24.0"
