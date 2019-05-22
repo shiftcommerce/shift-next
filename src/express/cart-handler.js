@@ -1,13 +1,23 @@
 const { SHIFTClient } = require('@shiftcommerce/shift-node-api')
 const { getSessionExpiryTime } = require('../lib/session')
 
-const defaultCartIncludes = {
+const cartApiEndpointQuery = {
+  fields: {
+    line_items: 'line_item_discounts,sku,stock_available_level,sub_total,tax_rate,total,total_discount,item,unit_price,unit_quantity',
+    variants: 'title,sku,price,picture_url,stock_allocated_level,meta_attributes,product',
+    products: 'title,sku,slug,canonical_path,picture_url,meta_attributes',
+    line_item_discounts: 'line_item_number,promotion_id,total',
+    discount_summaries: 'name,promotion_id,total',
+    customer_account: 'email,meta_attributes,reference',
+    addresses: 'address_line_1,address_line_2,city,country,first_name,last_name,state,postcode,preferred_billing,preferred_shipping',
+    shipping_method: 'label,meta_attributes,sub_total,total'
+  },
   include: 'line_items.item.product,line_items.line_item_discounts,discount_summaries,customer_account,billing_address,shipping_address,shipping_method'
 }
 
 module.exports = {
   getCart: async (req, res) => {
-    req.query = Object.assign({}, req.query, defaultCartIncludes)
+    req.query = { ...req.query, ...cartApiEndpointQuery }
     const cartId = req.signedCookies.cart
     const response = await SHIFTClient.getCartV1(cartId, req.query)
     
@@ -21,7 +31,7 @@ module.exports = {
     }
   },
   addToCart: async (req, res) => {
-    req.query = Object.assign({}, req.query, defaultCartIncludes)
+    req.query = { ...req.query, ...cartApiEndpointQuery }
     const cartId = req.signedCookies.cart
 
     let response
@@ -49,7 +59,7 @@ module.exports = {
     }
   },
   deleteLineItem: async (req, res) => {
-    req.query = Object.assign({}, req.query, defaultCartIncludes)
+    req.query = { ...req.query, ...cartApiEndpointQuery }
     const lineItemId = req.params.lineItemId
     const cartId = req.signedCookies.cart
 
@@ -65,7 +75,7 @@ module.exports = {
     }
   },
   updateLineItem: async (req, res) => {
-    req.query = Object.assign({}, req.query, defaultCartIncludes)
+    req.query = { ...req.query, ...cartApiEndpointQuery }
     const newQuantity = req.body.newQuantity
     const lineItemId = req.body.lineItemId
     const cartId = req.signedCookies.cart
