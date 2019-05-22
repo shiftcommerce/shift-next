@@ -23,7 +23,7 @@ module.exports = {
     if (cartId) {
       response = await SHIFTClient.addLineItemToCartV1(req, res, cartId, req.query)
     } else {
-      response = await SHIFTClient.createNewCartWithLineItemV1(req, res)
+      response = await SHIFTClient.createNewCartWithLineItemV1(req, res, req.query)
 
       if (response.data.id) {
         res.cookie('cart', response.data.id, {
