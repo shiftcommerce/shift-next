@@ -4,7 +4,7 @@ const { getSessionExpiryTime } = require('../lib/session')
 module.exports = {
   getCart: async (req, res) => {
     const cartId = req.signedCookies.cart
-    const response = await SHIFTClient.getCartV1(cartId)
+    const response = await SHIFTClient.getCartV1(cartId, req.query)
 
     switch (response.status) {
       case 404:

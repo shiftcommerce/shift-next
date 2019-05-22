@@ -10,7 +10,10 @@ import { readEndpoint, postEndpoint } from './api-actions'
 
 const fetchCartRequest = {
   endpoint: '/getCart',
-  successActionType: actionTypes.CART_UPDATED
+  successActionType: actionTypes.CART_UPDATED,
+  query: {
+    include: 'line_items.item.product,line_items.line_item_discounts,discount_summaries,customer_account,billing_address,shipping_address,shipping_method'
+  }
 }
 
 export function readCart (options = {}) {
