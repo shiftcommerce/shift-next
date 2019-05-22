@@ -10,10 +10,7 @@ import { readEndpoint, postEndpoint } from './api-actions'
 
 const fetchCartRequest = {
   endpoint: '/getCart',
-  successActionType: actionTypes.CART_UPDATED,
-  query: {
-    include: 'line_items.item.product,line_items.line_item_discounts,discount_summaries,customer_account,billing_address,shipping_address,shipping_method'
-  }
+  successActionType: actionTypes.CART_UPDATED
 }
 
 export function readCart (options = {}) {
@@ -31,10 +28,7 @@ const addToCartRequest = (variantId, quantity) => {
   return {
     endpoint: '/addToCart',
     body: { variantId, quantity },
-    successActionType: actionTypes.CART_UPDATED,
-    query: {
-      include: 'line_items.item.product,line_items.line_item_discounts,discount_summaries,customer_account,billing_address,shipping_address,shipping_method'
-    }
+    successActionType: actionTypes.CART_UPDATED
   }
 }
 
@@ -46,10 +40,7 @@ const updateLineItemQuantityRequest = (lineItemId, newQuantity) => {
   return {
     endpoint: '/updateLineItem',
     body: { lineItemId, newQuantity },
-    successActionType: actionTypes.CART_UPDATED,
-    query: {
-      include: 'line_items.item.product,line_items.line_item_discounts,discount_summaries,customer_account,billing_address,shipping_address,shipping_method'
-    }
+    successActionType: actionTypes.CART_UPDATED
   }
 }
 
@@ -60,10 +51,7 @@ export function updateLineItemQuantity (lineItemId, newQuantity) {
 const deleteLineItemRequest = (lineItemId) => {
   return {
     endpoint: `/deleteLineItem/${lineItemId}`,
-    successActionType: actionTypes.CART_UPDATED,
-    query: {
-      include: 'line_items.item.product,line_items.line_item_discounts,discount_summaries,customer_account,billing_address,shipping_address,shipping_method'
-    }
+    successActionType: actionTypes.CART_UPDATED
   }
 }
 

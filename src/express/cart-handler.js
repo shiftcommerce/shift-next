@@ -1,11 +1,16 @@
 const { SHIFTClient } = require('@shiftcommerce/shift-node-api')
 const { getSessionExpiryTime } = require('../lib/session')
 
+const defaultCartIncludes = {
+  include: 'line_items.item.product,line_items.line_item_discounts,discount_summaries,customer_account,billing_address,shipping_address,shipping_method'
+}
+
 module.exports = {
   getCart: async (req, res) => {
+    req.query = Object.assign({}, req.query, defaultCartIncludes)
     const cartId = req.signedCookies.cart
     const response = await SHIFTClient.getCartV1(cartId, req.query)
-
+    
     switch (response.status) {
       case 404:
         return res.status(200).send({})
@@ -16,7 +21,9 @@ module.exports = {
     }
   },
   addToCart: async (req, res) => {
+    req.query = Object.assign({}, req.query, defaultCartIncludes)
     const cartId = req.signedCookies.cart
+
     let response
 
     if (cartId) {
@@ -42,6 +49,7 @@ module.exports = {
     }
   },
   deleteLineItem: async (req, res) => {
+    req.query = Object.assign({}, req.query, defaultCartIncludes)
     const lineItemId = req.params.lineItemId
     const cartId = req.signedCookies.cart
 
@@ -57,6 +65,7 @@ module.exports = {
     }
   },
   updateLineItem: async (req, res) => {
+    req.query = Object.assign({}, req.query, defaultCartIncludes)
     const newQuantity = req.body.newQuantity
     const lineItemId = req.body.lineItemId
     const cartId = req.signedCookies.cart
