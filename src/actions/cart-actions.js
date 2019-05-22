@@ -31,7 +31,10 @@ const addToCartRequest = (variantId, quantity) => {
   return {
     endpoint: '/addToCart',
     body: { variantId, quantity },
-    successActionType: actionTypes.CART_UPDATED
+    successActionType: actionTypes.CART_UPDATED,
+    query: {
+      include: 'line_items.item.product,line_items.line_item_discounts,discount_summaries,customer_account,billing_address,shipping_address,shipping_method'
+    }
   }
 }
 
@@ -43,7 +46,10 @@ const updateLineItemQuantityRequest = (lineItemId, newQuantity) => {
   return {
     endpoint: '/updateLineItem',
     body: { lineItemId, newQuantity },
-    successActionType: actionTypes.CART_UPDATED
+    successActionType: actionTypes.CART_UPDATED,
+    query: {
+      include: 'line_items.item.product,line_items.line_item_discounts,discount_summaries,customer_account,billing_address,shipping_address,shipping_method'
+    }
   }
 }
 
@@ -54,7 +60,10 @@ export function updateLineItemQuantity (lineItemId, newQuantity) {
 const deleteLineItemRequest = (lineItemId) => {
   return {
     endpoint: `/deleteLineItem/${lineItemId}`,
-    successActionType: actionTypes.CART_UPDATED
+    successActionType: actionTypes.CART_UPDATED,
+    query: {
+      include: 'line_items.item.product,line_items.line_item_discounts,discount_summaries,customer_account,billing_address,shipping_address,shipping_method'
+    }
   }
 }
 

@@ -21,7 +21,7 @@ module.exports = {
     let response
 
     if (cartId) {
-      response = await SHIFTClient.addLineItemToCartV1(req, res, cartId)
+      response = await SHIFTClient.addLineItemToCartV1(req, res, cartId, req.query)
     } else {
       response = await SHIFTClient.createNewCartWithLineItemV1(req, res)
 
