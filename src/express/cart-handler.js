@@ -46,7 +46,7 @@ module.exports = {
     const lineItemId = req.params.lineItemId
     const cartId = req.signedCookies.cart
 
-    const response = await SHIFTClient.deleteLineItemV1(lineItemId, cartId)
+    const response = await SHIFTClient.deleteLineItemV1(lineItemId, cartId, req.query)
 
     switch (response.status) {
       case 404:
@@ -62,7 +62,7 @@ module.exports = {
     const lineItemId = req.body.lineItemId
     const cartId = req.signedCookies.cart
 
-    const response = await SHIFTClient.updateLineItemV1(newQuantity, cartId, lineItemId)
+    const response = await SHIFTClient.updateLineItemV1(newQuantity, cartId, lineItemId, req.query)
 
     switch (response.status) {
       case 404:
