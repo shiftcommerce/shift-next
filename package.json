@@ -48,7 +48,7 @@
     "webpack-cli": "^3.2.1"
   },
   "dependencies": {
-    "@shiftcommerce/shift-node-api": "shiftcommerce/shift-node-api#issue/972_update_cart_includes",
+    "@shiftcommerce/shift-node-api": "0.6.3",
     "@shiftcommerce/shift-react-components": "^0.12.8",
     "axios": "^0.18.0",
     "js-cookie": "^2.2.0",
