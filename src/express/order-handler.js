@@ -43,7 +43,7 @@ module.exports = {
           payment_gateway_reference: 'paypal',
           transaction_type: 'authorisation',
           gateway_response: {
-            token: paymentAuthorizationID,
+            token: paymentAuthorizationID
           },
           status: 'success',
           amount: orderPayload.data.attributes.total_inc_tax,

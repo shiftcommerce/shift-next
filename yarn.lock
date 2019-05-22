@@ -923,9 +923,10 @@
     braintreehttp "^0.4.0"
     npm "^6.4.0"
 
-"@shiftcommerce/shift-node-api@^0.6.1":
-  version "0.6.1"
-  resolved "https://registry.yarnpkg.com/@shiftcommerce/shift-node-api/-/shift-node-api-0.6.1.tgz#6b4632f286910e7534a61c763cd0cd829092fdc6"
+"@shiftcommerce/shift-node-api@^0.6.2":
+  version "0.6.2"
+  resolved "https://registry.yarnpkg.com/@shiftcommerce/shift-node-api/-/shift-node-api-0.6.2.tgz#5c1a9478f28ae01522deb8bffe63e2e4966eb28f"
+  integrity sha512-WMfCMJOh5eMVQE6whKs5nWEOSOQ4mjoLJDB3HyeQ0t6D+UE73U2H863W9j6VH//NCmGsY2AV2eq7k1WCCv0xCQ==
   dependencies:
     axios "^0.18.0"
     qs "^6.6.0"

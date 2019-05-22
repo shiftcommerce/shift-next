@@ -1,8 +1,11 @@
 const { SHIFTClient } = require('@shiftcommerce/shift-node-api')
+const { setSurrogateHeaders } = require('../lib/set-cache-headers')
 
 module.exports = {
   getStaticPage: async (req, res) => {
     const response = await SHIFTClient.getStaticPageV1(req.params.id, req.query)
+
+    setSurrogateHeaders(response.headers, res)
 
     switch (response.status) {
       case 404:
