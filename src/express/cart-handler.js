@@ -17,14 +17,13 @@ module.exports = {
   },
   addToCart: async (req, res) => {
     const cartId = req.signedCookies.cart
-
     let response
 
     if (cartId) {
-      response = await SHIFTClient.addLineItemToCartV1(req, res, cartId, req.query)
+      response = await SHIFTClient.addLineItemToCartV1(req, res, cartId)
     } else {
-      response = await SHIFTClient.createNewCartWithLineItemV1(req, res, req.query)
-
+      response = await SHIFTClient.createNewCartWithLineItemV1(req, res)
+      
       if (response.data.id) {
         res.cookie('cart', response.data.id, {
           signed: true,
