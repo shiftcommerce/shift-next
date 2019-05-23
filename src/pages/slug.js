@@ -34,7 +34,7 @@ class Slug extends Component {
     const request = slugRequest(query.slug)
     const response = await new ApiClient().read(request.endpoint, request.query)
 
-    const resourceType = t(response, 'data.resource_type').safeObject
+    const resourceType = t(response, 'data.resource_type').safeObject.toLowerCase()
     const resourceId = t(response, 'data.resource_id').safeObject
     let url = query.slug
 
@@ -42,7 +42,12 @@ class Slug extends Component {
       url = '/'
     }
 
-    Router.push(`/${resourceType.toLowerCase()}?id=${resourceId}`, url)
+    if (resourceType === 'staticpage' && url === '/pages/articles') {
+      Router.push(`/articles?id=${resourceId}`, url)
+    } else {
+      Router.push(`/${resourceType}?id=${resourceId}`, url)
+    }
+
     return {}
   }
 }
