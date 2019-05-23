@@ -1,5 +1,4 @@
 const path = require('path')
-const BrotliPlugin = require('brotli-webpack-plugin')
 
 module.exports = {
   entry: './src/index.js',
@@ -28,24 +27,16 @@ module.exports = {
       }
     ]
   },
-  plugins: [
-    new BrotliPlugin({
-      asset: '[path].br[query]',
-      test: /\.(js|css|html|svg)$/,
-      threshold: 10240,
-      minRatio: 0.8
-    })
-  ],
   externals: {
     react: 'commonjs react',
     'react-dom': 'commonjs react-dom',
     '@shiftcommerce/shift-react-components': 'commonjs @shiftcommerce/shift-react-components',
-    'brotli-webpack-plugin': 'commonjs brotli-webpack-plugin',
     'getConfig': 'commonjs next/config',
     'next/router': 'commonjs next/router',
     'next/link': 'commonjs next/link',
     'react-instantsearch/server': 'react-instantsearch/server',
     'react-instantsearch/dom': 'react-instantsearch/dom',
+    'shrink-ray-current': 'commonjs shrink-ray-current',
     'stripe': 'commonjs stripe',
     '@paypal/checkout-server-sdk': 'commonjs @paypal/checkout-server-sdk'
   }
