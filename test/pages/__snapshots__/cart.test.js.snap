@@ -108,6 +108,12 @@ exports[`dispatch updateQuantity action on changing line item quantity 1`] = `
       "line_items_count": 2,
       "meta_attributes": Object {},
       "shipping_method": Object {
+        "meta_attributes": Object {
+          "working_days": Object {
+            "data_type": "text",
+            "value": "1",
+          },
+        },
         "total": 3.45,
       },
       "shipping_total": 3.45,
@@ -237,6 +243,12 @@ exports[`dispatch updateQuantity action on changing line item quantity 1`] = `
             "line_items_count": 2,
             "meta_attributes": Object {},
             "shipping_method": Object {
+              "meta_attributes": Object {
+                "working_days": Object {
+                  "data_type": "text",
+                  "value": "1",
+                },
+              },
               "total": 3.45,
             },
             "shipping_total": 3.45,
@@ -251,6 +263,12 @@ exports[`dispatch updateQuantity action on changing line item quantity 1`] = `
         }
         shippingMethod={
           Object {
+            "meta_attributes": Object {
+              "working_days": Object {
+                "data_type": "text",
+                "value": "1",
+              },
+            },
             "total": 3.45,
           }
         }
@@ -380,7 +398,7 @@ exports[`dispatch updateQuantity action on changing line item quantity 1`] = `
                 className="c-cart-table__description"
               >
                 We will deliver your item: 
-                Tuesday 1st January
+                Tuesday 21st May
                 .
               </p>
             </div>
@@ -1162,6 +1180,12 @@ exports[`dispatch updateQuantity action on changing line item quantity 1`] = `
                     "line_items_count": 2,
                     "meta_attributes": Object {},
                     "shipping_method": Object {
+                      "meta_attributes": Object {
+                        "working_days": Object {
+                          "data_type": "text",
+                          "value": "1",
+                        },
+                      },
                       "total": 3.45,
                     },
                     "shipping_total": 3.45,
