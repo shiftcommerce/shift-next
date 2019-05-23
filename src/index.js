@@ -60,7 +60,13 @@ module.exports = {
      * Supported formats - br + gzip
      * @todo use `compression.js` when issue https://github.com/expressjs/compression/issues/71 is resolved
      */
-    server.use(shrinkRay())
+    server.use(
+      shrinkRay({
+        brotli: {
+          quality: 11
+        }
+      })
+    )
 
     server.get('/customerOrders', shiftAccountHandler.getCustomerOrders)
     server.get('/getAccount', shiftAccountHandler.getAccount)
