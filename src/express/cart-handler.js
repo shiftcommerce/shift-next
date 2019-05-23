@@ -3,14 +3,14 @@ const { getSessionExpiryTime } = require('../lib/session')
 
 const cartApiEndpointQuery = {
   fields: {
-    line_items: 'line_item_discounts,sku,stock_available_level,sub_total,tax_rate,total,total_discount,item,unit_price,unit_quantity',
-    variants: 'title,sku,price,picture_url,stock_allocated_level,meta_attributes,product',
+    line_items: 'line_item_discounts,sku,stock_available_level,sub_total,tax_rate,title,total,total_discount,item,unit_price,unit_quantity',
+    variants: 'title,sku,price,price_includes_taxes,picture_url,stock_allocated_level,meta_attributes,product',
     products: 'title,sku,slug,canonical_path,picture_url,meta_attributes',
     line_item_discounts: 'line_item_number,promotion_id,total',
     discount_summaries: 'name,promotion_id,total',
     customer_account: 'email,meta_attributes,reference',
-    addresses: 'address_line_1,address_line_2,city,country,first_name,last_name,state,postcode,preferred_billing,preferred_shipping',
-    shipping_method: 'label,meta_attributes,sub_total,total'
+    addresses: 'address_line_1,address_line_2,city,country,first_name,last_name,meta_attributes,postcode,preferred_billing,preferred_shipping,state',
+    shipping_method: 'description,label,meta_attributes,reference,sku,sub_total,tax,tax_rate,total'
   },
   include: 'line_items.item.product,line_items.line_item_discounts,discount_summaries,customer_account,billing_address,shipping_address,shipping_method'
 }
@@ -141,9 +141,10 @@ module.exports = {
     }
   },
   setCartBillingAddress: async (req, res) => {
+    req.query = { ...req.query, ...cartApiEndpointQuery }
     const addressId = req.body.addressId
     const cartId = req.signedCookies.cart
-    const response = await SHIFTClient.setCartBillingAddressV1(addressId, cartId)
+    const response = await SHIFTClient.setCartBillingAddressV1(addressId, cartId, req.query)
 
     switch (response.status) {
       case 404:
@@ -155,9 +156,10 @@ module.exports = {
     }
   },
   setCartShippingAddress: async (req, res) => {
+    req.query = { ...req.query, ...cartApiEndpointQuery }
     const addressId = req.body.addressId
     const cartId = req.signedCookies.cart
-    const response = await SHIFTClient.setCartShippingAddressV1(addressId, cartId)
+    const response = await SHIFTClient.setCartShippingAddressV1(addressId, cartId, req.query)
 
     switch (response.status) {
       case 404:
@@ -169,10 +171,11 @@ module.exports = {
     }
   },
   setCartShippingMethod: async (req, res) => {
+    req.query = { ...req.query, ...cartApiEndpointQuery }
     const shippingMethodId = req.body.shippingMethodId
     const cartId = req.signedCookies.cart
 
-    const response = await SHIFTClient.setCartShippingMethodV1(cartId, shippingMethodId)
+    const response = await SHIFTClient.setCartShippingMethodV1(cartId, shippingMethodId, req.query)
 
     switch (response.status) {
       case 404:
