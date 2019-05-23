@@ -42,6 +42,7 @@ import { algoliaReduxWrapper, reduxWrapper } from './lib/algolia-redux-wrapper'
 import renderComponents from './lib/render-components'
 import { getSessionExpiryTime } from './lib/session'
 import { suffixWithStoreName } from './lib/suffix-with-store-name'
+import shrinkRay from 'shrink-ray-current'
 
 // Shift-api Config
 import { shiftApiConfig } from '@shiftcommerce/shift-node-api'
@@ -54,6 +55,19 @@ shiftApiConfig.set({
 
 module.exports = {
   shiftRoutes: (server) => {
+    /**
+     * Compress responses
+     * Supported formats - br + gzip
+     * @todo use `compression.js` when issue https://github.com/expressjs/compression/issues/71 is resolved
+     */
+    server.use(
+      shrinkRay({
+        brotli: {
+          quality: 11
+        }
+      })
+    )
+
     server.get('/customerOrders', shiftAccountHandler.getCustomerOrders)
     server.get('/getAccount', shiftAccountHandler.getAccount)
     server.get('/getAddressBook', shiftAddressBookHandler.getAddressBook)
