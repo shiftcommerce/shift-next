@@ -20,7 +20,7 @@ module.exports = {
     req.query = { ...req.query, ...cartApiEndpointQuery }
     const cartId = req.signedCookies.cart
     const response = await SHIFTClient.getCartV1(cartId, req.query)
-    
+
     switch (response.status) {
       case 404:
         return res.status(200).send({})
@@ -40,7 +40,7 @@ module.exports = {
       response = await SHIFTClient.addLineItemToCartV1(req, res, cartId)
     } else {
       response = await SHIFTClient.createNewCartWithLineItemV1(req, res)
-      
+
       if (response.data.id) {
         res.cookie('cart', response.data.id, {
           signed: true,
