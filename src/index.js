@@ -43,6 +43,9 @@ import renderComponents from './lib/render-components'
 import { getSessionExpiryTime } from './lib/session'
 import { suffixWithStoreName } from './lib/suffix-with-store-name'
 
+// Middleware
+import securityHeaders from './middleware/security-headers'
+
 // Shift-api Config
 import { shiftApiConfig } from '@shiftcommerce/shift-node-api'
 
@@ -53,6 +56,9 @@ shiftApiConfig.set({
 })
 
 module.exports = {
+  shiftContentSecurityPolicy: (server, imageHosts, scriptHosts) => {
+    server.use(securityHeaders({ imageHosts: imageHosts, scriptHosts: scriptHosts }))
+  },
   shiftRoutes: (server) => {
     server.get('/customerOrders', shiftAccountHandler.getCustomerOrders)
     server.get('/getAccount', shiftAccountHandler.getAccount)
