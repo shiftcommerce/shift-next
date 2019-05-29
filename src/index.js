@@ -42,6 +42,7 @@ import { algoliaReduxWrapper, reduxWrapper } from './lib/algolia-redux-wrapper'
 import renderComponents from './lib/render-components'
 import { getSessionExpiryTime } from './lib/session'
 import { suffixWithStoreName } from './lib/suffix-with-store-name'
+import helmet from 'helmet'
 
 // Middleware
 import securityHeaders from './middleware/security-headers'
@@ -58,6 +59,9 @@ shiftApiConfig.set({
 module.exports = {
   shiftContentSecurityPolicy: (server, imageHosts, scriptHosts) => {
     server.use(securityHeaders({ imageHosts: imageHosts, scriptHosts: scriptHosts }))
+  },
+  shiftReferrerPolicy: (server, policy = 'no-referrer') => {
+    server.use(helmet.referrerPolicy({ policy: policy }))
   },
   shiftRoutes: (server) => {
     server.get('/customerOrders', shiftAccountHandler.getCustomerOrders)
