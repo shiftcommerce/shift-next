@@ -5,7 +5,7 @@ const cartApiEndpointQuery = {
   fields: {
     line_items: 'line_item_discounts,sku,stock_available_level,sub_total,tax_rate,title,total,total_discount,item,unit_price,unit_quantity',
     variants: 'title,sku,price,price_includes_taxes,picture_url,stock_allocated_level,meta_attributes,product',
-    products: 'title,sku,slug,canonical_path,picture_url,meta_attributes',
+    products: 'title,sku,slug,canonical_path,picture_url,meta_attributes,category_ids_cache',
     line_item_discounts: 'line_item_number,promotion_id,total',
     discount_summaries: 'name,promotion_id,total',
     customer_account: 'email,meta_attributes,reference',
