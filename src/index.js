@@ -1,3 +1,6 @@
+// Actions
+import { readCart } from './actions/cart-actions'
+
 // Next Pages
 import CartPage from './pages/cart'
 import CategoryPage from './pages/category'
@@ -132,5 +135,7 @@ module.exports = {
   renderComponents,
   getSessionExpiryTime,
   shiftNextConfig: Config,
-  suffixWithStoreName: suffixWithStoreName
+  suffixWithStoreName: suffixWithStoreName,
+
+  readCart
 }

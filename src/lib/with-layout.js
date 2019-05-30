@@ -10,7 +10,7 @@ import InitialPropsDelegator from './initial-props-delegator'
 import { Layout } from '@shiftcommerce/shift-react-components'
 
 // Actions
-import { readCart, deleteLineItem, toggleMiniBag, updateLineItemQuantity } from '../actions/cart-actions'
+import { deleteLineItem, toggleMiniBag, updateLineItemQuantity } from '../actions/cart-actions'
 
 import { connect } from 'react-redux'
 import { withRouter } from 'next/router'
@@ -58,11 +58,6 @@ export default function withLayout (Component) {
 
     componentDidMount () {
       window.addEventListener('scroll', this.handleScroll)
-
-      // for the minibag
-      if (this.props.dispatch) {
-        this.props.dispatch(readCart())
-      }
     }
 
     componentWillUnmount () {
@@ -124,6 +119,7 @@ export default function withLayout (Component) {
           deleteItem={this.deleteItem}
           toggleMiniBag={this.toggleMiniBag}
           onItemQuantityUpdated={this.onItemQuantityUpdated}
+          {...otherProps}
         >
           <Component {...otherProps} />
         </AppLayout>
