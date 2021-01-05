@@ -50,7 +50,7 @@
   "dependencies": {
     "@shiftcommerce/shift-node-api": "^0.6.3",
     "@shiftcommerce/shift-react-components": "^0.12.8",
-    "axios": "^0.18.0",
+    "axios": "^0.21.1",
     "js-cookie": "^2.2.0",
     "qs": "^6.6.0",
     "react-redux": "^5.0.7",
